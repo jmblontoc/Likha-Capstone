@@ -20,11 +20,20 @@ def handle_opt_file(request):
         messages.error(request, 'Pleae submit a file')
         return redirect('core:bns-index')
 
+    file = request.FILES['eOPT']
+
     # other error checking goes here TODO
 
-    # upload file
+    # check if valid file type
 
-    file = request.FILES['eOPT']
+    file_extension = os.path.splitext(file.name)
+    print(file_extension)
+
+    if not file_extension == 'xlsx':
+        messages.error(request, 'Please upload a valid excel file')
+        return redirect('core:bns-index')
+
+    # upload file
     with open(settings.MEDIA_ROOT + file.name, 'wb+') as destination:
         for chunk in file.chunks():
             destination.write(chunk)
@@ -34,10 +43,7 @@ def handle_opt_file(request):
     workbook = xlrd.open_workbook(file.name)
     sheet = workbook.sheet_by_index(2)
 
-
     # error checking ulit
-
-    print(type(file))
 
     if not excel_uploads.is_valid_opt(sheet):
         messages.error(request, 'There are unfilled cells in the sheet. Please fill them up')
