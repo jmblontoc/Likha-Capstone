@@ -6,6 +6,7 @@ from django.views import View
 
 from core.forms import UploadFileForm
 from core.models import Profile
+from datainput.models import OperationTimbang
 from friends import user_redirects
 from datetime import datetime
 
@@ -49,9 +50,19 @@ def bns_index(request):
 
     profile = Profile.objects.get(user=request.user)
 
+    try:
+        opt = OperationTimbang.objects.get(
+            barangay=profile.barangay,
+            date__month=datetime.now().month,
+            date__year=datetime.now().year
+        )
+    except OperationTimbang.DoesNotExist:
+        opt = None
+
     context = {
         'profile': profile,
         'date': datetime.now(),
+        'opt': opt
     }
 
     return render(request, 'core/bns_index.html', context)

@@ -20,9 +20,14 @@
                 <th>Data</th>
                 <th colspan="2">Action</th>
                 <th>Status</th>
+                <th>View</th>
             </tr>
             <tr>
+
                 <td>eOPT</td>
+
+                {% if opt is None %}
+
                 <td>
                     <form method="POST" enctype="multipart/form-data" action="{% url 'datainput:handle_opt_file' %}">
                         {% csrf_token %}
@@ -36,7 +41,34 @@
                         Input using the system
                     </a>
                 </td>
-                <td>TODO</td>
+
+                <td>Not yet uploaded</td>
+                <td>wala pa</td>
+
+                {% else %}
+
+                    <td>
+                    <form method="POST" enctype="multipart/form-data" action="{% url 'datainput:handle_opt_file' %}">
+                        {% csrf_token %}
+                        <input type="file" name="eOPT">
+
+                        <input type="submit" value="Resubmit">
+                    </form>
+                </td>
+                <td>
+                    <a>
+                        Re-input using the system
+                    </a>
+                </td>
+
+                    <td>{{ opt.status }}</td>
+                    <td>
+                        <!--TODO-->
+                        <a>
+                            View
+                        </a>
+                    </td>
+                {% endif %}
             </tr>
             <tr>
                 <td>Monthly Reweighing</td>

@@ -40,6 +40,7 @@ class OperationTimbang(models.Model):
 
     date = models.DateTimeField(default=datetime.now)
     barangay = models.ForeignKey(Barangay, on_delete=models.DO_NOTHING)
+    status = models.CharField(max_length=50)
 
     def __str__(self):
         return str(self.date) + " at " + self.barangay.name
