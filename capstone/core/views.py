@@ -3,6 +3,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.views import View
 
+from core.forms import UploadFileForm
+from core.models import Profile
+from friends import user_redirects
+from datetime import datetime
+
 
 class SignInView(View):
 
@@ -11,7 +16,7 @@ class SignInView(View):
     def get(self, request):
 
         if request.user.is_authenticated:
-            # return user_redirects.redirect_to(request.user)
+            return user_redirects.redirect_to(request.user)
             pass
         return render(request, self.template_name, None)
 
@@ -24,7 +29,7 @@ class SignInView(View):
 
         if user is not None:
             login(request, user)
-            print('yay')
+            return user_redirects.redirect_to(user)
 
         else:
             messages.error(request, 'Invalid credentials')
@@ -36,3 +41,15 @@ def logout_view(request):
         logout(request)
 
     return redirect('core:login')
+
+
+def bns_index(request):
+
+    profile = Profile.objects.get(user=request.user)
+
+    context = {
+        'profile': profile,
+        'date': datetime.now(),
+    }
+
+    return render(request, 'core/bns_index.html', context)

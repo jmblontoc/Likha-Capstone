@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Barangay Nutrition Scholar</title>
+</head>
+<body>
+    {% include 'core/helpers/messages.html' %}
+    <div>
+        <p> Username: {{ profile.user.username }} </p>
+        <p> Barangay: {{ profile.barangay.name }}</p>
+        <p> Today is: {{ date }}</p>
+        <a href="{% url 'core:logout' %}">Click here to logout</a>
+    </div>
+
+    <div>
+        <h2>Upload Facility</h2>
+        <table border="1">
+            <tr>
+                <th>Data</th>
+                <th colspan="2">Action</th>
+                <th>Status</th>
+            </tr>
+            <tr>
+                <td>eOPT</td>
+                <td>
+                    <form method="POST" enctype="multipart/form-data" action="{% url 'datainput:handle_opt_file' %}">
+                        {% csrf_token %}
+                        <input type="file" name="eOPT">
+
+                        <input type="submit">
+                    </form>
+                </td>
+                <td>
+                    <a>
+                        Input using the system
+                    </a>
+                </td>
+                <td>TODO</td>
+            </tr>
+            <tr>
+                <td>Monthly Reweighing</td>
+                <td>
+                    <a>
+                        Upload File
+                    </a>
+                </td>
+                <td>
+                    <a>
+                        Input using the system
+                    </a>
+                </td>
+                <td>TODO</td>
+            </tr>
+            <tr>
+                <td>FHSIS</td>
+                <td>
+                    <a>
+                        Upload File
+                    </a>
+                </td>
+                <td>
+                    <a>
+                        Input using the system
+                    </a>
+                </td>
+                <td>TODO</td>
+            </tr>
+            <tr>
+                <td>Family Profile</td>
+                <td>
+                    <a>
+                        Upload File
+                    </a>
+                </td>
+                <td>
+                    <a>
+                        Input using the system
+                    </a>
+                </td>
+                <td>TODO</td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>
