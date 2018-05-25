@@ -9,5 +9,5 @@ urlpatterns = [
     path('logout', views.logout_view, name='logout'),
 
     # BNS index
-    path('bns/', views.bns_index, name='bns-index')
+    path('bns/', views.bns_index, name='bns-index'),
 ]
