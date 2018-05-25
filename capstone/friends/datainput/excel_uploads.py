@@ -29,16 +29,13 @@ def is_valid_opt(sheet):
 
     exceptions = [3, 6, 9, 12, 15, 18, 21]
 
-    c = 0
-
     for x in range(s, e):
         if x in exceptions:
             continue
-
         for y in range(start, end):
 
-            cell = int(sheet.cell_value(y, x))
+            cell = sheet.cell_value(y, x)
 
-            print(type(cell))
-
+            if cell == '':
+                return False
     return True

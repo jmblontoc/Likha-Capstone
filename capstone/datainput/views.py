@@ -2,6 +2,7 @@ import os
 import xlrd
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.core.files.storage import default_storage
 from django.http import HttpResponse
 from django.shortcuts import redirect
@@ -11,6 +12,7 @@ from core.models import Profile
 from datainput.models import OperationTimbang, NutritionalStatus, AgeGroup, OPTValues
 
 
+@login_required
 def handle_opt_file(request):
 
     # error checking
@@ -32,13 +34,22 @@ def handle_opt_file(request):
     workbook = xlrd.open_workbook(file.name)
     sheet = workbook.sheet_by_index(2)
 
+
+    # error checking ulit
+
+    print(type(file))
+
+    if not excel_uploads.is_valid_opt(sheet):
+        messages.error(request, 'There are unfilled cells in the sheet. Please fill them up')
+        return redirect('core:bns-index')
+
+    print('goes here')
+
     # store values in the DB
 
     barangay = Profile.objects.get(user=request.user).barangay
     opt = OperationTimbang(barangay=barangay)
-    opt.save()
-
-    print(excel_uploads.is_valid_opt(sheet))
+    # opt.save()
 
     ns_list = [
         'WN',

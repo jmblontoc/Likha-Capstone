@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.views import View
 
@@ -43,6 +44,7 @@ def logout_view(request):
     return redirect('core:login')
 
 
+@login_required
 def bns_index(request):
 
     profile = Profile.objects.get(user=request.user)
