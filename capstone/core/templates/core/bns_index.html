@@ -101,9 +101,12 @@
             <tr>
                 <td>Family Profile</td>
                 <td>
-                    <a>
-                        Upload File
-                    </a>
+                    <form method="POST" enctype="multipart/form-data" action="{% url 'datainput:handle_family_profile_file' %}">
+                        {% csrf_token %}
+
+                        <input type="file" name="family_profile">
+                        <input type="submit">
+                    </form>
                 </td>
                 <td>
                     <a>
