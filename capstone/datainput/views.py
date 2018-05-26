@@ -73,76 +73,14 @@ def handle_opt_file(request):
         'WHW',
         'WHSW'
     ]
+    cell_columns = [1, 2, 4, 5, 7, 8, 10, 11, 13, 14, 16, 17, 19, 20]
 
-    # 0 - 5 months boys
+    age_groups = AgeGroup.objects.all()
 
-    age_group = AgeGroup.objects.get(code='05', sex='Male')
-    excel_uploads.upload_eopt(age_group, ns_list, 1, opt, sheet)
-
-    # 0 - 5 months girls
-
-    age_group = AgeGroup.objects.get(code='05', sex='Female')
-    excel_uploads.upload_eopt(age_group, ns_list, 2, opt, sheet)
-
-    # 6 - 11 months boys
-
-    age_group = AgeGroup.objects.get(code='611', sex='Male')
-    excel_uploads.upload_eopt(age_group, ns_list, 4, opt, sheet)
-
-    # 6 - 11 months girls
-
-    age_group = AgeGroup.objects.get(code='611', sex='Female')
-    excel_uploads.upload_eopt(age_group, ns_list, 5, opt, sheet)
-
-    # 12 - 23 months boys
-
-    age_group = AgeGroup.objects.get(code='1223', sex='Male')
-    excel_uploads.upload_eopt(age_group, ns_list, 7, opt, sheet)
-
-    # 12 - 23 months girls
-
-    age_group = AgeGroup.objects.get(code='1223', sex='Female')
-    excel_uploads.upload_eopt(age_group, ns_list, 8, opt, sheet)
-
-    # 24 - 35 months boys
-
-    age_group = AgeGroup.objects.get(code='2435', sex='Male')
-    excel_uploads.upload_eopt(age_group, ns_list, 10, opt, sheet)
-
-    # 24 - 35 months girls
-
-    age_group = AgeGroup.objects.get(code='2435', sex='Female')
-    excel_uploads.upload_eopt(age_group, ns_list, 11, opt, sheet)
-
-    # 36 - 47 months boys
-
-    age_group = AgeGroup.objects.get(code='3647', sex='Male')
-    excel_uploads.upload_eopt(age_group, ns_list, 13, opt, sheet)
-
-    # 36 - 47 months girls
-
-    age_group = AgeGroup.objects.get(code='3647', sex='Female')
-    excel_uploads.upload_eopt(age_group, ns_list, 14, opt, sheet)
-
-    # 48 - 59 months boys
-
-    age_group = AgeGroup.objects.get(code='4859', sex='Male')
-    excel_uploads.upload_eopt(age_group, ns_list, 16, opt, sheet)
-
-    # 48 - 59 months girls
-
-    age_group = AgeGroup.objects.get(code='4859', sex='Female')
-    excel_uploads.upload_eopt(age_group, ns_list, 17, opt, sheet)
-
-    # 60 - 71 months boys
-
-    age_group = AgeGroup.objects.get(code='6071', sex='Male')
-    excel_uploads.upload_eopt(age_group, ns_list, 19, opt, sheet)
-
-    # 60 - 71 months girls
-
-    age_group = AgeGroup.objects.get(code='6071', sex='Female')
-    excel_uploads.upload_eopt(age_group, ns_list, 20, opt, sheet)
+    count = 0
+    for age_group in age_groups:
+        excel_uploads.upload_eopt(age_group, ns_list, cell_columns[count], opt, sheet)
+        count = count + 1
 
     # remove file after data has been uploaded
     os.remove(file.name)
@@ -150,7 +88,8 @@ def handle_opt_file(request):
     opt.status = 'Waiting for Approval'
     opt.save()
 
-    return HttpResponse("Data uploaded!")
+    messages.success(request, 'eOPT successfully uploaded!')
+    return redirect('core:bns-index')
 
 
 
