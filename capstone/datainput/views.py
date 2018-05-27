@@ -97,7 +97,7 @@ def handle_family_profile_file(request):
 
     # error checking
     if len(request.FILES) == 0:
-        messages.error(request, 'Pleae submit a file')
+        messages.error(request, 'Please submit a file')
         return redirect('core:bns-index')
 
     file = request.FILES['family_profile']
@@ -108,8 +108,6 @@ def handle_family_profile_file(request):
 
     file_extension = os.path.splitext(file.name)
 
-    print(file_extension[1])
-
     if not file_extension[1] == '.xlsx':
         messages.error(request, 'Please upload a valid excel file')
         return redirect('core:bns-index')
@@ -118,6 +116,17 @@ def handle_family_profile_file(request):
     with open(settings.MEDIA_ROOT + file.name, 'wb+') as destination:
         for chunk in file.chunks():
             destination.write(chunk)
+
+    # handle excel file
+
+    workbook = xlrd.open_workbook(file.name)
+    sheet = workbook.sheet_by_index(0)
+
+    # get barangay
+
+    barangay = Profile.objects.get(user=request.user).barangay
+
+
 
 
 

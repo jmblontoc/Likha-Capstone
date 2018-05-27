@@ -100,20 +100,13 @@
             </tr>
             <tr>
                 <td>Family Profile</td>
-                <td>
-                    <form method="POST" enctype="multipart/form-data" action="{% url 'datainput:handle_family_profile_file' %}">
-                        {% csrf_token %}
-
-                        <input type="file" name="family_profile">
-                        <input type="submit">
-                    </form>
-                </td>
-                <td>
+                <td colspan="2">
                     <a>
-                        Input using the system
+                        Go to Family Profiles
                     </a>
                 </td>
                 <td>TODO</td>
+                <td>View</td>
             </tr>
         </table>
     </div>
