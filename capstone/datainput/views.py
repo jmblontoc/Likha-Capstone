@@ -5,15 +5,16 @@ import xlrd
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
 from django.core.files.storage import default_storage
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 
 from datainput.forms import FamilyProfileForm
 from friends.datainput import excel_uploads
 
 from core.models import Profile
-from datainput.models import OperationTimbang, NutritionalStatus, AgeGroup, OPTValues, FamilyProfile
+from datainput.models import OperationTimbang, NutritionalStatus, AgeGroup, OPTValues, FamilyProfile, FamilyProfileLine
 
 
 @login_required
@@ -146,16 +147,15 @@ def add_family_profile(request):
 
     if form.is_valid():
         family = form.save(commit=False)
-
-
         check = FamilyProfile.objects.filter(date__year=datetime.now().year, barangay=barangay)
 
         if check.count() == 0:
             family_profile = FamilyProfile.objects.create(barangay=barangay)
-        
+
         family_profile = check[0]
 
         family.family_profile = family_profile
+        family.status = 'Pending'
         family.save()
 
         messages.success(request, 'Family profile added successfully!')
@@ -168,6 +168,30 @@ def add_family_profile(request):
     return render(request, 'datainput/add_family.html', context)
 
 
+@login_required
+def show_profiles(request, id):
+
+    profiles = FamilyProfileLine.objects.filter(family_profile_id__exact=id)
+
+    context = {
+        'profiles': profiles
+    }
+
+    return render(request, 'datainput/families_list.html', context)
+
+
+# ajax show profile
+def show_profile_ajax(request):
+
+    family = request.POST['family_id']
+    profile = FamilyProfileLine.objects.filter(id=family)
+    serialized = serializers.serialize('json', profile)
+
+    data = {
+        "profile": serialized
+    }
+
+    return JsonResponse(data)
 
 
 

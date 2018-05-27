@@ -16,12 +16,25 @@
     {% else %}
         <div>
             <h1>Profiles</h1>
-            {% for family in families %}
-                Family Profile for {{ family.date.year }}
-            {% endfor %}
+            <table border="1">
+                <tr>
+                    <th>Profile</th>
+                    <th>Status</th>
+                </tr>
+                {% for family in families %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'datainput:show_profiles' family.id %}">
+                                Family Profile for {{ family.date.year }}
+                            </a>
+                        </td>
+                        <td>{{ family.status }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
         </div>
     {% endif %}
 
-    <a href="{% url 'datainput:add_family' %}">Add family profiles</a>
+    <a href="{% url 'datainput:add_family' %}">Add family profile</a>
 </body>
 </html>

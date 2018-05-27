@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Family Profiles</title>
+
+    {% load static %}
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="{% static 'datainput/js/data_input.js' %}"></script>
+
+</head>
+<body>
+    <h1>Family Profiles</h1>
+
+    {% for family in profiles %}
+        <div id="{{ family.id }}" class="family-div">
+            {{ family.household_no }} - {{ family.household_head_name }}
+        </div>
+    {% endfor %}
+
+    <div style="border: 1px solid black" class="fields">
+        <p>Household number: <span id="number"></span></p>
+        <p>Number of members: <span id="countMembers"></span></p>
+        <p>Number of 0 - 5 months: <span id="05"></span></p>
+        <p>Number of 6 - 23 months: <span id="623"></span></p>
+        <p>Number of 24 - 59 months: <span id="2459"></span></p>
+        <p>Number of over 60 months: <span id="60"></span></p>
+        <p>Occupation: <span id="occupation"></span></p>
+        <p>Educational Attainment: <span id="education"></span></p>
+        <p>Is Mother Pregnant <span id="pregnant"></span></p>
+        <p>Is Practicing Family Planning <span id="familyPlanning"></span></p>
+        <p>Is Practicing Exclusive Breastfeeding: <span id="ebf"></span></p>
+        <p>Is Practicing Mixed Milk Feeding: <span id="mmf"></span></p>
+        <p>Is Practicing Bottled Feeding: <span id="bottled"></span></p>
+        <p>Toilet Type: <span id="toilet"></span></p>
+        <p>Water Source: <span id="water"></span></p>
+        <p>Food Production: <span id="food"></span></p>
+        <p>Is Using Iodized Salt: <span id="salt"></span></p>
+        <p>Is Using Iron Fortification: <span id="iron"></span></p>
+
+    </div>
+
+    <style>
+        span {
+            font-weight: bold;
+        }
+    </style>
+</body>
+</html>

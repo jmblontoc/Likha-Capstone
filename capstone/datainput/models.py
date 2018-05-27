@@ -64,14 +64,16 @@ class FamilyProfile(models.Model):
 
     barangay = models.ForeignKey(Barangay, on_delete=models.CASCADE)
     date = models.DateTimeField(default=datetime.now)
+    status = models.CharField(max_length=20)
 
     def __str__(self):
         return self.barangay.name + " " + str(self.date)
 
+
 class FamilyProfileLine(models.Model):
 
     family_profile = models.ForeignKey(FamilyProfile, on_delete=models.CASCADE)
-    household_no = models.CharField(max_length=20)
+    household_no = models.CharField(max_length=20, unique=True)
     no_members = models.DecimalField(max_digits=5, decimal_places=0)
     count_05 = models.DecimalField(max_digits=5, decimal_places=0, verbose_name='Number of Children 0 - 5 months old')
     count_623 = models.DecimalField(max_digits=5, decimal_places=0, verbose_name='Number of Children 6 - 23 months old')
@@ -79,7 +81,19 @@ class FamilyProfileLine(models.Model):
     count_60 = models.DecimalField(max_digits=5, decimal_places=0, verbose_name='Number of Children over 60 months old')
     household_head_name = models.CharField(max_length=100)
     occupation = models.CharField(max_length=50)
-    educational_attainment = models.CharField(max_length=50)
+
+    EDUCATIONAL_ATTAINMENT = (
+        ('Elementary Undergraduate', 'Elementary Undergraduate'),
+        ('Elementary Graduate', 'Elementary Graduate'),
+        ('Highschool Undergraduate', 'Highschool Undergraduate'),
+        ('Highschool Graduate', 'Highschool Graduate'),
+        ('College Undergraduate', 'College Undergraduate'),
+        ('College Graduate', 'College Graduate'),
+        ('Vocational', 'Vocational'),
+        ('Others', 'Others')
+    )
+
+    educational_attainment = models.CharField(max_length=50, choices=EDUCATIONAL_ATTAINMENT)
     is_mother_pregnant = models.BooleanField()
     is_family_planning = models.BooleanField()
     is_ebf = models.BooleanField()
@@ -87,27 +101,27 @@ class FamilyProfileLine(models.Model):
     is_bottle_feeding = models.BooleanField()
 
     TOILET_TYPES = (
-        ('WS', 'WS'),
-        ('OP', 'OP'),
-        ('O', 'O'),
-        ('N', 'N')
+        ('Water Sealed', 'Water Sealed'),
+        ('Open Pit', 'Open Pit'),
+        ('Others', 'Others'),
+        ('None', 'None')
     )
 
     WATER_SOURCES = (
-        ('P', 'P'),
-        ('W', 'W'),
-        ('S', 'S')
+        ('Pipe', 'Pipe'),
+        ('Well', 'Well'),
+        ('Spring', 'Spring')
     )
 
     FOOD_PRODUCTION_ACTIVITIES = (
-        ('VG', 'VG'),
-        ('PL', 'PL'),
-        ('FP', 'FP')
+        ('Vegetable Garden', 'Vegetable Garden'),
+        ('Poultry/Livestock', 'Poultry/Livestock'),
+        ('Fishpond', 'Fishpond')
     )
 
-    toilet_type = models.CharField(max_length=10, choices=TOILET_TYPES)
-    water_sources = models.CharField(max_length=10, choices=WATER_SOURCES)
-    food_production_activity = models.CharField(max_length=10, choices=FOOD_PRODUCTION_ACTIVITIES)
+    toilet_type = models.CharField(max_length=50, choices=TOILET_TYPES)
+    water_sources = models.CharField(max_length=50, choices=WATER_SOURCES)
+    food_production_activity = models.CharField(max_length=50, choices=FOOD_PRODUCTION_ACTIVITIES)
     is_using_iodized_salt = models.BooleanField()
     is_using_ifr = models.BooleanField()
 
