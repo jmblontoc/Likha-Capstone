@@ -1,6 +1,11 @@
-# from django import forms
-#
-#
-# class UploadFileForm(forms.Form):
-#     title = forms.CharField(max_length=50)
-#     file = forms.FileField()
+from django.forms import ModelForm
+
+from datainput.models import FamilyProfileLine
+
+
+class FamilyProfileForm(ModelForm):
+
+    class Meta:
+        model = FamilyProfileLine
+        fields = '__all__'
+        exclude = ['family_profile']
