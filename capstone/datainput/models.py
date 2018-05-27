@@ -59,16 +59,16 @@ class OPTValues(models.Model):
         return self.nutritional_status.name + " " + self.age_group.name
 
 
+
 class FamilyProfile(models.Model):
 
-    date = models.DateTimeField(default=datetime.now)
     barangay = models.ForeignKey(Barangay, on_delete=models.CASCADE)
+    date = models.DateTimeField(default=datetime.now)
 
     def __str__(self):
         return self.barangay.name + " " + str(self.date)
 
-
-class FamilyProfileValue(models.Model):
+class FamilyProfileLine(models.Model):
 
     family_profile = models.ForeignKey(FamilyProfile, on_delete=models.CASCADE)
     household_no = models.CharField(max_length=20)
@@ -80,11 +80,11 @@ class FamilyProfileValue(models.Model):
     household_head_name = models.CharField(max_length=100)
     occupation = models.CharField(max_length=50)
     educational_attainment = models.CharField(max_length=50)
-    is_mother_pregnant = models.BooleanField(default=False)
-    is_family_planning = models.BooleanField(default=False)
-    is_ebf = models.BooleanField(default=False)
-    is_mixed_milk_feeding = models.BooleanField(default=False)
-    is_bottle_feeding = models.BooleanField(default=False)
+    is_mother_pregnant = models.BooleanField()
+    is_family_planning = models.BooleanField()
+    is_ebf = models.BooleanField()
+    is_mixed_milk_feeding = models.BooleanField()
+    is_bottle_feeding = models.BooleanField()
 
     TOILET_TYPES = (
         ('WS', 'WS'),
@@ -108,8 +108,8 @@ class FamilyProfileValue(models.Model):
     toilet_type = models.CharField(max_length=10, choices=TOILET_TYPES)
     water_sources = models.CharField(max_length=10, choices=WATER_SOURCES)
     food_production_activity = models.CharField(max_length=10, choices=FOOD_PRODUCTION_ACTIVITIES)
-    is_using_iodized_salt = models.BooleanField(default=False)
-    is_using_ifr = models.BooleanField(default=False)
+    is_using_iodized_salt = models.BooleanField()
+    is_using_ifr = models.BooleanField()
 
     def __str__(self):
         return self.household_head_name + " - " + self.family_profile.barangay.name

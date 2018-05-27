@@ -1,6 +1,4 @@
 import xlrd
-from django.contrib import messages
-from django.shortcuts import redirect
 
 from datainput.models import AgeGroup, OPTValues, NutritionalStatus
 
