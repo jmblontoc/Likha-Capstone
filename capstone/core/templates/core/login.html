@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
+{% extends 'core/layout.html' %}
 
-
-</head>
-<body>
-
+{% block content %}
     {% include 'core/helpers/messages.html' %}
 
     <div class="container">
@@ -25,5 +18,4 @@
             <button type="submit" class="btn btn-primary btn-block">Login</button>
         </form>
     </div>
-</body>
-</html>
+{% endblock %}
