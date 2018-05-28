@@ -6,9 +6,15 @@
     <meta charset="UTF-8">
     <title>Likha</title>
     <link rel="stylesheet" type="text/css" href="{% static 'core/plugins/css/adminlte.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'core/plugins/bootstrap/dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'core/plugins/font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'core/plugins/ionicons/css/ionicons.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'core/plugins/css/skins/skin-green.min.cs' %}">
 </head>
-<body>
+<body class="sidebar-mini skin-green fixed">
+    <div class="wrapper">
     {% block content %}
     {% endblock %}
+    </div>
 </body>
 </html>
