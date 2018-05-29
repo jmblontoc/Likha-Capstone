@@ -16,16 +16,26 @@ class AgeGroup(models.Model):
         return self.name + " | " + self.sex
 
 
-class NutritionalStatus(models.Model):
+class WeightForAge(models.Model):
 
     name = models.CharField(max_length=50)
-    code = models.CharField(max_length=10)
 
     def __str__(self):
         return self.name
 
-    class Meta:
-        verbose_name_plural = "nutritional statuses"
+
+class HeightForAge(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
+class WeightForHeightLength(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
 
 
 class Barangay(models.Model):
@@ -49,15 +59,16 @@ class OperationTimbang(models.Model):
 class OPTValues(models.Model):
     opt = models.ForeignKey(OperationTimbang, on_delete=models.CASCADE)
     values = models.DecimalField(decimal_places=0, max_digits=7)
-    nutritional_status = models.ForeignKey(NutritionalStatus, on_delete=models.DO_NOTHING)
-    age_group = models.ForeignKey(AgeGroup, on_delete=models.DO_NOTHING)
+    age_group = models.ForeignKey(AgeGroup, on_delete=models.CASCADE)
+    weight_for_age = models.ForeignKey(WeightForAge, on_delete=models.CASCADE)
+    height_for_age = models.ForeignKey(HeightForAge, on_delete=models.CASCADE)
+    weight_for_height_length = models.ForeignKey(WeightForHeightLength, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name_plural = 'OPT Values'
 
     def __str__(self):
-        return self.nutritional_status.name + " " + self.age_group.name
-
+        return self.age_group.name
 
 
 class FamilyProfile(models.Model):

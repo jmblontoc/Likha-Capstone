@@ -14,7 +14,7 @@ from datainput.forms import FamilyProfileForm
 from friends.datainput import excel_uploads
 
 from core.models import Profile
-from datainput.models import OperationTimbang, NutritionalStatus, AgeGroup, OPTValues, FamilyProfile, FamilyProfileLine
+from datainput.models import OperationTimbang, AgeGroup, OPTValues, FamilyProfile, FamilyProfileLine
 
 
 @login_required
