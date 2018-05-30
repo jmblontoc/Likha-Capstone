@@ -154,3 +154,24 @@ class FamilyProfileLine(models.Model):
     def __str__(self):
         return self.household_head_name + " - " + self.family_profile.barangay.name
 
+
+class Patient(models.Model):
+
+    name = models.CharField(max_length=50)
+    date_of_birth = models.DateTimeField()
+
+    def __str__(self):
+        return self.name
+
+
+class MonthlyReweighing(models.Model):
+
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    date = models.DateTimeField(default=datetime.now)
+    weight_for_age = models.ForeignKey(WeightForAge, on_delete=models.CASCADE)
+    height_for_age = models.ForeignKey(HeightForAge, on_delete=models.CASCADE)
+    weight_for_height_length = models.ForeignKey(WeightForHeightLength, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.patient.name + " " + str(self.date)
+
