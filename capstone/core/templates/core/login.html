@@ -5,16 +5,17 @@
     <head>
         <meta charset="UTF-8">
         <title>Likha</title>
+
+        <link rel="stylesheet" type="text/css" href="{% static 'core/plugins/bootstrap/css/bootstrap.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'core/plugins/css/adminlte.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'core/plugins/bootstrap/dist/css/bootstrap.min.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'core/plugins/font-awesome/css/font-awesome.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'core/plugins/ionicons/css/ionicons.min.css' %}">
     </head>
     <body class="hold-transition login-page">
         <div class="login-box">
             <div class="login-logo">
-                <img src="{% static 'core/images/nnc.png' %}" style="height: 150px">
-                <img src="{% static 'core/images/com.png' %}" style="height: 150px">
+                <img src="{% static 'core/images/nnc.png' %}" style="height: 130px" class="img-circle">
+                <img src="{% static 'core/images/com.png' %}" style="height: 130px" class="img-circle">
+                <h5><br>Mandaluyong City Malnutrition<br>Causal Modelling Analytics System</h5>
             </div>
             <div class="card card-primary">
                 <div class="card-header">
@@ -41,7 +42,7 @@
                         </div>
 
                         <div class="input-group mb-3">
-                            <button type="submit" class="btn btn-primary btn-block btn-flat">Login</button>
+                            <button type="submit" class="btn btn-primary btn-block ">Login</button>
                         </div>
                     </form>
                 </div>

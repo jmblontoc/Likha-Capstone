@@ -14,7 +14,8 @@ from datainput.forms import FamilyProfileForm
 from friends.datainput import excel_uploads
 
 from core.models import Profile
-from datainput.models import OperationTimbang, AgeGroup, OPTValues, FamilyProfile, FamilyProfileLine
+from datainput.models import OperationTimbang, NutritionalStatus, AgeGroup, OPTValues, FamilyProfile, FamilyProfileLine, \
+    Patient
 
 
 @login_required
@@ -33,6 +34,7 @@ def handle_opt_file(request):
 
     file_extension = os.path.splitext(file.name)
 
+    print(file_extension[1])
 
     if not file_extension[1] == '.xlsx':
         messages.error(request, 'Please upload a valid excel file')
@@ -88,6 +90,9 @@ def handle_opt_file(request):
     for age_group in age_groups:
         excel_uploads.upload_eopt(age_group, ns_list, cell_columns[count], opt, sheet)
         count = count + 1
+
+    # remove file after data has been uploaded
+    # os.remove(file.name)
 
     opt.status = 'Waiting for Approval'
     opt.save()
@@ -191,6 +196,23 @@ def show_profile_ajax(request):
     }
 
     return JsonResponse(data)
+
+
+@login_required
+def monthly_reweighing_index(request):
+
+    barangay = Profile.objects.get(user=request.user).barangay
+    opt = [OperationTimbang.objects.get(barangay=barangay, date__year=datetime.now().year)]
+    patients = Patient.objects.filter(barangay=barangay)
+
+    context = {
+        'patients': patients,
+        'has_opt': len(opt) > 0
+
+    }
+
+    return render(request, '', context)
+
 
 
 
