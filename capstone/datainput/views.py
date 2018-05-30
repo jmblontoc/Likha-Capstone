@@ -40,13 +40,16 @@ def handle_opt_file(request):
         return redirect('core:bns-index')
 
     # upload file
-    with open(settings.MEDIA_ROOT + file.name, 'wb+') as destination:
-        for chunk in file.chunks():
-            destination.write(chunk)
+    # with open(settings.MEDIA_ROOT + file.name, 'wb+') as destination:
+    #     for chunk in file.chunks():
+    #         destination.write(chunk)
+
+    path = os.path.join(settings.MEDIA_ROOT, 'eopt', file.name)
+    default_storage.save(path, file)
 
     # handle excel file
 
-    workbook = xlrd.open_workbook(file.name)
+    workbook = xlrd.open_workbook(path)
     sheet = workbook.sheet_by_index(2)
 
     # error checking ulit
@@ -88,7 +91,7 @@ def handle_opt_file(request):
         count = count + 1
 
     # remove file after data has been uploaded
-    os.remove(file.name)
+    # os.remove(file.name)
 
     opt.status = 'Waiting for Approval'
     opt.save()
@@ -192,6 +195,14 @@ def show_profile_ajax(request):
     }
 
     return JsonResponse(data)
+
+
+@login_required
+def monthly_reweighing_index(request):
+
+    barangay = Profile.objects.get(user=request.user).barangay
+
+    opt = [OperationTimbang.objects.get(barangay=barangay, date__year=datetime.now().year)]
 
 
 
