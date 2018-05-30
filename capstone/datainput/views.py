@@ -14,7 +14,8 @@ from datainput.forms import FamilyProfileForm
 from friends.datainput import excel_uploads
 
 from core.models import Profile
-from datainput.models import OperationTimbang, NutritionalStatus, AgeGroup, OPTValues, FamilyProfile, FamilyProfileLine
+from datainput.models import OperationTimbang, NutritionalStatus, AgeGroup, OPTValues, FamilyProfile, FamilyProfileLine, \
+    Patient
 
 
 @login_required
@@ -201,8 +202,17 @@ def show_profile_ajax(request):
 def monthly_reweighing_index(request):
 
     barangay = Profile.objects.get(user=request.user).barangay
-
     opt = [OperationTimbang.objects.get(barangay=barangay, date__year=datetime.now().year)]
+    patients = Patient.objects.filter(barangay=barangay)
+
+    context = {
+        'patients': patients,
+        'has_opt': len(opt) > 0
+
+    }
+
+    return render(request, '', context)
+
 
 
 
