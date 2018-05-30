@@ -14,7 +14,7 @@ from datainput.forms import FamilyProfileForm
 from friends.datainput import excel_uploads
 
 from core.models import Profile
-from datainput.models import OperationTimbang, AgeGroup, OPTValues, FamilyProfile, FamilyProfileLine
+from datainput.models import OperationTimbang, NutritionalStatus, AgeGroup, OPTValues, FamilyProfile, FamilyProfileLine
 
 
 @login_required
@@ -33,22 +33,20 @@ def handle_opt_file(request):
 
     file_extension = os.path.splitext(file.name)
 
+    print(file_extension[1])
 
     if not file_extension[1] == '.xlsx':
         messages.error(request, 'Please upload a valid excel file')
         return redirect('core:bns-index')
 
     # upload file
-    # with open(settings.MEDIA_ROOT + file.name, 'wb+') as destination:
-    #     for chunk in file.chunks():
-    #         destination.write(chunk)
-
-    path = os.path.join(settings.MEDIA_ROOT, 'eopt', file.name)
-    default_storage.save(path, file)
+    with open(settings.MEDIA_ROOT + file.name, 'wb+') as destination:
+        for chunk in file.chunks():
+            destination.write(chunk)
 
     # handle excel file
 
-    workbook = xlrd.open_workbook(path)
+    workbook = xlrd.open_workbook(file.name)
     sheet = workbook.sheet_by_index(2)
 
     # error checking ulit
@@ -88,6 +86,9 @@ def handle_opt_file(request):
     for age_group in age_groups:
         excel_uploads.upload_eopt(age_group, ns_list, cell_columns[count], opt, sheet)
         count = count + 1
+
+    # remove file after data has been uploaded
+    os.remove(file.name)
 
     opt.status = 'Waiting for Approval'
     opt.save()

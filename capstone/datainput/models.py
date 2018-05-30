@@ -2,49 +2,30 @@ from datetime import datetime
 from django.db import models
 
 
-class Sex(models.Model):
-
-    SEXES = (
-        ('Male', 'Male'),
-        ('Female', 'Female')
-    )
-
-    name = models.CharField(choices=SEXES, max_length=10)
-
-    def __str__(self):
-        return self.name
-
-
 class AgeGroup(models.Model):
 
     name = models.CharField(max_length=100)
-    sex = models.ForeignKey(Sex, on_delete=models.CASCADE)
     code = models.CharField(max_length=20)
+    SEX_CHOICES = (
+        ('Male', 'Male'),
+        ('Female', 'Female')
+    )
+    sex = models.CharField(max_length=10, choices=SEX_CHOICES)
 
     def __str__(self):
-        return self.name
+        return self.name + " | " + self.sex
 
 
-class WeightForAge(models.Model):
+class NutritionalStatus(models.Model):
 
     name = models.CharField(max_length=50)
+    code = models.CharField(max_length=10)
 
     def __str__(self):
         return self.name
 
-
-class HeightForAge(models.Model):
-    name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name
-
-
-class WeightForHeightLength(models.Model):
-    name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name
+    class Meta:
+        verbose_name_plural = "nutritional statuses"
 
 
 class Barangay(models.Model):
@@ -54,14 +35,6 @@ class Barangay(models.Model):
     def __str__(self):
         return self.name
 
-
-class NutritionalStatus(models.Model):
-
-    name = models.CharField(max_length=50)
-    code = models.CharField(max_length=5)
-
-    def __str__(self):
-        return self.name
 
 class OperationTimbang(models.Model):
 
@@ -76,14 +49,15 @@ class OperationTimbang(models.Model):
 class OPTValues(models.Model):
     opt = models.ForeignKey(OperationTimbang, on_delete=models.CASCADE)
     values = models.DecimalField(decimal_places=0, max_digits=7)
-    age_group = models.ForeignKey(AgeGroup, on_delete=models.CASCADE)
-    nutritional_status = models.ForeignKey(NutritionalStatus, on_delete=models.CASCADE)
+    nutritional_status = models.ForeignKey(NutritionalStatus, on_delete=models.DO_NOTHING)
+    age_group = models.ForeignKey(AgeGroup, on_delete=models.DO_NOTHING)
 
     class Meta:
         verbose_name_plural = 'OPT Values'
 
     def __str__(self):
-        return self.age_group.name
+        return self.nutritional_status.name + " " + self.age_group.name
+
 
 
 class FamilyProfile(models.Model):
@@ -153,25 +127,4 @@ class FamilyProfileLine(models.Model):
 
     def __str__(self):
         return self.household_head_name + " - " + self.family_profile.barangay.name
-
-
-class Patient(models.Model):
-
-    name = models.CharField(max_length=50)
-    date_of_birth = models.DateTimeField()
-
-    def __str__(self):
-        return self.name
-
-
-class MonthlyReweighing(models.Model):
-
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    date = models.DateTimeField(default=datetime.now)
-    weight_for_age = models.ForeignKey(WeightForAge, on_delete=models.CASCADE)
-    height_for_age = models.ForeignKey(HeightForAge, on_delete=models.CASCADE)
-    weight_for_height_length = models.ForeignKey(WeightForHeightLength, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.patient.name + " " + str(self.date)
 
