@@ -2,18 +2,27 @@ from datetime import datetime
 from django.db import models
 
 
-class AgeGroup(models.Model):
+class Sex(models.Model):
 
-    name = models.CharField(max_length=100)
-    code = models.CharField(max_length=20)
-    SEX_CHOICES = (
+    SEXES = (
         ('Male', 'Male'),
         ('Female', 'Female')
     )
-    sex = models.CharField(max_length=10, choices=SEX_CHOICES)
+
+    name = models.CharField(choices=SEXES, max_length=10)
 
     def __str__(self):
-        return self.name + " | " + self.sex
+        return self.name
+
+
+class AgeGroup(models.Model):
+
+    name = models.CharField(max_length=100)
+    sex = models.ForeignKey(Sex, on_delete=models.CASCADE)
+    code = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.name
 
 
 class WeightForAge(models.Model):
@@ -46,6 +55,14 @@ class Barangay(models.Model):
         return self.name
 
 
+class NutritionalStatus(models.Model):
+
+    name = models.CharField(max_length=50)
+    code = models.CharField(max_length=5)
+
+    def __str__(self):
+        return self.name
+
 class OperationTimbang(models.Model):
 
     date = models.DateTimeField(default=datetime.now)
@@ -60,9 +77,7 @@ class OPTValues(models.Model):
     opt = models.ForeignKey(OperationTimbang, on_delete=models.CASCADE)
     values = models.DecimalField(decimal_places=0, max_digits=7)
     age_group = models.ForeignKey(AgeGroup, on_delete=models.CASCADE)
-    weight_for_age = models.ForeignKey(WeightForAge, on_delete=models.CASCADE)
-    height_for_age = models.ForeignKey(HeightForAge, on_delete=models.CASCADE)
-    weight_for_height_length = models.ForeignKey(WeightForHeightLength, on_delete=models.CASCADE)
+    nutritional_status = models.ForeignKey(NutritionalStatus, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name_plural = 'OPT Values'

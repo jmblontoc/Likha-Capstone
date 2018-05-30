@@ -1,11 +1,25 @@
 import xlrd
 
-from datainput.models import AgeGroup, OPTValues
+from datainput.models import OPTValues, NutritionalStatus
+
+exceptions = [3, 6, 9, 12, 15, 18, 21]
 
 
 def upload_eopt(age_group, ns_list, column, opt, sheet):
 
-   pass
+    counter = 0
+
+    for x in range(5, 18):
+
+        ns = NutritionalStatus.objects.get(code=ns_list[counter])
+        OPTValues.objects.create(
+            opt=opt,
+            age_group=age_group,
+            nutritional_status=ns,
+            values=sheet.cell_value(x, column)
+        )
+
+        counter = counter + 1
 
 
 def is_valid_opt(sheet):
