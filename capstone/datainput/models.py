@@ -2,18 +2,22 @@ from datetime import datetime
 from django.db import models
 
 
+class Sex(models.Model):
+
+    name = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.name
+
+
 class AgeGroup(models.Model):
 
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=20)
-    SEX_CHOICES = (
-        ('Male', 'Male'),
-        ('Female', 'Female')
-    )
-    sex = models.CharField(max_length=10, choices=SEX_CHOICES)
+    sex = models.ForeignKey(Sex, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name + " | " + self.sex
+        return self.name + " | " + self.sex.name
 
 
 class NutritionalStatus(models.Model):
@@ -47,6 +51,7 @@ class OperationTimbang(models.Model):
 
 
 class OPTValues(models.Model):
+
     opt = models.ForeignKey(OperationTimbang, on_delete=models.CASCADE)
     values = models.DecimalField(decimal_places=0, max_digits=7)
     nutritional_status = models.ForeignKey(NutritionalStatus, on_delete=models.DO_NOTHING)
@@ -58,6 +63,27 @@ class OPTValues(models.Model):
     def __str__(self):
         return self.nutritional_status.name + " " + self.age_group.name
 
+
+class WeightForAge(models.Model):
+
+    name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.name
+
+
+class HeightForAge(models.Model):
+    name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.name
+
+
+class WeightForHeightLength(models.Model):
+    name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.name
 
 
 class FamilyProfile(models.Model):
@@ -127,4 +153,31 @@ class FamilyProfileLine(models.Model):
 
     def __str__(self):
         return self.household_head_name + " - " + self.family_profile.barangay.name
+
+
+class Patient(models.Model):
+
+    name = models.CharField(max_length=100)
+    date_of_birth = models.DateTimeField()
+    barangay = models.ForeignKey(Barangay, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name + " - " + self.barangay.name
+
+    @property
+    def get_age(self):
+        return datetime.now() - self.date_of_birth
+
+
+class MonthlyReweighing(models.Model):
+
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    weight_for_age = models.ForeignKey(WeightForAge, on_delete=models.CASCADE)
+    height_for_age = models.ForeignKey(HeightForAge, on_delete=models.CASCADE)
+    weight_for_height_length = models.ForeignKey(WeightForHeightLength, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.patient.name
+
+
 
