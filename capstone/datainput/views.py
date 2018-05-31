@@ -202,16 +202,20 @@ def show_profile_ajax(request):
 def monthly_reweighing_index(request):
 
     barangay = Profile.objects.get(user=request.user).barangay
-    opt = [OperationTimbang.objects.get(barangay=barangay, date__year=datetime.now().year)]
+    opt = OperationTimbang.objects.filter(barangay=barangay, date__year=datetime.now().year)
     patients = Patient.objects.filter(barangay=barangay)
 
     context = {
         'patients': patients,
         'has_opt': len(opt) > 0
-
     }
 
-    return render(request, '', context)
+    return render(request, 'datainput/monthly_reweighing_index.html', context)
+
+
+@login_required
+def add_patient(request):
+    pass
 
 
 

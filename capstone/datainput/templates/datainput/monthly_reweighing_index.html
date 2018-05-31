@@ -8,5 +8,13 @@
     {% include 'core/helpers/messages.html' %}
 
     <h1>Patients for Monthly Reweighing</h1>
+
+    {% if not has_opt %}
+        OPT for this year is not found
+    {% else %}
+        {% if patients.count == 0 %}
+            You have no patients yet. <a>Add</a> a patient now
+        {% endif %}
+    {% endif %}
 </body>
 </html>

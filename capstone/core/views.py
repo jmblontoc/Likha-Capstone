@@ -38,6 +38,11 @@ class SignInView(View):
             return render(request, self.template_name, None)
 
 
+def redirect_view(request):
+
+    return redirect('core:login')
+
+
 def logout_view(request):
     if request.user.is_authenticated:
         logout(request)

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Patient</title>
+</head>
+<body>
+    {% include 'core/helpers/messages.html' %}
+
+    <h1>Add Patient</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        {% include 'core/helpers/form_template.html' %}
+        <input type="submit">
+    </form>
+</body>
+</html>
