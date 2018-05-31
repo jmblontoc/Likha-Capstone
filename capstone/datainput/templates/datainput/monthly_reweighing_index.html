@@ -21,6 +21,7 @@
                     <th>Name</th>
                     <th>Age in Months</th>
                     <th>Action</th>
+                    <th>Status</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -30,6 +31,9 @@
                         <td>{{ patient.get_age }} months</td>
                         <td>
                             <a href="{% url 'datainput:patient_overview' patient.id %}">Nutritional Statuses</a>
+                        </td>
+                        <td>
+                            {{ patient.get_reweighing_status }}
                         </td>
                     </tr>
                 {% endfor %}

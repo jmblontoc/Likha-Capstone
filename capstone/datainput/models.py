@@ -172,6 +172,16 @@ class Patient(models.Model):
         age_months = months.days / 12
         return int(age_months)
 
+    @property
+    def get_reweighing_status(self):
+
+        try:
+            x = MonthlyReweighing.objects.get(patient__name=self.name, date__month=datetime.now().month)
+        except MonthlyReweighing.DoesNotExist:
+            return 'Not yet updated'
+
+        return 'Updated'
+
 
 class MonthlyReweighing(models.Model):
 

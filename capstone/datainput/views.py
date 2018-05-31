@@ -243,7 +243,7 @@ def patient_overview(request, id):
 
     context = {
         'patient': patient,
-        'weights': weights
+        'weights': weights,
     }
 
     return render(request, 'datainput/patient_overview.html', context)
@@ -252,7 +252,18 @@ def patient_overview(request, id):
 @login_required
 def reweigh(request, id):
 
+    patient = Patient.objects.get(id=id)
     form = MonthlyReweighingForm(request.POST or None)
+
+    if form.is_valid():
+
+        updates = form.save(commit=False)
+        updates.status = 'Pending'
+        updates.patient = patient
+        updates.save()
+
+        messages.success(request, 'Nutritional status updated!')
+        return redirect('datainput:monthly_reweighing_index')
 
     context = {
         'form': form
