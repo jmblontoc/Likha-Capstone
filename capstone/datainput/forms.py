@@ -16,3 +16,4 @@ class PatientForm(ModelForm):
     class Meta:
         model = Patient
         fields = '__all__'
+        exclude = ['barangay']

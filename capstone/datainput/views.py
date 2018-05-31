@@ -10,7 +10,7 @@ from django.core.files.storage import default_storage
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 
-from datainput.forms import FamilyProfileForm
+from datainput.forms import FamilyProfileForm, PatientForm
 from friends.datainput import excel_uploads
 
 from core.models import Profile
@@ -215,7 +215,24 @@ def monthly_reweighing_index(request):
 
 @login_required
 def add_patient(request):
-    pass
+
+    barangay = Profile.objects.get(user=request.user).barangay
+
+    form = PatientForm(request.POST or None)
+
+    if form.is_valid():
+        patient = form.save(commit=False)
+        patient.barangay = barangay
+        patient.save()
+
+        messages.success(request, 'Patient added successfully!')
+        return redirect('datainput:monthly_reweighing_index')
+
+    context = {
+        'form': form
+    }
+
+    return render(request, 'datainput/add_patient.html', context)
 
 
 

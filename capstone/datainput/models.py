@@ -1,6 +1,7 @@
 
 from datetime import datetime
 from django.db import models
+import datetime as dt
 
 
 class Sex(models.Model):
@@ -159,7 +160,7 @@ class FamilyProfileLine(models.Model):
 class Patient(models.Model):
 
     name = models.CharField(max_length=100)
-    date_of_birth = models.DateTimeField()
+    date_of_birth = models.DateField()
     barangay = models.ForeignKey(Barangay, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -167,7 +168,9 @@ class Patient(models.Model):
 
     @property
     def get_age(self):
-        return datetime.now() - self.date_of_birth
+        months =  (dt.datetime.now().date() - self.date_of_birth)
+        age_months = months.days / 12
+        return int(age_months)
 
 
 class MonthlyReweighing(models.Model):

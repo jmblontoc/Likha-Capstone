@@ -20,5 +20,8 @@ urlpatterns = [
     path('bns/family_profile/show_ajax', views.show_profile_ajax, name='show_profile_ajax'),
 
     # monthly reweighing
-    path('bns/monthly_reweighing', views.monthly_reweighing_index, name='monthly_reweighing_index')
+    path('bns/monthly_reweighing', views.monthly_reweighing_index, name='monthly_reweighing_index'),
+
+    # add patient
+    path('bns/monthly_reweighing/add_patient', views.add_patient, name='add_patient')
 ]

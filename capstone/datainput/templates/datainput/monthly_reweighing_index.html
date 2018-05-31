@@ -13,7 +13,25 @@
         OPT for this year is not found
     {% else %}
         {% if patients.count == 0 %}
-            You have no patients yet. <a>Add</a> a patient now
+            You have no patients yet. <a href="{% url 'datainput:add_patient' %}">Add</a> a patient now
+        {% else %}
+            <table border="1">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Age in Months</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for patient in patients %}
+                    <tr>
+                        <td>{{ patient.name }}</td>
+                        <td>{{ patient.get_age }} months</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         {% endif %}
     {% endif %}
 </body>
