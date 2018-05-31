@@ -20,7 +20,6 @@
 <th>Data</th>
 <th colspan="2">Action</th>
 <th>Status</th>
-<th>View</th>
 </tr>
 <tr>
 <td>eOPT</td>
@@ -38,7 +37,6 @@ Input using the system
 </a>
 </td>
 <td>Not yet uploaded</td>
-<td>wala pa</td>
 {% else %}
 <td>
 <form method="POST" enctype="multipart/form-data" action="{% url 'datainput:handle_opt_file' %}">
@@ -53,12 +51,6 @@ Re-input using the system
 </a>
 </td>
 <td>{{ opt.status }}</td>
-<td>
-<!--TODO-->
-<a>
-View
-</a>
-</td>
 {% endif %}
 </tr>
 <tr>
@@ -106,11 +98,6 @@ Go to Family Profiles
 {% else %}
     <td>{{ fp.status }}</td>
 {% endif %}
-<td>
-<a href="{% url 'datainput:family_profiles' %}">
-View
-</a>
-</td>
 </tr>
 </tbody></table>
 </div>

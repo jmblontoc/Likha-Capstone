@@ -11,4 +11,7 @@ urlpatterns = [
 
     # BNS index
     path('bns/', views.bns_index, name='bns-index'),
+
+    # Nutritionist index
+    path('nutritionist/', views.nutritionist, name='nutritionist')
 ]

@@ -9,10 +9,8 @@ from django.core import serializers
 from django.core.files.storage import default_storage
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
-
 from datainput.forms import FamilyProfileForm, PatientForm, MonthlyReweighingForm
-from friends.datainput import excel_uploads
-
+from friends.datainput import excel_uploads, validations
 from core.models import Profile
 from datainput.models import OperationTimbang, NutritionalStatus, AgeGroup, OPTValues, FamilyProfile, FamilyProfileLine, \
     Patient, MonthlyReweighing
@@ -253,6 +251,11 @@ def patient_overview(request, id):
 def reweigh(request, id):
 
     patient = Patient.objects.get(id=id)
+
+    if validations.is_updated(patient):
+        messages.error(request, 'Nutritional status is already updated')
+        return redirect('datainput:patient_overview', patient.id)
+
     form = MonthlyReweighingForm(request.POST or None)
 
     if form.is_valid():

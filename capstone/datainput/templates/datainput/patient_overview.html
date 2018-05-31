@@ -13,7 +13,27 @@
     {% if weights.count == 0 %}
         This patient has no records yet
     {% else %}
-        # TODO
+        <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Weight for Age</th>
+                <th>Height for Age</th>
+                <th>Weight for Height/Length</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ns in weights %}
+                <tr>
+                    <td>{{ ns.date.month }}/{{ ns.date.year }}</td>
+                    <td>{{ ns.weight_for_age }}</td>
+                    <td>{{ ns.height_for_age }}</td>
+                    <td>{{ ns.weight_for_height_length }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+
     {% endif %}
 
     <div>
