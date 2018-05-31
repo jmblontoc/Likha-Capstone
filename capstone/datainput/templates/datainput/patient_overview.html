@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient</title>
+</head>
+<body>
+    {% include 'core/helpers/messages.html' %}
+
+    <h1>{{ patient.name }}</h1>
+    <h2>{{ patient.get_age }} months old</h2>
+
+    {% if weights.count == 0 %}
+        This patient has no records yet
+    {% else %}
+        # TODO
+    {% endif %}
+
+    <div>
+        <a href="{% url 'datainput:reweigh' patient.id %}">Update {{ patient.name }}'s nutritional status</a>
+    </div>
+</body>
+</html>

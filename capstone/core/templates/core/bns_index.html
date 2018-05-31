@@ -65,10 +65,20 @@ View
 <td>Monthly Reweighing</td>
 <td colspan="2">
 <a href="{% url 'datainput:monthly_reweighing_index' %}">
-Input using the system
+Upload data
 </a>
 </td>
-<td>TODO</td>
+<td>
+    {% if has_mr %}
+        {% if approved_mr %}
+            Approved
+        {% else %}
+            Complete but still needs approval
+        {% endif %}
+    {% else %}
+        Not yet complete
+    {% endif %}
+</td>
 </tr>
 <tr>
 <td>FHSIS</td>
@@ -91,7 +101,11 @@ Input using the system
 Go to Family Profiles
 </a>
 </td>
-<td>TODO</td>
+{% if fp is None %}
+    <td>Not yet uploaded</td>
+{% else %}
+    <td>{{ fp.status }}</td>
+{% endif %}
 <td>
 <a href="{% url 'datainput:family_profiles' %}">
 View

@@ -28,6 +28,9 @@
                     <tr>
                         <td>{{ patient.name }}</td>
                         <td>{{ patient.get_age }} months</td>
+                        <td>
+                            <a href="{% url 'datainput:patient_overview' patient.id %}">Nutritional Statuses</a>
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>

@@ -10,12 +10,12 @@ from django.core.files.storage import default_storage
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 
-from datainput.forms import FamilyProfileForm, PatientForm
+from datainput.forms import FamilyProfileForm, PatientForm, MonthlyReweighingForm
 from friends.datainput import excel_uploads
 
 from core.models import Profile
 from datainput.models import OperationTimbang, NutritionalStatus, AgeGroup, OPTValues, FamilyProfile, FamilyProfileLine, \
-    Patient
+    Patient, MonthlyReweighing
 
 
 @login_required
@@ -94,7 +94,7 @@ def handle_opt_file(request):
     # remove file after data has been uploaded
     # os.remove(file.name)
 
-    opt.status = 'Waiting for Approval'
+    opt.status = 'Pending'
     opt.save()
 
     messages.success(request, 'eOPT successfully uploaded!')
@@ -154,7 +154,7 @@ def add_family_profile(request):
         check = FamilyProfile.objects.filter(date__year=datetime.now().year, barangay=barangay)
 
         if check.count() == 0:
-            family_profile = FamilyProfile.objects.create(barangay=barangay)
+            family_profile = FamilyProfile.objects.create(barangay=barangay, status='Pending')
 
         family_profile = check[0]
 
@@ -234,6 +234,31 @@ def add_patient(request):
 
     return render(request, 'datainput/add_patient.html', context)
 
+
+@login_required
+def patient_overview(request, id):
+
+    patient = Patient.objects.get(id=id)
+    weights = MonthlyReweighing.objects.filter(patient=patient)
+
+    context = {
+        'patient': patient,
+        'weights': weights
+    }
+
+    return render(request, 'datainput/patient_overview.html', context)
+
+
+@login_required
+def reweigh(request, id):
+
+    form = MonthlyReweighingForm(request.POST or None)
+
+    context = {
+        'form': form
+    }
+
+    return render(request, 'datainput/monthly_reweighing_form.html', context)
 
 
 

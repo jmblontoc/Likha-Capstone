@@ -23,5 +23,11 @@ urlpatterns = [
     path('bns/monthly_reweighing', views.monthly_reweighing_index, name='monthly_reweighing_index'),
 
     # add patient
-    path('bns/monthly_reweighing/add_patient', views.add_patient, name='add_patient')
+    path('bns/monthly_reweighing/add_patient', views.add_patient, name='add_patient'),
+
+    # patient overview
+    path('patient/<int:id>', views.patient_overview, name='patient_overview'),
+
+    # monthly reweigh
+    path('patient/<int:id>/reweigh', views.reweigh, name='reweigh')
 ]

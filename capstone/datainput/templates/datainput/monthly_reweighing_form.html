@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Monthly Reweighing</title>
+</head>
+<body>
+    <h1>Monthly Reweighing Form</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        {% include 'core/helpers/form_template.html' %}
+        <input type="submit">
+    </form>
+</body>
+</html>

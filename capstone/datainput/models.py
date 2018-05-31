@@ -179,6 +179,8 @@ class MonthlyReweighing(models.Model):
     weight_for_age = models.ForeignKey(WeightForAge, on_delete=models.CASCADE)
     height_for_age = models.ForeignKey(HeightForAge, on_delete=models.CASCADE)
     weight_for_height_length = models.ForeignKey(WeightForHeightLength, on_delete=models.CASCADE)
+    date = models.DateField(default=datetime.now)
+    status = models.CharField(max_length=40)
 
     def __str__(self):
         return self.patient.name
