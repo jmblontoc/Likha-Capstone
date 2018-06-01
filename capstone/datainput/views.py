@@ -275,6 +275,16 @@ def reweigh(request, id):
     return render(request, 'datainput/monthly_reweighing_form.html', context)
 
 
+@login_required
+def nutritionist_upload(request):
+
+    context = {
+
+    }
+
+    return render(request, 'datainput/nutritionist_upload.html', context)
+
+
 
 
 

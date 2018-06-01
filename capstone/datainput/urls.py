@@ -29,5 +29,10 @@ urlpatterns = [
     path('patient/<int:id>', views.patient_overview, name='patient_overview'),
 
     # monthly reweigh
-    path('patient/<int:id>/reweigh', views.reweigh, name='reweigh')
+    path('patient/<int:id>/reweigh', views.reweigh, name='reweigh'),
+
+    # # # # # # # # # NUTRITIONIST URLS BELOW # # # # # # # # # #
+
+    # nutritionist data upload
+    path('nutritionist/upload/', views.nutritionist_upload, name='nutritionist_upload')
 ]

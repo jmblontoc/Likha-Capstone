@@ -196,4 +196,34 @@ class MonthlyReweighing(models.Model):
         return self.patient.name
 
 
+class HealthCareWasteManagement(models.Model):
+
+    date = models.DateField(default=datetime.now)
+    with_syringe = models.DecimalField(decimal_places=0, verbose_name='Health Centers With Syringe Collection', max_digits=5)
+    with_safe_water = models.DecimalField(decimal_places=0, max_digits=5, verbose_name='Households With Access to Improved or Safe Water')
+    with_sanitary_toilet = models.DecimalField(decimal_places=0, max_digits=5, verbose_name='Households With Sanitary Toilet')
+    with_satisfactoral_disposal = models.DecimalField(decimal_places=0, max_digits=5, verbose_name='Households With Satisfactoral Disposal of Solid Waste')
+    with_complete_facilities = models.DecimalField(decimal_places=0, max_digits=5, verbose_name='Household With Complete Basic Sanitation Facilities')
+
+    def __str__(self):
+        return "HCWM - " + str(self.date)
+
+
+class UnemploymentRate(models.Model):
+
+    date = models.DateField(default=datetime.now)
+    rate = models.DecimalField(decimal_places=2, max_digits=5)
+
+    def __str__(self):
+        return "Rate - " + str(self.date)
+
+
+class InformalSettlers(models.Model):
+
+    families_count = models.DecimalField(max_digits=5, decimal_places=0)
+    date = models.DateField(default=datetime.now)
+
+    def __str__(self):
+        return "Informal Settlers - " + str(self.date.month)
+
 

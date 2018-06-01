@@ -88,4 +88,9 @@ def bns_index(request):
 
 @login_required
 def nutritionist(request):
-    return HttpResponse("sadasdasdsa")
+
+    context = {
+
+    }
+
+    return render(request, 'core/nutritionist_index.html', context)
