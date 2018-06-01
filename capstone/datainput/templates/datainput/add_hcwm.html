@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Health Care Waste Management Record</title>
+</head>
+<body>
+    {% include 'core/helpers/messages.html' %}
+
+    <h1>Add Health Care Waste Management Record</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        {% include 'core/helpers/form_template.html' %}
+        <input type="submit">
+    </form>
+
+</body>
+</html>

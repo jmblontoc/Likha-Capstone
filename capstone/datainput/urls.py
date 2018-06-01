@@ -34,5 +34,15 @@ urlpatterns = [
     # # # # # # # # # NUTRITIONIST URLS BELOW # # # # # # # # # #
 
     # nutritionist data upload
-    path('nutritionist/upload/', views.nutritionist_upload, name='nutritionist_upload')
+    path('nutritionist/upload/', views.nutritionist_upload, name='nutritionist_upload'),
+
+    # health care waste management
+    path('nutritionist/health_care_waste_management/', views.health_care_waste_management_index,
+         name='health_care_index'),
+
+    # add hcwm
+    path('nutritionist/health_care_waste_management/add', views.add_hcwm, name='add_hcwm'),
+
+    # ajax show hcwm
+    path('nutritionist/show_health_care', views.get_health_care_waste_record, name='show_hc')
 ]

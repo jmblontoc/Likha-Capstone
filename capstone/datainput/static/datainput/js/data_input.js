@@ -1,6 +1,8 @@
 $(document).ready(function() {
 
-    $("div.family-div").click(function(){
+    console.log("ready");
+
+    $("div.family-div").click(function () {
 
         id = $(this).attr('id');
 
@@ -11,7 +13,7 @@ $(document).ready(function() {
             },
             dataType: 'json',
             type: "POST",
-            success: function(data) {
+            success: function (data) {
 
                 var parsed = JSON.parse(data.profile)[0].fields;
 
@@ -34,7 +36,7 @@ $(document).ready(function() {
                 $("#water").html(parsed.water_sources);
                 $("#food").html(parsed.food_production_activity);
 
-                $("div.fields").children().each(function(){
+                $("div.fields").children().each(function () {
                     console.log($(this).children('span')[0].innerHTML);
                     var text = $(this).children('span')[0];
                     if (text.innerText == '') {
@@ -43,16 +45,40 @@ $(document).ready(function() {
                 });
 
             },
-            error: function(data) {
+            error: function (data) {
                 console.log(data.responseText);
             }
         });
     });
 
+    $("li.health_care_record").click(function() {
+        console.log("please");
+        var id = $(this)[0].id;
 
+        $.ajax({
+            url: "/data-input/nutritionist/show_health_care",
+            type: "POST",
+            dataType: "json",
+            data: {
+                'id': id
+            },
+            success: function(data) {
 
+                var parsed = JSON.parse(data.record)[0].fields;
+                console.log(parsed);
 
-
+                $("span.hc1").html(parsed.with_syringe);
+                $("span.hc2").html(parsed.with_safe_water);
+                $("span.hc3").html(parsed.with_sanitary_toilet);
+                $("span.hc4").html(parsed.with_satisfactoral_disposal);
+                $("span.hc5").html(parsed.with_complete_facilities);
+            },
+            error: function(data) {
+                console.log(data.responseText);
+            }
+        });
+    });
+});
 
 
 
@@ -105,4 +131,3 @@ $(document).ready(function() {
             }
         }
     });
-});

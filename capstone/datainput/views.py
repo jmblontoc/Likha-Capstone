@@ -9,11 +9,11 @@ from django.core import serializers
 from django.core.files.storage import default_storage
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
-from datainput.forms import FamilyProfileForm, PatientForm, MonthlyReweighingForm
+from datainput.forms import FamilyProfileForm, PatientForm, MonthlyReweighingForm, HealthCareWasteManagementForm
 from friends.datainput import excel_uploads, validations
 from core.models import Profile
 from datainput.models import OperationTimbang, NutritionalStatus, AgeGroup, OPTValues, FamilyProfile, FamilyProfileLine, \
-    Patient, MonthlyReweighing
+    Patient, MonthlyReweighing, HealthCareWasteManagement
 
 
 @login_required
@@ -278,14 +278,66 @@ def reweigh(request, id):
 @login_required
 def nutritionist_upload(request):
 
-    context = {
+    has_health_care = validations.has_health_care()
 
+    context = {
+        'has_health_care': has_health_care
     }
 
     return render(request, 'datainput/nutritionist_upload.html', context)
 
 
+@login_required
+def health_care_waste_management_index(request):
 
+    hcwm = HealthCareWasteManagement.objects.all()
+
+    context = {
+        'hcwm': hcwm,
+    }
+
+    return render(request, 'datainput/hcwm_index.html', context)
+
+
+@login_required
+def add_hcwm(request):
+
+    if validations.has_health_care():
+
+        messages.error(request, 'Record for this year has already been uploaded')
+        return redirect('datainput:health_care_index')
+
+    form = HealthCareWasteManagementForm(request.POST or None)
+
+    context = {
+        'form': form
+    }
+
+    if form.is_valid():
+
+        record = form.save(commit=False)
+        record.save()
+
+        messages.success(request, 'Record successfully uploaded')
+        return redirect('datainput:health_care_index')
+
+    return render(request, 'datainput/add_hcwm.html', context)
+
+
+# ajax for health care waste management
+def get_health_care_waste_record(request):
+
+    id = request.POST['id']
+
+    record = [HealthCareWasteManagement.objects.get(id=id)]
+
+    serialized = serializers.serialize('json', record)
+
+    data = {
+        "record": serialized
+    }
+
+    return JsonResponse(data)
 
 
 

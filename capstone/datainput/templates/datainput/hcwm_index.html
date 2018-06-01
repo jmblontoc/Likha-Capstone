@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Health Care Waste Management</title>
+
+    {% load static %}
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="{% static 'datainput/js/data_input.js' %}"></script>
+</head>
+<body>
+    {% include 'core/helpers/messages.html' %}
+
+    <h1>Health Care Waste Management</h1>
+
+    {% if hcwm.count == 0 %}
+        <p>No data recorded </p>
+    {% else %}
+        <ul>
+        {% for record in hcwm %}
+            <li id="{{ record.id }}" class="health_care_record">Data for {{ record.date.year }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    <p><a href="{% url 'datainput:add_hcwm' %}">Add Record</a></p>
+
+    <div>
+        <p>Health centers with syringe collection: <span class="hc1"></span></p>
+        <p>Households with access to improved or safe water: <span class="hc2"></span></p>
+        <p>Households with sanitary toilet: <span class="hc3"></span></p>
+        <p>Households with satisfactoral displosal of solid waste: <span class="hc4"></span></p>
+        <p>Household with complete basic sanitation facilities: <span class="hc5"></span></p>
+
+    </div>
+
+</body>
+</html>

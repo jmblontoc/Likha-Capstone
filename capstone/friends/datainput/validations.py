@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from datainput.models import Patient, MonthlyReweighing
+from datainput.models import Patient, MonthlyReweighing, HealthCareWasteManagement
 
 
 def has_monthly_reweighing(barangay, month):
@@ -31,3 +31,12 @@ def is_updated(patient):
             return True
 
     return False
+
+
+def has_health_care():
+
+    record = HealthCareWasteManagement.objects.filter(
+        date__year=datetime.now().year
+    )
+
+    return record.count() > 0

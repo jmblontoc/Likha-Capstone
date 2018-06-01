@@ -1,6 +1,7 @@
 from django.forms import ModelForm
 
-from datainput.models import FamilyProfileLine, Patient, MonthlyReweighing
+from datainput.models import FamilyProfileLine, Patient, MonthlyReweighing, HealthCareWasteManagement, InformalSettlers, \
+    UnemploymentRate
 
 
 class FamilyProfileForm(ModelForm):
@@ -25,3 +26,27 @@ class MonthlyReweighingForm(ModelForm):
         model = MonthlyReweighing
         fields = '__all__'
         exclude = ['patient', 'date', 'status']
+
+
+class HealthCareWasteManagementForm(ModelForm):
+
+    class Meta:
+        model = HealthCareWasteManagement
+        fields = '__all__'
+        exclude = ['date']
+
+
+class InformalSettlersForm(ModelForm):
+
+    class Meta:
+        model = InformalSettlers
+        fields =  '__all__'
+        exclude = ['date']
+
+
+class UnemploymentRateForm(ModelForm):
+
+    class Meta:
+        model = UnemploymentRate
+        fields = '__all__'
+        exclude = ['date']
