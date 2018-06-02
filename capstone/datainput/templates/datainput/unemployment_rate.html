@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Unemployment Rate</title>
+</head>
+<body>
+    {% include 'core/helpers/messages.html' %}
+
+    <h1>Unemployment Rate</h1>
+
+    {% if records.count == 0 %}
+        No data recorded
+    {% else %}
+        <table>
+        <thead>
+        <tr>
+            <th>Year</th>
+            <th>Rate</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for record in records %}
+            <tr>
+                <td>{{ record.date.year }}</td>
+                <td>{{ record.rate }}%</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+    {% endif %}
+
+    {% if not has_record %}
+        <h3>Add record</h3>
+        <div>
+            <form method="POST">
+                {% csrf_token %}
+                {% include 'core/helpers/form_template.html' %}
+                <input type="submit">
+            </form>
+        </div>
+    {% else %}
+        <p>Data has already been recorded for this year</p>
+    {% endif %}
+</body>
+</html>

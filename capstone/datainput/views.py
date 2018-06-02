@@ -9,11 +9,12 @@ from django.core import serializers
 from django.core.files.storage import default_storage
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
-from datainput.forms import FamilyProfileForm, PatientForm, MonthlyReweighingForm, HealthCareWasteManagementForm
+from datainput.forms import FamilyProfileForm, PatientForm, MonthlyReweighingForm, HealthCareWasteManagementForm, \
+    InformalSettlersForm, UnemploymentRateForm
 from friends.datainput import excel_uploads, validations
 from core.models import Profile
 from datainput.models import OperationTimbang, NutritionalStatus, AgeGroup, OPTValues, FamilyProfile, FamilyProfileLine, \
-    Patient, MonthlyReweighing, HealthCareWasteManagement
+    Patient, MonthlyReweighing, HealthCareWasteManagement, InformalSettlers, UnemploymentRate
 
 
 @login_required
@@ -279,9 +280,13 @@ def reweigh(request, id):
 def nutritionist_upload(request):
 
     has_health_care = validations.has_health_care()
+    has_informal = validations.has_informal_settlers()
+    has_ur = validations.has_unemployment_rate()
 
     context = {
-        'has_health_care': has_health_care
+        'has_health_care': has_health_care,
+        'has_informal': has_informal,
+        'has_ur': has_ur
     }
 
     return render(request, 'datainput/nutritionist_upload.html', context)
@@ -340,6 +345,53 @@ def get_health_care_waste_record(request):
     return JsonResponse(data)
 
 
+# informal settlers
+@login_required
+def informal_settlers_index(request):
+
+    records = InformalSettlers.objects.all()
+    form = InformalSettlersForm(request.POST or None)
+    has_record = validations.has_informal_settlers()
+
+    if form.is_valid():
+
+        record = form.save(commit=False)
+        record.save()
+
+        messages.success(request, 'Data successfully uploaded')
+        return redirect('datainput:informal_settlers_index')
+
+    context = {
+        'records': records,
+        'form': form,
+        'has_record': has_record
+    }
+
+    return render(request, 'datainput/informal_settlers.html', context)
+
+
+# unemployment rate
+@login_required
+def unemployment_rate_index(request):
+
+    records = UnemploymentRate.objects.all()
+    form = UnemploymentRateForm(request.POST or None)
+
+    if form.is_valid():
+
+        record = form.save(commit=False)
+        record.save()
+
+        messages.success(request, 'Data successfully uploaded')
+        return redirect('datainput:unemployment_rate_index')
+
+    context = {
+        'form': form,
+        'records': records,
+        'has_record': validations.has_unemployment_rate()
+    }
+
+    return render(request, 'datainput/unemployment_rate.html', context)
 
 
 

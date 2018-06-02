@@ -215,7 +215,7 @@ class UnemploymentRate(models.Model):
     rate = models.DecimalField(decimal_places=2, max_digits=5)
 
     def __str__(self):
-        return "Rate - " + str(self.date)
+        return "Rate - " + str(self.date.year)
 
 
 class InformalSettlers(models.Model):
@@ -224,6 +224,6 @@ class InformalSettlers(models.Model):
     date = models.DateField(default=datetime.now)
 
     def __str__(self):
-        return "Informal Settlers - " + str(self.date.month)
+        return "Informal Settlers - " + str(self.date.year)
 
 

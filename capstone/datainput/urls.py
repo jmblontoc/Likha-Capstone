@@ -44,5 +44,11 @@ urlpatterns = [
     path('nutritionist/health_care_waste_management/add', views.add_hcwm, name='add_hcwm'),
 
     # ajax show hcwm
-    path('nutritionist/show_health_care', views.get_health_care_waste_record, name='show_hc')
+    path('nutritionist/show_health_care', views.get_health_care_waste_record, name='show_hc'),
+
+    # informal settlers index
+    path('nutritionist/informal_settlers', views.informal_settlers_index, name='informal_settlers_index'),
+
+    # unemployment rate
+    path('nutritionist/unemployment_rate', views.unemployment_rate_index, name='unemployment_rate_index')
 ]

@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from datainput.models import Patient, MonthlyReweighing, HealthCareWasteManagement
+from datainput.models import Patient, MonthlyReweighing, HealthCareWasteManagement, InformalSettlers, UnemploymentRate
 
 
 def has_monthly_reweighing(barangay, month):
@@ -40,3 +40,13 @@ def has_health_care():
     )
 
     return record.count() > 0
+
+
+def has_informal_settlers():
+
+    return InformalSettlers.objects.filter(date__year=datetime.now().year).count() > 0
+
+
+def has_unemployment_rate():
+
+    return UnemploymentRate.objects.filter(date__year=datetime.now().year).count() > 0

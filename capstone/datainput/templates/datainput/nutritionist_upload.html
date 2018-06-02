@@ -28,12 +28,24 @@
             </td>
         </tr>
         <tr>
-            <td><a>Informal Settlers</a></td>
-            <td>todo</td>
+            <td><a href="{% url 'datainput:informal_settlers_index' %}">Informal Settlers</a></td>
+            <td>
+                {% if has_informal %}
+                    Up to date
+                {% else %}
+                    No record for this year
+                {% endif %}
+            </td>
         </tr>
         <tr>
-            <td><a>Unemployment Rate</a></td>
-            <td>todo</td>
+            <td><a href="{% url 'datainput:unemployment_rate_index' %}">Unemployment Rate</a></td>
+            <td>
+                {% if has_ur %}
+                    Up to date
+                {% else %}
+                    No record for this year
+                {% endif %}
+            </td>
         </tr>
         </tbody>
     </table>
