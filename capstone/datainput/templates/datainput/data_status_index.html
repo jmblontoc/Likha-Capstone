@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Status</title>
+</head>
+<body>
+    {% include 'core/helpers/messages.html' %}
+
+    <h1>Data Status</h1>
+
+    <table border="1">
+        <thead>
+        <tr>
+            <th>Barangay</th>
+            <th>Data Source</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for barangay in barangays %}
+            <tr>
+                <td>{{ barangay.name }}</td>
+                <td>
+                    <table border="1">
+                        <tr><td>eOPT</td></tr>
+                        <tr><td>Monthly Reweighing</td></tr>
+                        <tr><td>Family Profiles</td></tr>
+                        <tr><td>FHSIS</td></tr>
+                    </table>
+                </td>
+                <td>
+                    <table border="1">
+                        <tr><td>todo</td></tr>
+                        <tr><td>todo</td></tr>
+                        <tr><td>todo</td></tr>
+                        <tr><td>todo</td></tr>
+                    </table>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

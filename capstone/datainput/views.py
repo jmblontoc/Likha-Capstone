@@ -14,7 +14,7 @@ from datainput.forms import FamilyProfileForm, PatientForm, MonthlyReweighingFor
 from friends.datainput import excel_uploads, validations
 from core.models import Profile
 from datainput.models import OperationTimbang, NutritionalStatus, AgeGroup, OPTValues, FamilyProfile, FamilyProfileLine, \
-    Patient, MonthlyReweighing, HealthCareWasteManagement, InformalSettlers, UnemploymentRate
+    Patient, MonthlyReweighing, HealthCareWasteManagement, InformalSettlers, UnemploymentRate, Barangay
 
 
 @login_required
@@ -392,6 +392,19 @@ def unemployment_rate_index(request):
     }
 
     return render(request, 'datainput/unemployment_rate.html', context)
+
+
+# data status index
+@login_required
+def data_status_index(request):
+
+    barangays = Barangay.objects.all()
+
+    context = {
+        'barangays': barangays
+    }
+
+    return render(request, 'datainput/data_status_index.html', context)
 
 
 

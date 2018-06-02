@@ -50,5 +50,8 @@ urlpatterns = [
     path('nutritionist/informal_settlers', views.informal_settlers_index, name='informal_settlers_index'),
 
     # unemployment rate
-    path('nutritionist/unemployment_rate', views.unemployment_rate_index, name='unemployment_rate_index')
+    path('nutritionist/unemployment_rate', views.unemployment_rate_index, name='unemployment_rate_index'),
+
+    # data status index
+    path('nutritionist/data_status', views.data_status_index, name='data_status_index'),
 ]
