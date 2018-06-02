@@ -17,6 +17,7 @@ from datainput.models import OperationTimbang, NutritionalStatus, AgeGroup, OPTV
     Patient, MonthlyReweighing, HealthCareWasteManagement, InformalSettlers, UnemploymentRate, Barangay
 
 
+
 @login_required
 def handle_opt_file(request):
 
@@ -44,12 +45,20 @@ def handle_opt_file(request):
     #     for chunk in file.chunks():
     #         destination.write(chunk)
 
+    barangay = Profile.objects.get(user=request.user).barangay
+    opt = OperationTimbang(barangay=barangay)
+    opt.save()
+
     path = os.path.join(settings.MEDIA_ROOT, 'eopt', file.name)
+    temp_path = os.path.join(settings.MEDIA_ROOT, 'eopt')
     default_storage.save(path, file)
+
+    renamed = os.path.join(temp_path, str(opt.id) + ".xlsx")
+    os.rename(path, renamed)
 
     # handle excel file
 
-    workbook = xlrd.open_workbook(path)
+    workbook = xlrd.open_workbook(renamed)
     sheet = workbook.sheet_by_index(2)
 
     # error checking ulit
@@ -61,10 +70,6 @@ def handle_opt_file(request):
     print('goes here')
 
     # store values in the DB
-
-    barangay = Profile.objects.get(user=request.user).barangay
-    opt = OperationTimbang(barangay=barangay)
-    opt.save()
 
     ns_list = [
         'WN',
@@ -405,6 +410,38 @@ def data_status_index(request):
     }
 
     return render(request, 'datainput/data_status_index.html', context)
+
+
+@login_required
+def show_opt(request, id):
+
+    barangay = Barangay.objects.get(id=id)
+
+    opt = OperationTimbang.objects.filter(barangay=barangay)
+
+    context = {
+        'opt': opt,
+        'barangay': barangay,
+    }
+
+    return render(request, 'datainput/show_opt.html', context)
+
+
+# This view lets the nutritionists view the opt and decide whether to approve or not
+@login_required
+def evaluate_opt(request, id, opt_id):
+
+    opt_values = OPTValues.objects.filter(opt_id=opt_id)
+    age_groups = AgeGroup.objects.all()
+    nutritional_statuses = NutritionalStatus.objects.all()
+
+    context = {
+        'opt_values': opt_values,
+        'age_groups': age_groups,
+        'nutritional_statuses': nutritional_statuses
+    }
+
+    return render(request, 'datainput/opt_evaluation.html', context)
 
 
 

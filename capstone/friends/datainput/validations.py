@@ -15,7 +15,7 @@ def has_monthly_reweighing(barangay, month):
         except MonthlyReweighing.DoesNotExist:
             return False
 
-    return
+    return True
 
 
 def is_updated(patient):

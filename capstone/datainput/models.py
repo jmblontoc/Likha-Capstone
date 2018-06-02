@@ -1,4 +1,5 @@
 
+
 from datetime import datetime
 from django.db import models
 import datetime as dt
@@ -37,6 +38,19 @@ class NutritionalStatus(models.Model):
 class Barangay(models.Model):
 
     name = models.CharField(max_length=100)
+
+    @property
+    def has_family_profile(self):
+        return FamilyProfile.objects.filter(barangay=self, date__year=datetime.now().year).count() > 0
+
+    @property
+    def has_opt(self):
+        return OperationTimbang.objects.filter(barangay=self, date__year=datetime.now().year).count() > 0
+
+    @property
+    def has_reweighed(self):
+        return MonthlyReweighing.objects.filter(patient__barangay=self, date__month=datetime.now().month).count() > 0
+
 
     def __str__(self):
         return self.name

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Operation Timbang</title>
+</head>
+<body>
+    {% include 'core/helpers/messages.html' %}
+
+    <h1>Operation Timbang </h1>
+
+    <table border="1">
+        <thead>
+        <tr>
+            <th>-</th>
+            {% for group in age_groups %}
+                <th>{{ group.name }} {{ group.sex.name }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for status in nutritional_statuses %}
+            <tr>
+                <th>{{ status.name }}
+                {% for x in age_groups %}
+                    <td>{{ opt_values.count }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

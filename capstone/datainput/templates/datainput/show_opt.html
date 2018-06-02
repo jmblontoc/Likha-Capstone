@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Operation Timbang </title>
+</head>
+<body>
+    {% include 'core/helpers/messages.html' %}
+
+    <h1>Operation Timbang Records of {{ barangay }}</h1>
+
+    {% if opt.count == 0 %}
+        <p>eOPT has not yet been uploaded</p>
+    {% else %}
+        {% for record in opt %}
+            <p><a href="{% url 'datainput:evaluate_opt' barangay.id record.id %}">Record for {{ record.date.year }}</a></p>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>

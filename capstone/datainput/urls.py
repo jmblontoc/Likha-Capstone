@@ -54,4 +54,10 @@ urlpatterns = [
 
     # data status index
     path('nutritionist/data_status', views.data_status_index, name='data_status_index'),
+
+    # show opt
+    path('nutritionist/data_status/<int:id>/opt', views.show_opt, name='show_opt'),
+
+    # opt evaluation
+    path('nutritionist/data_status/<int:id>/opt/<int:opt_id>/evaluate', views.evaluate_opt, name='evaluate_opt')
 ]

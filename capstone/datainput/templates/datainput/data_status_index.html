@@ -15,6 +15,7 @@
             <th>Barangay</th>
             <th>Data Source</th>
             <th>Status</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
@@ -31,10 +32,17 @@
                 </td>
                 <td>
                     <table border="1">
+                        <tr><td>{{ barangay.has_opt|yesno:"Uploaded, Not Yet Uploaded" }}</td></tr>
+                        <tr><td>{{ barangay.has_reweighed|yesno:"Uploaded, Not Yet Uploaded" }}</td></tr>
+                        <tr><td>{{ barangay.has_family_profile|yesno:"Uploaded,Not Yet Uploaded" }}</td></tr>
                         <tr><td>todo</td></tr>
-                        <tr><td>todo</td></tr>
-                        <tr><td>todo</td></tr>
-                        <tr><td>todo</td></tr>
+                    </table>
+                </td><td>
+                    <table border="1">
+                        <tr><td><a href="{% url 'datainput:show_opt' barangay.id %}">View</a></td></tr>
+                        <tr><td><a>View</a></td></tr>
+                        <tr><td><a>View</a></td></tr>
+                        <tr><td><a>View</a></td></tr>
                     </table>
                 </td>
             </tr>
