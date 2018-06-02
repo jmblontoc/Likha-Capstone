@@ -13,9 +13,23 @@
     {% if opt.count == 0 %}
         <p>eOPT has not yet been uploaded</p>
     {% else %}
+        <table border="1">
+        <thead>
+        <tr>
+            <th>Record</th>
+            <th colspan="2">Action</th>
+        </tr>
+        </thead>
+        <tbody>
         {% for record in opt %}
-            <p><a href="{% url 'datainput:evaluate_opt' barangay.id record.id %}">Record for {{ record.date.year }}</a></p>
+            <tr>
+                <td>Record for {{ record.date.year }}</td>
+                <td><a href="{% url 'datainput:accept_opt' barangay.id record.id %}">Accept</a></td>
+                <td><a href="{% url 'datainput:reject_opt' barangay.id record.id %}">Reject</a></td>
+            </tr>
         {% endfor %}
+        </tbody>
+        </table>
     {% endif %}
 </body>
 </html>

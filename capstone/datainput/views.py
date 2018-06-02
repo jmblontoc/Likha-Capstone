@@ -17,7 +17,6 @@ from datainput.models import OperationTimbang, NutritionalStatus, AgeGroup, OPTV
     Patient, MonthlyReweighing, HealthCareWasteManagement, InformalSettlers, UnemploymentRate, Barangay
 
 
-
 @login_required
 def handle_opt_file(request):
 
@@ -442,6 +441,28 @@ def evaluate_opt(request, id, opt_id):
     }
 
     return render(request, 'datainput/opt_evaluation.html', context)
+
+
+@login_required
+def accept_opt(request, id, opt_id):
+
+    opt = OperationTimbang.objects.get(id=opt_id)
+    opt.status = 'Accepted'
+    opt.save()
+
+    messages.success(request, 'OPT validated successfully')
+    return redirect('datainput:data_status_index')
+
+
+@login_required
+def reject_opt(request, id, opt_id):
+
+    opt = OperationTimbang.objects.get(id=opt_id)
+    opt.delete()
+
+    messages.success(request, 'OPT rejected')
+    return redirect('datainput:data_status_index')
+
 
 
 

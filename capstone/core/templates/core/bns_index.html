@@ -1,6 +1,7 @@
 {% extends 'core/layout.html' %}
 {% block content %}
 
+    {% include 'core/helpers/notifications.html' %}
     {% include 'core/helpers/messages.html' %}
 
 
@@ -18,7 +19,7 @@
 <table class="table table-hover table-bordered">
 <tbody><tr>
 <th>Data</th>
-<th colspan="2">Action</th>
+<th>Action</th>
 <th>Status</th>
 </tr>
 <tr>
@@ -31,31 +32,17 @@
 <input type="submit">
 </form>
 </td>
-<td>
-<a>
-Input using the system
-</a>
-</td>
 <td>Not yet uploaded</td>
 {% else %}
 <td>
-<form method="POST" enctype="multipart/form-data" action="{% url 'datainput:handle_opt_file' %}">
-{% csrf_token %}
-<input type="file" name="eOPT">
-<input type="submit" value="Resubmit">
-</form>
-</td>
-<td>
-<a>
-Re-input using the system
-</a>
+View OPT TODO
 </td>
 <td>{{ opt.status }}</td>
 {% endif %}
 </tr>
 <tr>
 <td>Monthly Reweighing</td>
-<td colspan="2">
+<td>
 <a href="{% url 'datainput:monthly_reweighing_index' %}">
 Upload data
 </a>
@@ -80,15 +67,12 @@ Upload File
 </a>
 </td>
 <td>
-<a>
-Input using the system
-</a>
+TODO
 </td>
-<td>TODO</td>
 </tr>
 <tr>
 <td>Family Profile</td>
-<td colspan="2">
+<td>
 <a href="{% url 'datainput:family_profiles' %}">
 Go to Family Profiles
 </a>

@@ -59,5 +59,11 @@ urlpatterns = [
     path('nutritionist/data_status/<int:id>/opt', views.show_opt, name='show_opt'),
 
     # opt evaluation
-    path('nutritionist/data_status/<int:id>/opt/<int:opt_id>/evaluate', views.evaluate_opt, name='evaluate_opt')
+    path('nutritionist/data_status/<int:id>/opt/<int:opt_id>/evaluate', views.evaluate_opt, name='evaluate_opt'),
+
+    # accept opt
+    path('nutritionist/data_status/<int:id>/opt/accept/<int:opt_id>', views.accept_opt, name='accept_opt'),
+
+    # reject opt
+    path('nutritionist/data_status/<int:id>/opt/reject/<int:opt_id>', views.reject_opt, name='reject_opt'),
 ]
