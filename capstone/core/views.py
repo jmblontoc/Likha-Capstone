@@ -71,7 +71,12 @@ def bns_index(request):
     except OperationTimbang.DoesNotExist:
         opt = None
 
-    approved_mr = False # todo
+    records = MonthlyReweighing.objects.filter(patient__barangay=profile.barangay, date__month=datetime.now().month)
+
+    if records.count() == 0:
+        approved_mr = False
+    else:
+        approved_mr = records[0].status == 'Approved'
 
 
     context = {

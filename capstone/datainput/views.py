@@ -450,7 +450,7 @@ def evaluate_opt(request, id, opt_id):
 def accept_opt(request, id, opt_id):
 
     opt = OperationTimbang.objects.get(id=opt_id)
-    opt.status = 'Accepted'
+    opt.status = 'Approved'
     opt.save()
 
     messages.success(request, 'OPT validated successfully')
@@ -481,6 +481,75 @@ def view_reweighing(request, id):
     }
 
     return render(request, 'datainput/view_reweighing.html', context)
+
+
+@login_required
+def accept_reweighing(request, id):
+
+    barangay = Barangay.objects.get(id=id)
+    records = MonthlyReweighing.objects.filter(patient__barangay=barangay, date__month=datetime.now().month)
+
+    for record in records:
+        record.status = 'Approved'
+        record.save()
+
+    messages.success(request, 'Monthly Reweighing validated successfully')
+    return redirect('datainput:data_status_index')
+
+
+@login_required
+def reject_reweighing(request, id):
+
+    barangay = Barangay.objects.get(id=id)
+    records = MonthlyReweighing.objects.filter(patient__barangay=barangay, date__month=datetime.now().month)
+
+    records.delete()
+
+    messages.success(request, 'Reweighing Records rejected')
+    return redirect('datainput:data_status_index')
+
+
+@login_required
+def show_family_profiles(request, id):
+
+    barangay = Barangay.objects.get(id=id)
+
+    profiles = FamilyProfile.objects.filter(barangay=barangay)
+
+    context = {
+        'families': profiles,
+        'barangay': barangay
+    }
+
+    return render(request, 'datainput/family_profiles_list.html', context)
+
+
+@login_required
+def accept_family_profiles(request, id):
+
+    barangay = Barangay.objects.get(id=id)
+
+    profile = FamilyProfile.objects.get(barangay=barangay, date__year=datetime.now().year)
+
+    profile.status = 'Approved'
+    profile.save()
+
+    messages.success(request, 'Family profiles successfully validated')
+    return redirect('datainput:data_status_index')
+
+
+@login_required
+def reject_family_profiles(request, id):
+
+    barangay = Barangay.objects.get(id=id)
+
+    profile = FamilyProfile.objects.get(barangay=barangay, date__year=datetime.now().year)
+
+    profile.delete()
+
+    messages.success(request, 'Family profiles rejected')
+    return redirect('datainput:data_status_index')
+
 
 
 

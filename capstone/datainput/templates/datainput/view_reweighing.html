@@ -41,7 +41,10 @@
                 </tbody>
             </table>
 
-            <p><a>Accept</a> or <a>Reject</a></p>
+            <p>
+                <a href="{% url 'datainput:accept_reweighing' barangay.id %}">Accept</a> or
+                <a href="{% url 'datainput:reject_reweighing' barangay.id %}">Reject</a>
+            </p>
         {% endif %}
     {% endif %}
 </body>

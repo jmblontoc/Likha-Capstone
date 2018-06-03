@@ -52,6 +52,9 @@ class Barangay(models.Model):
 
         patients = Patient.objects.filter(barangay=self)
 
+        if patients.count() == 0:
+            return False
+
         for patient in patients:
 
             try:
@@ -61,6 +64,34 @@ class Barangay(models.Model):
                 return False
 
         return True
+
+    @property
+    def has_validated_opt(self):
+
+        opt = [OperationTimbang.objects.get(barangay=self, date__year=datetime.now().year)]
+
+        if len(opt) == 0:
+            return False
+
+        return opt[0].status == 'Approved'
+
+    @property
+    def has_validated_reweighing(self):
+
+        if not self.has_reweighed:
+            return False
+
+        mr = MonthlyReweighing.objects.filter(patient__barangay=self, date__month=datetime.now().month)
+
+        if mr.count() == 0:
+            return False
+
+        return mr[0].status == 'Approved'
+
+    @property
+    def has_validated_family_profiles(self):
+
+        return FamilyProfile.objects.get(barangay=self, date__year=datetime.now().year).status == 'Approved'
 
     def __str__(self):
         return self.name

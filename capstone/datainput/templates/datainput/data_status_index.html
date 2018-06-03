@@ -15,8 +15,9 @@
         <tr>
             <th>Barangay</th>
             <th>Data Source</th>
-            <th>Status</th>
+            <th>BNS Status</th>
             <th>Action</th>
+            <th>Nutritionist Status</th>
         </tr>
         </thead>
         <tbody>
@@ -38,12 +39,21 @@
                         <tr><td>{{ barangay.has_family_profile|yesno:"Uploaded,Not Yet Uploaded" }}</td></tr>
                         <tr><td>todo</td></tr>
                     </table>
-                </td><td>
+                </td>
+                <td>
                     <table border="1">
                         <tr><td><a href="{% url 'datainput:show_opt' barangay.id %}">View</a></td></tr>
                         <tr><td><a href="{% url 'datainput:view_reweighing' barangay.id %}">View</a></td></tr>
+                        <tr><td><a href="{% url 'datainput:show_family_profiles' barangay.id %}">View</a></td></tr>
                         <tr><td><a>View</a></td></tr>
-                        <tr><td><a>View</a></td></tr>
+                    </table>
+                </td>
+                <td>
+                    <table border="1">
+                        <tr><td>{{ barangay.has_validated_opt|yesno:"Approved, Not Yet Approved" }}</td></tr>
+                        <tr><td>{{ barangay.has_validated_reweighing|yesno:"Approved, Not Yet Approved" }}</td></tr>
+                        <tr><td>{{ barangay.has_family_profile|yesno:"Approved, Not Yet Approved" }}</td></tr>
+                        <tr><td>TODO</td></tr>
                     </table>
                 </td>
             </tr>

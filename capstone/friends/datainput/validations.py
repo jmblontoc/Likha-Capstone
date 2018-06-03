@@ -7,6 +7,9 @@ def has_monthly_reweighing(barangay, month):
 
     patients = Patient.objects.filter(barangay=barangay)
 
+    if patients.count() == 0:
+        return False
+
     for patient in patients:
 
         try:

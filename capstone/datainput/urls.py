@@ -68,6 +68,20 @@ urlpatterns = [
     path('nutritionist/data_status/<int:id>/opt/reject/<int:opt_id>', views.reject_opt, name='reject_opt'),
 
     # view reweighing
-    path('nutritionist/data_status/<int:id>/reweighing', views.view_reweighing, name='view_reweighing')
+    path('nutritionist/data_status/<int:id>/reweighing', views.view_reweighing, name='view_reweighing'),
 
+    # accept reweighing
+    path('nutritionist/data_status/<int:id>/reweighing/accept', views.accept_reweighing, name='accept_reweighing'),
+
+    # reject reweighing
+    path('nutritionist/data_status/<int:id>/reweighing/reject', views.reject_reweighing, name='reject_reweighing'),
+
+    # show list of family profile records
+    path('nutritionist/data_status/<int:id>/family_profiles', views.show_family_profiles, name='show_family_profiles'),
+
+    # accept family profiles
+    path('nutritionist/data_status/<int:id>/family_profiles/accept', views.accept_family_profiles, name='accept_family_profiles'),
+
+    # reject family profiles
+    path('nutritionist/data_status/<int:id>/family_profiles/reject', views.reject_family_profiles, name='reject_family_profiles')
 ]
