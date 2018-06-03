@@ -66,4 +66,8 @@ urlpatterns = [
 
     # reject opt
     path('nutritionist/data_status/<int:id>/opt/reject/<int:opt_id>', views.reject_opt, name='reject_opt'),
+
+    # view reweighing
+    path('nutritionist/data_status/<int:id>/reweighing', views.view_reweighing, name='view_reweighing')
+
 ]

@@ -37,8 +37,10 @@
 
     {% endif %}
 
+    {% if is_bns %}
     <div>
         <a href="{% url 'datainput:reweigh' patient.id %}">Update {{ patient.name }}'s nutritional status</a>
     </div>
+    {% endif %}
 </body>
 </html>

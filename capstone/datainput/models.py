@@ -49,8 +49,18 @@ class Barangay(models.Model):
 
     @property
     def has_reweighed(self):
-        return MonthlyReweighing.objects.filter(patient__barangay=self, date__month=datetime.now().month).count() > 0
 
+        patients = Patient.objects.filter(barangay=self)
+
+        for patient in patients:
+
+            try:
+                mr = MonthlyReweighing.objects.get(patient=patient, date__month=datetime.now().month)
+                print(mr)
+            except MonthlyReweighing.DoesNotExist:
+                return False
+
+        return True
 
     def __str__(self):
         return self.name

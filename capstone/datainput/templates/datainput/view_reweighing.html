@@ -14,7 +14,7 @@
         OPT for this year is not found
     {% else %}
         {% if patients.count == 0 %}
-            You have no patients yet. <a href="{% url 'datainput:add_patient' %}">Add</a> a patient now
+            No patients recorded
         {% else %}
             <table border="1">
                 <thead>
@@ -40,9 +40,9 @@
                 {% endfor %}
                 </tbody>
             </table>
+
+            <p><a>Accept</a> or <a>Reject</a></p>
         {% endif %}
     {% endif %}
-
-    <a href="{% url 'datainput:add_patient' %}"> Add a patient</a>
 </body>
 </html>

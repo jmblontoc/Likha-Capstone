@@ -210,7 +210,8 @@ def monthly_reweighing_index(request):
 
     context = {
         'patients': patients,
-        'has_opt': len(opt) > 0
+        'has_opt': len(opt) > 0,
+        'barangay': barangay
     }
 
     return render(request, 'datainput/monthly_reweighing_index.html', context)
@@ -243,10 +244,12 @@ def patient_overview(request, id):
 
     patient = Patient.objects.get(id=id)
     weights = MonthlyReweighing.objects.filter(patient=patient)
+    profile = Profile.objects.get(user=request.user)
 
     context = {
         'patient': patient,
         'weights': weights,
+        'is_bns': profile.user_type == 'Barangay Nutrition Scholar'
     }
 
     return render(request, 'datainput/patient_overview.html', context)
@@ -462,6 +465,23 @@ def reject_opt(request, id, opt_id):
 
     messages.success(request, 'OPT rejected')
     return redirect('datainput:data_status_index')
+
+
+@login_required
+def view_reweighing(request, id):
+
+    barangay = Barangay.objects.get(id=id)
+    opt = OperationTimbang.objects.filter(barangay=barangay, date__year=datetime.now().year)
+    patients = Patient.objects.filter(barangay=barangay)
+
+    context = {
+        'patients': patients,
+        'has_opt': len(opt) > 0,
+        'barangay': barangay
+    }
+
+    return render(request, 'datainput/view_reweighing.html', context)
+
 
 
 

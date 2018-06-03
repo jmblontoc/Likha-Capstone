@@ -1,3 +1,4 @@
+
 from datetime import datetime
 
 from django.contrib.auth.models import User
@@ -25,8 +26,9 @@ class Profile(models.Model):
 class Notification(models.Model):
 
     date = models.DateTimeField(default=datetime.now)
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    profile_to = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='user_to')
+    profile_from = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='user_from')
     message = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.message + " for " + self.profile.user.username
+        return self.message + " for " + self.profile_to.user.username
