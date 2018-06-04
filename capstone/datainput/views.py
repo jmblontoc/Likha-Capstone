@@ -1,3 +1,4 @@
+
 import os
 from datetime import datetime
 
@@ -452,6 +453,9 @@ def accept_opt(request, id, opt_id):
     opt = OperationTimbang.objects.get(id=opt_id)
     opt.status = 'Approved'
     opt.save()
+
+    msg = 'Your OPT upload has been approved'
+
 
     messages.success(request, 'OPT validated successfully')
     return redirect('datainput:data_status_index')

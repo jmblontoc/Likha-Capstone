@@ -1,5 +1,5 @@
 
-
+from core.models import Profile
 from datetime import datetime
 from django.db import models
 import datetime as dt
@@ -102,6 +102,7 @@ class OperationTimbang(models.Model):
     date = models.DateTimeField(default=datetime.now)
     barangay = models.ForeignKey(Barangay, on_delete=models.DO_NOTHING)
     status = models.CharField(max_length=50)
+    uploaded_by = models.ForeignKey(Profile, on_delete=models.DO_NOTHING, default='')
 
     def __str__(self):
         return str(self.date) + " at " + self.barangay.name
@@ -148,6 +149,7 @@ class FamilyProfile(models.Model):
     barangay = models.ForeignKey(Barangay, on_delete=models.CASCADE)
     date = models.DateTimeField(default=datetime.now)
     status = models.CharField(max_length=20)
+    uploaded_by = models.ForeignKey(Profile, on_delete=models.DO_NOTHING, default='')
 
     def __str__(self):
         return self.barangay.name + " " + str(self.date)
@@ -246,6 +248,7 @@ class MonthlyReweighing(models.Model):
     weight_for_height_length = models.ForeignKey(WeightForHeightLength, on_delete=models.CASCADE)
     date = models.DateField(default=datetime.now)
     status = models.CharField(max_length=40)
+    uploaded_by = models.ForeignKey(Profile, on_delete=models.DO_NOTHING, default='')
 
     def __str__(self):
         return self.patient.name

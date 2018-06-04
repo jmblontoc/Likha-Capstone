@@ -29,6 +29,7 @@ class Notification(models.Model):
     profile_to = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='user_to')
     profile_from = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='user_from')
     message = models.CharField(max_length=100)
+    is_read = models.BooleanField(default=False)
 
     def __str__(self):
         return self.message + " for " + self.profile_to.user.username
