@@ -13,7 +13,7 @@ from django.shortcuts import redirect, render
 from datainput.forms import FamilyProfileForm, PatientForm, MonthlyReweighingForm, HealthCareWasteManagementForm, \
     InformalSettlersForm, UnemploymentRateForm
 from friends.datainput import excel_uploads, validations
-from core.models import Profile
+from core.models import Profile, Notification
 from datainput.models import OperationTimbang, NutritionalStatus, AgeGroup, OPTValues, FamilyProfile, FamilyProfileLine, \
     Patient, MonthlyReweighing, HealthCareWasteManagement, InformalSettlers, UnemploymentRate, Barangay
 
@@ -47,6 +47,7 @@ def handle_opt_file(request):
 
     barangay = Profile.objects.get(user=request.user).barangay
     opt = OperationTimbang(barangay=barangay)
+    opt.uploaded_by = Profile.objects.get(user=request.user)
     opt.save()
 
     path = os.path.join(settings.MEDIA_ROOT, 'eopt', file.name)
@@ -156,9 +157,10 @@ def add_family_profile(request):
     if form.is_valid():
         family = form.save(commit=False)
         check = FamilyProfile.objects.filter(date__year=datetime.now().year, barangay=barangay)
+        profile = Profile.objects.get(user=request.user)
 
         if check.count() == 0:
-            family_profile = FamilyProfile.objects.create(barangay=barangay, status='Pending')
+            family_profile = FamilyProfile.objects.create(barangay=barangay, status='Pending', uploaded_by=profile)
 
         family_profile = check[0]
 
@@ -272,6 +274,7 @@ def reweigh(request, id):
         updates = form.save(commit=False)
         updates.status = 'Pending'
         updates.patient = patient
+        updates.uploaded_by = Profile.objects.get(user=request.user)
         updates.save()
 
         messages.success(request, 'Nutritional status updated!')
@@ -455,6 +458,15 @@ def accept_opt(request, id, opt_id):
     opt.save()
 
     msg = 'Your OPT upload has been approved'
+    user_from = Profile.objects.get(user=request.user)
+    user_to = opt.uploaded_by
+
+    Notification.objects.create(
+        message=msg,
+        profile_to=user_to,
+        profile_from=user_from
+    )
+
 
 
     messages.success(request, 'OPT validated successfully')
@@ -465,6 +477,17 @@ def accept_opt(request, id, opt_id):
 def reject_opt(request, id, opt_id):
 
     opt = OperationTimbang.objects.get(id=opt_id)
+
+    msg = 'Your OPT upload has been rejected. Please re-upload the eOPT'
+    user_from = Profile.objects.get(user=request.user)
+    user_to = opt.uploaded_by
+
+    Notification.objects.create(
+        message=msg,
+        profile_to=user_to,
+        profile_from=user_from
+    )
+
     opt.delete()
 
     messages.success(request, 'OPT rejected')
@@ -493,12 +516,23 @@ def accept_reweighing(request, id):
     barangay = Barangay.objects.get(id=id)
     records = MonthlyReweighing.objects.filter(patient__barangay=barangay, date__month=datetime.now().month)
 
-    for record in records:
-        record.status = 'Approved'
-        record.save()
+    if records.count() > 0:
+        for record in records:
+            record.status = 'Approved'
+            record.save()
 
-    messages.success(request, 'Monthly Reweighing validated successfully')
-    return redirect('datainput:data_status_index')
+        msg = 'Your Monthly Reweighing upload has been approved'
+        user_from = Profile.objects.get(user=request.user)
+        user_to = records[0].uploaded_by
+
+        Notification.objects.create(
+            message=msg,
+            profile_to=user_to,
+            profile_from=user_from
+        )
+
+        messages.success(request, 'Monthly Reweighing validated successfully')
+        return redirect('datainput:data_status_index')
 
 
 @login_required
@@ -507,10 +541,21 @@ def reject_reweighing(request, id):
     barangay = Barangay.objects.get(id=id)
     records = MonthlyReweighing.objects.filter(patient__barangay=barangay, date__month=datetime.now().month)
 
-    records.delete()
+    if records.count() > 0:
+        msg = 'Your Monthly Reweighing upload has been rejected. Please re-upload the reweighing records again.'
+        user_from = Profile.objects.get(user=request.user)
+        user_to = records[0].uploaded_by
 
-    messages.success(request, 'Reweighing Records rejected')
-    return redirect('datainput:data_status_index')
+        Notification.objects.create(
+            message=msg,
+            profile_to=user_to,
+            profile_from=user_from
+        )
+
+        records.delete()
+
+        messages.success(request, 'Reweighing Records rejected')
+        return redirect('datainput:data_status_index')
 
 
 @login_required
@@ -538,6 +583,16 @@ def accept_family_profiles(request, id):
     profile.status = 'Approved'
     profile.save()
 
+    msg = 'Your Family Profile upload has been approved.'
+    user_from = Profile.objects.get(user=request.user)
+    user_to = profile.uploaded_by
+
+    Notification.objects.create(
+        message=msg,
+        profile_to=user_to,
+        profile_from=user_from
+    )
+
     messages.success(request, 'Family profiles successfully validated')
     return redirect('datainput:data_status_index')
 
@@ -548,6 +603,16 @@ def reject_family_profiles(request, id):
     barangay = Barangay.objects.get(id=id)
 
     profile = FamilyProfile.objects.get(barangay=barangay, date__year=datetime.now().year)
+
+    msg = 'Your Family Profile upload has been rejected. Please re-upload the family profiles again.'
+    user_from = Profile.objects.get(user=request.user)
+    user_to = profile.uploaded_by
+
+    Notification.objects.create(
+        message=msg,
+        profile_to=user_to,
+        profile_from=user_from
+    )
 
     profile.delete()
 

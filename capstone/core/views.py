@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from friends.datainput import validations
 from core.forms import UploadFileForm
-from core.models import Profile
+from core.models import Profile, Notification
 from datainput.models import OperationTimbang, MonthlyReweighing, FamilyProfile
 from friends import user_redirects
 from datetime import datetime
@@ -99,3 +99,16 @@ def nutritionist(request):
     }
 
     return render(request, 'core/nutritionist_index.html', context)
+
+
+@login_required
+def mark_as_read(request, id):
+
+    notif = Notification.objects.get(id=id)
+    notif.is_read = True
+    notif.save()
+
+    previous_page = request.META['HTTP_REFERER']
+    print(previous_page)
+
+    return redirect(previous_page)

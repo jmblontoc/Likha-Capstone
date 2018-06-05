@@ -8,7 +8,7 @@ from datainput.models import Barangay
 
 class Profile(models.Model):
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     barangay = models.ForeignKey(Barangay, on_delete=models.CASCADE, null=True, blank=True)
 
     USER_TYPES = (

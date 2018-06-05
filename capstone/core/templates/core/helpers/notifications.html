@@ -1,4 +1,7 @@
-<!-- TODO -->
-
-{% for notification in notifications %}
+{% for n in notifications %}
+    {% if not n.is_read %}
+        <p>{{ n.message }}</p>
+        <p>By: {{ n.profile_from.user.first_name }} {{ n.profile_from.user.last_name }} at {{ n.date }}</p>
+        <p><a href="{% url 'core:mark_as_read' n.id %}">Mark as Read</a></p>
+    {% endif %}
 {% endfor %}

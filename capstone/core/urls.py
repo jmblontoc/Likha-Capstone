@@ -13,5 +13,8 @@ urlpatterns = [
     path('bns/', views.bns_index, name='bns-index'),
 
     # Nutritionist index
-    path('nutritionist/', views.nutritionist, name='nutritionist')
+    path('nutritionist/', views.nutritionist, name='nutritionist'),
+
+    # mark notification as read
+    path('notification/mark_read/<int:id>', views.mark_as_read, name='mark_as_read')
 ]
