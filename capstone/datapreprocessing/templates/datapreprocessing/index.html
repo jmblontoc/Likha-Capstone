@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Metrics and Thresholds</title>
+
+</head>
+<body>
+    {% include 'core/helpers/notifications.html' %}
+    {% include 'core/helpers/messages.html' %}
+
+    <h1>Metrics and Thresholds</h1>
+
+    {% if metrics.count == 0 %}
+        You have no metrics set yet
+    {% else %}
+    {% endif %}
+
+    <p><a href="{% url 'data-pre_processing:add_metric' %}">Add a Metric</a></p>
+</body>
+</html>

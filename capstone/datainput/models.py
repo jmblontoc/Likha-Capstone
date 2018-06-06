@@ -275,10 +275,128 @@ class UnemploymentRate(models.Model):
 
 class InformalSettlers(models.Model):
 
-    families_count = models.DecimalField(max_digits=5, decimal_places=0)
+    families_count = models.DecimalField(max_digits=5, decimal_places=0, verbose_name='Number of Families')
     date = models.DateField(default=datetime.now)
 
     def __str__(self):
         return "Informal Settlers - " + str(self.date.year)
 
+
+class FHSIS(models.Model):
+
+    date = models.DateTimeField(default=datetime.now)
+    status = models.CharField(max_length=30)
+    uploaded_by = models.ForeignKey('core.Profile', on_delete=models.DO_NOTHING)
+    barangay = models.ForeignKey(Barangay, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "FHSIS for " + str(self.date) + " - " + self.barangay.name
+
+
+class MaternalCare(models.Model):
+
+    prenatal_visits = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Pregnant women with 4 or more prenatal visits')
+    tetanus_toxoid = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Pregnant women given 2 doses of Tetanus Toxoid')
+    tt2_plus = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Pregnant women given TT2 plus')
+    complete_iron = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Pregnant women given complete iron with folic acid supplementation')
+    complete_iron_post = models.DecimalField(max_digits=5, decimal_places=2,
+                                        verbose_name='Postpartum women with given complete iron supplementation')
+    postpartum_visits = models.DecimalField(max_digits=5, decimal_places=2,
+                                        verbose_name='Postpartum women with at least 2 postpartum visits')
+    vitamin_a = models.DecimalField(max_digits=5, decimal_places=2,
+                                        verbose_name='Postpartum women given Vitamin A supplementation')
+    breastfed = models.DecimalField(max_digits=5, decimal_places=2,
+                                        verbose_name='Postpartum women initiated breastfeeding within 1 hour after delivery')
+    deliveries = models.DecimalField(max_digits=5, decimal_places=2)
+
+    fhsis = models.ForeignKey(FHSIS, on_delete=models.CASCADE)
+
+
+class Immunization(models.Model):
+
+    immunization_given = models.DecimalField(decimal_places=2, max_digits=5)
+    fully_immunized_child = models.DecimalField(decimal_places=2, max_digits=5)
+    child_protected_at_birth = models.DecimalField(decimal_places=2, max_digits=5)
+
+    fhsis = models.ForeignKey(FHSIS, on_delete=models.CASCADE)
+    sex = models.ForeignKey(Sex, on_delete=models.CASCADE)
+
+
+class Malaria(models.Model):
+
+    population_at_risk = models.DecimalField(decimal_places=2, max_digits=5)
+    malaria_cases = models.DecimalField(decimal_places=2, max_digits=5)
+    deaths = models.DecimalField(decimal_places=2, max_digits=5)
+    immunization_given = models.DecimalField(decimal_places=2, max_digits=5)
+    llin_given = models.DecimalField(decimal_places=2, max_digits=5)
+
+    fhsis = models.ForeignKey(FHSIS, on_delete=models.CASCADE)
+    sex = models.ForeignKey(Sex, on_delete=models.CASCADE)
+
+
+class Tuberculosis(models.Model):
+
+    underwent_ddsm = models.DecimalField(decimal_places=2, max_digits=5)
+    smear_positive = models.DecimalField(decimal_places=2, max_digits=5)
+    cases_cured = models.DecimalField(decimal_places=2, max_digits=5)
+    identified = models.DecimalField(decimal_places=2, max_digits=5)
+
+    fhsis = models.ForeignKey(FHSIS, on_delete=models.CASCADE)
+    sex = models.ForeignKey(Sex, on_delete=models.CASCADE)
+
+
+class Schistosomiasis(models.Model):
+
+    cases_cured = models.DecimalField(decimal_places=2, max_digits=5)
+    cases = models.DecimalField(decimal_places=2, max_digits=5)
+
+    fhsis = models.ForeignKey(FHSIS, on_delete=models.CASCADE)
+    sex = models.ForeignKey(Sex, on_delete=models.CASCADE)
+
+
+class Flariasis(models.Model):
+
+    cases = models.DecimalField(decimal_places=2, max_digits=5)
+    mfd = models.DecimalField(decimal_places=2, max_digits=5)
+    given_MDA = models.DecimalField(decimal_places=2, max_digits=5)
+
+    fhsis = models.ForeignKey(FHSIS, on_delete=models.CASCADE)
+    sex = models.ForeignKey(Sex, on_delete=models.CASCADE)
+
+
+class Leprosy(models.Model):
+
+    cases = models.DecimalField(decimal_places=2, max_digits=5)
+    cases_cured = models.DecimalField(decimal_places=2, max_digits=5)
+
+    fhsis = models.ForeignKey(FHSIS, on_delete=models.CASCADE)
+    sex = models.ForeignKey(Sex, on_delete=models.CASCADE)
+
+
+class ChildCare(models.Model):
+
+    given_complimentary_food = models.DecimalField(decimal_places=2, max_digits=5)
+    received_vitamin_A = models.DecimalField(decimal_places=2, max_digits=5)
+    received_iron = models.DecimalField(decimal_places=2, max_digits=5)
+    received_MNP = models.DecimalField(decimal_places=2, max_digits=5)
+    sick_children = models.DecimalField(decimal_places=2, max_digits=5)
+    given_deworming = models.DecimalField(decimal_places=2, max_digits=5)
+    anemic_children = models.DecimalField(decimal_places=2, max_digits=5)
+    anemic_children_with_iron = models.DecimalField(decimal_places=2, max_digits=5)
+    diarrhea_cases = models.DecimalField(decimal_places=2, max_digits=5)
+    diarrhea_with_ORS = models.DecimalField(decimal_places=2, max_digits=5)
+    pneumonia_cases = models.DecimalField(decimal_places=2, max_digits=5)
+    pneumonia_cases_with_Tx = models.DecimalField(decimal_places=2, max_digits=5)
+
+    fhsis = models.ForeignKey(FHSIS, on_delete=models.CASCADE)
+    sex = models.ForeignKey(Sex, on_delete=models.CASCADE)
+
+
+class STISurveillance(models.Model):
+
+    fhsis = models.ForeignKey(FHSIS, on_delete=models.CASCADE)
+
+    number_of_pregnant_women_seen = models.DecimalField(decimal_places=2, max_digits=5)
+    number_of_pregnant_women_with_Syphilis = models.DecimalField(decimal_places=2, max_digits=5)
+    number_of_pregnant_women_given_Penicillin = models.DecimalField(decimal_places=2, max_digits=5)
 

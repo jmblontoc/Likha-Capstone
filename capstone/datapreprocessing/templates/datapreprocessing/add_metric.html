@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Metric</title>
+</head>
+<body>
+    <h1>Add Metric</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <label>
+            <select>
+                <optgroup label="Health Care Waste Management">
+                    {% for x in hcwm %}
+                        <option>{{ x.verbose_name }}</option>
+                    {% endfor %}
+                </optgroup>
+                <optgroup label="Family Profile">
+                    {% for x in family_profile %}
+                        <option>{{ x.verbose_name }}</option>
+                    {% endfor %}
+                </optgroup>
+                <optgroup label="Unemployment Rate">
+                    <option>Unemployment Rate</option>
+                </optgroup>
+                <optgroup label="Informal Settlers">
+                    {% for x in informal_settlers %}
+                        <option>{{ x.verbose_name }}</option>
+                    {% endfor %}
+                </optgroup>
+            </select>
+        </label>
+        {% include 'core/helpers/form_template.html' %}
+        <input type="submit">
+    </form>
+</body>
+</html>

@@ -5,7 +5,7 @@ from django.db import models
 # Create your models here.
 
 
-class DataMap(models.Model):
+class Metric(models.Model):
 
     metric = models.CharField(max_length=150)
     threshold = models.DecimalField(max_digits=10, decimal_places=2)
