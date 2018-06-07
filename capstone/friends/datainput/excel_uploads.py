@@ -39,3 +39,26 @@ def is_valid_opt(sheet):
             if cell == '':
                 return False
     return True
+
+
+def is_valid_fhsis(sheet):
+
+    for a in range(4, 13):
+        if sheet.cell_value(a, 1) == '':
+            return False
+
+    exceptions = [21, 22, 28, 29, 34, 35, 38, 39, 43, 44, 47, 48]
+
+    for b in range(18, 61):
+
+        if b in exceptions:
+            continue
+
+        if sheet.cell_value(b, 1) == '' or sheet.cell_value(b, 2) == '':
+            return False
+
+    for c in range(64, 67):
+        if sheet.cell_value(c, 1) == '':
+            return False
+
+    return True

@@ -61,13 +61,15 @@ Upload data
 <tr>
 <td>FHSIS</td>
 <td>
-<a>
-Upload File
-</a>
+<form method="POST" action="{% url 'datainput:handle_fhsis_file' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="fhsis">
+    <input type="submit">
+</form>
 </td>
-<td>
-TODO
-</td>
+    <td>
+    TODO
+    </td>
 </tr>
 <tr>
 <td>Family Profile</td>

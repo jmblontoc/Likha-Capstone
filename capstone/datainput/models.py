@@ -395,7 +395,6 @@ class ChildCare(models.Model):
 class STISurveillance(models.Model):
 
     fhsis = models.ForeignKey(FHSIS, on_delete=models.CASCADE)
-
     number_of_pregnant_women_seen = models.DecimalField(decimal_places=2, max_digits=5)
     number_of_pregnant_women_with_Syphilis = models.DecimalField(decimal_places=2, max_digits=5)
     number_of_pregnant_women_given_Penicillin = models.DecimalField(decimal_places=2, max_digits=5)

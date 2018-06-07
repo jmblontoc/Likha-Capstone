@@ -31,6 +31,9 @@ urlpatterns = [
     # monthly reweigh
     path('patient/<int:id>/reweigh', views.reweigh, name='reweigh'),
 
+    # fhsis
+    path('bns/fhsis/upload', views.handle_fhsis_file, name='handle_fhsis_file'),
+
     # # # # # # # # # NUTRITIONIST URLS BELOW # # # # # # # # # #
 
     # nutritionist data upload
