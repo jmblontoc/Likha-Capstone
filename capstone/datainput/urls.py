@@ -70,6 +70,15 @@ urlpatterns = [
     # reject opt
     path('nutritionist/data_status/<int:id>/opt/reject/<int:opt_id>', views.reject_opt, name='reject_opt'),
 
+    # show fhsis
+    path('nutritionist/data_status/<int:id>/fhsis', views.show_fhsis, name='show_fhsis'),
+
+    # accept fhsis
+    path('nutritionist/data_status/<int:id>/fhsis/accept/<int:fhsis_id>', views.accept_fhsis, name='accept_fhsis'),
+
+    # reject fhsis
+    path('nutritionist/data_status/<int:id>/fhsis/reject/<int:fhsis_id>', views.reject_fhsis, name='reject_fhsis'),
+
     # view reweighing
     path('nutritionist/data_status/<int:id>/reweighing', views.view_reweighing, name='view_reweighing'),
 

@@ -437,6 +437,20 @@ def show_opt(request, id):
     return render(request, 'datainput/show_opt.html', context)
 
 
+@login_required
+def show_fhsis(request, id):
+
+    barangay = Barangay.objects.get(id=id)
+    fhsis = FHSIS.objects.filter(barangay=barangay)
+
+    context = {
+        'fhsis': fhsis,
+        'barangay': barangay
+    }
+
+    return render(request, 'datainput/show_fhsis.html', context)
+
+
 # This view lets the nutritionists view the opt and decide whether to approve or not
 @login_required
 def evaluate_opt(request, id, opt_id):
@@ -471,8 +485,6 @@ def accept_opt(request, id, opt_id):
         profile_from=user_from
     )
 
-
-
     messages.success(request, 'OPT validated successfully')
     return redirect('datainput:data_status_index')
 
@@ -495,6 +507,48 @@ def reject_opt(request, id, opt_id):
     opt.delete()
 
     messages.success(request, 'OPT rejected')
+    return redirect('datainput:data_status_index')
+
+
+@login_required
+def accept_fhsis(request, id, fhsis_id):
+
+    fhsis = FHSIS.objects.get(id=fhsis_id)
+    fhsis.status = 'Approved'
+    fhsis.save()
+
+    msg = 'Your OPT upload has been approved'
+    user_from = Profile.objects.get(user=request.user)
+    user_to = fhsis.uploaded_by
+
+    Notification.objects.create(
+        message=msg,
+        profile_to=user_to,
+        profile_from=user_from
+    )
+
+    messages.success(request, 'FHSIS validated successfully')
+    return redirect('datainput:data_status_index')
+
+
+@login_required
+def reject_fhsis(request, id, fhsis_id):
+
+    fhsis = FHSIS.objects.get(id=fhsis_id)
+
+    msg = 'Your FHSIS upload has been rejected. Please re-upload again'
+    user_from = Profile.objects.get(user=request.user)
+    user_to = fhsis.uploaded_by
+
+    Notification.objects.create(
+        message=msg,
+        profile_to=user_to,
+        profile_from=user_from
+    )
+
+    fhsis.delete()
+
+    messages.success(request, 'FHSIS record rejected.')
     return redirect('datainput:data_status_index')
 
 

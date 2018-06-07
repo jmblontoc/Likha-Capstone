@@ -93,6 +93,20 @@ class Barangay(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def has_fhsis(self):
+
+        return FHSIS.objects.filter(barangay=self, date__month=datetime.now().month, date__year=datetime.now().year).count() > 0
+
+    @property
+    def has_validated_fhsis(self):
+
+        fhsis = [FHSIS.objects.get(barangay=self, date__month=datetime.now().month, date__year=datetime.now().year)]
+
+        if len(fhsis) == 0:
+            return False
+
+        return fhsis[0].status == 'Approved'
 
 class OperationTimbang(models.Model):
 

@@ -7,7 +7,7 @@ from django.views import View
 from friends.datainput import validations
 from core.forms import UploadFileForm
 from core.models import Profile, Notification
-from datainput.models import OperationTimbang, MonthlyReweighing, FamilyProfile
+from datainput.models import OperationTimbang, MonthlyReweighing, FamilyProfile, FHSIS
 from friends import user_redirects
 from datetime import datetime
 
@@ -65,11 +65,18 @@ def bns_index(request):
     try:
         opt = OperationTimbang.objects.get(
             barangay=profile.barangay,
-            date__month=datetime.now().month,
             date__year=datetime.now().year
         )
     except OperationTimbang.DoesNotExist:
         opt = None
+
+    try:
+        fhsis = FHSIS.objects.get(
+            barangay=profile.barangay,
+            date__year=datetime.now().year
+        )
+    except FHSIS.DoesNotExist:
+        fhsis = None
 
     records = MonthlyReweighing.objects.filter(patient__barangay=profile.barangay, date__month=datetime.now().month)
 
@@ -85,7 +92,8 @@ def bns_index(request):
         'opt': opt,
         'fp': family_profiles,
         'has_mr': validations.has_monthly_reweighing(profile.barangay, datetime.now().month),
-        'approved_mr': approved_mr
+        'approved_mr': approved_mr,
+        'fhsis': fhsis
     }
 
     return render(request, 'core/bns_index.html', context)

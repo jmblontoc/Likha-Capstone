@@ -60,6 +60,7 @@ Upload data
 </tr>
 <tr>
 <td>FHSIS</td>
+{% if fhsis is None %}
 <td>
 <form method="POST" action="{% url 'datainput:handle_fhsis_file' %}" enctype="multipart/form-data">
     {% csrf_token %}
@@ -68,8 +69,12 @@ Upload data
 </form>
 </td>
     <td>
-    TODO
+    Not yet uploaded
     </td>
+{% else %}
+    <td>View FHSIS TODO</td>
+    <td>{{ fhsis.status }}</td>
+{% endif %}
 </tr>
 <tr>
 <td>Family Profile</td>
