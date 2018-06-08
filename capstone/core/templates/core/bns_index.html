@@ -1,93 +1,91 @@
 {% extends 'core/layout.html' %}
 {% block content %}
 
-    {% include 'core/helpers/notifications.html' %}
-    {% include 'core/helpers/messages.html' %}
-
-
-
-<div class="row">
-<div class="col-12">
-<div class="card card-primary">
-<div class="card-header">
-<h3 class="card-title">Upload Facility</h3>
-
+{% include 'core/helpers/notifications.html' %}
+{% include 'core/helpers/messages.html' %}
+<div class="content-wrapper" style="min-height: 620px;">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Barangay Nutrition Scholar Dashboard</h1>
+                    </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">BNS Dashboard</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Upload Facility</h3>
+                        </div>
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th>Data</th>
+                                        <th>Action</th>
+                                        <th>Status</th>
+                                    </tr>
+                                    <tr>
+                                        <td>eOPT</td>
+                                        {% if opt is None %}
+                                            <td>
+                                                <form method="POST" enctype="multipart/form-data" action="{% url 'datainput:handle_opt_file' %}">
+                                                    {% csrf_token %}
+                                                    <input type="file" name="eOPT">
+                                                    <input type="submit">
+                                                </form>
+                                            </td>
+                                            <td>Not yet uploaded</td>
+                                        {% else %}
+                                            <td>View OPT TODO</td>
+                                            <td>{{ opt.status }}</td>
+                                        {% endif %}
+                                    </tr>
+                                    <tr>
+                                        <td>Monthly Reweighing</td>
+                                        <td><a href="{% url 'datainput:monthly_reweighing_index' %}">Upload data</a></td>
+                                        <td>
+                                            {% if has_mr %}
+                                                {% if approved_mr %}
+                                                Approved
+                                                {% else %}
+                                                Complete but still needs approval
+                                                {% endif %}
+                                            {% else %}
+                                                Not yet complete
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>FHSIS</td>
+                                        <td><a>Upload File</a></td>
+                                        <td>TODO</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Family Profile</td>
+                                        <td><a href="{% url 'datainput:family_profiles' %}">Go to Family Profiles</a></td>
+                                        {% if fp is None %}
+                                            <td>Not yet uploaded</td>
+                                        {% else %}
+                                            <td>{{ fp.status }}</td>
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
-<!-- /.card-header -->
-<div class="card-body table-responsive p-0">
-<table class="table table-hover table-bordered">
-<tbody><tr>
-<th>Data</th>
-<th>Action</th>
-<th>Status</th>
-</tr>
-<tr>
-<td>eOPT</td>
-{% if opt is None %}
-<td>
-<form method="POST" enctype="multipart/form-data" action="{% url 'datainput:handle_opt_file' %}">
-{% csrf_token %}
-<input type="file" name="eOPT">
-<input type="submit">
-</form>
-</td>
-<td>Not yet uploaded</td>
-{% else %}
-<td>
-View OPT TODO
-</td>
-<td>{{ opt.status }}</td>
-{% endif %}
-</tr>
-<tr>
-<td>Monthly Reweighing</td>
-<td>
-<a href="{% url 'datainput:monthly_reweighing_index' %}">
-Upload data
-</a>
-</td>
-<td>
-    {% if has_mr %}
-        {% if approved_mr %}
-            Approved
-        {% else %}
-            Complete but still needs approval
-        {% endif %}
-    {% else %}
-        Not yet complete
-    {% endif %}
-</td>
-</tr>
-<tr>
-<td>FHSIS</td>
-<td>
-<a>
-Upload File
-</a>
-</td>
-<td>
-TODO
-</td>
-</tr>
-<tr>
-<td>Family Profile</td>
-<td>
-<a href="{% url 'datainput:family_profiles' %}">
-Go to Family Profiles
-</a>
-</td>
-{% if fp is None %}
-    <td>Not yet uploaded</td>
-{% else %}
-    <td>{{ fp.status }}</td>
-{% endif %}
-</tr>
-</tbody></table>
-</div>
-<!-- /.card-body -->
-</div>
-<!-- /.card -->
-</div>
-</div>
-
 {% endblock %}

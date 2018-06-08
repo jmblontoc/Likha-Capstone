@@ -1,136 +1,103 @@
 {% load static %}
 
 <html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Likha</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="{% static 'core/plugins/bootstrap/css/bootstrap.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'core/plugins/css/adminlte.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'core/plugins/font-awesome/css/font-awesome.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'core/plugins/datatables/jquery.dataTables.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'core/plugins/datatables/dataTables.bootstrap4.css' %}">
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Likha</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="{% static 'core/plugins/bootstrap/css/bootstrap.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'core/plugins/css/adminlte.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'core/plugins/font-awesome/css/font-awesome.css' %}">
-</head>
+        <script src="{% static 'core/plugins/jquery/jquery.min.js' %}"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        <script src="{% static 'core/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'core/plugins/datatables/jquery.dataTables.js' %}"></script>
+        <script src="{% static 'core/plugins/datatables/dataTables.bootstrap4.js' %}"></script>
+        <script src="{% static 'core/plugins/js/adminlte.min.js' %}"></script>
+    </head>
 
-<body class="sidebar-mini">
-<div class="wrapper">
+    <body class="sidebar-mini">
+        <div class="wrapper">
+            <nav class="main-header navbar navbar-expand border-bottom navbar-light bg-primary">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" data-widget="pushmenu" href="#" style="padding-top: 12px;"><i class="fa fa-bars"></i></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false" style="padding-top: 12px;">
+                            <i class="fa fa-bell-o"></i>
+                            <span class="badge badge-warning navbar-badge">15</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-left">
+                            <span class="dropdown-item dropdown-header">15 Notifications</span>
+                            <div class="dropdown-divider"></div>
+                            <div href="#" class="dropdown-item">
+                                <i class="fa fa-envelope mr-2"></i> 4 new messages
+                                <span class="float-right text-muted text-sm">3 mins</span>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <div href="#" class="dropdown-item dropdown-footer">See All Notifications</div>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="true" style="padding-top: 12px;">
+                            <i class="fa fa-cog"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                            <div class="dropdown-item">
+                                <div class="media">
+                                    <img src="{% static 'core/images/nnc.png' %}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                                    <div class="media-body">
+                                        <h3 class="dropdown-item-title">{{ profile.user.first_name }} {{ profile.user.last_name }}</h3>
+                                        <p class="text-sm">Barangay Nutrition Scholar</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <a href="{% url 'core:logout' %}">
+                                <div href="{% url 'core:logout' %}" class="dropdown-item dropdown-footer"><button type="submit" class="btn btn-primary btn-block">Logout</button></div>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
 
-<nav class="main-header navbar navbar-expand border-bottom navbar-light bg-primary">
-<ul class="navbar-nav">
-    <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" style="padding-top: 12px;"><i class="fa fa-bars"></i></a>
-    </li>
-
-    <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false" style="padding-top: 12px;">
-          <i class="fa fa-bell-o"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-left">
-          <span class="dropdown-item dropdown-header">15 Notifications</span>
-          <div class="dropdown-divider"></div>
-          <div href="#" class="dropdown-item">
-            <i class="fa fa-envelope mr-2"></i> 4 new messages
-            <span class="float-right text-muted text-sm">3 mins</span>
-          </div>
-          <div class="dropdown-divider"></div>
-          <div href="#" class="dropdown-item dropdown-footer">See All Notifications</div>
+            <aside class="main-sidebar elevation-4 sidebar-light-primary" style="min-height: 620px;">
+                <div class="brand-link bg-primary">
+                    <img src="{% static 'core/images/nnc.png' %}" class="brand-image img-circle" style="opacity: .8">
+                    <span class="brand-text font-weight-light">MCMCMAS</span>
+                </div>
+                <div class="sidebar">
+                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                        <div class="image">
+                            <img src="{% static 'core/images/com.png' %}" class="img-circle" alt="User Image">
+                        </div>
+                        <div class="info">
+                            <div class="d-block">{{ profile.user.first_name }} {{ profile.user.last_name }}</div>
+                        </div>
+                    </div>
+                    <nav class="mt-2">
+                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                            <li class="nav-header">BARANGAY NUTRITION SCHOLAR</li>
+                            <li class="nav-item">
+                                <a href="pages/widgets.html" class="nav-link active">
+                                    <i class="nav-icon fa fa-th"></i>
+                                    <p>BNS Dashboard</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </aside>
+            {% block content %}
+            {% endblock %}
         </div>
-      </li>
-</ul>
-    <ul class="navbar-nav ml-auto">
+    </body>
 
-
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="true" style="padding-top: 12px;">
-          <i class="fa fa-cog"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <div href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="{% static 'core/images/nnc.png' %}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  {{ profile.user.first_name }} {{ profile.user.last_name }}
-                </h3>
-                <p class="text-sm">Barangay Nutrition Scholar</p>
-              </div>
-            </div>
-          </div>
-          <div class="dropdown-divider"></div>
-          <a href="{% url 'core:logout' %}">
-          <div href="{% url 'core:logout' %}" class="dropdown-item dropdown-footer"><button type="submit" class="btn btn-primary btn-block">Logout</button></div>
-          </a>
-        </div>
-      </li>
-    </ul>
-  </nav>
-
-<aside class="main-sidebar elevation-4 sidebar-light-primary" style="min-height: 620px;">
-    <a href="index3.html" class="brand-link bg-primary">
-        <img src="{% static 'core/images/nnc.png' %}" class="brand-image img-circle" style="opacity: .8">
-        <span class="brand-text font-weight-light">AdminLTE 3</span>
-    </a>
-    <div class="sidebar">
-
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="image">
-                <img src="{% static 'core/images/com.png' %}" class="img-circle" alt="User Image">
-            </div>
-            <div class="info">
-                <a href="#" class="d-block">{{ profile.user.first_name }} {{ profile.user.last_name }}</a>
-            </div>
-        </div>
-
-        <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <li class="nav-header">BARANGAY NUTRITION SCHOLAR</li>
-                <li class="nav-item">
-                    <a href="pages/widgets.html" class="nav-link active">
-                        <i class="nav-icon fa fa-th"></i>
-                        <p>
-                        BNS Dashboard
-                        </p>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-</aside>
-
-<div class="content-wrapper" style="min-height: 620px;">
-<div class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Dashboard</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Dashboard v2</li>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div>
-<section class="content">
-<div class="container-fluid">
-
-
-    {% block content %}
-    {% endblock %}
-
-</div>
-</section>
-</div>
-
-</div>
-<script src="{% static 'core/plugins/jquery/jquery.min.js' %}"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-<script src="{% static 'core/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-<script src="{% static 'core/plugins/js/adminlte.min.js' %}"></script>
-</body>
 </html>

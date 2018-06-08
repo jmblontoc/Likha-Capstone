@@ -1,48 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Patients for Monthly Reweighing</title>
-</head>
-<body>
-    {% include 'core/helpers/notifications.html' %}
-    {% include 'core/helpers/messages.html' %}
+{% extends 'core/layout.html' %}
+{% block content %}
 
-    <h1>Patients for Monthly Reweighing for {{ barangay }}</h1>
+{% include 'core/helpers/notifications.html' %}
+{% include 'core/helpers/messages.html' %}
+<div class="content-wrapper" style="min-height: 620px;">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Barangay Nutrition Scholar Dashboard</h1>
+                    </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">BNS Dashboard</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Patients for Monthly Reweighing for {{ barangay }}</h3>
+                        </div>
+                        <div class="card-body">
+                                {% if not has_opt %}
+                                    OPT for this year is not found
+                                {% else %}
+                                    {% if patients.count == 0 %}
+                                    You have no patients yet. <a href="{% url 'datainput:add_patient' %}">Add</a> a patient now
+                                {% else %}
+                                <table id="example" class="table table-bordered table-hover dataTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Age in Months</th>
+                                            <th>Action</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for patient in patients %}
+                                        <tr>
+                                            <td>{{ patient.name }}</td>
+                                            <td>{{ patient.get_age }} months</td>
+                                            <td><a href="{% url 'datainput:patient_overview' patient.id %}">Nutritional Statuses</a></td>
+                                            <td>{{ patient.get_reweighing_status }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                <script>
+                                    $(document).ready(function() {
+                                        $('#example').DataTable({
+                                            "paging": true,
+                                            "lengthChange": false,
+                                            "ordering": true,
+                                            "autoWidth": false
+                                        });
+                                    } );
+                                </script>
+                                {% endif %}
+                                {% endif %}
 
-    {% if not has_opt %}
-        OPT for this year is not found
-    {% else %}
-        {% if patients.count == 0 %}
-            You have no patients yet. <a href="{% url 'datainput:add_patient' %}">Add</a> a patient now
-        {% else %}
-            <table border="1">
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Age in Months</th>
-                    <th>Action</th>
-                    <th>Status</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for patient in patients %}
-                    <tr>
-                        <td>{{ patient.name }}</td>
-                        <td>{{ patient.get_age }} months</td>
-                        <td>
-                            <a href="{% url 'datainput:patient_overview' patient.id %}">Nutritional Statuses</a>
-                        </td>
-                        <td>
-                            {{ patient.get_reweighing_status }}
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        {% endif %}
-    {% endif %}
-
-    <a href="{% url 'datainput:add_patient' %}"> Add a patient</a>
-</body>
-</html>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a href="{% url 'datainput:add_patient' %}">Add a patient</a>
+    </section>
+</div>
+{% endblock %}
