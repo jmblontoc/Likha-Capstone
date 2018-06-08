@@ -214,8 +214,10 @@ def monthly_reweighing_index(request):
     barangay = Profile.objects.get(user=request.user).barangay
     opt = OperationTimbang.objects.filter(barangay=barangay, date__year=datetime.now().year)
     patients = Patient.objects.filter(barangay=barangay)
+    profile = Profile.objects.get(user=request.user)
 
     context = {
+        'profile': profile,
         'patients': patients,
         'has_opt': len(opt) > 0,
         'barangay': barangay
