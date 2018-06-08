@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FHSIS </title>
+</head>
+<body>
+    {% include 'core/helpers/notifications.html' %}
+    {% include 'core/helpers/messages.html' %}
+
+    <h1>FHSIS Records of {{ barangay }}</h1>
+
+    {% if fhsis.count == 0 %}
+        <p>FHSIS has not yet been uploaded</p>
+    {% else %}
+        <table border="1">
+        <thead>
+        <tr>
+            <th>Record</th>
+            <th colspan="2">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for record in fhsis %}
+            <tr>
+                <td>Record for {{ record.date.year }}</td>
+                <td><a href="{% url 'datainput:accept_fhsis' barangay.id record.id %}">Accept</a></td>
+                <td><a href="{% url 'datainput:reject_fhsis' barangay.id record.id %}">Reject</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+    {% endif %}
+</body>
+</html>

@@ -12,10 +12,12 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from datainput.forms import FamilyProfileForm, PatientForm, MonthlyReweighingForm, HealthCareWasteManagementForm, \
     InformalSettlersForm, UnemploymentRateForm
-from friends.datainput import excel_uploads, validations
+from friends.datainput import excel_uploads, validations, misc
 from core.models import Profile, Notification
 from datainput.models import OperationTimbang, NutritionalStatus, AgeGroup, OPTValues, FamilyProfile, FamilyProfileLine, \
-    Patient, MonthlyReweighing, HealthCareWasteManagement, InformalSettlers, UnemploymentRate, Barangay
+    Patient, MonthlyReweighing, HealthCareWasteManagement, InformalSettlers, UnemploymentRate, Barangay, FHSIS, \
+    MaternalCare, STISurveillance, Immunization, Sex, Malaria, Tuberculosis, Schistosomiasis, Flariasis, Leprosy, \
+    ChildCare
 
 
 @login_required
@@ -23,7 +25,7 @@ def handle_opt_file(request):
 
     # error checking
     if len(request.FILES) == 0:
-        messages.error(request, 'Pleae submit a file')
+        messages.error(request, 'Please submit a file')
         return redirect('core:bns-index')
 
     file = request.FILES['eOPT']
@@ -46,7 +48,7 @@ def handle_opt_file(request):
     #         destination.write(chunk)
 
     barangay = Profile.objects.get(user=request.user).barangay
-    opt = OperationTimbang(barangay=barangay)
+    opt = OperationTimbang(barangay=barangay, status='Pending')
     opt.uploaded_by = Profile.objects.get(user=request.user)
     opt.save()
 
@@ -65,6 +67,8 @@ def handle_opt_file(request):
     # error checking ulit
 
     if not excel_uploads.is_valid_opt(sheet):
+        opt.delete()
+        os.remove(renamed)
         messages.error(request, 'There are unfilled cells in the sheet. Please fill them up')
         return redirect('core:bns-index')
 
@@ -111,7 +115,7 @@ def handle_family_profile_file(request):
 
     # error checking
     if len(request.FILES) == 0:
-        messages.error(request, 'Pleae submit a file')
+        messages.error(request, 'Please submit a file')
         return redirect('core:bns-index')
 
     file = request.FILES['family_profile']
@@ -435,6 +439,20 @@ def show_opt(request, id):
     return render(request, 'datainput/show_opt.html', context)
 
 
+@login_required
+def show_fhsis(request, id):
+
+    barangay = Barangay.objects.get(id=id)
+    fhsis = FHSIS.objects.filter(barangay=barangay)
+
+    context = {
+        'fhsis': fhsis,
+        'barangay': barangay
+    }
+
+    return render(request, 'datainput/show_fhsis.html', context)
+
+
 # This view lets the nutritionists view the opt and decide whether to approve or not
 @login_required
 def evaluate_opt(request, id, opt_id):
@@ -469,8 +487,6 @@ def accept_opt(request, id, opt_id):
         profile_from=user_from
     )
 
-
-
     messages.success(request, 'OPT validated successfully')
     return redirect('datainput:data_status_index')
 
@@ -493,6 +509,48 @@ def reject_opt(request, id, opt_id):
     opt.delete()
 
     messages.success(request, 'OPT rejected')
+    return redirect('datainput:data_status_index')
+
+
+@login_required
+def accept_fhsis(request, id, fhsis_id):
+
+    fhsis = FHSIS.objects.get(id=fhsis_id)
+    fhsis.status = 'Approved'
+    fhsis.save()
+
+    msg = 'Your OPT upload has been approved'
+    user_from = Profile.objects.get(user=request.user)
+    user_to = fhsis.uploaded_by
+
+    Notification.objects.create(
+        message=msg,
+        profile_to=user_to,
+        profile_from=user_from
+    )
+
+    messages.success(request, 'FHSIS validated successfully')
+    return redirect('datainput:data_status_index')
+
+
+@login_required
+def reject_fhsis(request, id, fhsis_id):
+
+    fhsis = FHSIS.objects.get(id=fhsis_id)
+
+    msg = 'Your FHSIS upload has been rejected. Please re-upload again'
+    user_from = Profile.objects.get(user=request.user)
+    user_to = fhsis.uploaded_by
+
+    Notification.objects.create(
+        message=msg,
+        profile_to=user_to,
+        profile_from=user_from
+    )
+
+    fhsis.delete()
+
+    messages.success(request, 'FHSIS record rejected.')
     return redirect('datainput:data_status_index')
 
 
@@ -620,6 +678,191 @@ def reject_family_profiles(request, id):
 
     messages.success(request, 'Family profiles rejected')
     return redirect('datainput:data_status_index')
+
+
+@login_required
+def handle_fhsis_file(request):
+
+    # error checking
+    if len(request.FILES) == 0:
+        messages.error(request, 'Please submit a file')
+        return redirect('core:bns-index')
+
+    file = request.FILES['fhsis']
+
+    # other error checking goes here TODO
+
+    # check if valid file type
+
+    file_extension = os.path.splitext(file.name)
+
+    print(file_extension[1])
+
+    if not file_extension[1] == '.xlsx':
+        messages.error(request, 'Please upload a valid excel file')
+        return redirect('core:bns-index')
+
+    # upload file
+    # with open(settings.MEDIA_ROOT + file.name, 'wb+') as destination:
+    #     for chunk in file.chunks():
+    #         destination.write(chunk)
+
+    path = os.path.join(settings.MEDIA_ROOT, 'fhsis', file.name)
+    temp_path = os.path.join(settings.MEDIA_ROOT, 'fhsis')
+    default_storage.save(path, file)
+
+    barangay = Profile.objects.get(user=request.user).barangay
+    fhsis = FHSIS(barangay=barangay, uploaded_by=Profile.objects.get(user=request.user), status='Pending')
+    fhsis.save()
+
+    renamed = os.path.join(temp_path, str(fhsis.id) + ".xlsx")
+    os.rename(path, renamed)
+
+    # handle excel file
+
+    workbook = xlrd.open_workbook(renamed)
+    sheet = workbook.sheet_by_index(0)
+
+    if not excel_uploads.is_valid_fhsis(sheet):
+        fhsis.delete()
+        os.remove(renamed)
+        messages.error(request, 'FHSIS file is incomplete. Upload again')
+        return redirect('core:bns-index')
+
+    # maternal care
+    maternal_fields = misc.get_fields(MaternalCare)[1:10]
+
+    mc = MaternalCare(fhsis=fhsis)
+
+    counter_mc = 0
+    for x in range(4, 13):
+        setattr(mc, maternal_fields[counter_mc], sheet.cell_value(x, 1))
+        counter_mc = counter_mc + 1
+
+    mc.save()
+
+    # sti surveillance
+    sti_fields = misc.get_fields(STISurveillance)[2:]
+    sti = STISurveillance(fhsis=fhsis)
+
+    counter_sti = 0
+    for x in range(64, 67):
+        setattr(sti, sti_fields[counter_sti], sheet.cell_value(x, 1))
+        counter_sti = counter_sti + 1
+    sti.save()
+
+    # immunization male
+    immunization_fields = misc.get_fields(Immunization)[1:4]
+    immunization_male = Immunization(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
+    immunization_female = Immunization(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
+
+    counter_immune = 0
+    for x in range(18, 21):
+
+        # male
+        setattr(immunization_male, immunization_fields[counter_immune], sheet.cell_value(x, 1))
+        # female
+        setattr(immunization_female, immunization_fields[counter_immune], sheet.cell_value(x, 2))
+
+        counter_immune = counter_immune + 1
+
+    immunization_female.save()
+    immunization_male.save()
+
+    # malaria
+    malaria_fields = misc.get_fields(Malaria)[1:6]
+    malaria_male = Malaria(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
+    malaria_female = Malaria(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
+    counter_malaria = 0
+
+    for x in range(23, 28):
+        setattr(malaria_male, malaria_fields[counter_malaria], sheet.cell_value(x, 1))
+        setattr(malaria_female, malaria_fields[counter_malaria], sheet.cell_value(x, 2))
+        counter_malaria = counter_malaria + 1
+
+    malaria_male.save()
+    malaria_female.save()
+
+    # tuberculosis
+
+    tb_fields = misc.get_fields(Tuberculosis)[1:5]
+    tb_male = Tuberculosis(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
+    tb_female = Tuberculosis(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
+    counter_tb = 0
+
+    for x in range(30, 34):
+        setattr(tb_male, tb_fields[counter_tb], sheet.cell_value(x, 1))
+        setattr(tb_female, tb_fields[counter_tb], sheet.cell_value(x, 2))
+        counter_tb = counter_tb + 1
+
+    tb_male.save()
+    tb_female.save()
+
+    # schistosomiasis
+    schisto_fields = misc.get_fields(Schistosomiasis)[1:3]
+    schisto_male = Schistosomiasis(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
+    schisto_female = Schistosomiasis(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
+    sc_counter = 0
+
+    for x in range(36, 38):
+        setattr(schisto_male, schisto_fields[sc_counter], sheet.cell_value(x, 1))
+        setattr(schisto_female, schisto_fields[sc_counter], sheet.cell_value(x, 2))
+        sc_counter = sc_counter + 1
+
+    schisto_male.save()
+    schisto_female.save()
+
+    # flariasis
+
+    flariasis_fields = misc.get_fields(Flariasis)[1:4]
+    flariasis_male = Flariasis(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
+    flariasis_female = Flariasis(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
+    flariasis_counter = 0
+
+    for x in range(40, 43):
+        setattr(flariasis_male, flariasis_fields[flariasis_counter], sheet.cell_value(x, 1))
+        setattr(flariasis_female, flariasis_fields[flariasis_counter], sheet.cell_value(x, 2))
+        flariasis_counter = flariasis_counter + 1
+
+    flariasis_male.save()
+    flariasis_female.save()
+
+    # leprosy
+
+    leprosy_fields = misc.get_fields(Leprosy)[1:3]
+    leprosy_male = Leprosy(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
+    leprosy_female = Leprosy(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
+    leprosy_counter = 0
+
+    for x in range(45, 47):
+        setattr(leprosy_male, leprosy_fields[leprosy_counter], sheet.cell_value(x, 1))
+        setattr(leprosy_female, leprosy_fields[leprosy_counter], sheet.cell_value(x, 2))
+        leprosy_counter = leprosy_counter + 1
+
+    leprosy_male.save()
+    leprosy_female.save()
+
+    # child care
+    child_care_fields = misc.get_fields(ChildCare)[1:13]
+    child_care_male = ChildCare(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
+    child_care_female = ChildCare(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
+    child_care_counter = 0
+
+    for x in range(49, 61):
+        setattr(child_care_male, child_care_fields[child_care_counter], sheet.cell_value(x, 1))
+        setattr(child_care_female, child_care_fields[child_care_counter], sheet.cell_value(x, 2))
+        child_care_counter = child_care_counter + 1
+
+    child_care_male.save()
+    child_care_female.save()
+
+
+    messages.success(request, 'FHSIS successfully uploaded')
+    return redirect('core:bns-index')
+
+
+    # error checking ulit
+
 
 
 

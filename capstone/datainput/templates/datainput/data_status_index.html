@@ -37,7 +37,7 @@
                         <tr><td>{{ barangay.has_opt|yesno:"Uploaded, Not Yet Uploaded" }}</td></tr>
                         <tr><td>{{ barangay.has_reweighed|yesno:"Uploaded, Not Yet Uploaded" }}</td></tr>
                         <tr><td>{{ barangay.has_family_profile|yesno:"Uploaded,Not Yet Uploaded" }}</td></tr>
-                        <tr><td>todo</td></tr>
+                        <tr><td>{{ barangay.has_fhsis|yesno:"Uploaded,Not Yet Uploaded" }}</td></tr>
                     </table>
                 </td>
                 <td>
@@ -45,15 +45,15 @@
                         <tr><td><a href="{% url 'datainput:show_opt' barangay.id %}">View</a></td></tr>
                         <tr><td><a href="{% url 'datainput:view_reweighing' barangay.id %}">View</a></td></tr>
                         <tr><td><a href="{% url 'datainput:show_family_profiles' barangay.id %}">View</a></td></tr>
-                        <tr><td><a>View</a></td></tr>
+                        <tr><td><a href="{% url 'datainput:show_fhsis' barangay.id %}">View</a></td></tr>
                     </table>
                 </td>
                 <td>
                     <table border="1">
                         <tr><td>{{ barangay.has_validated_opt|yesno:"Approved, Not Yet Approved" }}</td></tr>
                         <tr><td>{{ barangay.has_validated_reweighing|yesno:"Approved, Not Yet Approved" }}</td></tr>
-                        <tr><td>{{ barangay.has_family_profile|yesno:"Approved, Not Yet Approved" }}</td></tr>
-                        <tr><td>TODO</td></tr>
+                        <tr><td>{{ barangay.has_validated_family_profiles|yesno:"Approved, Not Yet Approved" }}</td></tr>
+                        <tr><td>{{ barangay.has_validated_fhsis|yesno:"Approved, Not Yet Approved" }}</td></tr>
                     </table>
                 </td>
             </tr>

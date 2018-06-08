@@ -1,6 +1,7 @@
 {% extends 'core/layout.html' %}
 {% block content %}
 
+<<<<<<< HEAD
 {% include 'core/helpers/notifications.html' %}
 {% include 'core/helpers/messages.html' %}
 <div class="content-wrapper" style="min-height: 620px;">
@@ -87,5 +88,96 @@
             </div>
         </div>
     </section>
+=======
+    {% include 'core/helpers/notifications.html' %}
+    {% include 'core/helpers/messages.html' %}
+
+
+
+<div class="row">
+<div class="col-12">
+<div class="card card-primary">
+<div class="card-header">
+<h3 class="card-title">Upload Facility</h3>
+
+</div>
+<!-- /.card-header -->
+<div class="card-body table-responsive p-0">
+<table class="table table-hover table-bordered">
+<tbody><tr>
+<th>Data</th>
+<th>Action</th>
+<th>Status</th>
+</tr>
+<tr>
+<td>eOPT</td>
+{% if opt is None %}
+<td>
+<form method="POST" enctype="multipart/form-data" action="{% url 'datainput:handle_opt_file' %}">
+{% csrf_token %}
+<input type="file" name="eOPT">
+<input type="submit">
+</form>
+</td>
+<td>Not yet uploaded</td>
+{% else %}
+<td>
+View OPT TODO
+</td>
+<td>{{ opt.status }}</td>
+{% endif %}
+</tr>
+<tr>
+<td>Monthly Reweighing</td>
+<td>
+<a href="{% url 'datainput:monthly_reweighing_index' %}">
+Upload data
+</a>
+</td>
+<td>
+    {% if has_mr %}
+        {% if approved_mr %}
+            Approved
+        {% else %}
+            Complete but still needs approval
+        {% endif %}
+    {% else %}
+        Not yet complete
+    {% endif %}
+</td>
+</tr>
+<tr>
+<td>FHSIS</td>
+{% if fhsis is None %}
+<td>
+<form method="POST" action="{% url 'datainput:handle_fhsis_file' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="fhsis">
+    <input type="submit">
+</form>
+</td>
+    <td>
+    Not yet uploaded
+    </td>
+{% else %}
+    <td>View FHSIS TODO</td>
+    <td>{{ fhsis.status }}</td>
+{% endif %}
+</tr>
+<tr>
+<td>Family Profile</td>
+<td>
+<a href="{% url 'datainput:family_profiles' %}">
+Go to Family Profiles
+</a>
+</td>
+{% if fp is None %}
+    <td>Not yet uploaded</td>
+{% else %}
+    <td>{{ fp.status }}</td>
+{% endif %}
+</tr>
+</tbody></table>
+>>>>>>> 26c071da6789a15b0f104251bc47cbe27b2ea297
 </div>
 {% endblock %}
