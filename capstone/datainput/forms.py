@@ -25,7 +25,7 @@ class MonthlyReweighingForm(ModelForm):
     class Meta:
         model = MonthlyReweighing
         fields = '__all__'
-        exclude = ['patient', 'date', 'status']
+        exclude = ['patient', 'date', 'status', 'uploaded_by']
 
 
 class HealthCareWasteManagementForm(ModelForm):

@@ -65,9 +65,9 @@ class Barangay(models.Model):
     @property
     def has_validated_opt(self):
 
-        opt = [OperationTimbang.objects.get(barangay=self, date__year=datetime.now().year)]
+        opt = OperationTimbang.objects.filter(barangay=self, date__year=datetime.now().year)
 
-        if len(opt) == 0:
+        if opt.count() == 0:
             return False
 
         return opt[0].status == 'Approved'
@@ -101,9 +101,9 @@ class Barangay(models.Model):
     @property
     def has_validated_fhsis(self):
 
-        fhsis = [FHSIS.objects.get(barangay=self, date__month=datetime.now().month, date__year=datetime.now().year)]
+        fhsis = FHSIS.objects.filter(barangay=self, date__month=datetime.now().month, date__year=datetime.now().year)
 
-        if len(fhsis) == 0:
+        if fhsis.count() == 0:
             return False
 
         return fhsis[0].status == 'Approved'
