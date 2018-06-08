@@ -108,6 +108,7 @@ class Barangay(models.Model):
 
         return fhsis[0].status == 'Approved'
 
+
 class OperationTimbang(models.Model):
 
     date = models.DateTimeField(default=datetime.now)

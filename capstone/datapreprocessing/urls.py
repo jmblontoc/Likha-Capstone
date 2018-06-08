@@ -2,7 +2,7 @@ from django.urls import path
 
 from datapreprocessing import views
 
-app_name = 'data-pre_processing'
+app_name = 'datapreprocessing'
 
 urlpatterns = [
     path('', views.index, name='index'),
