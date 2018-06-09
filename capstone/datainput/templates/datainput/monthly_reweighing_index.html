@@ -1,4 +1,4 @@
-{% extends 'core/layout.html' %}
+{% extends 'core/bns-layout.html' %}
 {% block content %}
 
 {% include 'core/helpers/notifications.html' %}
@@ -12,7 +12,8 @@
                     </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item">BNS Dashboard</li>
+                        <li class="breadcrumb-item"><a href="{% url 'core:bns-index' %}">BNS Dashboard</a></li>
+                        <li class="breadcrumb-item active">Monthly Reweighing</li>
                     </ol>
                 </div>
             </div>

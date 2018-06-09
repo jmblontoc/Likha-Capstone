@@ -1,12 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Patient</title>
-</head>
-<body>
-    {% include 'core/helpers/notifications.html' %}
-    {% include 'core/helpers/messages.html' %}
+{% extends 'core/bns-layout.html' %}
+{% block content %}
+
+{% include 'core/helpers/notifications.html' %}
+{% include 'core/helpers/messages.html' %}
+<div class="content-wrapper" style="min-height: 620px;">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Barangay Nutrition Scholar Dashboard</h1>
+                    </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{% url 'core:bns-index' %}">BNS Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'datainput:monthly_reweighing_index' %}">Monthly Reweighing</a></li>
+                        <li class="breadcrumb-item active">{{ patient.name }}</li>
+
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+<div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Nutritional Status</h3>
+                        </div>
+                        <div class="card-body">
+
 
     <h1>{{ patient.name }}</h1>
     <h2>{{ patient.get_age }} months old</h2>
@@ -14,7 +38,7 @@
     {% if weights.count == 0 %}
         This patient has no records yet
     {% else %}
-        <table class="table">
+        <table class="table table-hover table-bordered">
         <thead>
             <tr>
                 <th>Date</th>
@@ -42,5 +66,15 @@
         <a href="{% url 'datainput:reweigh' patient.id %}">Update {{ patient.name }}'s nutritional status</a>
     </div>
     {% endif %}
-</body>
-</html>
+
+
+
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+{% endblock %}
