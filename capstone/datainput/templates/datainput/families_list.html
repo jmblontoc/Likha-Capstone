@@ -1,18 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Family Profiles</title>
+{% extends 'core/bns-layout.html' %}
+{% block content %}
 
+{% include 'core/helpers/notifications.html' %}
+{% include 'core/helpers/messages.html' %}
+<div class="content-wrapper" style="min-height: 620px;">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Barangay Nutrition Scholar Dashboard</h1>
+                    </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{% url 'core:bns-index' %}">BNS Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'datainput:monthly_reweighing_index' %}">Monthly Reweighing</a></li>
+                        <li class="breadcrumb-item active">Reweighing</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-6">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Family Profiles</h3>
+                        </div>
+                        <div class="card-body">
     {% load static %}
 
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <script src="{% static 'datainput/js/data_input.js' %}"></script>
 
-</head>
-<body>
-    {% include 'core/helpers/notifications.html' %}
-    <h1>Family Profiles</h1>
+    <h1></h1>
 
     {% for family in profiles %}
         <div id="{{ family.id }}" class="family-div">
@@ -20,32 +42,105 @@
         </div>
     {% endfor %}
 
-    <div style="border: 1px solid black" class="fields">
-        <p>Household number: <span id="number"></span></p>
-        <p>Number of members: <span id="countMembers"></span></p>
-        <p>Number of 0 - 5 months: <span id="05"></span></p>
-        <p>Number of 6 - 23 months: <span id="623"></span></p>
-        <p>Number of 24 - 59 months: <span id="2459"></span></p>
-        <p>Number of over 60 months: <span id="60"></span></p>
-        <p>Occupation: <span id="occupation"></span></p>
-        <p>Educational Attainment: <span id="education"></span></p>
-        <p>Is Mother Pregnant <span id="pregnant"></span></p>
-        <p>Is Practicing Family Planning <span id="familyPlanning"></span></p>
-        <p>Is Practicing Exclusive Breastfeeding: <span id="ebf"></span></p>
-        <p>Is Practicing Mixed Milk Feeding: <span id="mmf"></span></p>
-        <p>Is Practicing Bottled Feeding: <span id="bottled"></span></p>
-        <p>Toilet Type: <span id="toilet"></span></p>
-        <p>Water Source: <span id="water"></span></p>
-        <p>Food Production: <span id="food"></span></p>
-        <p>Is Using Iodized Salt: <span id="salt"></span></p>
-        <p>Is Using Iron Fortification: <span id="iron"></span></p>
 
-    </div>
 
-    <style>
-        span {
-            font-weight: bold;
-        }
-    </style>
-</body>
-</html>
+</div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Family Profiles</h3>
+                        </div>
+                        <div class="card-body">
+<table class="table table-bordered table-hover">
+<tr>
+<td>Household number:</td>
+<td><span id="number"></span></td>
+</tr>
+<tr>
+<td>Number of members: </td>
+<td><span id="countMembers"></span></td>
+</tr>
+<tr>
+<td>Number of 0 - 5 months: </td>
+<td><span id="05"></span></td>
+</tr>
+<tr>
+<td>Number of 6 - 23 months: </td>
+<td><span id="623"></span></td>
+</tr>
+<tr>
+<td>Number of 24 - 59 months: </td>
+<td><span id="2459"></span></td>
+</tr>
+<tr>
+<td>Number of over 60 months: </td>
+<td><span id="60"></span></td>
+</tr>
+<tr>
+<td>Occupation: </td>
+<td><span id="occupation"></span></td>
+</tr>
+<tr>
+<td>Educational Attainment: </td>
+<td><span id="education"></span></td>
+</tr>
+<tr>
+<td>Is Mother Pregnant </td>
+<td><span id="pregnant"></span></td>
+</tr>
+<tr>
+<td>Is Practicing Family Planning </td>
+<td><span id="familyPlanning"></span></td>
+</tr>
+<tr>
+<td>Is Practicing Exclusive Breastfeeding: </td>
+<td><span id="ebf"></span></td>
+</tr>
+<tr>
+<td>Is Practicing Mixed Milk Feeding: </td>
+<td><span id="mmf"></span></td>
+</tr>
+<tr>
+<td>Is Practicing Bottled Feeding: </td>
+<td><span id="bottled"></span></td>
+</tr>
+<tr>
+<td>Toilet Type: </td>
+<td><span id="toilet"></span></td>
+</tr>
+<tr>
+<td>Water Source: </td>
+<td><span id="water"></span></td>
+</tr>
+<tr>
+<td>Food Production: </td>
+<td><span id="food"></span></td>
+</tr>
+<tr>
+<td>Is Using Iodized Salt: </td>
+<td><span id="salt"></span></td>
+</tr>
+<tr>
+<td>Is Using Iron Fortification: </td>
+<td><span id="iron"></span></td>
+</tr>
+</table>
+
+
+                            <style>
+                                span{
+                                text-transform: capitalize;
+                                font-weight: bold;
+                                }
+                            </style>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
