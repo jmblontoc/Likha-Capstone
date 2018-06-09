@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    $("div.family-div").click(function () {
+    $("tr.family-div").click(function () {
 
         id = $(this).attr('id');
 
