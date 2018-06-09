@@ -34,7 +34,7 @@
                                     {% if patients.count == 0 %}
                                     You have no patients yet. <a href="{% url 'datainput:add_patient' %}">Add</a> a patient now
                                 {% else %}
-                                <table id="example" class="table table-bordered table-hover dataTable">
+                                <table id="patient_overview" class="table table-bordered table-hover dataTable">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
@@ -56,9 +56,9 @@
                                 </table>
                                 <script>
                                     $(document).ready(function() {
-                                        $('#example').DataTable({
+                                        $('#patient_overview').DataTable({
                                             "paging": true,
-                                            "lengthChange": false,
+                                            "lengthChange": true,
                                             "ordering": true,
                                             "autoWidth": false
                                         });
