@@ -24,52 +24,45 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-12">
-<div class="card card-primary">
+                <div class="col-8">
+                    <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">Nutritional Status</h3>
                         </div>
                         <div class="card-body">
-
-
-    <h1>{{ patient.name }}</h1>
-    <h2>{{ patient.get_age }} months old</h2>
-
-    {% if weights.count == 0 %}
-        This patient has no records yet
-    {% else %}
-        <table class="table table-hover table-bordered">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Weight for Age</th>
-                <th>Height for Age</th>
-                <th>Weight for Height/Length</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for ns in weights %}
-                <tr>
-                    <td>{{ ns.date.month }}/{{ ns.date.year }}</td>
-                    <td>{{ ns.weight_for_age }}</td>
-                    <td>{{ ns.height_for_age }}</td>
-                    <td>{{ ns.weight_for_height_length }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-        </table>
-
-    {% endif %}
-
-    {% if is_bns %}
-    <div>
-        <a href="{% url 'datainput:reweigh' patient.id %}">Update {{ patient.name }}'s nutritional status</a>
-    </div>
-    {% endif %}
-
-
-
-                    </div>
+                            <h3>Name : <b>{{ patient.name }}</b></h3>
+                            <h4>Age : <b>{{ patient.get_age }} months old</b></h4><br>
+                            {% if weights.count == 0 %}
+                                This patient has no records yet
+                            {% else %}
+                            <table class="table table-hover table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Weight for Age</th>
+                                        <th>Height for Age</th>
+                                        <th>Weight for Height/Length</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for ns in weights %}
+                                    <tr>
+                                        <td>{{ ns.date.month }}/{{ ns.date.year }}</td>
+                                        <td>{{ ns.weight_for_age }}</td>
+                                        <td>{{ ns.height_for_age }}</td>
+                                        <td>{{ ns.weight_for_height_length }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            {% endif %}
+                            {% if is_bns %}
+                            <br>
+                            <div>
+                                <a class="btn btn-primary"  href="{% url 'datainput:reweigh' patient.id %}">Update {{ patient.name }}'s nutritional status</a>
+                            </div>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
