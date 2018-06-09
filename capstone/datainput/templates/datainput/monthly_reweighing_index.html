@@ -25,7 +25,7 @@
                 <div class="col-12">
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h3 class="card-title">Patients for Monthly Reweighing for {{ barangay }}</h3>
+                            <h3 class="card-title">Patients for Monthly Reweighing for {{ barangay }} <a href="{% url 'datainput:add_patient' %}" class="btn btn-default btn-sm" style="color:#004876;">Add a patient</a></h3>
                         </div>
                         <div class="card-body">
                                 {% if not has_opt %}
@@ -72,7 +72,6 @@
                 </div>
             </div>
         </div>
-        <a href="{% url 'datainput:add_patient' %}">Add a patient</a>
     </section>
 </div>
 {% endblock %}

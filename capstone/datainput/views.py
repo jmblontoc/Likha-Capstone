@@ -257,6 +257,7 @@ def patient_overview(request, id):
 
     context = {
         'patient': patient,
+        'profile': profile,
         'weights': weights,
         'is_bns': profile.user_type == 'Barangay Nutrition Scholar'
     }
