@@ -33,7 +33,7 @@
                             <h3>Name : <b>{{ patient.name }}</b></h3>
                             <h4>Age : <b>{{ patient.get_age }} months old</b></h4><br>
                             {% if weights.count == 0 %}
-                                This patient has no records yet
+                            <p>This patient has no records yet</p>
                             {% else %}
                             <table class="table table-hover table-bordered">
                                 <thead>
@@ -55,9 +55,9 @@
                                     {% endfor %}
                                 </tbody>
                             </table>
+                            <br>
                             {% endif %}
                             {% if is_bns %}
-                            <br>
                             <div>
                                 <a class="btn btn-primary"  href="{% url 'datainput:reweigh' patient.id %}">Update {{ patient.name }}'s nutritional status</a>
                             </div>

@@ -287,7 +287,11 @@ def reweigh(request, id):
         messages.success(request, 'Nutritional status updated!')
         return redirect('datainput:monthly_reweighing_index')
 
+    profile = Profile.objects.get(user=request.user)
+
     context = {
+        'patient': patient,
+        'profile': profile,
         'form': form
     }
 
