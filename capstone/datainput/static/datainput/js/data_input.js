@@ -1,7 +1,5 @@
 $(document).ready(function() {
 
-    console.log("ready");
-
     $("div.family-div").click(function () {
 
         id = $(this).attr('id');
@@ -16,6 +14,7 @@ $(document).ready(function() {
             success: function (data) {
 
                 var parsed = JSON.parse(data.profile)[0].fields;
+                console.log(parsed.is_using_iodized_salt);
 
                 $("#number").html(parsed.household_no);
                 $("#countMembers").html(parsed.no_members);
@@ -36,11 +35,15 @@ $(document).ready(function() {
                 $("#water").html(parsed.water_sources);
                 $("#food").html(parsed.food_production_activity);
 
-                $("div.fields").children().each(function () {
-                    console.log($(this).children('span')[0].innerHTML);
-                    var text = $(this).children('span')[0];
-                    if (text.innerText == '') {
-                        text.innerText = 'false';
+                var table = $(".f");
+
+                table.each(function () {
+                    var text = $(this);
+                    console.log(text);
+                    var isFalse = text.html() == '';
+                    console.log(isFalse);
+                    if (isFalse) {
+                        text.html("False");
                     }
                 });
 
