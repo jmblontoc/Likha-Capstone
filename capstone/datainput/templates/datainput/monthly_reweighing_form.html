@@ -30,13 +30,12 @@
                             <h3 class="card-title">Monthly Reweighing Form</h3>
                         </div>
                         <div class="card-body">
-
-    <form method="POST">
-        {% csrf_token %}
-        {% include 'core/helpers/form_template.html' %}
-        <input type="submit">
-    </form>
-</div>
+                            <form method="POST">
+                                {% csrf_token %}
+                                {% include 'core/helpers/form_template.html' %}
+                                <input type="submit">
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

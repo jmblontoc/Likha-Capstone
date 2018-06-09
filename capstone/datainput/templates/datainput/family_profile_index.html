@@ -1,23 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Family Profiles</title>
-</head>
-<body>
+{% extends 'core/bns-layout.html' %}
+{% block content %}
 
-    {% include 'core/helpers/notifications.html' %}
-    {% include 'core/helpers/messages.html' %}
-
-    {{ user }}
-    {{ barangay }}
+{% include 'core/helpers/notifications.html' %}
+{% include 'core/helpers/messages.html' %}
+<div class="content-wrapper" style="min-height: 620px;">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Barangay Nutrition Scholar Dashboard</h1>
+                    </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{% url 'core:bns-index' %}">BNS Dashboard</a></li>
+                        <li class="breadcrumb-item active">Family Profile</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-6">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Family Profile <a href="{% url 'datainput:add_family' %}" class="btn btn-default btn-sm" style="color:#004876;">Add family profile</a></h3>
+                        </div>
+                        <div class="card-body">
 
     {% if families.count == 0 %}
         <h1>There are no family profiles yet for the current year</h1>
     {% else %}
         <div>
             <h1>Profiles</h1>
-            <table border="1">
+            <table class="table table-bordered table-hover dataTable">
                 <tr>
                     <th>Profile</th>
                     <th>Status</th>
@@ -36,6 +53,11 @@
         </div>
     {% endif %}
 
-    <a href="{% url 'datainput:add_family' %}">Add family profile</a>
-</body>
-</html>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
