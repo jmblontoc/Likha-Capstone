@@ -13,8 +13,8 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{% url 'core:bns-index' %}">BNS Dashboard</a></li>
-                        <li class="breadcrumb-item"><a href="{% url 'datainput:monthly_reweighing_index' %}">Monthly Reweighing</a></li>
-                        <li class="breadcrumb-item active">Reweighing</li>
+                        <li class="breadcrumb-item"><a href="{% url 'datainput:family_profiles' %}">Family Profile</a></li>
+                        <li class="breadcrumb-item active">List of Families</li>
                     </ol>
                 </div>
             </div>
@@ -26,138 +26,130 @@
                 <div class="col-6">
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h3 class="card-title">Family Profiles</h3>
+                            <h3 class="card-title">List of Families</h3>
                         </div>
                         <div class="card-body">
-
-
-<table id="family_list" class="table table-bordered table-hover dataTable">
-<thead>
-<tr>
-<th style="width:30%;">Number</th>
-<th>Name</th>
-</tr>
-</thead>
-<tbody>
-{% for family in profiles %}
-
-<tr id="{{ family.id }}" class="family-div">
-<td>{{ family.household_no }}</td>
-<td>{{ family.household_head_name }}</td>
-</tr>
-{% endfor %}
-</tbody>
-</table>
-<script>
-$(document).ready(function(){
-$('#family_list').DataTable({
-"paging": true,
-"lengthChange": true,
-"ordering": true,
-"autoWidth": false
-});
-});
-</script>
-
+                            <table id="family_list" class="table table-bordered table-hover dataTable">
+                                <thead>
+                                    <tr>
+                                        <th style="width:30%;">Number</th>
+                                        <th>Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for family in profiles %}
+                                    <tr id="{{ family.id }}" class="family-div">
+                                        <td>{{ family.household_no }}</td>
+                                        <td>{{ family.household_head_name }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <script>
+                                $(document).ready(function(){
+                                    $('#family_list').DataTable({
+                                        "paging": true,
+                                        "lengthChange": true,
+                                        "ordering": true,
+                                        "autoWidth": false
+                                    });
+                                });
+                            </script>
                             {% load static %}
-
-    <script src="{% static 'datainput/js/data_input.js' %}"></script>
-</div>
-</div>
-</div>
-<div class="col-6">
-<div class="card card-primary">
-<div class="card-header">
-<h3 class="card-title">Family Profiles</h3>
-</div>
-<div class="card-body">
-<table class="table table-hover table-bordered">
-<tr>
-<th style="width:65%;">Data Point</th>
-<th>Value</th>
-</tr>
-<tr>
-<td>Household number:</td>
-<td><span id="number"></span></td>
-</tr>
-<tr>
-<td>Number of members: </td>
-<td><span id="countMembers"></span></td>
-</tr>
-<tr>
-<td>Number of 0 - 5 months: </td>
-<td><span id="05"></span></td>
-</tr>
-<tr>
-<td>Number of 6 - 23 months: </td>
-<td><span id="623"></span></td>
-</tr>
-<tr>
-<td>Number of 24 - 59 months: </td>
-<td><span id="2459"></span></td>
-</tr>
-<tr>
-<td>Number of over 60 months: </td>
-<td><span id="60"></span></td>
-</tr>
-<tr>
-<td>Occupation: </td>
-<td><span id="occupation"></span></td>
-</tr>
-<tr>
-<td>Educational Attainment: </td>
-<td><span id="education"></span></td>
-</tr>
-<tr>
-<td>Is Mother Pregnant </td>
-<td><span id="pregnant" class="f"></span></td>
-</tr>
-<tr>
-<td>Is Practicing Family Planning </td>
-<td><span id="familyPlanning" class="f"></span></td>
-</tr>
-<tr>
-<td>Is Practicing Exclusive Breastfeeding: </td>
-<td><span id="ebf" class="f"></span></td>
-</tr>
-<tr>
-<td>Is Practicing Mixed Milk Feeding: </td>
-<td><span id="mmf" class="f"></span></td>
-</tr>
-<tr>
-<td>Is Practicing Bottled Feeding: </td>
-<td><span id="bottled" class="f"></span></td>
-</tr>
-<tr>
-<td>Toilet Type: </td>
-<td><span id="toilet"></span></td>
-</tr>
-<tr>
-<td>Water Source: </td>
-<td><span id="water"></span></td>
-</tr>
-<tr>
-<td>Food Production: </td>
-<td><span id="food"></span></td>
-</tr>
-<tr>
-<td>Is Using Iodized Salt: </td>
-<td><span id="salt" class="f"></span></td>
-</tr>
-<tr>
-<td>Is Using Iron Fortification: </td>
-<td><span id="iron" class="f"></span></td>
-</tr>
-</table>
-
-
+                            <script src="{% static 'datainput/js/data_input.js' %}"></script>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Family Details</h3>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th style="width:65%;">Data Point</th>
+                                    <th>Value</th>
+                                </tr>
+                                <tr>
+                                    <td>Household number:</td>
+                                    <td><span id="number"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Number of members: </td>
+                                    <td><span id="countMembers"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Number of 0 - 5 months: </td>
+                                    <td><span id="05"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Number of 6 - 23 months: </td>
+                                    <td><span id="623"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Number of 24 - 59 months: </td>
+                                    <td><span id="2459"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Number of over 60 months: </td>
+                                    <td><span id="60"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Occupation: </td>
+                                    <td><span id="occupation"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Educational Attainment: </td>
+                                    <td><span id="education"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Is Mother Pregnant </td>
+                                    <td><span id="pregnant" class="f"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Is Practicing Family Planning </td>
+                                    <td><span id="familyPlanning" class="f"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Is Practicing Exclusive Breastfeeding: </td>
+                                    <td><span id="ebf" class="f"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Is Practicing Mixed Milk Feeding: </td>
+                                    <td><span id="mmf" class="f"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Is Practicing Bottled Feeding: </td>
+                                    <td><span id="bottled" class="f"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Toilet Type: </td>
+                                    <td><span id="toilet"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Water Source: </td>
+                                    <td><span id="water"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Food Production: </td>
+                                    <td><span id="food"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Is Using Iodized Salt: </td>
+                                    <td><span id="salt" class="f"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Is Using Iron Fortification: </td>
+                                    <td><span id="iron" class="f"></span></td>
+                                </tr>
+                            </table>
                             <style>
                                 span{
                                 text-transform: capitalize;
                                 font-weight: bold;
                                 }
                             </style>
-
                         </div>
                     </div>
                 </div>

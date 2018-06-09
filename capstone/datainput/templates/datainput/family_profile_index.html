@@ -28,32 +28,30 @@
                             <h3 class="card-title">Family Profile <a href="{% url 'datainput:add_family' %}" class="btn btn-default btn-sm" style="color:#004876;">Add family profile</a></h3>
                         </div>
                         <div class="card-body">
-
-    {% if families.count == 0 %}
-        <h1>There are no family profiles yet for the current year</h1>
-    {% else %}
-        <div>
-            <h1>Profiles</h1>
-            <table class="table table-bordered table-hover">
-                <tr>
-                    <th>Profile</th>
-                    <th>Status</th>
-                </tr>
-                {% for family in families %}
-                    <tr>
-                        <td>
-                            <a href="{% url 'datainput:show_profiles' family.id %}">
-                                Family Profile for {{ family.date.year }}
-                            </a>
-                        </td>
-                        <td>{{ family.status }}</td>
-                    </tr>
-                {% endfor %}
-            </table>
-        </div>
-    {% endif %}
-
-</div>
+                            {% if families.count == 0 %}
+                                <h1>There are no family profiles yet for the current year</h1>
+                            {% else %}
+                                <div>
+                                    <h1>Profiles</h1>
+                                    <table class="table table-bordered table-hover">
+                                        <tr>
+                                            <th>Profile</th>
+                                            <th>Status</th>
+                                        </tr>
+                                        {% for family in families %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{% url 'datainput:show_profiles' family.id %}">
+                                                        Family Profile for {{ family.date.year }}
+                                                    </a>
+                                                </td>
+                                                <td>{{ family.status }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
