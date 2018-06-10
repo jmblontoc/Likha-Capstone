@@ -315,8 +315,12 @@ def nutritionist_upload(request):
     has_informal = validations.has_informal_settlers()
     has_ur = validations.has_unemployment_rate()
 
+    profile = Profile.objects.get(user=request.user)
+
     context = {
+        'profile': profile,
         'has_health_care': has_health_care,
+        'active': 'du',
         'has_informal': has_informal,
         'has_ur': has_ur
     }
@@ -329,7 +333,11 @@ def health_care_waste_management_index(request):
 
     hcwm = HealthCareWasteManagement.objects.all()
 
+    profile = Profile.objects.get(user=request.user)
+
     context = {
+        'profile': profile,
+        'active': 'du',
         'hcwm': hcwm,
     }
 

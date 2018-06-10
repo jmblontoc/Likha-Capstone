@@ -54,9 +54,9 @@ $(document).ready(function() {
         });
     });
 
-    $("li.health_care_record").click(function() {
+    $("tr.health_care_record").click(function() {
         console.log("please");
-        var id = $(this)[0].id;
+        id = $(this).attr('id');
 
         $.ajax({
             url: "/data-input/nutritionist/show_health_care",

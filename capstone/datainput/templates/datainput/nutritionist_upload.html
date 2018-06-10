@@ -1,16 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Data Upload</title>
-</head>
-<body>
-    {% include 'core/helpers/notifications.html' %}
-    {% include 'core/helpers/messages.html' %}
+{% extends 'core/nutritionist-layout.html' %}
+{% block content %}
 
-    <h1>Data Upload</h1>
+{% include 'core/helpers/messages.html' %}
+<div class="content-wrapper" style="min-height: 620px;">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Data Upload</h1>
+                    </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">Data Upload</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Data Points</h3>
+                        </div>
+                        <div class="card-body p-0">
 
-    <table>
+    <table class="table table-hover table-bordered">
         <thead>
         <tr>
             <th>Data</th>
@@ -50,5 +67,11 @@
         </tr>
         </tbody>
     </table>
-</body>
-</html>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

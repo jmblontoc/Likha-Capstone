@@ -1,40 +1,115 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Health Care Waste Management</title>
+{% extends 'core/nutritionist-layout.html' %}
+{% block content %}
+
+{% include 'core/helpers/messages.html' %}
+<div class="content-wrapper" style="min-height: 620px;">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">City Nutritionist Data Upload</h1>
+                    </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{% url 'datainput:nutritionist_upload' %}">Data Upload</a></li>
+                        <li class="breadcrumb-item active">Health Care Waste Management</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-4">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">HCWM per Year  <a href="{% url 'datainput:add_hcwm' %}" class="btn btn-default btn-sm" style="color:#004876;">Add Record</a></h3>
+                        </div>
+                        <div class="card-body">
 
     {% load static %}
 
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <script src="{% static 'datainput/js/data_input.js' %}"></script>
-</head>
-<body>
-    {% include 'core/helpers/notifications.html' %}
-    {% include 'core/helpers/messages.html' %}
 
-    <h1>Health Care Waste Management</h1>
+<table id="family_list" class="table table-bordered table-hover dataTable">
+<thead>
+<tr>
+<th>Year</th>
+</tr>
+</thead>
+<tbody>
+{% if hcwm.count == 0 %}
+<p>No data recorded </p>
+{% else %}
+{% for record in hcwm %}
+<tr id="{{ record.id }}" class="health_care_record">
+<td>Data for {{ record.date.year }}</td>
+</tr>
+{% endfor %}
+{% endif %}
+</tbody>
+</table>
 
-    {% if hcwm.count == 0 %}
-        <p>No data recorded </p>
-    {% else %}
-        <ul>
-        {% for record in hcwm %}
-            <li id="{{ record.id }}" class="health_care_record">Data for {{ record.date.year }}</li>
-        {% endfor %}
-        </ul>
-    {% endif %}
 
-    <p><a href="{% url 'datainput:add_hcwm' %}">Add Record</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Health Care Waste Management Data</h3>
+                        </div>
+                        <div class="card-body">
+<table class="table table-bordered">
+    <thead>
+<tr>
+<th style="width:70%;">Data Point</th>
+<th>Value</th>
+</tr>
+    </thead>
+    <tbody>
+<tr>
+    <td>
+Health centers with syringe collection:</td><td><span class="hc1"></span>
+    </td>
+</tr>
+<tr>
+    <td>
+Households with access to improved or safe water:</td><td><span class="hc2"></span>
+    </td>
+</tr>
+<tr>
+    <td>
+Households with sanitary toilet:</td><td><span class="hc3"></span>
+    </td>
+</tr>
+<tr>
+    <td>
+Households with satisfactoral displosal of solid waste:</td><td><span class="hc4"></span>
+    </td>
+</tr>
+<tr>
+    <td>
+Household with complete basic sanitation facilities:</td><td><span class="hc5"></span>
+    </td>
+</tr>
+    </tbody>
+</table>
+                            <style>
+                                span{
+                                text-transform: capitalize;
+                                font-weight: bold;
+                                }
+                            </style>
 
-    <div>
-        <p>Health centers with syringe collection: <span class="hc1"></span></p>
-        <p>Households with access to improved or safe water: <span class="hc2"></span></p>
-        <p>Households with sanitary toilet: <span class="hc3"></span></p>
-        <p>Households with satisfactoral displosal of solid waste: <span class="hc4"></span></p>
-        <p>Household with complete basic sanitation facilities: <span class="hc5"></span></p>
+                        </div>
+                    </div>
+                </div>
 
-    </div>
-
-</body>
-</html>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

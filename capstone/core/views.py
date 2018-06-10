@@ -101,8 +101,11 @@ def bns_index(request):
 
 @login_required
 def nutritionist(request):
+    profile = Profile.objects.get(user=request.user)
 
     context = {
+        'profile': profile,
+        'active': 'db',
 
     }
 
