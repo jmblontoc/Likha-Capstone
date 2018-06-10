@@ -4,9 +4,11 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from friends.datapreprocessing import checkers
 from datainput.models import HealthCareWasteManagement, FamilyProfileLine, InformalSettlers, MaternalCare, Immunization, \
-    Malaria, Tuberculosis, Schistosomiasis, Flariasis, Leprosy, ChildCare
+    Malaria, Tuberculosis, Schistosomiasis, Flariasis, Leprosy, ChildCare, STISurveillance, NutritionalStatus
 from datapreprocessing.forms import MetricForm
 from datapreprocessing.models import Metric
+import operator
+from friends import datapoints
 
 
 @login_required
@@ -31,7 +33,7 @@ def add_metric(request):
     form = MetricForm(request.POST or None)
 
     hcwm = HealthCareWasteManagement._meta.get_fields()[2:]
-    family_profile = FamilyProfileLine._meta.get_fields()[2:]
+    family_profile = FamilyProfileLine._meta.get_fields()
     informal_settlers = InformalSettlers._meta.get_fields()[1:2]
     maternal = MaternalCare._meta.get_fields()[1:10]
     immunization = Immunization._meta.get_fields()[1:4]
@@ -41,12 +43,15 @@ def add_metric(request):
     flariasis = Flariasis._meta.get_fields()[1:4]
     leprosy = Leprosy._meta.get_fields()[1:3]
     child_care = ChildCare._meta.get_fields()[1:13]
+    sti = STISurveillance._meta.get_fields()[2:5]
+
+    fp = operator.itemgetter(3, 4, 5, 6, 7, 11, 12, 13, 14, 15, 19, 20)
 
 
     context = {
         'form': form,
         'hcwm': hcwm,
-        'family_profile': family_profile,
+        'family_profile': fp(family_profile),
         'informal_settlers': informal_settlers,
         'maternal': maternal,
         'immunization': immunization,
@@ -55,7 +60,13 @@ def add_metric(request):
         'schisto': schisto,
         'flariasis': flariasis,
         'leprosy': leprosy,
-        'child_care': child_care
+        'child_care': child_care,
+        'educ': datapoints.educational_attainment,
+        'toilet': datapoints.toilet_type,
+        'water': datapoints.water_sources,
+        'food': datapoints.food_production,
+        'sti': sti,
+        'nutritional_statuses': NutritionalStatus.objects.all()
     }
 
     if form.is_valid():

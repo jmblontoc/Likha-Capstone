@@ -13,13 +13,33 @@
             <select name="metric">
                 <optgroup label="Health Care Waste Management">
                     {% for x in hcwm %}
-                        <option>{{ x.verbose_name }}</option>
+                        <option value="Health Care Waste Management | {{ x.verbose_name }}">{{ x.verbose_name }}</option>
                     {% endfor %}
                 </optgroup>
                 <optgroup label="Family Profile">
                     {% for x in family_profile %}
-                        <option>{{ x.verbose_name }}</option>
+                        <option value="Family Profile | {{ x.verbose_name }}">{{ x.verbose_name }}</option>
                     {% endfor %}
+                    <optgroup label="Educational Attainment">
+                    {% for x in educ %}
+                        <option value="Family Profile | {{ x }}">{{ x }}</option>
+                    {% endfor %}
+                    </optgroup>
+                    <optgroup label="Toilet Type">
+                    {% for x in toilet %}
+                        <option value="Family Profile | {{ x }}">{{ x }}</option>
+                    {% endfor %}
+                    </optgroup>
+                    <optgroup label="Water Source">
+                    {% for x in water %}
+                        <option value="Family Profile | {{ x }}">{{ x }}</option>
+                    {% endfor %}
+                    </optgroup>
+                    <optgroup label="Food Production">
+                    {% for x in food %}
+                        <option value="Family Profile | {{ x }}">{{ x }}</option>
+                    {% endfor %}
+                    </optgroup>
                 </optgroup>
                 <optgroup label="Unemployment Rate">
                     <option>Unemployment Rate</option>
@@ -31,77 +51,92 @@
                 </optgroup>
                 <optgroup label="Maternal Care">
                     {% for x in maternal %}
-                        <option>{{ x.verbose_name }}</option>
+                        <option value="Maternal Care | {{ x.verbose_name }}">{{ x.verbose_name }}</option>
                     {% endfor %}
                 </optgroup>
                 <optgroup label="Immunization - Male">
                     {% for x in immunization %}
-                        <option value="{{ x.verbose_name }} - Male">{{ x.verbose_name }}</option>
+                        <option value="Immunization | {{ x.verbose_name }} | Male">{{ x.verbose_name }}</option>
                     {% endfor %}
                 </optgroup>
                 <optgroup label="Immunization - Female">
                     {% for x in immunization %}
-                        <option value="{{ x.verbose_name }} - Female">{{ x.verbose_name }}</option>
+                        <option value="Immunization | {{ x.verbose_name }} | Female">{{ x.verbose_name }}</option>
                     {% endfor %}
                 </optgroup>
                 <optgroup label="Malaria - Male">
                     {% for x in malaria %}
-                        <option value="{{ x.verbose_name }} - Male">{{ x.verbose_name }}</option>
+                        <option value="Malaria | {{ x.verbose_name }} | Male">{{ x.verbose_name }}</option>
                     {% endfor %}
                 </optgroup>
                 <optgroup label="Malaria - Female">
                     {% for x in malaria %}
-                        <option value="{{ x.verbose_name }} - Female">{{ x.verbose_name }}</option>
+                        <option value="Malaria | {{ x.verbose_name }} | Female">{{ x.verbose_name }}</option>
                     {% endfor %}
                 </optgroup>
                 <optgroup label="Tuberculosis - Male">
                     {% for x in tb %}
-                        <option value="{{ x.verbose_name }} - Male">{{ x.verbose_name }}</option>
+                        <option value="Tuberculosis | {{ x.verbose_name }} | Male">{{ x.verbose_name }}</option>
                     {% endfor %}
                 </optgroup>
                 <optgroup label="Tuberculosis - Female">
                     {% for x in tb %}
-                        <option value="{{ x.verbose_name }} - Female">{{ x.verbose_name }}</option>
+                        <option value="Tuberculosis | {{ x.verbose_name }} | Female">{{ x.verbose_name }}</option>
                     {% endfor %}
                 </optgroup>
                 <optgroup label="Schistosomiasis - Male">
                     {% for x in schisto %}
-                        <option value="{{ x.verbose_name }} - Male">{{ x.verbose_name }}</option>
+                        <option value="Schistosomiasis | {{ x.verbose_name }} | Male">{{ x.verbose_name }}</option>
                     {% endfor %}
                 </optgroup>
                 <optgroup label="Schistosomiasis - Female">
                     {% for x in schisto %}
-                        <option value="{{ x.verbose_name }} - Female">{{ x.verbose_name }}</option>
+                        <option value="Schistosomiasis | {{ x.verbose_name }} | Female">{{ x.verbose_name }}</option>
                     {% endfor %}
                 </optgroup>
                 <optgroup label="Flariasis - Male">
                     {% for x in flariasis %}
-                        <option value="{{ x.verbose_name }} - Male">{{ x.verbose_name }}</option>
+                        <option value="Flariasis | {{ x.verbose_name }} | Male">{{ x.verbose_name }}</option>
                     {% endfor %}
                 </optgroup>
                 <optgroup label="Flariasis - Female">
                     {% for x in flariasis %}
-                        <option value="{{ x.verbose_name }} - Female">{{ x.verbose_name }}</option>
+                        <option value="Flariasis | {{ x.verbose_name }} | Female">{{ x.verbose_name }}</option>
                     {% endfor %}
                 </optgroup>
                 <optgroup label="Leprosy - Male">
                     {% for x in leprosy %}
-                        <option value="{{ x.verbose_name }} - Male">{{ x.verbose_name }}</option>
+                        <option value="Leprosy | {{ x.verbose_name }} | Male">{{ x.verbose_name }}</option>
                     {% endfor %}
                 </optgroup>
                 <optgroup label="Leprosy - Female">
                     {% for x in leprosy %}
-                        <option value="{{ x.verbose_name }} - Female">{{ x.verbose_name }}</option>
+                        <option value="Leprosy | {{ x.verbose_name }} | Female">{{ x.verbose_name }}</option>
                     {% endfor %}
                 </optgroup>
                 <optgroup label="Child Care - Male">
                     {% for x in child_care %}
-                        <option value="{{ x.verbose_name }} - Male">{{ x.verbose_name }}</option>
+                        <option value="Child Care | {{ x.verbose_name }} | Male">{{ x.verbose_name }}</option>
                     {% endfor %}
                 </optgroup>
                 <optgroup label="Child Care - Female">
                     {% for x in child_care %}
-                        <option value="{{ x.verbose_name }} - Female">{{ x.verbose_name }}</option>
+                        <option value="ChildCare | {{ x.verbose_name }} | Female">{{ x.verbose_name }}</option>
+                    {% endfor %}
+                </optgroup>
+                <optgroup label="STI Surveillance">
+                    {% for x in sti %}
+                        <option value="STI Surveillance | {{ x.verbose_name }}">{{ x.verbose_name }}</option>
+                    {% endfor %}
+                </optgroup>
+                <optgroup label="Nutritional Status - Male">
+                    {% for x in nutritional_statuses %}
+                        <option value="Nutritional Status | {{ x.name }} | Male">{{ x.name }}</option>
+                    {% endfor %}
+                </optgroup>
+                <optgroup label="Nutritional Status - Female">
+                    {% for x in nutritional_statuses %}
+                        <option value="Nutritional Status | {{ x.name }} | Female">{{ x.name }}</option>
                     {% endfor %}
                 </optgroup>
             </select>
