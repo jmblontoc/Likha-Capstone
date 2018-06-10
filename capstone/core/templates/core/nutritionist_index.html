@@ -1,11 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Nutritionist</title>
-</head>
-<body>
-    {% include 'core/helpers/messages.html' %}
+{% extends 'core/nutritionist-layout.html' %}
+{% block content %}
+
+{% include 'core/helpers/notifications.html' %}
+{% include 'core/helpers/messages.html' %}
+<div class="content-wrapper" style="min-height: 620px;">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">City Nutritionist Dashboard</h1>
+                    </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">Nutritionist Dashboard</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Upload Facility</h3>
+                        </div>
+                        <div class="card-body table-responsive p-0">
+
     <h1>Nutritionist</h1>
 
     <h3>Gawin tong dashboard</h3>
@@ -16,7 +38,11 @@
     <p><a>Correlations and Forecasts</a></p>
     <p><a>Reports and Visualizations</a></p>
     <p><a>Causal Models</a></p>
-
-
-</body>
-</html>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

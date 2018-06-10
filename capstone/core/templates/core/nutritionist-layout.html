@@ -1,4 +1,5 @@
 {% load static %}
+
 <html>
     <head>
         <meta charset="UTF-8">
@@ -16,7 +17,7 @@
         <script src="{% static 'core/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
         <script src="{% static 'core/plugins/datatables/jquery.dataTables.js' %}"></script>
         <script src="{% static 'core/plugins/datatables/dataTables.bootstrap4.js' %}"></script>
-        <script src="{% static 'core/plugins/js/adminlte.js' %}"></script>
+        <script src="{% static 'core/plugins/js/adminlte.min.js' %}"></script>
     </head>
 
     <body class="sidebar-mini">
@@ -29,21 +30,17 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false" style="padding-top: 12px;">
                             <i class="fa fa-bell-o"></i>
-                            {% if unread_count > 0 %}
-                                <span class="badge badge-warning navbar-badge">
-                                {{ unread_count }}</span>
-                            {% endif %}
+                            <span class="badge badge-warning navbar-badge">15</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-left">
-                            <span class="dropdown-item dropdown-header">{{ unread_count }} Notification{% if unread_count > 1 %}s{% endif %}
-                            </span>
+                            <span class="dropdown-item dropdown-header">15 Notifications</span>
                             <div class="dropdown-divider"></div>
-                            <div style="height: 214; overflow-y: auto;">
-                            <div class="dropdown-divider"></div>
-                            {% include 'core/helpers/notifications.html' %}
+                            <div href="#" class="dropdown-item">
+                                <i class="fa fa-envelope mr-2"></i> 4 new messages
+                                <span class="float-right text-muted text-sm">3 mins</span>
                             </div>
                             <div class="dropdown-divider"></div>
-                            <div href="#" class="dropdown-item dropdown-footer">Mark all as read</div>
+                            <div href="#" class="dropdown-item dropdown-footer">See All Notifications</div>
                         </div>
                     </li>
                 </ul>
@@ -58,7 +55,7 @@
                                     <img src="{% static 'core/images/nnc.png' %}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
                                     <div class="media-body">
                                         <h3 class="dropdown-item-title">{{ profile.user.first_name }} {{ profile.user.last_name }}</h3>
-                                        <p class="text-sm">Barangay Nutrition Scholar</p>
+                                        <p class="text-sm">City Nutritionist</p>
                                     </div>
                                 </div>
                             </div>
@@ -87,11 +84,47 @@
                     </div>
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                            <li class="nav-header">BARANGAY NUTRITION SCHOLAR</li>
+                            <li class="nav-header">CITY NUTRITIONIST</li>
                             <li class="nav-item">
-                                <a href="{% url 'core:bns-index' %}" class="nav-link active">
+                                <a href="{% url 'core:nutritionist' %}" class="nav-link active">
                                     <i class="nav-icon fa fa-th"></i>
-                                    <p>BNS Dashboard</p>
+                                    <p>Nutritionist Dashboard</p>
+                                </a>
+                                </li>
+                            <li class="nav-item">
+                                <a href="{% url 'datainput:nutritionist_upload' %}" class="nav-link">
+                                    <i class="nav-icon fa fa-upload"></i>
+                                    <p>Data Upload</p>
+                                </a>
+                                </li>
+                            <li class="nav-item">
+                                <a href="{% url 'datainput:data_status_index' %}" class="nav-link">
+                                    <i class="nav-icon fa fa-file"></i>
+                                    <p>Data Status</p>
+                                </a>
+                                </li>
+                            <li class="nav-item">
+                                <a href="{% url 'datapreprocessing:index' %}" class="nav-link">
+                                    <i class="nav-icon fa fa-sliders"></i>
+                                    <p>Metrics and Thresholds</p>
+                                </a>
+                                </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fa fa-line-chart"></i>
+                                    <p>Correlations and Forecasts</p>
+                                </a>
+                                </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fa fa-pie-chart"></i>
+                                    <p>Reports and Visualizations</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fa fa-database"></i>
+                                    <p>Causal Models</p>
                                 </a>
                             </li>
                         </ul>

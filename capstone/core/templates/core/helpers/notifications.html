@@ -1,7 +1,17 @@
+{% if unread_count == 0 %}
+                                <div href="#" class="dropdown-item" style="padding: 10px;">
+            </div>
+<div class="dropdown-divider"></div>
+<div href="#" class="dropdown-item" style="padding: 10px;">
+ </div>
+                            {% endif %}
 {% for n in notifications %}
     {% if not n.is_read %}
-        <p>{{ n.message }}</p>
-        <p>By: {{ n.profile_from.user.first_name }} {{ n.profile_from.user.last_name }} at {{ n.date }}</p>
-        <p><a href="{% url 'core:mark_as_read' n.id %}">Mark as Read</a></p>
+        <div href="#" class="dropdown-item" style="padding: 10px;">
+            <span class="float-right" ><a class="btn btn-primary btn-sm" style="font-size: 8px;" href="{% url 'core:mark_as_read' n.id %}">Mark as read</a></span>
+            <p style="font-size: 13px">{{ n.message }}</p>
+            <p style="font-size: 8px">By: {{ n.profile_from.user.first_name }} {{ n.profile_from.user.last_name }} at {{ n.date }}</p>
+        </div>
+        <div class="dropdown-divider"></div>
     {% endif %}
 {% endfor %}
