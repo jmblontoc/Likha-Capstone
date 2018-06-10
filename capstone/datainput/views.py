@@ -470,7 +470,11 @@ def show_opt(request, id):
 
     opt = OperationTimbang.objects.filter(barangay=barangay)
 
+    profile = Profile.objects.get(user=request.user)
+
     context = {
+        'profile': profile,
+        'active': 'ds',
         'opt': opt,
         'barangay': barangay,
     }

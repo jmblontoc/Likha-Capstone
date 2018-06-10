@@ -11,7 +11,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item">Data Status</li>
+                        <li class="breadcrumb-item active">Data Status</li>
                     </ol>
                 </div>
             </div>
@@ -21,13 +21,44 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Data Status</h3>
-                        </div>
-                        <div class="card-body">
 
-    <table class="table table-bordered">
+
+
+
+            <div class="card card-primary">
+              <div class="card-header d-flex p-0">
+                <h3 class="card-title p-3">Data Status</h3>
+                <ul class="nav nav-pills ml-auto p-2">
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                      Select Barangay <span class="caret"></span>
+                    </a>
+                    <div class="dropdown-menu white" x-placement="bottom-start" style="position: absolute; transform: translate3d(-33px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
+
+                        {% for barangay in barangays %}
+                        <a class="dropdown-item" href="#tab_{{ forloop.counter }}" data-toggle="tab" style="color: #000;">{{ barangay.name }}</a>
+                        {% endfor %}
+                    </div>
+                  </li>
+                </ul>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+
+
+                <div class="tab-content">
+
+                    <div class="tab-pane active show" id="initial">
+                        <p style="text-align: center; margin: 0;">Please Select a Barangay</p>
+                    </div>
+
+
+
+                    {% for barangay in barangays %}
+                  <div class="tab-pane" id="tab_{{ forloop.counter }}">
+
+
+
+                      <table class="table table-bordered" style="margin: 0;">
         <thead>
         <tr>
             <th>Barangay</th>
@@ -38,7 +69,7 @@
         </tr>
         </thead>
         <tbody>
-        {% for barangay in barangays %}
+
             <tr>
                 <td rowspan="4" style="vertical-align:middle;">{{ barangay.name }}</td>
                 <td>eOPT</td>
@@ -64,13 +95,15 @@
                 <td><a href="{% url 'datainput:show_fhsis' barangay.id %}">View</a></td>
                 <td>{{ barangay.has_validated_fhsis|yesno:"Approved, Not Yet Approved" }}</td>
             </tr>
-        {% endfor %}
         </tbody>
     </table>
-                        </div>
-                    </div>
+                  </div>
+                    {% endfor %}
                 </div>
-            </div>
+                <!-- /.tab-content -->
+              </div><!-- /.card-body -->
+            </div></div>
+                </div>
         </div>
     </section>
 </div>

@@ -10922,10 +10922,16 @@ label:not(.form-check-label):not(.custom-file-label) {
   border-bottom: 0;
 }
 
+.card-primary .card-header .test{
+  color: #004876;
+}
+
 .card-primary:not(.card-outline) .card-header,
 .card-primary:not(.card-outline) .card-header a {
   color: #ffffff;
 }
+
+
 
 .card-primary.card-outline {
   border-top: 3px solid #004876;
@@ -11537,7 +11543,7 @@ label:not(.form-check-label):not(.custom-file-label) {
 }
 
 .nav-pills .nav-link:not(.active):hover {
-  color: #004876;
+  color: #ffffff;
 }
 
 /*
