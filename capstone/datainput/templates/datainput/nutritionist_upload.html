@@ -37,7 +37,7 @@
         <tbody>
         <tr>
             <td><a href="{% url 'datainput:health_care_index' %}">Health Care Waste Management</a></td>
-            <td>
+            <td style="font-weight: bold; color:{% if has_health_care %}#00a65a{% else %}#f56954{% endif %};">
                 {% if has_health_care %}
                     Up to date
                 {% else %}
@@ -47,7 +47,7 @@
         </tr>
         <tr>
             <td><a href="{% url 'datainput:informal_settlers_index' %}">Informal Settlers</a></td>
-            <td>
+            <td style="font-weight: bold; color:{% if has_informal %}#00a65a{% else %}#f56954{% endif %};">
                 {% if has_informal %}
                     Up to date
                 {% else %}
@@ -57,7 +57,7 @@
         </tr>
         <tr>
             <td><a href="{% url 'datainput:unemployment_rate_index' %}">Unemployment Rate</a></td>
-            <td>
+            <td style="font-weight: bold; color:{% if has_ur %}#00a65a{% else %}#f56954{% endif %};">
                 {% if has_ur %}
                     Up to date
                 {% else %}
