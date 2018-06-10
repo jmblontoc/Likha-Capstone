@@ -44,16 +44,16 @@
                                                     <input type="submit">
                                                 </form>
                                             </td>
-                                            <td>Not yet uploaded</td>
+                                            <td style="font-weight: bold; color:#f56954;>Not yet uploaded</td>
                                         {% else %}
                                             <td>View OPT TODO</td>
-                                            <td>{{ opt.status }}</td>
+                                            <td style="font-weight: bold; color:#00a65a;">{{ opt.status }}</td>
                                         {% endif %}
                                     </tr>
                                     <tr>
                                         <td>Monthly Reweighing</td>
                                         <td><a href="{% url 'datainput:monthly_reweighing_index' %}">Upload data</a></td>
-                                        <td>
+                                        <td style="font-weight: bold; color:{% if has_mr %}{% if approved_mr %}#00a65a{% else %}#f39c12{% endif %}{% else %}#f56954{% endif %};">
                                             {% if has_mr %}
                                                 {% if approved_mr %}
                                                 Approved
@@ -73,11 +73,13 @@
                                     <tr>
                                         <td>Family Profile</td>
                                         <td><a href="{% url 'datainput:family_profiles' %}">Go to Family Profiles</a></td>
+                                        <td style="font-weight: bold; color:{% if fp is None %}#f56954{% else %}#00a65a{% endif %};">
                                         {% if fp is None %}
-                                            <td>Not yet uploaded</td>
+                                            Not yet uploaded
                                         {% else %}
-                                            <td>{{ fp.status }}</td>
+                                            {{ fp.status }}
                                         {% endif %}
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

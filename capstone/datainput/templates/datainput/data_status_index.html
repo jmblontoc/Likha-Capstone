@@ -21,89 +21,74 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-
-
-
-
-            <div class="card card-primary">
-              <div class="card-header d-flex p-0">
-                <h3 class="card-title p-3">Data Status</h3>
-                <ul class="nav nav-pills ml-auto p-2">
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-                      Select Barangay <span class="caret"></span>
-                    </a>
-                    <div class="dropdown-menu white" x-placement="bottom-start" style="position: absolute; transform: translate3d(-33px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
-
-                        {% for barangay in barangays %}
-                        <a class="dropdown-item" href="#tab_{{ forloop.counter }}" data-toggle="tab" style="color: #000;">{{ barangay.name }}</a>
-                        {% endfor %}
+                    <div class="card card-primary">
+                        <div class="card-header d-flex p-0">
+                            <h3 class="card-title p-3">Data Status</h3>
+                            <ul class="nav nav-pills ml-auto p-2">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                                        Select Barangay <span class="caret"></span>
+                                    </a>
+                                    <div class="dropdown-menu white" x-placement="bottom-start" style="position: absolute; transform: translate3d(-33px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                        {% for barangay in barangays %}
+                                        <a class="dropdown-item" href="#tab_{{ forloop.counter }}" data-toggle="tab" style="color: #000;">{{ barangay.name }}</a>
+                                        {% endfor %}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="tab-pane active show" id="initial">
+                                    <p style="text-align: center; margin: 0;">Please Select a Barangay</p>
+                                </div>
+                                {% for barangay in barangays %}
+                                <div class="tab-pane" id="tab_{{ forloop.counter }}">
+                                    <table class="table table-bordered" style="margin: 0; vertical-align: middle;">
+                                        <thead>
+                                            <tr>
+                                                <th>Barangay</th>
+                                                <th>Data Source</th>
+                                                <th>BNS Status</th>
+                                                <th>Action</th>
+                                                <th>Nutritionist Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td rowspan="4" style="vertical-align:middle;">{{ barangay.name }}</td>
+                                                <td>eOPT</td>
+                                                <td>{{ barangay.has_opt|yesno:"Uploaded, Not Yet Uploaded" }}</td>
+                                                <td><a href="{% url 'datainput:show_opt' barangay.id %}">View</a></td>
+                                                <td style="font-weight: bold; color:{% if barangay.has_validated_opt %}#00a65a{% else %}#f56954{% endif %};">{{ barangay.has_validated_opt|yesno:"Approved, Not Yet Approved" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Monthly Reweighing</td>
+                                                <td>{{ barangay.has_reweighed|yesno:"Uploaded, Not Yet Uploaded" }}</td>
+                                                <td><a href="{% url 'datainput:view_reweighing' barangay.id %}">View</a></td>
+                                                <td style="font-weight: bold; color:{% if barangay.has_validated_reweighing %}#00a65a{% else %}#f56954{% endif %};">{{ barangay.has_validated_reweighing|yesno:"Approved, Not Yet Approved" }}</td>
+                                            </tr>
+                                            <trstyle="margin: 0; vertical-align: middle;">
+                                                <td>Family Profiles</td>
+                                                <td>{{ barangay.has_family_profile|yesno:"Uploaded,Not Yet Uploaded" }}</td>
+                                                <td><a href="{% url 'datainput:show_family_profiles' barangay.id %}">View</a></td>
+                                                <td style="font-weight: bold; color:{% if barangay.has_validated_family_profiles %}#00a65a{% else %}#f56954{% endif %};">{{ barangay.has_validated_family_profiles|yesno:"Approved, Not Yet Approved" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>FHSIS</td>
+                                                <td>{{ barangay.has_fhsis|yesno:"Uploaded,Not Yet Uploaded" }}</td>
+                                                <td><a href="{% url 'datainput:show_fhsis' barangay.id %}">View</a></td>
+                                                <td style="font-weight: bold; color:{% if barangay.has_validated_fhsis %}#00a65a{% else %}#f56954{% endif %};">{{ barangay.has_validated_fhsis|yesno:"Approved, Not Yet Approved" }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
                     </div>
-                  </li>
-                </ul>
-              </div><!-- /.card-header -->
-              <div class="card-body">
-
-
-                <div class="tab-content">
-
-                    <div class="tab-pane active show" id="initial">
-                        <p style="text-align: center; margin: 0;">Please Select a Barangay</p>
-                    </div>
-
-
-
-                    {% for barangay in barangays %}
-                  <div class="tab-pane" id="tab_{{ forloop.counter }}">
-
-
-
-                      <table class="table table-bordered" style="margin: 0;">
-        <thead>
-        <tr>
-            <th>Barangay</th>
-            <th>Data Source</th>
-            <th>BNS Status</th>
-            <th>Action</th>
-            <th>Nutritionist Status</th>
-        </tr>
-        </thead>
-        <tbody>
-
-            <tr>
-                <td rowspan="4" style="vertical-align:middle;">{{ barangay.name }}</td>
-                <td>eOPT</td>
-                <td>{{ barangay.has_opt|yesno:"Uploaded, Not Yet Uploaded" }}</td>
-                <td><a href="{% url 'datainput:show_opt' barangay.id %}">View</a></td>
-                <td>{{ barangay.has_validated_opt|yesno:"Approved, Not Yet Approved" }}</td>
-            </tr>
-            <tr>
-                <td>Monthly Reweighing</td>
-                <td>{{ barangay.has_reweighed|yesno:"Uploaded, Not Yet Uploaded" }}</td>
-                <td><a href="{% url 'datainput:view_reweighing' barangay.id %}">View</a></td>
-                <td>{{ barangay.has_validated_reweighing|yesno:"Approved, Not Yet Approved" }}</td>
-            </tr>
-            <tr>
-                <td>Family Profiles</td>
-                <td>{{ barangay.has_family_profile|yesno:"Uploaded,Not Yet Uploaded" }}</td>
-                <td><a href="{% url 'datainput:show_family_profiles' barangay.id %}">View</a></td>
-                <td>{{ barangay.has_validated_family_profiles|yesno:"Approved, Not Yet Approved" }}</td>
-            </tr>
-            <tr>
-                <td>FHSIS</td>
-                <td>{{ barangay.has_fhsis|yesno:"Uploaded,Not Yet Uploaded" }}</td>
-                <td><a href="{% url 'datainput:show_fhsis' barangay.id %}">View</a></td>
-                <td>{{ barangay.has_validated_fhsis|yesno:"Approved, Not Yet Approved" }}</td>
-            </tr>
-        </tbody>
-    </table>
-                  </div>
-                    {% endfor %}
                 </div>
-                <!-- /.tab-content -->
-              </div><!-- /.card-body -->
-            </div></div>
-                </div>
+            </div>
         </div>
     </section>
 </div>
