@@ -1,47 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Unemployment Rate</title>
-</head>
-<body>
-    {% include 'core/helpers/notifications.html' %}
-    {% include 'core/helpers/messages.html' %}
+{% extends 'core/nutritionist-layout.html' %}
+{% block content %}
 
-    <h1>Unemployment Rate</h1>
+{% include 'core/helpers/messages.html' %}
+<div class="content-wrapper" style="min-height: 620px;">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">City Nutritionist Data Upload</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{% url 'datainput:nutritionist_upload' %}">Data Upload</a></li>
+                        <li class="breadcrumb-item active">Unemployment Rate</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-6">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Unemployment Rate Record</h3>
+                        </div>
+                        <div class="card-body">
 
-    {% if records.count == 0 %}
-        No data recorded
-    {% else %}
-        <table>
+        <table class="table table-bordered">
         <thead>
         <tr>
-            <th>Year</th>
+            <th style="width: 50%;">Year</th>
             <th>Rate</th>
         </tr>
         </thead>
         <tbody>
-        {% for record in records %}
-            <tr>
-                <td>{{ record.date.year }}</td>
+
+        {% if records.count == 0 %}
+                                    <tr>
+                                        <td colspan="2" style="text-align: center;">No data recorded</td>
+                                    </tr>
+                                    {% else %}
+                                    {% for record in records %}
+                                    <tr>
+                                        <td>{{ record.date.year }}</td>
                 <td>{{ record.rate }}%</td>
-            </tr>
-        {% endfor %}
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
         </tbody>
         </table>
-    {% endif %}
-
+</div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Add Informal Settlers Record</h3>
+                        </div>
+                        <div class="card-body">
     {% if not has_record %}
         <h3>Add record</h3>
         <div>
             <form method="POST">
                 {% csrf_token %}
                 {% include 'core/helpers/form_template.html' %}
-                <input type="submit">
+                <input class="btn btn-primary col-4" type="submit">
             </form>
         </div>
     {% else %}
         <p>Data has already been recorded for this year</p>
     {% endif %}
-</body>
-</html>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

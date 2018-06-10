@@ -354,7 +354,11 @@ def add_hcwm(request):
 
     form = HealthCareWasteManagementForm(request.POST or None)
 
+    profile = Profile.objects.get(user=request.user)
+
     context = {
+        'profile': profile,
+        'active': 'du',
         'form': form
     }
 
@@ -401,7 +405,11 @@ def informal_settlers_index(request):
         messages.success(request, 'Data successfully uploaded')
         return redirect('datainput:informal_settlers_index')
 
+    profile = Profile.objects.get(user=request.user)
+
     context = {
+        'profile': profile,
+        'active': 'du',
         'records': records,
         'form': form,
         'has_record': has_record
@@ -425,7 +433,11 @@ def unemployment_rate_index(request):
         messages.success(request, 'Data successfully uploaded')
         return redirect('datainput:unemployment_rate_index')
 
+    profile = Profile.objects.get(user=request.user)
+
     context = {
+        'profile': profile,
+        'active': 'du',
         'form': form,
         'records': records,
         'has_record': validations.has_unemployment_rate()
@@ -440,7 +452,11 @@ def data_status_index(request):
 
     barangays = Barangay.objects.all()
 
+    profile = Profile.objects.get(user=request.user)
+
     context = {
+        'profile': profile,
+        'active': 'ds',
         'barangays': barangays
     }
 

@@ -1,16 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Data Status</title>
-</head>
-<body>
-    {% include 'core/helpers/notifications.html' %}
-    {% include 'core/helpers/messages.html' %}
+{% extends 'core/nutritionist-layout.html' %}
+{% block content %}
 
-    <h1>Data Status</h1>
+{% include 'core/helpers/messages.html' %}
+<div class="content-wrapper" style="min-height: 620px;">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">City Nutritionist Data Status</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">Data Status</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Data Status</h3>
+                        </div>
+                        <div class="card-body">
 
-    <table border="1">
+    <table class="table table-bordered">
         <thead>
         <tr>
             <th>Barangay</th>
@@ -23,42 +40,38 @@
         <tbody>
         {% for barangay in barangays %}
             <tr>
-                <td>{{ barangay.name }}</td>
-                <td>
-                    <table border="1">
-                        <tr><td>eOPT</td></tr>
-                        <tr><td>Monthly Reweighing</td></tr>
-                        <tr><td>Family Profiles</td></tr>
-                        <tr><td>FHSIS</td></tr>
-                    </table>
-                </td>
-                <td>
-                    <table border="1">
-                        <tr><td>{{ barangay.has_opt|yesno:"Uploaded, Not Yet Uploaded" }}</td></tr>
-                        <tr><td>{{ barangay.has_reweighed|yesno:"Uploaded, Not Yet Uploaded" }}</td></tr>
-                        <tr><td>{{ barangay.has_family_profile|yesno:"Uploaded,Not Yet Uploaded" }}</td></tr>
-                        <tr><td>{{ barangay.has_fhsis|yesno:"Uploaded,Not Yet Uploaded" }}</td></tr>
-                    </table>
-                </td>
-                <td>
-                    <table border="1">
-                        <tr><td><a href="{% url 'datainput:show_opt' barangay.id %}">View</a></td></tr>
-                        <tr><td><a href="{% url 'datainput:view_reweighing' barangay.id %}">View</a></td></tr>
-                        <tr><td><a href="{% url 'datainput:show_family_profiles' barangay.id %}">View</a></td></tr>
-                        <tr><td><a href="{% url 'datainput:show_fhsis' barangay.id %}">View</a></td></tr>
-                    </table>
-                </td>
-                <td>
-                    <table border="1">
-                        <tr><td>{{ barangay.has_validated_opt|yesno:"Approved, Not Yet Approved" }}</td></tr>
-                        <tr><td>{{ barangay.has_validated_reweighing|yesno:"Approved, Not Yet Approved" }}</td></tr>
-                        <tr><td>{{ barangay.has_validated_family_profiles|yesno:"Approved, Not Yet Approved" }}</td></tr>
-                        <tr><td>{{ barangay.has_validated_fhsis|yesno:"Approved, Not Yet Approved" }}</td></tr>
-                    </table>
-                </td>
+                <td rowspan="4" style="vertical-align:middle;">{{ barangay.name }}</td>
+                <td>eOPT</td>
+                <td>{{ barangay.has_opt|yesno:"Uploaded, Not Yet Uploaded" }}</td>
+                <td><a href="{% url 'datainput:show_opt' barangay.id %}">View</a></td>
+                <td>{{ barangay.has_validated_opt|yesno:"Approved, Not Yet Approved" }}</td>
+            </tr>
+            <tr>
+                <td>Monthly Reweighing</td>
+                <td>{{ barangay.has_reweighed|yesno:"Uploaded, Not Yet Uploaded" }}</td>
+                <td><a href="{% url 'datainput:view_reweighing' barangay.id %}">View</a></td>
+                <td>{{ barangay.has_validated_reweighing|yesno:"Approved, Not Yet Approved" }}</td>
+            </tr>
+            <tr>
+                <td>Family Profiles</td>
+                <td>{{ barangay.has_family_profile|yesno:"Uploaded,Not Yet Uploaded" }}</td>
+                <td><a href="{% url 'datainput:show_family_profiles' barangay.id %}">View</a></td>
+                <td>{{ barangay.has_validated_family_profiles|yesno:"Approved, Not Yet Approved" }}</td>
+            </tr>
+            <tr>
+                <td>FHSIS</td>
+                <td>{{ barangay.has_fhsis|yesno:"Uploaded,Not Yet Uploaded" }}</td>
+                <td><a href="{% url 'datainput:show_fhsis' barangay.id %}">View</a></td>
+                <td>{{ barangay.has_validated_fhsis|yesno:"Approved, Not Yet Approved" }}</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-</body>
-</html>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

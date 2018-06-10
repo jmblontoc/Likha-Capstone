@@ -103,7 +103,7 @@
                                 </a>
                                 </li>
                             <li class="nav-item">
-                                <a href="{% url 'datainput:data_status_index' %}" class="nav-link">
+                                <a href="{% url 'datainput:data_status_index' %}" class="nav-link {% if active == 'ds' %}active{% endif %}">
                                     <i class="nav-icon fa fa-file"></i>
                                     <p>Data Status</p>
                                 </a>
