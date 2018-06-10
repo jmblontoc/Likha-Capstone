@@ -14,6 +14,27 @@
     {% if metrics.count == 0 %}
         You have no metrics set yet
     {% else %}
+        <table border="1">
+        <thead>
+        <tr>
+            <th>Data Point</th>
+            <th>Value</th>
+            <th>Threshold</th>
+            <th colspan="2">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for metric in metrics %}
+            <tr>
+                <td>{{ metric.metric }}</td>
+                <td>{{ metric.get_total_value }}</td>
+                <td>{{ metric.threshold }}</td>
+                <td>Edit</td>
+                <td>Delete</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        </table>
     {% endif %}
 
     <p><a href="{% url 'datapreprocessing:add_metric' %}">Add a Metric</a></p>
