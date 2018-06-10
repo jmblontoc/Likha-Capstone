@@ -46,7 +46,7 @@
                 </optgroup>
                 <optgroup label="Informal Settlers">
                     {% for x in informal_settlers %}
-                        <option>{{ x.verbose_name }}</option>
+                        <option value="Informal Settlers | {{ x.verbose_name }}">{{ x.verbose_name }}</option>
                     {% endfor %}
                 </optgroup>
                 <optgroup label="Maternal Care">
