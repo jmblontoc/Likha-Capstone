@@ -30,17 +30,22 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false" style="padding-top: 12px;">
                             <i class="fa fa-bell-o"></i>
-                            <span class="badge badge-warning navbar-badge">15</span>
+                            {% if unread_count > 0 %}
+                                <span class="badge badge-warning navbar-badge">
+                                {{ unread_count }}</span>
+                            {% endif %}
                         </a>
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-left">
-                            <span class="dropdown-item dropdown-header">15 Notifications</span>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-left notifications">
+                            <span class="dropdown-item dropdown-header">
+                                {{ unread_count }} Notification{% if unread_count > 1 %}s{% endif %}
+                            </span>
                             <div class="dropdown-divider"></div>
-                            <div href="#" class="dropdown-item">
-                                <i class="fa fa-envelope mr-2"></i> 4 new messages
-                                <span class="float-right text-muted text-sm">3 mins</span>
+                            <div style="height: 214; overflow-y: auto;">
+                            <div class="dropdown-divider"></div>
+                            {% include 'core/helpers/notifications.html' %}
                             </div>
                             <div class="dropdown-divider"></div>
-                            <div href="#" class="dropdown-item dropdown-footer">See All Notifications</div>
+                            <div href="#" class="dropdown-item dropdown-footer">Mark all as read</div>
                         </div>
                     </li>
                 </ul>

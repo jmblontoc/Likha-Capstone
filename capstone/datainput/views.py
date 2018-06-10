@@ -142,8 +142,10 @@ def family_profiles(request):
 
     barangay = Profile.objects.get(user=request.user).barangay
     families = FamilyProfile.objects.filter(barangay=barangay, date__year=datetime.now().year)
+    profile = Profile.objects.get(user=request.user)
 
     context = {
+        'profile': profile,
         'barangay': barangay,
         'families': families
     }
@@ -174,7 +176,10 @@ def add_family_profile(request):
         messages.success(request, 'Family profile added successfully!')
         return redirect('datainput:family_profiles')
 
+    profile = Profile.objects.get(user=request.user)
+
     context = {
+        'profile': profile,
         'form': form
     }
 
@@ -186,7 +191,10 @@ def show_profiles(request, id):
 
     profiles = FamilyProfileLine.objects.filter(family_profile_id__exact=id)
 
+    profile = Profile.objects.get(user=request.user)
+
     context = {
+        'profile': profile,
         'profiles': profiles
     }
 
@@ -240,7 +248,10 @@ def add_patient(request):
         messages.success(request, 'Patient added successfully!')
         return redirect('datainput:monthly_reweighing_index')
 
+    profile = Profile.objects.get(user=request.user)
+
     context = {
+        'profile': profile,
         'form': form
     }
 
