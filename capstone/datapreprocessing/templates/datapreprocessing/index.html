@@ -31,16 +31,16 @@
                     <td>{{ metric.metric }}</td>
                     <td>{{ metric.get_total_value }}</td>
                     <td>{{ metric.threshold }}</td>
-                    <td>Edit</td>
-                    <td>Delete</td>
+                    <td><a href="{% url 'datapreprocessing:edit_metric' metric.id %}">Edit</a></td>
+                    <td><a href="{% url 'datapreprocessing:delete_metric' metric.id %}">Delete</a></td>
                 </tr>
             {% else %}
                 <tr>
                     <td>{{ metric.metric }}</td>
                     <td>{{ metric.get_total_value }}</td>
                     <td>{{ metric.threshold }}</td>
-                    <td>Edit</td>
-                    <td>Delete</td>
+                    <td><a href="{% url 'datapreprocessing:edit_metric' metric.id %}">Edit</a></td>
+                    <td><a href="{% url 'datapreprocessing:delete_metric' metric.id %}">Delete</a></td>
                 </tr>
             {% endif %}
         {% endfor %}

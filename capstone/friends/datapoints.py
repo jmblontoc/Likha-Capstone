@@ -29,3 +29,21 @@ food_production = [
     'Poultry/Livestock',
     'Vegetable Garden'
 ]
+
+main_family_profile = [
+    'no_members',
+    'count_05',
+    'count_623',
+    'count_2459',
+    'count_60'
+]
+
+boolean_fields_fp = [
+    'is_mother_pregnant',
+    'is_family_planning',
+    'is_ebf',
+    'is_mixed_milk_feeding',
+    'is_bottle_feeding',
+    'is_using_iodized_salt',
+    'is_using_ifr'
+]
