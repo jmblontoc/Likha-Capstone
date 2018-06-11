@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from friends.datapreprocessing import checkers
+from core.models import Profile, Notification
 from datainput.models import HealthCareWasteManagement, FamilyProfileLine, InformalSettlers, MaternalCare, Immunization, \
     Malaria, Tuberculosis, Schistosomiasis, Flariasis, Leprosy, ChildCare, STISurveillance, NutritionalStatus
 from datapreprocessing.forms import MetricForm
@@ -22,7 +23,11 @@ def index(request):
 
     metrics = Metric.objects.filter(is_completed=False)
 
+    profile = Profile.objects.get(user=request.user)
+
     context = {
+        'profile': profile,
+        'active': 'mt',
         'metrics': metrics,
         'date': datetime.now().date()
     }

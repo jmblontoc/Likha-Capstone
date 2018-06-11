@@ -58,26 +58,26 @@
                                             <tr>
                                                 <td rowspan="4" style="vertical-align:middle;">{{ barangay.name }}</td>
                                                 <td>eOPT</td>
-                                                <td>{{ barangay.has_opt|yesno:"Uploaded, Not Yet Uploaded" }}</td>
-                                                <td><a href="{% url 'datainput:show_opt' barangay.id %}">View</a></td>
+                                                <td style="font-weight: bold; color:{% if barangay.has_opt %}#00a65a{% else %}#f56954{% endif %};">{{ barangay.has_opt|yesno:"Uploaded, Not Yet Uploaded" }}</td>
+                                                <td><a class="btn btn-primary btn-sm col-12" href="{% url 'datainput:show_opt' barangay.id %}">View</a></td>
                                                 <td style="font-weight: bold; color:{% if barangay.has_validated_opt %}#00a65a{% else %}#f56954{% endif %};">{{ barangay.has_validated_opt|yesno:"Approved, Not Yet Approved" }}</td>
                                             </tr>
                                             <tr>
                                                 <td>Monthly Reweighing</td>
-                                                <td>{{ barangay.has_reweighed|yesno:"Uploaded, Not Yet Uploaded" }}</td>
-                                                <td><a href="{% url 'datainput:view_reweighing' barangay.id %}">View</a></td>
+                                                <td style="font-weight: bold; color:{% if barangay.has_reweighed %}#00a65a{% else %}#f56954{% endif %};">{{ barangay.has_reweighed|yesno:"Uploaded, Not Yet Uploaded" }}</td>
+                                                <td><a class="btn btn-primary btn-sm col-12" href="{% url 'datainput:view_reweighing' barangay.id %}">View</a></td>
                                                 <td style="font-weight: bold; color:{% if barangay.has_validated_reweighing %}#00a65a{% else %}#f56954{% endif %};">{{ barangay.has_validated_reweighing|yesno:"Approved, Not Yet Approved" }}</td>
                                             </tr>
                                             <trstyle="margin: 0; vertical-align: middle;">
                                                 <td>Family Profiles</td>
-                                                <td>{{ barangay.has_family_profile|yesno:"Uploaded,Not Yet Uploaded" }}</td>
-                                                <td><a href="{% url 'datainput:show_family_profiles' barangay.id %}">View</a></td>
+                                                <td style="font-weight: bold; color:{% if barangay.has_family_profile %}#00a65a{% else %}#f56954{% endif %};">{{ barangay.has_family_profile|yesno:"Uploaded,Not Yet Uploaded" }}</td>
+                                                <td><a class="btn btn-primary btn-sm col-12" href="{% url 'datainput:show_family_profiles' barangay.id %}">View</a></td>
                                                 <td style="font-weight: bold; color:{% if barangay.has_validated_family_profiles %}#00a65a{% else %}#f56954{% endif %};">{{ barangay.has_validated_family_profiles|yesno:"Approved, Not Yet Approved" }}</td>
                                             </tr>
                                             <tr>
                                                 <td>FHSIS</td>
-                                                <td>{{ barangay.has_fhsis|yesno:"Uploaded,Not Yet Uploaded" }}</td>
-                                                <td><a href="{% url 'datainput:show_fhsis' barangay.id %}">View</a></td>
+                                                <td style="font-weight: bold; color:{% if barangay.has_fhsis %}#00a65a{% else %}#f56954{% endif %};">{{ barangay.has_fhsis|yesno:"Uploaded,Not Yet Uploaded" }}</td>
+                                                <td><a class="btn btn-primary btn-sm col-12" href="{% url 'datainput:show_fhsis' barangay.id %}">View</a></td>
                                                 <td style="font-weight: bold; color:{% if barangay.has_validated_fhsis %}#00a65a{% else %}#f56954{% endif %};">{{ barangay.has_validated_fhsis|yesno:"Approved, Not Yet Approved" }}</td>
                                             </tr>
                                         </tbody>
@@ -92,4 +92,9 @@
         </div>
     </section>
 </div>
+<style>
+    td {
+        vertical-align: middle !important;
+    }
+</style>
 {% endblock %}

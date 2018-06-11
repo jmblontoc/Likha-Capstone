@@ -1,53 +1,89 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Metrics and Thresholds</title>
+{% extends 'core/nutritionist-layout.html' %}
+{% block content %}
 
-</head>
-<body>
-    {% include 'core/helpers/notifications.html' %}
-    {% include 'core/helpers/messages.html' %}
+{% include 'core/helpers/messages.html' %}
+<div class="content-wrapper" style="min-height: 620px;">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Metrics and Thresholds</h1>
+                    </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">Metrics and Thresholds</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Metrics and Thresholds <a href="{% url 'datapreprocessing:add_metric' %}" class="btn btn-default btn-sm" style="color:#004876;">Add a Metric</a></h3>
+                        </div>
+                        <div class="card-body">
+<table id="metricsthresholds" class="table table-bordered table-hover dataTable">
+<thead>
+<tr>
+<th style="width: 60%">Data Point</th>
+<th style="width: 10%">Value/Total as of {{ date }}</th>
+<th style="width: 10%">Threshold</th>
+<th style="width: 20%">Action</th>
+</tr>
+</thead>
+<tbody>
+{% if metrics.count == 0 %}
+<tr style="text-align: center;">
+<td colspan="4">You have no metrics set yet</td>
+</tr>
+{% else %}
 
-    <h1>Metrics and Thresholds</h1>
+{% for metric in metrics %}
+<!-- pagandahin mo na lang hahaha -->
+{% if metric.get_total_value >= metric.threshold %}
+<tr style="background-color: palevioletred">
+<td>{{ metric.metric }}</td>
+<td>{{ metric.get_total_value }}</td>
+<td>{{ metric.threshold }}</td>
+    <td style="text-align: center;"><a href="#" class="btn btn-primary btn-sm col-5">Edit</a> <a href="#" class="btn btn-danger btn-sm col-5">Delete</a></td>
+</tr>
+{% else %}
+<tr>
+<td>{{ metric.metric }}</td>
+<td>{{ metric.get_total_value }}</td>
+<td>{{ metric.threshold }}</td>
+<td style="text-align: center;"><a href="#" class="btn btn-primary btn-sm col-5">Edit</a> <a href="#" class="btn btn-danger btn-sm col-5">Delete</a></td>
+</tr>
+{% endif %}
+{% endfor %}
+{% endif %}
+</tbody>
+</table>
+<script>
+$(document).ready(function() {
+$('#metricsthresholds').DataTable({
+"paging": true,
+"lengthChange": true,
+"ordering": true,
+"autoWidth": false
+});
+});
+</script>
+</div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<style>
+    td {
+        vertical-align: middle !important;
+    }
+</style>
 
-    {% if metrics.count == 0 %}
-        You have no metrics set yet
-    {% else %}
-        <table border="1">
-        <thead>
-        <tr>
-            <th>Data Point</th>
-            <th>Value/Total as of {{ date }}</th>
-            <th>Threshold</th>
-            <th colspan="2">Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for metric in metrics %}
-            <!-- pagandahin mo na lang hahaha -->
-            {% if metric.get_total_value >= metric.threshold %}
-                <tr style="background-color: palevioletred">
-                    <td>{{ metric.metric }}</td>
-                    <td>{{ metric.get_total_value }}</td>
-                    <td>{{ metric.threshold }}</td>
-                    <td>Edit</td>
-                    <td>Delete</td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td>{{ metric.metric }}</td>
-                    <td>{{ metric.get_total_value }}</td>
-                    <td>{{ metric.threshold }}</td>
-                    <td>Edit</td>
-                    <td>Delete</td>
-                </tr>
-            {% endif %}
-        {% endfor %}
-        </tbody>
-        </table>
-    {% endif %}
 
-    <p><a href="{% url 'datapreprocessing:add_metric' %}">Add a Metric</a></p>
-</body>
-</html>
+{% endblock %}

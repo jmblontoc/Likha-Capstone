@@ -26,52 +26,58 @@
                             <h3 class="card-title">Data Points</h3>
                         </div>
                         <div class="card-body p-0">
-
-    <table class="table table-hover table-bordered">
-        <thead>
-        <tr>
-            <th>Data</th>
-            <th>Status</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td><a href="{% url 'datainput:health_care_index' %}">Health Care Waste Management</a></td>
-            <td style="font-weight: bold; color:{% if has_health_care %}#00a65a{% else %}#f56954{% endif %};">
-                {% if has_health_care %}
-                    Up to date
-                {% else %}
-                    No record for this year
-                {% endif %}
-            </td>
-        </tr>
-        <tr>
-            <td><a href="{% url 'datainput:informal_settlers_index' %}">Informal Settlers</a></td>
-            <td style="font-weight: bold; color:{% if has_informal %}#00a65a{% else %}#f56954{% endif %};">
-                {% if has_informal %}
-                    Up to date
-                {% else %}
-                    No record for this year
-                {% endif %}
-            </td>
-        </tr>
-        <tr>
-            <td><a href="{% url 'datainput:unemployment_rate_index' %}">Unemployment Rate</a></td>
-            <td style="font-weight: bold; color:{% if has_ur %}#00a65a{% else %}#f56954{% endif %};">
-                {% if has_ur %}
-                    Up to date
-                {% else %}
-                    No record for this year
-                {% endif %}
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+                            <table class="table table-hover table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Data</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="clickable-row" data-href="{% url 'datainput:health_care_index' %}" style="cursor: pointer;">
+                                        <td>Health Care Waste Management</td>
+                                        <td style="font-weight: bold; color:{% if has_health_care %}#00a65a{% else %}#f56954{% endif %};">
+                                            {% if has_health_care %}
+                                                Up to date
+                                            {% else %}
+                                                No record for this year
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr class="clickable-row" data-href="{% url 'datainput:informal_settlers_index' %}" style="cursor: pointer;">
+                                        <td>Informal Settlers</td>
+                                        <td style="font-weight: bold; color:{% if has_informal %}#00a65a{% else %}#f56954{% endif %};">
+                                            {% if has_informal %}
+                                                Up to date
+                                            {% else %}
+                                                No record for this year
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr class="clickable-row" data-href="{% url 'datainput:unemployment_rate_index' %}" style="cursor: pointer;">
+                                        <td>Unemployment Rate</td>
+                                        <td style="font-weight: bold; color:{% if has_ur %}#00a65a{% else %}#f56954{% endif %};">
+                                            {% if has_ur %}
+                                                Up to date
+                                            {% else %}
+                                                No record for this year
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 </div>
+<script>
+    jQuery(document).ready(function($) {
+    $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+    });
+});
+</script>
 {% endblock %}
