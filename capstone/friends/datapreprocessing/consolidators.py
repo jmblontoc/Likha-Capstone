@@ -2,7 +2,8 @@ from datetime import datetime
 
 from django.apps import apps
 
-from datainput.models import HealthCareWasteManagement, OPTValues, UnemploymentRate
+from datainput.models import HealthCareWasteManagement, OPTValues, UnemploymentRate, InformalSettlers, Sex, \
+    NutritionalStatus, MonthlyReweighing
 
 
 def get_value(metric):
@@ -12,28 +13,37 @@ def get_value(metric):
     # get model
     str_model = get_model(metric)
     model = apps.get_model('datainput', str_model)
-
+    print(get_reweighing_counts())
 
     # get field
     # not applicable for NutritionalStatuses
 
     if str_model == 'OPTValues':
-        print('todo')
+        status = NutritionalStatus.objects.get(name=phrase[1].strip())
+        sex = Sex.objects.get(name=phrase[2].strip())
+        return get_total_opt(status, sex)
 
     elif str_model == 'HealthCareWasteManagement':
         field = get_field(model, phrase[1])
-        return get_total_count(model, field, True, False, False)
+        return get_total_hcwm(field)
 
     elif str_model == 'InformalSettlers':
-        field = get_field(model, phrase[1])
-        return get_total_count(model, field, False, True, False)
+        return get_informal_settlers()
 
     elif str_model == 'UnemploymentRate':
         return UnemploymentRate.objects.filter(date__year=datetime.now().year)[0].rate
 
-    # args = is yearly, is monthly, is barangay level,
+    elif str_model == 'MaternalCare' or str_model == 'STISurveillance':
+        field = get_field(model, phrase[1])
+        return get_maternal_or_sti(model, field)
 
-    return 'wait lang'
+    elif str_model == 'Immunization' or str_model == 'Malaria' or str_model == 'Tuberculosis' or str_model == 'Schistosomiasis' \
+        or str_model == 'Flariasis' or str_model == 'Leprosy' or str_model == 'ChildCare':
+
+        field = get_field(model, phrase[1])
+        return get_total_with_sex(model, field, sex=Sex.objects.get(name=phrase[2].strip()))
+
+    return 0
 
 
 def get_model(metric):
@@ -84,30 +94,82 @@ def get_field(model, verbose):
     return None
 
 
-def get_total_count(model, field, is_annual, is_monthly, is_barangay):
+def get_total_hcwm(field):
 
-    if is_annual:
-        if not is_barangay:
+    count = 0
+    records = HealthCareWasteManagement.objects.filter(date__year=datetime.now().year)
 
-            # health care waste management
-            count = 0
-            records = model.objects.all().filter(date__year=datetime.now().year)
+    for record in records:
+        count = count + getattr(record, field)
 
-            for record in records:
-                count = count + getattr(record, field)
+    return count
 
-            return count
 
-    else:
-        if not is_barangay:
+def get_informal_settlers():
 
-            # informal settlers
-            count = 0
-            records = model.objects.all().filter(date__year=datetime.now().year)
+    count = 0
+    for record in InformalSettlers.objects.filter(date__year=datetime.now().year):
+        count = count + getattr(record, 'families_count')
 
-            for record in records:
-                count = count + getattr(record, field)
+    return count
 
-            return count
 
+# fhsis
+def get_maternal_or_sti(model, field):
+
+    records = model.objects.all().filter(fhsis__date__year=datetime.now().year)
+
+    count = 0
+    for record in records:
+        count = count + getattr(record, field)
+
+    return count
+
+
+def get_total_with_sex(model, field, sex):
+
+    records = model.objects.all().filter(fhsis__date__year=datetime.now().year, sex=sex)
+    count = 0
+    print(records)
+
+    for record in records:
+        count = count + getattr(record, field)
+
+    return count
+
+
+# NOTE: sex should be the string form and not the model
+def get_total_opt(status, sex):
+
+    records = OPTValues.objects.filter(opt__date__year=datetime.now().year,
+                                       nutritional_status=status,
+                                       age_group__sex=sex)
+
+    count = 0
+    for record in records:
+        count = count + record.values
+
+    return count
+
+
+def get_reweighing_counts(status=None, sex=None):
+
+    labels =  MonthlyReweighing._meta.get_fields()[2:5]
+    labels = [
+        'Weight for Age',
+        'Height for Age',
+        'Weight for Height/Length'
+    ]
+
+    records = MonthlyReweighing.objects.filter(date__year=datetime.now().year)
+
+    # status = 'Weight for Age - Overweight'
+
+    count = 0
+    for record in records:
+
+        if status in record.get_nutritional_status() and record.patient.sex == sex:
+            count = count + 1
+
+    return count
 

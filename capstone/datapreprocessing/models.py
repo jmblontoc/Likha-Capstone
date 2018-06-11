@@ -1,3 +1,4 @@
+import decimal
 from datetime import datetime
 from friends.datapreprocessing import consolidators
 from django.db import models
@@ -18,3 +19,4 @@ class Metric(models.Model):
     @property
     def get_total_value(self):
         return consolidators.get_value(self.metric)
+

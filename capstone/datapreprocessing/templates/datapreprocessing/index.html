@@ -18,20 +18,31 @@
         <thead>
         <tr>
             <th>Data Point</th>
-            <th>Value</th>
+            <th>Value/Total as of {{ date }}</th>
             <th>Threshold</th>
             <th colspan="2">Action</th>
         </tr>
         </thead>
         <tbody>
         {% for metric in metrics %}
-            <tr>
-                <td>{{ metric.metric }}</td>
-                <td>{{ metric.get_total_value }}</td>
-                <td>{{ metric.threshold }}</td>
-                <td>Edit</td>
-                <td>Delete</td>
-            </tr>
+            <!-- pagandahin mo na lang hahaha -->
+            {% if metric.get_total_value >= metric.threshold %}
+                <tr style="background-color: palevioletred">
+                    <td>{{ metric.metric }}</td>
+                    <td>{{ metric.get_total_value }}</td>
+                    <td>{{ metric.threshold }}</td>
+                    <td>Edit</td>
+                    <td>Delete</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td>{{ metric.metric }}</td>
+                    <td>{{ metric.get_total_value }}</td>
+                    <td>{{ metric.threshold }}</td>
+                    <td>Edit</td>
+                    <td>Delete</td>
+                </tr>
+            {% endif %}
         {% endfor %}
         </tbody>
         </table>

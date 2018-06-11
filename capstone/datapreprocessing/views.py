@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -21,7 +23,8 @@ def index(request):
     metrics = Metric.objects.filter(is_completed=False)
 
     context = {
-        'metrics': metrics
+        'metrics': metrics,
+        'date': datetime.now().date()
     }
 
     return render(request, 'datapreprocessing/index.html', context)

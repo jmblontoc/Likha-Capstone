@@ -231,6 +231,7 @@ class Patient(models.Model):
     name = models.CharField(max_length=100)
     date_of_birth = models.DateField()
     barangay = models.ForeignKey(Barangay, on_delete=models.CASCADE)
+    sex = models.ForeignKey(Sex, on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return self.name + " - " + self.barangay.name
@@ -264,6 +265,16 @@ class MonthlyReweighing(models.Model):
 
     def __str__(self):
         return self.patient.name
+
+    def get_nutritional_status(self):
+
+        statuses = [
+            'Height for Age - ' + str(self.height_for_age),
+            'Weight for Age - ' + str(self.weight_for_age),
+            'Weight for Height/Length - ' + str(self.weight_for_height_length)
+        ]
+
+        return statuses
 
 
 class HealthCareWasteManagement(models.Model):
