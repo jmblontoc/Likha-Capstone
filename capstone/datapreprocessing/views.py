@@ -8,7 +8,7 @@ from friends.datapreprocessing import checkers
 from core.models import Profile, Notification
 from datainput.models import HealthCareWasteManagement, FamilyProfileLine, InformalSettlers, MaternalCare, Immunization, \
     Malaria, Tuberculosis, Schistosomiasis, Flariasis, Leprosy, ChildCare, STISurveillance, NutritionalStatus
-from datapreprocessing.forms import MetricForm
+from datapreprocessing.forms import MetricForm, EditMetricForm
 from datapreprocessing.models import Metric
 import operator
 from friends import datapoints
@@ -87,3 +87,35 @@ def add_metric(request):
         return redirect('datapreprocessing:index')
 
     return render(request, 'datapreprocessing/add_metric.html', context)
+
+
+@login_required
+def delete_metric(request, id):
+
+    Metric.objects.get(id=id).delete()
+
+    messages.success(request, 'Metric deleted successfully')
+    return redirect('datapreprocessing:index')
+
+
+@login_required
+def edit_metric(request, id):
+
+    metric = Metric.objects.get(id=id)
+
+    form = EditMetricForm(request.POST or None, instance=metric)
+
+    if form.is_valid():
+        f = form.save(commit=False)
+        f.metric = metric.metric
+        f.save()
+
+        messages.success(request, 'Threshold successfully edited')
+        return redirect('datapreprocessing:index')
+
+    context = {
+        'form': form,
+        'metric': metric.metric
+    }
+
+    return render(request, 'datapreprocessing/edit_metric.html', context)
