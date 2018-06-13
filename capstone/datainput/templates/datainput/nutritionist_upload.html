@@ -29,40 +29,46 @@
                             <table class="table table-hover table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>Data</th>
-                                        <th>Status</th>
+                                        <th style="70%">Data</th>
+                                        <th style="3    0%">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr class="clickable-row" data-href="{% url 'datainput:health_care_index' %}" style="cursor: pointer;">
                                         <td>Health Care Waste Management</td>
-                                        <td style="font-weight: bold; color:{% if has_health_care %}#00a65a{% else %}#f56954{% endif %};">
-                                            {% if has_health_care %}
-                                                Up to date
-                                            {% else %}
-                                                No record for this year
-                                            {% endif %}
+                                        {% if has_ur %}
+                                        <td style="font-weight: bold; color: #00a65a;">
+                                            <i class="fa fa-check-circle"></i> Up to date
                                         </td>
+                                        {% else %}
+                                        <td style="font-weight: bold; color: #f56954;">
+                                            <i class="fa fa-exclamation-circle"></i> No record for this year
+                                        </td>
+                                        {% endif %}
                                     </tr>
                                     <tr class="clickable-row" data-href="{% url 'datainput:informal_settlers_index' %}" style="cursor: pointer;">
                                         <td>Informal Settlers</td>
-                                        <td style="font-weight: bold; color:{% if has_informal %}#00a65a{% else %}#f56954{% endif %};">
-                                            {% if has_informal %}
-                                                Up to date
-                                            {% else %}
-                                                No record for this year
-                                            {% endif %}
+                                        {% if has_ur %}
+                                        <td style="font-weight: bold; color: #00a65a;">
+                                            <i class="fa fa-check-circle"></i> Up to date
                                         </td>
+                                        {% else %}
+                                        <td style="font-weight: bold; color: #f56954;">
+                                            <i class="fa fa-exclamation-circle"></i> No record for this year
+                                        </td>
+                                        {% endif %}
                                     </tr>
                                     <tr class="clickable-row" data-href="{% url 'datainput:unemployment_rate_index' %}" style="cursor: pointer;">
                                         <td>Unemployment Rate</td>
-                                        <td style="font-weight: bold; color:{% if has_ur %}#00a65a{% else %}#f56954{% endif %};">
-                                            {% if has_ur %}
-                                                Up to date
-                                            {% else %}
-                                                No record for this year
-                                            {% endif %}
+                                        {% if has_ur %}
+                                        <td style="font-weight: bold; color: #00a65a;">
+                                            <i class="fa fa-check-circle"></i> Up to date
                                         </td>
+                                        {% else %}
+                                        <td style="font-weight: bold; color: #f56954;">
+                                            <i class="fa fa-exclamation-circle"></i> No record for this year
+                                        </td>
+                                        {% endif %}
                                     </tr>
                                 </tbody>
                             </table>
@@ -73,11 +79,4 @@
         </div>
     </section>
 </div>
-<script>
-    jQuery(document).ready(function($) {
-    $(".clickable-row").click(function() {
-        window.location = $(this).data("href");
-    });
-});
-</script>
 {% endblock %}

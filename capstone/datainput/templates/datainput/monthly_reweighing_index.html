@@ -36,19 +36,25 @@
                                 <table id="patient_overview" class="table table-bordered table-hover dataTable">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Age in Months</th>
-                                            <th>Action</th>
-                                            <th>Status</th>
+                                            <th style="width: 33%">Name</th>
+                                            <th style="width: 33%">Age in Months</th>
+                                            <th style="width: 33%">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {% for patient in patients %}
-                                        <tr>
+                                        <tr class="clickable-row" data-href="{% url 'datainput:patient_overview' patient.id %}" style="cursor: pointer;">
                                             <td>{{ patient.name }}</td>
                                             <td>{{ patient.get_age }} months</td>
-                                            <td><a href="{% url 'datainput:patient_overview' patient.id %}">Nutritional Status</a></td>
-                                            <td>{{ patient.get_reweighing_status }}</td>
+                                            {% if patient.get_reweighing_status == 'Updated' %}
+                                            <td style="color: #00a65a; font-weight: bold;">
+                                                <i class="fa fa-check-circle"></i> Updated
+                                            </td>
+                                            {% else %}
+                                            <td style="color: #f56954; font-weight: bold;">
+                                                <i class="fa fa-exclamation-circle"></i> Not Updated
+                                            </td>
+                                            {% endif %}
                                         </tr>
                                         {% endfor %}
                                     </tbody>
@@ -61,7 +67,7 @@
                                             "ordering": true,
                                             "autoWidth": false
                                         });
-                                    } );
+                                    });
                                 </script>
                                 {% endif %}
                                 {% endif %}
@@ -72,4 +78,9 @@
         </div>
     </section>
 </div>
+<style>
+    td {
+        vertical-align: middle !important;
+    }
+</style>
 {% endblock %}

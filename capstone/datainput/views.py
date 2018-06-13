@@ -190,12 +190,19 @@ def add_family_profile(request):
 def show_profiles(request, id):
 
     profiles = FamilyProfileLine.objects.filter(family_profile_id__exact=id)
-
+    barangay = Profile.objects.get(user=request.user).barangay
     profile = Profile.objects.get(user=request.user)
 
+    if profile.user_type == 'Barangay Nutrition Scholar':
+        template_values = 'core/bns-layout.html'
+    else:
+        template_values = 'core/nutritionist-layout.html'
+
     context = {
+        'template_values': template_values,
         'profile': profile,
-        'profiles': profiles
+        'profiles': profiles,
+        'barangay': barangay
     }
 
     return render(request, 'datainput/families_list.html', context)
@@ -665,7 +672,6 @@ def reject_reweighing(request, id):
 def show_family_profiles(request, id):
 
     barangay = Barangay.objects.get(id=id)
-
     profiles = FamilyProfile.objects.filter(barangay=barangay)
 
     context = {
