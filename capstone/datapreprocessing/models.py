@@ -20,3 +20,30 @@ class Metric(models.Model):
     def get_total_value(self):
         return consolidators.get_value(self.metric)
 
+    @property
+    def get_source(self):
+
+        phrase = self.metric.split("|")
+        return phrase[0].strip()
+
+    @property
+    def get_data_point(self):
+
+        try:
+            phrase = self.metric.split("|")
+            return phrase[1].strip()
+        except IndexError:
+            return 'Unemployment Rate'
+
+    @property
+    def get_sex(self):
+
+        try:
+            phrase = self.metric.split("|")
+            return phrase[2].strip()
+        except IndexError:
+            return 'N/A'
+
+
+
+

@@ -29,7 +29,9 @@
 <table id="metricsthresholds" class="table table-bordered table-hover dataTable">
 <thead>
 <tr>
+<th style="width: 60%">Source</th>
 <th style="width: 60%">Data Point</th>
+<th style="width: 60%">Gender</th>
 <th style="width: 10%">Value/Total as of {{ date }}</th>
 <th style="width: 10%">Threshold</th>
 <th style="width: 20%">Action</th>
@@ -46,14 +48,18 @@
 <!-- pagandahin mo na lang hahaha -->
 {% if metric.get_total_value >= metric.threshold %}
 <tr style="background-color: palevioletred">
-<td>{{ metric.metric }}</td>
+<td>{{ metric.get_source }}</td>
+<td>{{ metric.get_data_point }}</td>
+<td>{{ metric.get_sex }}</td>
 <td>{{ metric.get_total_value }}</td>
 <td>{{ metric.threshold }}</td>
     <td style="text-align: center;"><a href="{% url 'datapreprocessing:edit_metric' metric.id %}" class="btn btn-primary btn-sm col-5">Edit</a> <a href="{% url 'datapreprocessing:delete_metric' metric.id %}" class="btn btn-danger btn-sm col-5">Delete</a></td>
 </tr>
 {% else %}
 <tr>
-<td>{{ metric.metric }}</td>
+<td>{{ metric.get_source }}</td>
+<td>{{ metric.get_data_point }}</td>
+<td>{{ metric.get_sex }}</td>
 <td>{{ metric.get_total_value }}</td>
 <td>{{ metric.threshold }}</td>
 <td style="text-align: center;"><a href="{% url 'datapreprocessing:edit_metric' metric.id %}" class="btn btn-primary btn-sm col-5">Edit</a> <a href="{% url 'datapreprocessing:delete_metric' metric.id %}" class="btn btn-danger btn-sm col-5">Delete</a></td>

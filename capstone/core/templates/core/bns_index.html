@@ -44,7 +44,7 @@
                                                     <input type="submit">
                                                 </form>
                                             </td>
-                                            <td style="font-weight: bold; color:#f56954;>Not yet uploaded</td>
+                                            <td style="font-weight: bold; color:#f56954;">Not yet uploaded</td>
                                         {% else %}
                                             <td>View OPT TODO</td>
                                             <td style="font-weight: bold; color:#00a65a;">{{ opt.status }}</td>
@@ -67,8 +67,19 @@
                                     </tr>
                                     <tr>
                                         <td>FHSIS</td>
-                                        <td><a>Upload File</a></td>
-                                        <td>TODO</td>
+                                        {% if fhsis is None %}
+                                            <td>
+                                                <form method="POST" enctype="multipart/form-data" action="{% url 'datainput:handle_fhsis_file' %}">
+                                                    {% csrf_token %}
+                                                    <input type="file" name="fhsis">
+                                                    <input type="submit">
+                                                </form>
+                                            </td>
+                                            <td style="font-weight: bold; color:#f56954;">Not yet uploaded</td>
+                                        {% else %}
+                                            <td>View OPT TODO</td>
+                                            <td style="font-weight: bold; color:#00a65a;">{{ fhsis.status }}</td>
+                                        {% endif %}
                                     </tr>
                                     <tr>
                                         <td>Family Profile</td>
