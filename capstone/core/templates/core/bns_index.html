@@ -30,9 +30,9 @@
                             <table class="table table-hover table-bordered">
                                 <tbody>
                                     <tr>
-                                        <th>Data</th>
-                                        <th>Action</th>
-                                        <th>Status</th>
+                                        <th style="width: 33%;">Data</th>
+                                        <th style="width: 33%;">Action</th>
+                                        <th style="width: 33%;">Status</th>
                                     </tr>
                                     <tr>
                                         <td>eOPT</td>
@@ -44,26 +44,40 @@
                                                     <input type="submit">
                                                 </form>
                                             </td>
-                                            <td style="font-weight: bold; color:#f56954;">Not yet uploaded</td>
+                                            <td style="color: #f56954; font-weight: bold;">
+                                                <i class="fa fa-exclamation-circle"></i> Not yet uploaded
+                                            </td>
                                         {% else %}
                                             <td>View OPT TODO</td>
-                                            <td style="font-weight: bold; color:#00a65a;">{{ opt.status }}</td>
+                                            {% if opt.status == "Approved" %}
+                                            <td style="color: #00a65a; font-weight: bold;">
+                                                <i class="fa fa-check-circle"></i> Approved
+                                            </td>
+                                            {% else %}
+                                            <td style="color: #f39c12; font-weight: bold;">
+                                                <i class="fa fa-exclamation-circle"></i> Pending
+                                            </td>
+                                            {% endif %}
                                         {% endif %}
                                     </tr>
                                     <tr>
                                         <td>Monthly Reweighing</td>
                                         <td><a href="{% url 'datainput:monthly_reweighing_index' %}">Upload data</a></td>
-                                        <td style="font-weight: bold; color:{% if has_mr %}{% if approved_mr %}#00a65a{% else %}#f39c12{% endif %}{% else %}#f56954{% endif %};">
-                                            {% if has_mr %}
-                                                {% if approved_mr %}
-                                                Approved
-                                                {% else %}
-                                                Complete but still needs approval
-                                                {% endif %}
+                                        {% if has_mr %}
+                                            {% if approved_mr %}
+                                            <td style="color: #00a65a; font-weight: bold;">
+                                                <i class="fa fa-check-circle"></i> Approved
+                                            </td>
                                             {% else %}
-                                                Not yet complete
+                                            <td style="color: #f39c12; font-weight: bold;">
+                                                <i class="fa fa-exclamation-circle"></i> Complete but still needs approval
+                                            </td>
                                             {% endif %}
-                                        </td>
+                                        {% else %}
+                                            <td style="color: #f56954; font-weight: bold;">
+                                                <i class="fa fa-exclamation-circle"></i> Not yet complete
+                                            </td>
+                                        {% endif %}
                                     </tr>
                                     <tr>
                                         <td>FHSIS</td>
@@ -75,22 +89,38 @@
                                                     <input type="submit">
                                                 </form>
                                             </td>
-                                            <td style="font-weight: bold; color:#f56954;">Not yet uploaded</td>
+                                            <td style="font-weight: bold; color:#f56954;"><i class="fa fa-exclamation-circle"></i> Not yet uploaded</td>
                                         {% else %}
                                             <td>View OPT TODO</td>
-                                            <td style="font-weight: bold; color:#00a65a;">{{ fhsis.status }}</td>
+                                            {% if fhsis.status == "Approved" %}
+                                            <td style="color: #00a65a; font-weight: bold;">
+                                                <i class="fa fa-check-circle"></i> Approved
+                                            </td>
+                                            {% else %}
+                                            <td style="color: #f39c12; font-weight: bold;">
+                                                <i class="fa fa-exclamation-circle"></i> Pending
+                                            </td>
+                                            {% endif %}
                                         {% endif %}
                                     </tr>
                                     <tr>
                                         <td>Family Profile</td>
                                         <td><a href="{% url 'datainput:family_profiles' %}">Go to Family Profiles</a></td>
-                                        <td style="font-weight: bold; color:{% if fp is None %}#f56954{% else %}#00a65a{% endif %};">
                                         {% if fp is None %}
-                                            Not yet uploaded
+                                            <td style="color: #f56954; font-weight: bold;">
+                                                <i class="fa fa-exclamation-circle"></i> Not yet uploaded
+                                            </td>
                                         {% else %}
-                                            {{ fp.status }}
+                                            {% if fp.status == "Approved" %}
+                                            <td style="color: #00a65a; font-weight: bold;">
+                                                <i class="fa fa-check-circle"></i> Approved
+                                            </td>
+                                            {% else %}
+                                            <td style="color: #f39c12; font-weight: bold;">
+                                                <i class="fa fa-exclamation-circle"></i> Pending
+                                            </td>
+                                            {% endif %}
                                         {% endif %}
-                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

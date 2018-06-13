@@ -6,9 +6,9 @@
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Metrics and Thresholds</h1>
-                    </div>
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Metrics and Thresholds</h1>
+                </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item">Metrics and Thresholds</li>
@@ -23,63 +23,65 @@
                 <div class="col-12">
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h3 class="card-title">Metrics and Thresholds <a href="{% url 'datapreprocessing:add_metric' %}" class="btn btn-default btn-sm" style="color:#004876;">Add a Metric</a></h3>
+                            <h3 class="card-title">Metrics and Thresholds as of {{ date }} <a href="{% url 'datapreprocessing:add_metric' %}" class="btn btn-default btn-sm" style="color:#004876;">Add a Metric</a></h3>
                         </div>
                         <div class="card-body">
-<table id="metricsthresholds" class="table table-bordered table-hover dataTable">
-<thead>
-<tr>
-<th style="width: 60%">Source</th>
-<th style="width: 60%">Data Point</th>
-<th style="width: 60%">Gender</th>
-<th style="width: 10%">Value/Total as of {{ date }}</th>
-<th style="width: 10%">Threshold</th>
-<th style="width: 20%">Action</th>
-</tr>
-</thead>
-<tbody>
-{% if metrics.count == 0 %}
-<tr style="text-align: center;">
-<td colspan="4">You have no metrics set yet</td>
-</tr>
-{% else %}
-
-{% for metric in metrics %}
-<!-- pagandahin mo na lang hahaha -->
-{% if metric.get_total_value >= metric.threshold %}
-<tr style="background-color: palevioletred">
-<td>{{ metric.get_source }}</td>
-<td>{{ metric.get_data_point }}</td>
-<td>{{ metric.get_sex }}</td>
-<td>{{ metric.get_total_value }}</td>
-<td>{{ metric.threshold }}</td>
-    <td style="text-align: center;"><a href="{% url 'datapreprocessing:edit_metric' metric.id %}" class="btn btn-primary btn-sm col-5">Edit</a> <a href="{% url 'datapreprocessing:delete_metric' metric.id %}" class="btn btn-danger btn-sm col-5">Delete</a></td>
-</tr>
-{% else %}
-<tr>
-<td>{{ metric.get_source }}</td>
-<td>{{ metric.get_data_point }}</td>
-<td>{{ metric.get_sex }}</td>
-<td>{{ metric.get_total_value }}</td>
-<td>{{ metric.threshold }}</td>
-<td style="text-align: center;"><a href="{% url 'datapreprocessing:edit_metric' metric.id %}" class="btn btn-primary btn-sm col-5">Edit</a> <a href="{% url 'datapreprocessing:delete_metric' metric.id %}" class="btn btn-danger btn-sm col-5">Delete</a></td>
-</tr>
-{% endif %}
-{% endfor %}
-{% endif %}
-</tbody>
-</table>
-<script>
-$(document).ready(function() {
-$('#metricsthresholds').DataTable({
-"paging": true,
-"lengthChange": true,
-"ordering": true,
-"autoWidth": false
-});
-});
-</script>
-</div>
+                            <table id="metricsthresholds" class="table table-bordered table-hover dataTable">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 18%">Source</th>
+                                        <th style="width: 18%">Data Point</th>
+                                        <th style="width: 18">Gender</th>
+                                        <th style="width: 9%">Value/Total</th>
+                                        <th style="width: 9%">Threshold</th>
+                                        <th style="width: 9%">Status</th>
+                                        <th style="width: 19%">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if metrics.count == 0 %}
+                                    <tr style="text-align: center;">
+                                        <td colspan="4">You have no metrics set yet</td>
+                                    </tr>
+                                    {% else %}
+                                    {% for metric in metrics %}
+                                    {% if metric.get_total_value >= metric.threshold %}
+                                    <tr>
+                                        <td>{{ metric.get_source }}</td>
+                                        <td style="text-transform: capitalize;">{{ metric.get_data_point }}</td>
+                                        <td>{{ metric.get_sex }}</td>
+                                        <td>{{ metric.get_total_value }}</td>
+                                        <td>{{ metric.threshold }}</td>
+                                        <td style="font-weight: bold; color:#f56954"><i class="fa fa-exclamation-circle"></i> Alarming</td>
+                                        <td style="text-align: center;"><a href="{% url 'datapreprocessing:edit_metric' metric.id %}" class="btn btn-primary btn-sm col-5">Edit</a> <a href="{% url 'datapreprocessing:delete_metric' metric.id %}" class="btn btn-danger btn-sm col-5">Delete</a></td>
+                                    </tr>
+                                    {% else %}
+                                    <tr>
+                                        <td>{{ metric.get_source }}</td>
+                                        <td style="text-transform: capitalize;">{{ metric.get_data_point }}</td>
+                                        <td>{{ metric.get_sex }}</td>
+                                        <td>{{ metric.get_total_value }}</td>
+                                        <td>{{ metric.threshold }}</td>
+                                        <td style="font-weight: bold; color:#00a65a"><i class="fa fa-check-circle"></i> Normal</td>
+                                        <td style="text-align: center;"><a href="{% url 'datapreprocessing:edit_metric' metric.id %}" class="btn btn-primary btn-sm col-5">Edit</a> <a href="{% url 'datapreprocessing:delete_metric' metric.id %}" class="btn btn-danger btn-sm col-5">Delete</a></td>
+                                    </tr>
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                            <script>
+                                $(document).ready(function() {
+                                    $('#metricsthresholds').DataTable({
+                                        "paging": true,
+                                        "lengthChange": true,
+                                        "ordering": true,
+                                        "autoWidth": false
+                                    });
+                                });
+                            </script>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -90,5 +92,4 @@ $('#metricsthresholds').DataTable({
         vertical-align: middle !important;
     }
 </style>
-
 {% endblock %}
