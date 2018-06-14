@@ -21,12 +21,18 @@ def index(request):
             'statuses': nutritional_statuses,
         }
 
+        # test
         sex = Sex.objects.get(name='Female')
 
         # test
-        print(correlations.get_weight_values_per_month(nutritional_statuses[1], sex))
-        print(correlations.get_unemployment_rate())
-        print(correlations.get_informal_settlers())
+        # print(correlations.get_weight_values_per_month(nutritional_statuses[1], sex))
+        # print(correlations.get_fhsis(ChildCare, 'diarrhea_cases', sex))
+        x = correlations.make_variables(
+            correlations.get_weight_values_per_month(nutritional_statuses[1], sex),
+            correlations.get_fhsis(ChildCare, 'diarrhea_cases', sex)
+        )
+
+        print(correlations.get_correlation_score(x))
 
         return render(request, 'datamining/index.html', context)
 

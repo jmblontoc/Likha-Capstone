@@ -16,5 +16,8 @@ urlpatterns = [
     path('nutritionist/', views.nutritionist, name='nutritionist'),
 
     # mark notification as read
-    path('notification/mark_read/<int:id>', views.mark_as_read, name='mark_as_read')
+    path('notification/mark_read/<int:id>', views.mark_as_read, name='mark_as_read'),
+
+    # mark all as read
+    path('notification/mark_all_as_read', views.mark_all_as_read, name='mark_all')
 ]

@@ -1,8 +1,11 @@
 
 from datetime import datetime
 
+import numpy
+
 from datainput.models import NutritionalStatus, OPTValues, MonthlyReweighing, OperationTimbang, MaternalCare, \
     STISurveillance, UnemploymentRate, InformalSettlers
+import collections
 
 month_now = datetime.now().month
 year_now = datetime.now().year
@@ -10,19 +13,8 @@ year_now = datetime.now().year
 
 nutritional_statuses = NutritionalStatus.objects.all()
 
-# get all data points
-
-
-# get nutritional statuses by month
-
-
-# get nutritional statuses by year
-
-# get data points by month
-
-# get data points by year
-
 # # # # # # # # # # # # # # # # # # # # # # # # # #
+
 
 # get opt weights per year
 def get_weights_opt(status, sex, year):
@@ -155,7 +147,7 @@ def get_fhsis(model, field, sex):
         for record in records:
             count = count + getattr(record, field)
 
-        values[start_month] = count
+        values[start_month] = float(count)
         start_month = start_month + 1
 
     return values
@@ -174,6 +166,7 @@ def get_informal_settlers():
 
 # # # # # # # # # # # YEARLY DATA POINTS # # # # # # #
 
+
 # unemployment rate
 def get_unemployment_rate():
 
@@ -184,4 +177,80 @@ def get_unemployment_rate():
         values[rate.date.year] = float(rate.rate)
 
     return values
+
+
+# combine data points to form (x,y) two variables -- MONTHLY
+def make_variables(n_status, variable):
+
+    final_list = []
+
+    # sort by key
+    sorted_a = sorted(n_status.items())
+    sorted_b = sorted(variable.items())
+
+    length = len(sorted_a)
+
+    for x in range(0, length):
+
+        final_list.append(
+            (sorted_a[x][1], sorted_b[x][1])
+        )
+
+    return final_list
+
+
+# # # # # # # PEARSON CORRELATION # # # # # #
+def get_correlation_score(numbers):
+
+    product = get_sv(numbers, 0) * get_sv(numbers, 1)
+    return get_covariance(numbers) / (product ** 0.5)
+
+
+# get means
+def get_means(numbers):
+
+    x = []
+    y = []
+
+    for num in numbers:
+        x.append(num[0])
+        y.append(num[1])
+
+    xbar = numpy.mean(x)
+    ybar = numpy.mean(y)
+
+    return xbar, ybar
+
+
+def get_covariance(numbers):
+
+    xbar = get_means(numbers)[0]
+    ybar = get_means(numbers)[1]
+
+    sum = 0
+    for number in numbers:
+        x = number[0] - xbar
+        y = number[1] - ybar
+
+        sum = sum + x * y
+
+    return sum
+
+
+def get_sv(numbers, n):
+
+    mean = get_means(numbers)[n]
+
+    sum = 0
+    for number in numbers:
+        sv = (number[n] - mean) ** 2
+        sum = sum + sv
+
+    return sum
+
+
+
+
+
+
 

@@ -123,3 +123,15 @@ def mark_as_read(request, id):
     print(previous_page)
 
     return redirect(previous_page)
+
+
+@login_required
+def mark_all_as_read(request):
+
+    notifs = Notification.objects.filter(profile_to=Profile.objects.get(user=request.user))
+
+    for notif in notifs:
+        notif.is_read = True
+        notif.save()
+
+    return redirect(request.META['HTTP_REFERER'])

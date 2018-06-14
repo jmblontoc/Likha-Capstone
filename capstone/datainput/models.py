@@ -305,7 +305,7 @@ class InformalSettlers(models.Model):
     date = models.DateField(default=datetime.now)
 
     def __str__(self):
-        return "Informal Settlers - " + str(self.date.year)
+        return "Informal Settlers - " + str(self.date.month) + str(self.date.year)
 
 
 class FHSIS(models.Model):
