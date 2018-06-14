@@ -152,6 +152,29 @@ def get_fhsis(model, field, sex):
     return values
 
 
+def get_fhsis_no_sex(model, field):
+
+    start_month = get_starting_month(model)
+    base = model.objects.all().filter(fhsis__date__year=datetime.now().year)
+
+    values = {
+
+    }
+
+    while start_month <= month_now:
+
+        count = 0
+        records = base.filter(fhsis__date__month=start_month)
+
+        for record in records:
+            count = count + getattr(record, field)
+
+        values[start_month] = float(count)
+        start_month = start_month + 1
+
+    return values
+
+
 # informal settlers
 def get_informal_settlers():
 
@@ -250,6 +273,60 @@ def get_sv(numbers, n):
         sum = sum + sv
 
     return sum
+
+
+# # # # # # # # # #
+
+def display(source, scores, model, sex):
+
+    nutritional_statuses = NutritionalStatus.objects.all()
+
+    for status in nutritional_statuses:
+        # child care
+        for data in source:
+            phrase = str(data).split(".")
+            field = phrase[2]
+
+            weights = get_weight_values_per_month(status, sex)
+            data_point = get_fhsis(model, field, sex)
+            score = get_correlation_score(
+                make_variables(weights, data_point)
+            )
+
+            scores.append(
+                {
+                    'category': status.name + " - " + sex.name,
+                    'source': model.__name__,
+                    'field': data.verbose_name,
+                    'score': score
+                }
+            )
+
+
+def display_no_sex(source, scores, model, sex):
+
+    nutritional_statuses = NutritionalStatus.objects.all()
+
+    for status in nutritional_statuses:
+        # child care
+        for data in source:
+            phrase = str(data).split(".")
+            field = phrase[2]
+
+            weights = get_weight_values_per_month(status, sex)
+            data_point = get_fhsis_no_sex(model, field)
+            score = get_correlation_score(
+                make_variables(weights, data_point)
+            )
+
+            scores.append(
+                {
+                    'category': status.name + " - " + sex.name,
+                    'source': model.__name__,
+                    'field': data.verbose_name,
+                    'score': score
+                }
+            )
 
 
 

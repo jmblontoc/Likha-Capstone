@@ -1,6 +1,6 @@
 
 # family profile
-from datainput.models import ChildCare
+from datainput.models import ChildCare, Tuberculosis
 
 educational_attainment = [
     'Elementary Undergraduate',
@@ -52,11 +52,22 @@ boolean_fields_fp = [
 
 # # # # # # # # #
 
-# FHSIS
-
+# # # # # # DEPRECATED!!! # # # # #
 
 # Child Care
 def get_child_care_fields():
     # 113
 
     return ChildCare._meta.get_fields()[1:13]
+
+
+# Tuberculosis
+def get_tb_fields():
+
+    return Tuberculosis._meta.get_fields()[1:5]
+
+
+# Malaria
+def get_malaria_fields():
+
+    pass
