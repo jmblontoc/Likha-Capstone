@@ -23,7 +23,7 @@
         <tbody>
         {% for record in fhsis %}
             <tr>
-                <td>Record for {{ record.date.year }}</td>
+                <td>Record for {{ record.date.month }}/{{ record.date.year }}</td>
                 <td><a href="{% url 'datainput:accept_fhsis' barangay.id record.id %}">Accept</a></td>
                 <td><a href="{% url 'datainput:reject_fhsis' barangay.id record.id %}">Reject</a></td>
             </tr>

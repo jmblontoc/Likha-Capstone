@@ -73,7 +73,7 @@ def bns_index(request):
     try:
         fhsis = FHSIS.objects.get(
             barangay=profile.barangay,
-            date__year=datetime.now().year
+            date__month=datetime.now().month
         )
     except FHSIS.DoesNotExist:
         fhsis = None

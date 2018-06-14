@@ -1,3 +1,4 @@
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -20,9 +21,11 @@ def index(request):
             'statuses': nutritional_statuses,
         }
 
-        sex = Sex.objects.get(name='Male')
+        sex = Sex.objects.get(name='Female')
 
-        print(correlations.get_weight_values_per_month(nutritional_statuses[0], sex))
+        # test
+        print(correlations.get_weight_values_per_month(nutritional_statuses[1], sex))
+        print(correlations.get_sti_surveillance('number_of_pregnant_women_seen'))
 
         return render(request, 'datamining/index.html', context)
 
