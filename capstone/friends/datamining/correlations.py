@@ -2,9 +2,10 @@
 from datetime import datetime
 
 from datainput.models import NutritionalStatus, OPTValues, MonthlyReweighing, OperationTimbang, MaternalCare, \
-    STISurveillance
+    STISurveillance, UnemploymentRate, InformalSettlers
 
 month_now = datetime.now().month
+year_now = datetime.now().year
 # get nutritional statuses
 
 nutritional_statuses = NutritionalStatus.objects.all()
@@ -64,7 +65,7 @@ def get_weight_values_per_month(status, sex):
     return values
 
 
-# # # # # # # # DATA POINTS # # # # # # # # # #
+# # # # # # # # DATA POINTS MONTHLY # # # # # # # # # #
 
 # get starting month of the current year for FHSIS records ONLY
 def get_starting_month(model):
@@ -75,6 +76,17 @@ def get_starting_month(model):
         months.append(record.fhsis.date.month)
 
     return min(months)
+
+
+# similar but year
+def get_starting_year(model):
+
+    years = []
+    records = model.objects.all()
+    for record in records:
+        years.append(record.date.year)
+
+    return min(years)
 
 
 # maternal care
@@ -121,6 +133,55 @@ def get_sti_surveillance(field):
 
         values[start_month] = count
         start_month = start_month + 1
+
+    return values
+
+
+# FHSIS
+def get_fhsis(model, field, sex):
+
+    start_month = get_starting_month(model)
+    base = model.objects.all().filter(fhsis__date__year=datetime.now().year, sex=sex)
+
+    values = {
+
+    }
+
+    while start_month <= month_now:
+
+        count = 0
+        records = base.filter(fhsis__date__month=start_month)
+
+        for record in records:
+            count = count + getattr(record, field)
+
+        values[start_month] = count
+        start_month = start_month + 1
+
+    return values
+
+
+# informal settlers
+def get_informal_settlers():
+
+    values= {}
+    records = InformalSettlers.objects.filter(date__year=datetime.now().year)
+
+    for record in records:
+        values[record.date.month] = float(record.families_count)
+
+    return values
+
+# # # # # # # # # # # YEARLY DATA POINTS # # # # # # #
+
+# unemployment rate
+def get_unemployment_rate():
+
+    values = {}
+    rates = UnemploymentRate.objects.all()
+
+    for rate in rates:
+        values[rate.date.year] = float(rate.rate)
 
     return values
 

@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from friends.datamining import correlations
-from datainput.models import NutritionalStatus, Barangay, Sex
+from datainput.models import NutritionalStatus, Barangay, Sex, ChildCare
 from friends.datapreprocessing import checkers
 from django.shortcuts import render, redirect
 
@@ -25,7 +25,8 @@ def index(request):
 
         # test
         print(correlations.get_weight_values_per_month(nutritional_statuses[1], sex))
-        print(correlations.get_sti_surveillance('number_of_pregnant_women_seen'))
+        print(correlations.get_unemployment_rate())
+        print(correlations.get_informal_settlers())
 
         return render(request, 'datamining/index.html', context)
 
