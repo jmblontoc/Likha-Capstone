@@ -1,5 +1,7 @@
 
 # family profile
+from datainput.models import ChildCare
+
 educational_attainment = [
     'Elementary Undergraduate',
     'Elementary Graduate',
@@ -47,3 +49,14 @@ boolean_fields_fp = [
     'is_using_iodized_salt',
     'is_using_ifr'
 ]
+
+# # # # # # # # #
+
+# FHSIS
+
+
+# Child Care
+def get_child_care_fields():
+    # 113
+
+    return ChildCare._meta.get_fields()[1:13]

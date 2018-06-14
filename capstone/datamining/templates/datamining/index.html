@@ -10,5 +10,26 @@
 
     <h1>Correlations and Forecasts</h1>
 
+    <table border="1">
+        <thead>
+        <tr>
+            <th>Category</th>
+            <th>Source</th>
+            <th>Field</th>
+            <th>Score</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for s in scores %}
+            <tr>
+                <td>{{ s.category }}</td>
+                <td>{{ s.source }}</td>
+                <td>{{ s.field }}</td>
+                <td>{{ s.score }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
 </body>
 </html>

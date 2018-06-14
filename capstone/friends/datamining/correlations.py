@@ -53,7 +53,6 @@ def get_weight_values_per_month(status, sex):
         values[month + 1] = get_weights_reweighing(status, sex, month + 1)
         month = month + 1
 
-    print(status)
     return values
 
 
@@ -203,7 +202,11 @@ def make_variables(n_status, variable):
 def get_correlation_score(numbers):
 
     product = get_sv(numbers, 0) * get_sv(numbers, 1)
-    return get_covariance(numbers) / (product ** 0.5)
+
+    if product == 0:
+        return 0
+
+    return round(get_covariance(numbers) / (product ** 0.5), 3)
 
 
 # get means
