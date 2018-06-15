@@ -1,4 +1,4 @@
-{% extends 'core/bns-layout.html' %}
+{% extends template_values %}
 {% block content %}
 
 {% include 'core/helpers/messages.html' %}
@@ -6,14 +6,24 @@
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Barangay Nutrition Scholar Dashboard</h1>
-                    </div>
+                <div class="col-sm-6">
+                    {% if profile.user_type == 'Barangay Nutrition Scholar' %}
+                    <h1 class="m-0 text-dark">Barangay Nutrition Scholar Dashboard</h1>
+                    {% else %}
+                    <h1 class="m-0 text-dark">Nutritionist Data Status</h1>
+                    {% endif %}
+                </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
+                        {% if profile.user_type == 'Barangay Nutrition Scholar' %}
                         <li class="breadcrumb-item"><a href="{% url 'core:bns-index' %}">BNS Dashboard</a></li>
                         <li class="breadcrumb-item"><a href="{% url 'datainput:monthly_reweighing_index' %}">Monthly Reweighing</a></li>
                         <li class="breadcrumb-item active">{{ patient.name }}</li>
+                        {% else %}
+                        <li class="breadcrumb-item"><a href="{% url 'datainput:data_status_index' %}">Data Status</a></li>
+                        <li class="breadcrumb-item">Monthly Reweighing</li>
+                        <li class="breadcrumb-item active">{{ patient.name }}</li>
+                        {% endif %}
                     </ol>
                 </div>
             </div>

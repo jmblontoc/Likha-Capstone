@@ -190,7 +190,6 @@ def add_family_profile(request):
 def show_profiles(request, id):
 
     profiles = FamilyProfileLine.objects.filter(family_profile_id__exact=id)
-    barangay = Profile.objects.get(user=request.user).barangay
     profile = Profile.objects.get(user=request.user)
 
     if profile.user_type == 'Barangay Nutrition Scholar':
@@ -202,7 +201,6 @@ def show_profiles(request, id):
         'template_values': template_values,
         'profile': profile,
         'profiles': profiles,
-        'barangay': barangay
     }
 
     return render(request, 'datainput/families_list.html', context)
@@ -272,8 +270,15 @@ def patient_overview(request, id):
     weights = MonthlyReweighing.objects.filter(patient=patient)
     profile = Profile.objects.get(user=request.user)
 
+    if profile.user_type == 'Barangay Nutrition Scholar':
+        template_values = 'core/bns-layout.html'
+    else:
+        template_values = 'core/nutritionist-layout.html'
+
     context = {
         'patient': patient,
+        'template_values': template_values,
+        'active': 'ds',
         'profile': profile,
         'weights': weights,
         'is_bns': profile.user_type == 'Barangay Nutrition Scholar'
@@ -495,7 +500,11 @@ def show_fhsis(request, id):
     barangay = Barangay.objects.get(id=id)
     fhsis = FHSIS.objects.filter(barangay=barangay)
 
+    profile = Profile.objects.get(user=request.user)
+
     context = {
+        'profile': profile,
+        'active': 'ds',
         'fhsis': fhsis,
         'barangay': barangay
     }
@@ -611,7 +620,11 @@ def view_reweighing(request, id):
     opt = OperationTimbang.objects.filter(barangay=barangay, date__year=datetime.now().year)
     patients = Patient.objects.filter(barangay=barangay)
 
+    profile = Profile.objects.get(user=request.user)
+
     context = {
+        'profile': profile,
+        'active': 'ds',
         'patients': patients,
         'has_opt': len(opt) > 0,
         'barangay': barangay
@@ -674,7 +687,11 @@ def show_family_profiles(request, id):
     barangay = Barangay.objects.get(id=id)
     profiles = FamilyProfile.objects.filter(barangay=barangay)
 
+    profile = Profile.objects.get(user=request.user)
+
     context = {
+        'profile': profile,
+        'active': 'ds',
         'families': profiles,
         'barangay': barangay
     }
