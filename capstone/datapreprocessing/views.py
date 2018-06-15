@@ -55,8 +55,11 @@ def add_metric(request):
 
     fp = operator.itemgetter(3, 4, 5, 6, 7, 11, 12, 13, 14, 15, 19, 20)
 
+    profile = Profile.objects.get(user=request.user)
 
     context = {
+        'profile': profile,
+        'active': 'mt',
         'form': form,
         'hcwm': hcwm,
         'family_profile': fp(family_profile),
@@ -113,7 +116,11 @@ def edit_metric(request, id):
         messages.success(request, 'Threshold successfully edited')
         return redirect('datapreprocessing:index')
 
+    profile = Profile.objects.get(user=request.user)
+
     context = {
+        'profile': profile,
+        'active': 'mt',
         'form': form,
         'metric': metric.metric
     }
