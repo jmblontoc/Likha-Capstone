@@ -693,7 +693,6 @@ def show_family_profiles(request, id):
 
     barangay = Barangay.objects.get(id=id)
     profiles = FamilyProfile.objects.filter(barangay=barangay)
-
     profile = Profile.objects.get(user=request.user)
 
     context = {

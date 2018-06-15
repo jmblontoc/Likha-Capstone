@@ -21,37 +21,47 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-6">
+                <div class="col-8">
                     <div class="card card-primary">
                         <div class="card-header d-flex p-0" style="cursor: move;">
                         <h3 class="card-title p-3">FHSIS Records of {{ barangay }}</h3>
                         </div>
                         <div class="card-body">
 
-    {% if fhsis.count == 0 %}
-        <p>FHSIS has not yet been uploaded</p>
-    {% else %}
-        <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th style="width: 60%;">Record</th>
-            <th style="width: 40%;">Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% load tags %}
-        {% for record in fhsis %}
-            <tr>
-                <td style="vertical-align: middle;">Record for {{ record.date.month|month_name }} {{ record.date.year }}</td>
-                <td style="text-align: center;">
-                    <a class="btn btn-success col-5" href="{% url 'datainput:accept_fhsis' barangay.id record.id %}">Accept</a>
-                    <a class="btn btn-danger col-5" href="{% url 'datainput:reject_fhsis' barangay.id record.id %}">Reject</a>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-        </table>
-    {% endif %}
+                            <table id="fhsis_overview" class="table table-bordered table-hover dataTables">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 60%;">Record</th>
+                                        <th style="width: 40%;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% load tags %}
+                                    {% for record in fhsis %}
+                                        <tr>
+                                            <td style="vertical-align: middle;">FHSIS Record for {{ record.date.month|month_name }} {{ record.date.year }}</td>
+                                            {% if record.status == 'Approved' %}
+                                            <td style="font-weight: bold; color:#00a65a;"><i class="fa fa-check-circle"></i> Approved</td>
+                                            {% else %}
+                                            <td style="text-align: center;">
+                                                <a class="btn btn-success col-5" href="{% url 'datainput:accept_fhsis' barangay.id record.id %}">Accept</a>
+                                                <a class="btn btn-danger col-5" href="{% url 'datainput:reject_fhsis' barangay.id record.id %}">Reject</a>
+                                            </td>
+                                            {% endif %}
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <script>
+                                $(document).ready(function() {
+                                    $('#fhsis_overview').DataTable({
+                                        "paging": true,
+                                        "lengthChange": true,
+                                        "ordering": true,
+                                        "autoWidth": false
+                                    });
+                                });
+                            </script>
                         </div>
                     </div>
                 </div>

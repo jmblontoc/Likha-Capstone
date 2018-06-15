@@ -26,12 +26,16 @@
                         <div class="card-header d-flex p-0" style="cursor: move;">
                         <h3 class="card-title p-3">Monthly Reweighing for {{ barangay }}</h3>
                         <ul class="nav nav-pills ml-auto p-2">
+                            {% if barangay.has_validated_reweighing %}
+                            <h3 class="card-title p-2" style="margin-right: 10px; font-weight: bold; color:#00a65a;"><i class="fa fa-check-circle"></i> Approved</h3>
+                            {% else %}
                             <li class="nav-item">
                                 <a class="nav-link btn-success" style="margin-right: 10px; width: 100px; text-align: center;" href="{% url 'datainput:accept_reweighing' barangay.id %}">Accept</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link btn-danger" style="width: 100px; text-align: center;" href="{% url 'datainput:reject_reweighing' barangay.id %}">Reject</a>
                             </li>
+                            {% endif %}
                         </ul>
                         </div>
                         <div class="card-body">
@@ -47,11 +51,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% if patients.count == 0 %}
-                                    <tr>
-                                        <td colspan="4">No patients recorded</td>
-                                    </tr>
-                                    {% else %}
                                     {% for patient in patients %}
                                     <tr class="clickable-row" data-href="{% url 'datainput:patient_overview' patient.id %}" style="cursor: pointer;">
                                         <td>{{ patient.name }}</td>
@@ -67,7 +66,6 @@
                                         {% endif %}
                                     </tr>
                                     {% endfor %}
-                                    {% endif %}
                                 </tbody>
                             </table>
                             <script>

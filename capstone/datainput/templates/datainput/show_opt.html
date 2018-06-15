@@ -21,13 +21,13 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-6">
+                <div class="col-8">
                     <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">Operation Timbang Records of {{ barangay }}</h3>
                         </div>
                         <div class="card-body">
-                            <table class="table table-bordered">
+                            <table id="otp_overview" class="table table-bordered table-hover dataTables">
                                 <thead>
                                     <tr>
                                         <th style="width: 60%;">Record</th>
@@ -42,16 +42,30 @@
                                     {% else %}
                                     {% for record in opt %}
                                     <tr>
-                                        <td style="vertical-align: middle;">Record for {{ record.date.year }}</td>
+                                        <td style="vertical-align: middle;">Operation Timbang Record for {{ record.date.year }}</td>
+                                        {% if record.status == 'Approved' %}
+                                        <td style="font-weight: bold; color:#00a65a;"><i class="fa fa-check-circle"></i> Approved</td>
+                                        {% else %}
                                         <td style="text-align: center;">
                                             <a class="btn btn-success col-5" href="{% url 'datainput:accept_opt' barangay.id record.id %}">Accept</a>
                                             <a class="btn btn-danger col-5" href="{% url 'datainput:reject_opt' barangay.id record.id %}">Reject</a>
                                         </td>
+                                        {% endif %}
                                     </tr>
                                     {% endfor %}
                                     {% endif %}
                                 </tbody>
                             </table>
+                            <script>
+                                $(document).ready(function() {
+                                    $('#otp_overview').DataTable({
+                                        "paging": true,
+                                        "lengthChange": true,
+                                        "ordering": true,
+                                        "autoWidth": false
+                                    });
+                                });
+                            </script>
                         </div>
                     </div>
                 </div>
