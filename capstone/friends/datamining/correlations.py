@@ -4,7 +4,7 @@ from datetime import datetime
 import numpy
 
 from datainput.models import NutritionalStatus, OPTValues, MonthlyReweighing, OperationTimbang, MaternalCare, \
-    STISurveillance, UnemploymentRate, InformalSettlers
+    STISurveillance, UnemploymentRate, InformalSettlers, Sex
 import collections
 
 month_now = datetime.now().month
@@ -295,7 +295,8 @@ def display(source, scores, model, sex):
 
             scores.append(
                 {
-                    'category': status.name + " - " + sex.name,
+                    'category': status.name,
+                    'sex': sex.name,
                     'source': model.__name__,
                     'field': data.verbose_name,
                     'score': score
@@ -321,12 +322,48 @@ def display_no_sex(source, scores, model, sex):
 
             scores.append(
                 {
-                    'category': status.name + " - " + sex.name,
+                    'category': status.name,
+                    'sex': sex.name,
                     'source': model.__name__,
                     'field': data.verbose_name,
                     'score': score
                 }
             )
+
+
+def display_informal_settlers(scores):
+
+    male = Sex.objects.get(name='Male')
+    female = Sex.objects.get(name='Female')
+
+    for status in nutritional_statuses:
+
+        weights = get_weight_values_per_month(status, male)
+        score = get_correlation_score(
+            make_variables(weights, get_informal_settlers())
+        )
+
+        scores.append({
+            'category': status.name,
+            'sex': male.name,
+            'source': 'Informal Settlers',
+            'field': 'Number of families',
+            'score': score
+        })
+
+        weights = get_weight_values_per_month(status, female)
+        score = get_correlation_score(
+            make_variables(weights, get_informal_settlers())
+        )
+
+        scores.append({
+            'category': status.name,
+            'sex': female.name,
+            'source': 'Informal Settlers',
+            'field': 'Number of families',
+            'score': score
+        })
+
 
 
 

@@ -26,49 +26,6 @@ def index(request):
         sex = Sex.objects.get(name='Female')
         sex2 = Sex.objects.get(name='Male')
 
-        # for status in nutritional_statuses:
-        #     # child care
-        #     for data in datapoints.get_child_care_fields():
-        #         phrase = str(data).split(".")
-        #         field = phrase[2]
-        #
-        #         weights = correlations.get_weight_values_per_month(status, sex)
-        #         data_point = correlations.get_fhsis(ChildCare, field, sex)
-        #         score = correlations.get_correlation_score(
-        #             correlations.make_variables(weights, data_point)
-        #         )
-        #
-        #         scores.append(
-        #             {
-        #                 'category': status.name + " - Female",
-        #                 'source': 'Child Care',
-        #                 'field': data.verbose_name,
-        #                 'score': score
-        #             }
-        #         )
-        #
-        # for status in nutritional_statuses:
-        #
-        #     # tuberculosis
-        #     for data in datapoints.get_tb_fields():
-        #         phrase = str(data).split(".")
-        #         field = phrase[2]
-        #
-        #         weights = correlations.get_weight_values_per_month(status, sex)
-        #         data_point = correlations.get_fhsis(Tuberculosis, field, sex)
-        #         score = correlations.get_correlation_score(
-        #             correlations.make_variables(weights, data_point)
-        #         )
-        #
-        #         scores.append(
-        #             {
-        #                 'category': status.name + " - Female",
-        #                 'source': 'Tuberculosis',
-        #                 'field': data.verbose_name,
-        #                 'score': score
-        #             }
-        #         )
-
         correlations.display(
             datapoints.get_child_care_fields(),
             scores,
@@ -194,6 +151,8 @@ def index(request):
             STISurveillance,
             sex2
         )
+
+        correlations.display_informal_settlers(scores)
 
         context = {
             'statuses': nutritional_statuses,
