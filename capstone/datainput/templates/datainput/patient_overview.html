@@ -21,7 +21,7 @@
                         <li class="breadcrumb-item active">{{ patient.name }}</li>
                         {% else %}
                         <li class="breadcrumb-item"><a href="{% url 'datainput:data_status_index' %}">Data Status</a></li>
-                        <li class="breadcrumb-item">Monthly Reweighing</li>
+                        <li class="breadcrumb-item"><a href="{% url 'datainput:view_reweighing' barangay %}">Monthly Reweighing</a></li>
                         <li class="breadcrumb-item active">{{ patient.name }}</li>
                         {% endif %}
                     </ol>

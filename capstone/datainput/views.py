@@ -190,6 +190,8 @@ def add_family_profile(request):
 def show_profiles(request, id):
 
     profiles = FamilyProfileLine.objects.filter(family_profile_id__exact=id)
+    families = FamilyProfile.objects.get(id=id)
+    barangay = Barangay.objects.get(name=families.barangay)
     profile = Profile.objects.get(user=request.user)
 
     if profile.user_type == 'Barangay Nutrition Scholar':
@@ -200,7 +202,10 @@ def show_profiles(request, id):
     context = {
         'template_values': template_values,
         'profile': profile,
+        'barangay': barangay.id,
+        'active': 'ds',
         'profiles': profiles,
+        'id': id
     }
 
     return render(request, 'datainput/families_list.html', context)
@@ -268,6 +273,7 @@ def patient_overview(request, id):
 
     patient = Patient.objects.get(id=id)
     weights = MonthlyReweighing.objects.filter(patient=patient)
+    barangay = Barangay.objects.get(name=patient.barangay)
     profile = Profile.objects.get(user=request.user)
 
     if profile.user_type == 'Barangay Nutrition Scholar':
@@ -280,6 +286,7 @@ def patient_overview(request, id):
         'template_values': template_values,
         'active': 'ds',
         'profile': profile,
+        'barangay': barangay.id,
         'weights': weights,
         'is_bns': profile.user_type == 'Barangay Nutrition Scholar'
     }

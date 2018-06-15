@@ -11,7 +11,7 @@
                     </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{% url 'core:nutritionist' %}">Nutritionist Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'datainput:data_status_index' %}">Data Status</a></li>
                         <li class="breadcrumb-item active">Family Profile</li>
                     </ol>
                 </div>
@@ -33,8 +33,8 @@
                                 <div>
                                     <table class="table table-bordered">
                                         <tr>
-                                            <th>Profile</th>
-                                            <th colspan="2">Action</th>
+                                            <th style="width: 60%">Profile</th>
+                                            <th style="width: 40%">Action</th>
                                         </tr>
                                         {% for family in families %}
                                             <tr>
