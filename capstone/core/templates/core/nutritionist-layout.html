@@ -117,7 +117,7 @@
                                 </a>
                                 </li>
                             <li class="nav-item">
-                                <a href="{% url 'datamining:index' %}" class="nav-link">
+                                <a href="{% url 'datamining:index' %}" class="nav-link {% if active == 'ct' %}active{% endif %}">
                                     <i class="nav-icon fa fa-line-chart"></i>
                                     <p>Correlations and Forecasts</p>
                                 </a>
