@@ -7,4 +7,7 @@ app_name = 'datamining'
 
 urlpatterns = [
     path('', views.index, name='index'),
+
+    # forecasts
+    path('forecast/<int:id>', views.forecast, name='forecast')
 ]

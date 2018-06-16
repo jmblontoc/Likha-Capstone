@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Forecast</title>
+</head>
+<body>
+    <h1>Forecast:</h1>
+    <p><b>{{ cr.category }} - {{ cr.sex }} </b> vs. <b>{{ cr.source }} - {{ cr.field }} </b></p>
+
+    <div>
+        Correlation Score: {{ cr.score }}
+        SHOW GRAPH HERE TODO
+    </div>
+    <p>Linear Regression Equation: <b>{{ equation }}</b></p>
+</body>
+</html>

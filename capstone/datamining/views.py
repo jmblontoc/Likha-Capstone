@@ -2,7 +2,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from friends.datamining import correlations
+from friends.datamining import correlations, forecast as f
 from datainput.models import NutritionalStatus, Barangay, Sex, ChildCare, Tuberculosis, Malaria, Immunization, \
     MaternalCare, Schistosomiasis, Leprosy, Flariasis, STISurveillance
 from friends.datapreprocessing import checkers
@@ -155,11 +155,8 @@ def index(request):
 
         correlations.display_informal_settlers(scores)
 
-<<<<<<< HEAD
         request.session['scores'] = scores
-=======
         profile = Profile.objects.get(user=request.user)
->>>>>>> 6bc3c9b14d4c880f9ffab328d7d933c0ca788197
 
         context = {
             'profile': profile,
@@ -172,3 +169,22 @@ def index(request):
 
     messages.error(request, 'Data is not up to date')
     return redirect('core:nutritionist')
+
+
+# predictive modeling page
+@login_required
+def forecast(request, id):
+
+    correlation = request.session['scores']
+
+    cr_line = correlation[id]
+    score = cr_line['score']
+    variables = cr_line['variables']
+    equation = f.get_equation_string(score, variables)
+
+    context = {
+        'cr': cr_line,
+        'equation': equation
+    }
+
+    return render(request, 'datamining/forecast.html', context)

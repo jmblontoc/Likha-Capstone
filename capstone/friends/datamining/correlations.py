@@ -299,7 +299,8 @@ def display(source, scores, model, sex):
                     'sex': sex.name,
                     'source': model.__name__,
                     'field': data.verbose_name,
-                    'score': score
+                    'score': score,
+                    'variables': make_variables(weights, data_point)
                 }
             )
 
@@ -326,7 +327,8 @@ def display_no_sex(source, scores, model, sex):
                     'sex': sex.name,
                     'source': model.__name__,
                     'field': data.verbose_name,
-                    'score': score
+                    'score': score,
+                    'variables': make_variables(weights, data_point)
                 }
             )
 
@@ -348,7 +350,8 @@ def display_informal_settlers(scores):
             'sex': male.name,
             'source': 'Informal Settlers',
             'field': 'Number of families',
-            'score': score
+            'score': score,
+            'variables': make_variables(weights, get_informal_settlers())
         })
 
         weights = get_weight_values_per_month(status, female)
@@ -361,7 +364,8 @@ def display_informal_settlers(scores):
             'sex': female.name,
             'source': 'Informal Settlers',
             'field': 'Number of families',
-            'score': score
+            'score': score,
+            'variables': make_variables(weights, get_informal_settlers())
         })
 
 
