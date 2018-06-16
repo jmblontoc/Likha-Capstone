@@ -23,51 +23,54 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card card-primary">
-                        <div class="card-header d-flex p-0">
-                            <h3 class="card-title p-3">Patients for Monthly Reweighing for {{ barangay }}</h3>
-                            <ul class="nav nav-pills ml-auto p-2">
-                                <li class="nav-item">
-                                    <a class="nav-link btn btn-default" style="text-align: center; color:#004876;" href="{% url 'datainput:add_patient' %}">Add a patient</a>
-                                </li>
-                            </ul>
+                        <div class="card-header">
+                            <h3 class="card-title">Patients for Monthly Reweighing for {{ barangay }} <a href="{% url 'datainput:add_patient' %}" class="btn btn-default btn-sm" style="color:#004876;">Add a patient</a></h3>
                         </div>
                         <div class="card-body">
-                            <table id="patient_overview" class="table table-bordered table-hover dataTable">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 33%">Name</th>
-                                        <th style="width: 33%">Age in Months</th>
-                                        <th style="width: 33%">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for patient in patients %}
-                                    <tr class="clickable-row" data-href="{% url 'datainput:patient_overview' patient.id %}" style="cursor: pointer;">
-                                        <td>{{ patient.name }}</td>
-                                        <td>{{ patient.get_age }} months</td>
-                                        {% if patient.get_reweighing_status == 'Updated' %}
-                                        <td style="color: #00a65a; font-weight: bold;">
-                                            <i class="fa fa-check-circle"></i> Updated
-                                        </td>
-                                        {% else %}
-                                        <td style="color: #f56954; font-weight: bold;">
-                                            <i class="fa fa-exclamation-circle"></i> Not Updated
-                                        </td>
-                                        {% endif %}
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                            <script>
-                                $(document).ready(function() {
-                                    $('#patient_overview').DataTable({
-                                        "paging": true,
-                                        "lengthChange": true,
-                                        "ordering": true,
-                                        "autoWidth": false
+                                {% if not has_opt %}
+                                    OPT for this year is not found
+                                {% else %}
+                                    {% if patients.count == 0 %}
+                                    You have no patients yet. <a href="{% url 'datainput:add_patient' %}">Add</a> a patient now
+                                {% else %}
+                                <table id="patient_overview" class="table table-bordered table-hover dataTable">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 33%">Name</th>
+                                            <th style="width: 33%">Age in Months</th>
+                                            <th style="width: 33%">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for patient in patients %}
+                                        <tr class="clickable-row" data-href="{% url 'datainput:patient_overview' patient.id %}" style="cursor: pointer;">
+                                            <td>{{ patient.name }}</td>
+                                            <td>{{ patient.get_age }} months</td>
+                                            {% if patient.get_reweighing_status == 'Updated' %}
+                                            <td style="color: #00a65a; font-weight: bold;">
+                                                <i class="fa fa-check-circle"></i> Updated
+                                            </td>
+                                            {% else %}
+                                            <td style="color: #f56954; font-weight: bold;">
+                                                <i class="fa fa-exclamation-circle"></i> Not Updated
+                                            </td>
+                                            {% endif %}
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                <script>
+                                    $(document).ready(function() {
+                                        $('#patient_overview').DataTable({
+                                            "paging": true,
+                                            "lengthChange": true,
+                                            "ordering": true,
+                                            "autoWidth": false
+                                        });
                                     });
-                                });
-                            </script>
+                                </script>
+                                {% endif %}
+                                {% endif %}
                         </div>
                     </div>
                 </div>

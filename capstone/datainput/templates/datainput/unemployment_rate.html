@@ -23,19 +23,21 @@
             <div class="row">
                 <div class="col-6">
                     <div class="card card-primary">
-                        <div class="card-header p-0">
-                            <h3 class="card-title p-3">Unemployment Rate Record</h3>
+                        <div class="card-header">
+                            <h3 class="card-title">Unemployment Rate Record</h3>
                         </div>
                         <div class="card-body">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 50%;">Year</th>
-                                        <th>Rate</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% if records.count == 0 %}
+
+        <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th style="width: 50%;">Year</th>
+            <th>Rate</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% if records.count == 0 %}
                                     <tr>
                                         <td colspan="2" style="text-align: center;">No data recorded</td>
                                     </tr>
@@ -43,33 +45,33 @@
                                     {% for record in records %}
                                     <tr>
                                         <td>{{ record.date.year }}</td>
-                                        <td>{{ record.rate }}%</td>
+                <td>{{ record.rate }}%</td>
                                     </tr>
                                     {% endfor %}
                                     {% endif %}
-                                </tbody>
-                            </table>
-                        </div>
+        </tbody>
+        </table>
+</div>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="card card-primary">
-                        <div class="card-header p-0">
-                            <h3 class="card-title p-3">Add Informal Settlers Record</h3>
+                        <div class="card-header">
+                            <h3 class="card-title">Add Informal Settlers Record</h3>
                         </div>
                         <div class="card-body">
-                            {% if not has_record %}
-                            <h3>Informal Settlers Record for {% now "Y" %}</h3>
-                            <div>
-                                <form method="POST">
-                                    {% csrf_token %}
-                                    {% include 'core/helpers/form_template.html' %}
-                                    <input class="btn btn-primary col-3" type="submit">
-                                </form>
-                            </div>
-                            {% else %}
-                            <p style="text-align: center; margin-top: 16px;">Data has already been recorded for this year</p>
-                            {% endif %}
+    {% if not has_record %}
+        <h3>Add record</h3>
+        <div>
+            <form method="POST">
+                {% csrf_token %}
+                {% include 'core/helpers/form_template.html' %}
+                <input class="btn btn-primary col-4" type="submit">
+            </form>
+        </div>
+    {% else %}
+        <p>Data has already been recorded for this year</p>
+    {% endif %}
                         </div>
                     </div>
                 </div>

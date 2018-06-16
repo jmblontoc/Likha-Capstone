@@ -23,19 +23,15 @@
             <div class="row">
                 <div class="col-6">
                     <div class="card card-primary">
-                        <div class="card-header d-flex p-0">
-                            <h3 class="card-title p-3">Family Profiles</h3>
-                            <ul class="nav nav-pills ml-auto p-2">
-                                <li class="nav-item">
-                                    <a class="nav-link btn btn-default" style="text-align: center; color:#004876;" href="{% url 'datainput:add_family' %}">Add family profile</a>
-                                </li>
-                            </ul>
+                        <div class="card-header">
+                            <h3 class="card-title">Family Profile <a href="{% url 'datainput:add_family' %}" class="btn btn-default btn-sm" style="color:#004876;">Add family profile</a></h3>
                         </div>
                         <div class="card-body">
                             {% if families.count == 0 %}
                                 <h1>There are no family profiles yet for the current year</h1>
                             {% else %}
                                 <div>
+                                    <h1>Profiles</h1>
                                     <table class="table table-bordered table-hover">
                                         <tr>
                                             <th>Profile</th>
@@ -48,15 +44,7 @@
                                                         Family Profile for {{ family.date.year }}
                                                     </a>
                                                 </td>
-                                                {% if family.status == 'Approved' %}
-                                                <td style="color: #00a65a; font-weight: bold;">
-                                                    <i class="fa fa-check-circle"></i> {{ family.status }}
-                                                </td>
-                                                {% else %}
-                                                <td style="color: #f56954; font-weight: bold;">
-                                                    <i class="fa fa-exclamation-circle"></i> {{ family.status }}
-                                                </td>
-                                                {% endif %}
+                                                <td>{{ family.status }}</td>
                                             </tr>
                                         {% endfor %}
                                     </table>
