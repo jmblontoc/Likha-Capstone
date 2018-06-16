@@ -23,8 +23,13 @@
             <div class="row">
                 <div class="col-4">
                     <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">HCWM per Year  <a href="{% url 'datainput:add_hcwm' %}" class="btn btn-default btn-sm" style="color:#004876;">Add Record</a></h3>
+                        <div class="card-header d-flex p-0" style="cursor: move;">
+                        <h3 class="card-title p-3">HCWM per Year</h3>
+                        <ul class="nav nav-pills ml-auto p-2">
+                            <li class="nav-item">
+                                <a class="nav-link btn-default" style="text-align: center; color: #004876;" href="{% url 'datainput:add_hcwm' %}">Add Record</a>
+                            </li>
+                        </ul>
                         </div>
                         <div class="card-body">
                             {% load static %}
@@ -33,7 +38,7 @@
                             <table id="family_list" class="table table-bordered table-hover dataTable">
                                 <thead>
                                     <tr>
-                                        <th>Year</th>
+                                        <th>Data</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -43,8 +48,8 @@
                                     </tr>
                                     {% else %}
                                     {% for record in hcwm %}
-                                    <tr id="{{ record.id }}" class="health_care_record">
-                                        <td>Data for {{ record.date.year }}</td>
+                                    <tr id="{{ record.id }}" class="health_care_record" style="cursor: pointer;">
+                                        <td>Health Care Waste Management Record for {{ record.date.year }}</td>
                                     </tr>
                                     {% endfor %}
                                     {% endif %}
@@ -55,8 +60,8 @@
                 </div>
                 <div class="col-8">
                     <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Health Care Waste Management Data</h3>
+                        <div class="card-header p-0">
+                            <h3 class="card-title p-3">Health Care Waste Management Data</h3>
                         </div>
                         <div class="card-body">
                             <table class="table table-bordered">

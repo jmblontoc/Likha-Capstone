@@ -1,16 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Add Metric</title>
-</head>
-<body>
-    <h1>Add Metric</h1>
+{% extends 'core/nutritionist-layout.html' %}
+{% block content %}
+
+{% include 'core/helpers/messages.html' %}
+<div class="content-wrapper" style="min-height: 620px;">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">City Nutritionist Metrics and Threshold</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{% url 'datapreprocessing:index' %}">Metrics and Threshold</a></li>
+                        <li class="breadcrumb-item active">Edit Metric</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-6">
+                    <div class="card card-primary">
+                        <div class="card-header p-0">
+                            <h3 class="card-title p-3">Add Metric</h3>
+                        </div>
+                        <div class="card-body">
 
     <form method="POST">
         {% csrf_token %}
-        <label>
-            <select name="metric">
+        <div class="form-group">
+        <label>Metric Name:</label>
+            <select class="form-control select2" style="width: 100%;" name="metric">
                 <optgroup label="Health Care Waste Management">
                     {% for x in hcwm %}
                         <option value="Health Care Waste Management | {{ x.verbose_name }}">{{ x.verbose_name }}</option>
@@ -140,9 +162,18 @@
                     {% endfor %}
                 </optgroup>
             </select>
-        </label>
+            </div>
+            <script>
+                    $('.select2').select2();
+            </script>
         {% include 'core/helpers/form_template.html' %}
-        <input type="submit">
+        <input class="btn btn-primary col-2" type="submit">
     </form>
-</body>
-</html>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Correlations and Forecasts</title>
-</head>
-<body>
-    {% include 'core/helpers/notifications.html' %}
-    {% include 'core/helpers/messages.html' %}
+{% extends 'core/nutritionist-layout.html' %}
+{% block content %}
 
+<<<<<<< HEAD
     <h1>Correlations and Forecasts</h1>
 
     <table border="1">
@@ -36,3 +30,70 @@
 
 </body>
 </html>
+=======
+{% include 'core/helpers/messages.html' %}
+<div class="content-wrapper" style="min-height: 620px;">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">City Nutritionist Correlations and Forecasts</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item active">Correlations and Forecasts</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-primary">
+                        <div class="card-header d-flex p-0">
+                            <h3 class="card-title p-3">Correlations and Forecasts</h3>
+                        </div>
+                        <div class="card-body">
+                            <table id="correlation_overview" class="table table-bordered table-hover dataTable">
+                                <thead>
+                                <tr>
+                                    <th style="width: 30%;">Category</th>
+                                    <th style="width: 20;">Source</th>
+                                    <th style="width: 10%;">Sex</th>
+                                    <th style="width: 30%;">Field</th>
+                                    <th style="width: 10%;">Score</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for s in scores %}
+                                    <tr>
+                                        <td>{{ s.category }}</td>
+                                        <td>{{ s.source }}</td>
+                                        <td>{{ s.sex }}</td>
+                                        <td>{{ s.field }}</td>
+                                        <td>{{ s.score }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            <script>
+                                $(document).ready(function() {
+                                    $('#correlation_overview').DataTable({
+                                        "paging": true,
+                                        "lengthChange": true,
+                                        "ordering": true,
+                                        "autoWidth": false
+                                    });
+                                });
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+>>>>>>> 6bc3c9b14d4c880f9ffab328d7d933c0ca788197

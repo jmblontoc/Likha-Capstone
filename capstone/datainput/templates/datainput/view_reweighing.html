@@ -21,44 +21,63 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-6">
+                <div class="col-8">
                     <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Monthly Reweighing for {{ barangay }}
-                                <a class="btn btn-success col-2 btn-sm" href="{% url 'datainput:accept_reweighing' barangay.id %}">Accept</a>
-                                <a class="btn btn-danger col-2 btn-sm" href="{% url 'datainput:reject_reweighing' barangay.id %}">Reject</a>
-                            </h3>
+                        <div class="card-header d-flex p-0">
+                        <h3 class="card-title p-3">Monthly Reweighing for {{ barangay }}</h3>
+                        <ul class="nav nav-pills ml-auto p-2">
+                            {% if barangay.has_validated_reweighing %}
+                            <h3 class="card-title p-2" style="margin-right: 10px; font-weight: bold; color:#00a65a;"><i class="fa fa-check-circle"></i> Approved</h3>
+                            {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link btn-success" style="margin-right: 10px; width: 100px; text-align: center;" href="{% url 'datainput:accept_reweighing' barangay.id %}">Accept</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link btn-danger" style="width: 100px; text-align: center;" href="{% url 'datainput:reject_reweighing' barangay.id %}">Reject</a>
+                            </li>
+                            {% endif %}
+                        </ul>
                         </div>
                         <div class="card-body">
                             {% if not has_opt %}
                             OPT for this year is not found
                             {% else %}
-                            <table class="table table-bordered">
+                            <table id="reweighing_overview" class="table table-bordered table-hover dataTable">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Age in Months</th>
-                                        <th>Action</th>
-                                        <th>Status</th>
+                                        <th style="width: 50%">Name</th>
+                                        <th style="width: 25%">Age in Months</th>
+                                        <th style="width: 25%">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% if patients.count == 0 %}
-                                    <tr>
-                                        <td colspan="4">No patients recorded</td>
-                                    </tr>
-                                    {% else %}
                                     {% for patient in patients %}
-                                    <tr>
+                                    <tr class="clickable-row" data-href="{% url 'datainput:patient_overview' patient.id %}" style="cursor: pointer;">
                                         <td>{{ patient.name }}</td>
                                         <td>{{ patient.get_age }} months</td>
-                                        <td><a href="{% url 'datainput:patient_overview' patient.id %}">Nutritional Statuses</a></td>
-                                        <td>{{ patient.get_reweighing_status }}</td>
+                                        {% if patient.get_reweighing_status == 'Updated' %}
+                                        <td style="color: #00a65a; font-weight: bold;">
+                                            <i class="fa fa-check-circle"></i> Updated
+                                        </td>
+                                        {% else %}
+                                        <td style="color: #f56954; font-weight: bold;">
+                                            <i class="fa fa-exclamation-circle"></i> Not Updated
+                                        </td>
+                                        {% endif %}
                                     </tr>
                                     {% endfor %}
-                                    {% endif %}
                                 </tbody>
                             </table>
+                            <script>
+                                $(document).ready(function() {
+                                    $('#reweighing_overview').DataTable({
+                                        "paging": true,
+                                        "lengthChange": true,
+                                        "ordering": true,
+                                        "autoWidth": false
+                                    });
+                                });
+                            </script>
                             {% endif %}
                         </div>
                     </div>

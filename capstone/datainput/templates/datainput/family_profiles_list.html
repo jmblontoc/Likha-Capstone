@@ -11,7 +11,7 @@
                     </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{% url 'core:nutritionist' %}">Nutritionist Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'datainput:data_status_index' %}">Data Status</a></li>
                         <li class="breadcrumb-item active">Family Profile</li>
                     </ol>
                 </div>
@@ -21,33 +21,48 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-6">
+                <div class="col-8">
                     <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Family Profile Records for {{ barangay }}</a></h3>
+                        <div class="card-header p-0">
+                            <h3 class="card-title p-3">Family Profile Records for {{ barangay }}</a></h3>
                         </div>
                         <div class="card-body">
-                            {% if families.count == 0 %}
-                                <h1>There are no family profiles yet for the current year</h1>
-                            {% else %}
+
                                 <div>
-                                    <table class="table table-bordered">
+                                    <table id="familyprofile_overview" class="table table-bordered table-hover dataTable">
+                                        <thead>
                                         <tr>
-                                            <th>Profile</th>
-                                            <th colspan="2">Action</th>
+                                            <th style="width: 60%">Profile</th>
+                                            <th style="width: 40%">Action</th>
                                         </tr>
+                                        </thead>
+                                        <tbody>
                                         {% for family in families %}
-                                            <tr>
-                                                <td style="vertical-align: middle;"><a href="{% url 'datainput:show_profiles' family.id %}">Family Profile for {{ family.date.year }}</a></td>
-                                                <td style="text-align: center;">
-                                                    <a class="btn btn-success col-5" href="{% url 'datainput:accept_family_profiles' barangay.id %}">Accept</a>
-                                                    <a class="btn btn-danger col-5" href="{% url 'datainput:reject_family_profiles' barangay.id %}">Reject</a>
-                                                </td>
-                                            </tr>
+                                        <tr>
+                                            <td style="vertical-align: middle;"><a href="{% url 'datainput:show_profiles' family.id %}">Family Profile Record for {{ family.date.year }}</a></td>
+                                            {% if family.status == 'Approved' %}
+                                            <td style="font-weight: bold; color:#00a65a;"><i class="fa fa-check-circle"></i> Approved</td>
+                                            {% else %}
+                                            <td style="text-align: center;">
+                                                <a class="btn btn-success col-5" href="{% url 'datainput:accept_family_profiles' barangay.id %}">Accept</a>
+                                                <a class="btn btn-danger col-5" href="{% url 'datainput:reject_family_profiles' barangay.id %}">Reject</a>
+                                            </td>
+                                            {% endif %}
+                                        </tr>
                                         {% endfor %}
+                                        </tbody>
                                     </table>
+                                    <script>
+                                        $(document).ready(function() {
+                                            $('#familyprofile_overview').DataTable({
+                                                "paging": true,
+                                                "lengthChange": true,
+                                                "ordering": true,
+                                                "autoWidth": false
+                                            });
+                                        });
+                                    </script>
                                 </div>
-                            {% endif %}
                         </div>
                     </div>
                 </div>

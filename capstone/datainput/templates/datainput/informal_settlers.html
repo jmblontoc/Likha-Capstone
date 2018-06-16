@@ -23,8 +23,8 @@
             <div class="row">
                 <div class="col-6">
                     <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Informal Settlers</h3>
+                        <div class="card-header p-0">
+                            <h3 class="card-title p-3">Informal Settlers</h3>
                         </div>
                         <div class="card-body">
                             <table class="table table-bordered">
@@ -54,12 +54,12 @@
                 </div>
                 <div class="col-6">
                     <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Add Informal Settlers Record</h3>
+                        <div class="card-header p-0">
+                            <h3 class="card-title p-3">Add Informal Settlers Record</h3>
                         </div>
                         <div class="card-body">
                             {% if not has_record %}
-                            <h3>Add record</h3>
+                            <h3>Informal Settlers Record for {% now "Y" %}</h3>
                             <div>
                                 <form method="POST">
                                     {% csrf_token %}
@@ -68,7 +68,7 @@
                                 </form>
                             </div>
                             {% else %}
-                            <p>Data has already been recorded for this year</p>
+                            <p style="text-align: center; margin-top: 16px;">Data has already been recorded for this year</p>
                             {% endif %}
                         </div>
                     </div>

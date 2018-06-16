@@ -8,7 +8,6 @@
         <div class="container-fluid">
             <div class="row mb-2">
                     <div class="col-sm-6">
-
                         {% if profile.user_type == 'Barangay Nutrition Scholar' %}
                         <h1 class="m-0 text-dark">Barangay Nutrition Scholar Dashboard</h1>
                         {% else %}
@@ -22,8 +21,8 @@
                         <li class="breadcrumb-item"><a href="{% url 'datainput:family_profiles' %}">Family Profile</a></li>
                         <li class="breadcrumb-item active">List of Families</li>
                         {% else %}
-                        <li class="breadcrumb-item"><a href="{% url 'datainput:data_status_index' %}">Nutritionist Data Status</a></li>
-                        <li class="breadcrumb-item">Family Profile</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'datainput:data_status_index' %}">Data Status</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'datainput:show_family_profiles' barangay %}">Family Profile</a></li>
                         <li class="breadcrumb-item active">List of Families</li>
                         {% endif %}
                     </ol>
@@ -36,8 +35,8 @@
             <div class="row">
                 <div class="col-6">
                     <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">List of Families</h3>
+                        <div class="card-header p-0">
+                            <h3 class="card-title p-3">List of Families</h3>
                         </div>
                         <div class="card-body">
                             <table id="family_list" class="table table-bordered table-hover dataTable">
@@ -73,8 +72,8 @@
                 </div>
                 <div class="col-6">
                     <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Family Details</h3>
+                        <div class="card-header p-0">
+                            <h3 class="card-title p-3">Family Details</h3>
                         </div>
                         <div class="card-body">
                             <table class="table table-bordered">

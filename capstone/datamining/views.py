@@ -7,6 +7,7 @@ from datainput.models import NutritionalStatus, Barangay, Sex, ChildCare, Tuberc
     MaternalCare, Schistosomiasis, Leprosy, Flariasis, STISurveillance
 from friends.datapreprocessing import checkers
 from django.shortcuts import render, redirect
+from core.models import Profile, Notification
 from friends import datapoints
 
 
@@ -154,9 +155,15 @@ def index(request):
 
         correlations.display_informal_settlers(scores)
 
+<<<<<<< HEAD
         request.session['scores'] = scores
+=======
+        profile = Profile.objects.get(user=request.user)
+>>>>>>> 6bc3c9b14d4c880f9ffab328d7d933c0ca788197
 
         context = {
+            'profile': profile,
+            'active': 'ct',
             'statuses': nutritional_statuses,
             'scores': scores
         }

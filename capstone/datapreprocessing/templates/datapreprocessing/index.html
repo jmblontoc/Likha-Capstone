@@ -7,7 +7,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Metrics and Thresholds</h1>
+                    <h1 class="m-0 text-dark">City Nutritionist Metrics and Thresholds</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -22,8 +22,13 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Metrics and Thresholds as of {{ date }} <a href="{% url 'datapreprocessing:add_metric' %}" class="btn btn-default btn-sm" style="color:#004876;">Add a Metric</a></h3>
+                        <div class="card-header d-flex p-0" style="cursor: move;">
+                        <h3 class="card-title p-3">Metrics and Thresholds as of {{ date }}</h3>
+                        <ul class="nav nav-pills ml-auto p-2">
+                            <li class="nav-item">
+                                <a class="nav-link btn-default" style="text-align: center; color: #004876;" href="{% url 'datapreprocessing:add_metric' %}">Add a Metric</a>
+                            </li>
+                        </ul>
                         </div>
                         <div class="card-body">
                             <table id="metricsthresholds" class="table table-bordered table-hover dataTable">
