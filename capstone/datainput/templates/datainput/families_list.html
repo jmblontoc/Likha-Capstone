@@ -35,8 +35,8 @@
             <div class="row">
                 <div class="col-6">
                     <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">List of Families</h3>
+                        <div class="card-header p-0">
+                            <h3 class="card-title p-3">List of Families</h3>
                         </div>
                         <div class="card-body">
                             <table id="family_list" class="table table-bordered table-hover dataTable">
@@ -47,7 +47,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                     {% for family in profiles %}
                                     <tr id="{{ family.id }}" class="family-div" style="cursor: pointer;">
                                         <td>{{ family.household_no }}</td>
@@ -73,8 +72,8 @@
                 </div>
                 <div class="col-6">
                     <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Family Details</h3>
+                        <div class="card-header p-0">
+                            <h3 class="card-title p-3">Family Details</h3>
                         </div>
                         <div class="card-body">
                             <table class="table table-bordered">
