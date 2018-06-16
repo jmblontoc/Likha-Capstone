@@ -23,8 +23,8 @@
             <div class="row">
                 <div class="col-8">
                     <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Operation Timbang Records of {{ barangay }}</h3>
+                        <div class="card-header p-0">
+                            <h3 class="card-title p-3">Operation Timbang Records of {{ barangay }}</h3>
                         </div>
                         <div class="card-body">
                             <table id="otp_overview" class="table table-bordered table-hover dataTables">
@@ -35,11 +35,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% if opt.count == 0 %}
-                                    <tr>
-                                        <td style="text-align: center;">eOPT has not yet been uploaded</td>
-                                    </tr>
-                                    {% else %}
                                     {% for record in opt %}
                                     <tr>
                                         <td style="vertical-align: middle;">Operation Timbang Record for {{ record.date.year }}</td>
@@ -53,7 +48,6 @@
                                         {% endif %}
                                     </tr>
                                     {% endfor %}
-                                    {% endif %}
                                 </tbody>
                             </table>
                             <script>
