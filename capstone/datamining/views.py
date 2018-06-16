@@ -154,6 +154,8 @@ def index(request):
 
         correlations.display_informal_settlers(scores)
 
+        request.session['scores'] = scores
+
         context = {
             'statuses': nutritional_statuses,
             'scores': scores

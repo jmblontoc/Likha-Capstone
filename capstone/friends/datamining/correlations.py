@@ -215,7 +215,7 @@ def make_variables(n_status, variable):
     for x in range(0, length):
 
         final_list.append(
-            (sorted_a[x][1], sorted_b[x][1])
+            (sorted_b[x][1], sorted_a[x][1])
         )
 
     return final_list
@@ -363,9 +363,6 @@ def display_informal_settlers(scores):
             'field': 'Number of families',
             'score': score
         })
-
-
-
 
 
 
