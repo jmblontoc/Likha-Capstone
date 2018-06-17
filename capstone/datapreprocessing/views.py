@@ -1,15 +1,18 @@
+import json
 from datetime import datetime
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
+from django.views import View
+
 from friends.datapreprocessing import checkers
 from core.models import Profile, Notification
 from datainput.models import HealthCareWasteManagement, FamilyProfileLine, InformalSettlers, MaternalCare, Immunization, \
     Malaria, Tuberculosis, Schistosomiasis, Flariasis, Leprosy, ChildCare, STISurveillance, NutritionalStatus
 from datapreprocessing.forms import MetricForm, EditMetricForm
-from datapreprocessing.models import Metric
+from datapreprocessing.models import Metric, DataMap, RootCause
 import operator
 from friends import datapoints
 
@@ -126,3 +129,27 @@ def edit_metric(request, id):
     }
 
     return render(request, 'datapreprocessing/edit_metric.html', context)
+
+
+class DataMap(View):
+    @staticmethod
+    @login_required
+    def get(request):
+        context = {
+            'metrics': Metric.objects.all()
+        }
+        return render(request, 'datapreprocessing/add_root_cause.html', context)
+
+    # @staticmethod
+    # @login_required
+    # def post(request):
+    #     new_root_cause = RootCause.objects.create(name=request.POST.get('root_cause'))
+    #     new_root_cause.save();
+    #     metric = Metric.objects.get(metric=request.POST.get('metric'))
+    #     new_data_map = DataMap.objects.create(root_cause=new_root_cause, metric=metric)
+    #
+    #     data = {
+    #         "new_root_cause": new_root_cause.name
+    #     }
+    #     return JsonResponse(data)
+

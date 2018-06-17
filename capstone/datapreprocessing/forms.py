@@ -1,6 +1,6 @@
 from django.forms import ModelForm, forms, Select, ChoiceField, TextInput
 
-from datapreprocessing.models import Metric
+from datapreprocessing.models import Metric, RootCause
 
 
 class MetricForm(ModelForm):
@@ -15,4 +15,3 @@ class EditMetricForm(ModelForm):
     class Meta:
         model = Metric
         fields = ['threshold']
-
