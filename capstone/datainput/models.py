@@ -344,6 +344,14 @@ class Immunization(models.Model):
     fully_immunized_child = models.DecimalField(decimal_places=2, max_digits=5)
     child_protected_at_birth = models.DecimalField(decimal_places=2, max_digits=5)
 
+    given_bcg = models.IntegerField()
+    given_hepa = models.IntegerField()
+    given_penta = models.IntegerField()
+    given_opv = models.IntegerField()
+    given_mcv = models.IntegerField()
+    given_rota = models.IntegerField()
+    given_pcv = models.IntegerField()
+
     fhsis = models.ForeignKey(FHSIS, on_delete=models.CASCADE)
     sex = models.ForeignKey(Sex, on_delete=models.CASCADE)
 

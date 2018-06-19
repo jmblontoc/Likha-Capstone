@@ -47,7 +47,7 @@ def add_metric(request):
     family_profile = FamilyProfileLine._meta.get_fields()
     informal_settlers = InformalSettlers._meta.get_fields()[1:2]
     maternal = MaternalCare._meta.get_fields()[1:10]
-    immunization = Immunization._meta.get_fields()[1:4]
+    immunization = Immunization._meta.get_fields()[1:11]
     malaria = Malaria._meta.get_fields()[1:6]
     tb = Tuberculosis._meta.get_fields()[1:5]
     schisto = Schistosomiasis._meta.get_fields()[1:3]

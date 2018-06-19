@@ -871,8 +871,8 @@ def handle_fhsis_file(request):
         counter_sti = counter_sti + 1
     sti.save()
 
-    # immunization male
-    immunization_fields = misc.get_fields(Immunization)[1:4]
+    # immunization
+    immunization_fields = misc.get_fields(Immunization)[1:11]
     immunization_male = Immunization(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
     immunization_female = Immunization(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
 
@@ -882,6 +882,13 @@ def handle_fhsis_file(request):
         # male
         setattr(immunization_male, immunization_fields[counter_immune], sheet.cell_value(x, 1))
         # female
+        setattr(immunization_female, immunization_fields[counter_immune], sheet.cell_value(x, 2))
+
+        counter_immune = counter_immune + 1
+
+    for x in range(70, 77):
+
+        setattr(immunization_male, immunization_fields[counter_immune], sheet.cell_value(x, 1))
         setattr(immunization_female, immunization_fields[counter_immune], sheet.cell_value(x, 2))
 
         counter_immune = counter_immune + 1

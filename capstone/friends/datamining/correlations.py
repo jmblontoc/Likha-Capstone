@@ -144,7 +144,10 @@ def get_fhsis(model, field, sex):
         records = base.filter(fhsis__date__month=start_month)
 
         for record in records:
-            count = count + getattr(record, field)
+            try:
+                count = count + getattr(record, field)
+            except TypeError:
+                print('secret')
 
         values[start_month] = float(count)
         start_month = start_month + 1

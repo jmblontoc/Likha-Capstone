@@ -49,7 +49,7 @@ def index(request):
         )
 
         correlations.display(
-            Immunization._meta.get_fields()[1:4],
+            Immunization._meta.get_fields()[1:11],
             scores,
             Immunization,
             sex
@@ -112,7 +112,7 @@ def index(request):
         )
 
         correlations.display(
-            Immunization._meta.get_fields()[1:4],
+            Immunization._meta.get_fields()[1:11],
             scores,
             Immunization,
             sex2

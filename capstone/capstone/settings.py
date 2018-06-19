@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'core',
     'datainput',
     'datapreprocessing',
-    'datamining'
+    'datamining',
+    'visualizations'
 ]
 
 MIDDLEWARE = [

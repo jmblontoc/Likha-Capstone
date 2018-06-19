@@ -21,5 +21,6 @@ urlpatterns = [
     path('', include('core.urls')),
     path('data-input/', include('datainput.urls')),
     path('data-pre_processing/', include('datapreprocessing.urls')),
-    path('data-mining/', include('datamining.urls'))
+    path('data-mining/', include('datamining.urls')),
+    path('visualizations/', include('visualizations.urls'))
 ]

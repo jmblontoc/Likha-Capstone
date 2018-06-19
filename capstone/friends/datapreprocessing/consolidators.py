@@ -150,7 +150,11 @@ def get_total_with_sex(model, field, sex):
     count = 0
 
     for record in records:
-        count = count + getattr(record, field)
+
+        try:
+            count = count + getattr(record, field)
+        except TypeError:
+            print('aha')
 
     return count
 
@@ -171,13 +175,14 @@ def get_total_opt(status, sex):
 
 def get_reweighing_counts(status, sex):
 
-    records = MonthlyReweighing.objects.filter(date__year=datetime.now().year)
+    records = MonthlyReweighing.objects.filter(date__year=datetime.now().year, date__month=datetime.now().month,
+                                               patient__sex=sex)
 
     # status = 'Weight for Age - Overweight'
     count = 0
     for record in records:
 
-        if status in record.get_nutritional_status() and record.patient.sex == sex:
+        if status in record.get_nutritional_status():
             count = count + 1
 
     return count
