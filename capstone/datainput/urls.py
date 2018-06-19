@@ -7,6 +7,18 @@ app_name = 'datainput'
 urlpatterns = [
     path('bns/eOPT/file', views.handle_opt_file, name='handle_opt_file'),
 
+    # show opt records
+    path('bns/eOPT/list', views.show_opt_list, name='show_opt_list'),
+
+    # show eOPT file
+    path('bns/eOPT/show/<int:id>', views.view_opt_file, name='view_opt_file'),
+
+    # show fhsis records
+    path('bns/fhsis/list', views.show_fhsis_list, name='show_fhsis_list'),
+
+    # show fhsis file
+    path('bns/fhsis/show/<int:id>', views.view_fhsis_file, name='view_fhsis_file'),
+
     path('bns/family_profile/file', views.handle_family_profile_file, name='handle_family_profile_file'),
     path('bns/family_profile/list', views.family_profiles, name='family_profiles'),
 

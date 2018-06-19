@@ -31,11 +31,11 @@
     {% load static %}
     <script src="{% static 'datapreprocessing/js/data_map.js' %}"></script>
 
-    <form method="POST">
+    <form method="POST" action={% url 'datapreprocessing:add_root_cause' %}>
         {% csrf_token %}
         <div class="form-group">
         <label>Root Cause Name:</label>
-            <input type="text" class="form-control" id="root-cause-name">
+            <input type="text" class="form-control" id="root-cause-name" name="root_cause">
         </div>
 
         <div class="form-group">

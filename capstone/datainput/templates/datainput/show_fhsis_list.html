@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Show FHSIS List</title>
+</head>
+<body>
+    <h1>FHSIS Records</h1>
+
+    <ul>
+        {% for fhsis in fhsis_records %}
+            <li>
+                <a href="{% url 'datainput:view_fhsis_file' fhsis.id %}">
+                    FHSIS - {{ fhsis.date.date }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

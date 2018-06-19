@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Show OPT List</title>
+</head>
+<body>
+    <h1>Operation Timbang Records</h1>
+
+    <ul>
+        {% for opt in opt_records %}
+            <li>
+                <a href="{% url 'datainput:view_opt_file' opt.id %}">
+                    eOPT - {{ opt.date.date }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

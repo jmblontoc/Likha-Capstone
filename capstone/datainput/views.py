@@ -110,6 +110,54 @@ def handle_opt_file(request):
 
 
 @login_required
+def show_opt_list(request):
+
+    barangay = Profile.objects.get(user=request.user).barangay
+    opt_records = OperationTimbang.objects.filter(barangay=barangay)
+
+    context = {
+        'opt_records': opt_records
+    }
+
+    return render(request, 'datainput/show_opt_list.html', context)
+
+
+@login_required
+def view_opt_file(request, id):
+
+    opt = OperationTimbang.objects.get(id=id)
+    file_name = str(opt.id) + '.xlsx'
+    file = os.path.join(settings.MEDIA_ROOT, 'eopt', file_name)
+
+    os.startfile(file)
+    return redirect('datainput:show_opt_list')
+
+
+@login_required
+def show_fhsis_list(request):
+
+    barangay = Profile.objects.get(user=request.user).barangay
+    fhsis_records = FHSIS.objects.filter(barangay=barangay)
+
+    context = {
+        'fhsis_records': fhsis_records
+    }
+
+    return render(request, 'datainput/show_fhsis_list.html', context)
+
+
+@login_required
+def view_fhsis_file(request, id):
+
+    fhsis = FHSIS.objects.get(id=id)
+    file_name = str(fhsis.id) + '.xlsx'
+    file = os.path.join(settings.MEDIA_ROOT, 'fhsis', file_name)
+
+    os.startfile(file)
+    return redirect('datainput:show_fhsis_list')
+
+
+@login_required
 def handle_family_profile_file(request):
 
     # error checking

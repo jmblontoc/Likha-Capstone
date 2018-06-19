@@ -140,16 +140,21 @@ class DataMap(View):
         }
         return render(request, 'datapreprocessing/add_root_cause.html', context)
 
-    # @staticmethod
-    # @login_required
-    # def post(request):
-    #     new_root_cause = RootCause.objects.create(name=request.POST.get('root_cause'))
-    #     new_root_cause.save();
-    #     metric = Metric.objects.get(metric=request.POST.get('metric'))
-    #     new_data_map = DataMap.objects.create(root_cause=new_root_cause, metric=metric)
-    #
-    #     data = {
-    #         "new_root_cause": new_root_cause.name
-    #     }
-    #     return JsonResponse(data)
+    @staticmethod
+    @login_required
+    def post(request):
+        # new_root_cause = RootCause.objects.create(name=request.POST.get('root_cause'))
+        new_root_cause = RootCause(name=request.POST['root_cause'])
+        print(new_root_cause)
+        new_root_cause.save()
+
+        print(new_root_cause)
+
+        metric = Metric.objects.get(metric=request.POST.get('metric'))
+        DataMap.objects.create(root_cause=new_root_cause, metric=metric)
+
+        data = {
+            "new_root_cause": new_root_cause.name
+        }
+        return JsonResponse(data)
 
