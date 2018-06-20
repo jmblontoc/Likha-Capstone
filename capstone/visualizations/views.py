@@ -8,7 +8,7 @@ from django.shortcuts import render
 from friends.datamining import correlations
 from friends.datapreprocessing import consolidators
 # Create your views here.
-from datainput.models import NutritionalStatus, Sex
+from datainput.models import NutritionalStatus, Sex, MaternalCare, ChildCare
 from friends.datamining.correlations import get_weight_values_per_month
 
 
@@ -36,6 +36,22 @@ def micronutrient_report(request):
     context = {}
 
     return render(request, 'visualizations/micronutrient.html', context)
+
+
+@login_required
+def maternal_report(request):
+
+    context = {}
+
+    return render(request, 'visualizations/maternal.html', context)
+
+
+@login_required
+def child_care(request):
+
+    context = {}
+
+    return render(request, 'visualizations/child_care.html', context)
 
 
 # # # # # # # # # # # # AJAX # # # # # # # # # # # #
@@ -96,3 +112,33 @@ def get_micronutrient(request):
     }
 
     return JsonResponse(data)
+
+
+@login_required
+def get_maternal(request):
+
+    fields = [x.verbose_name for x in MaternalCare._meta.get_fields()[1:10]]
+    values = [int(x) for x in getters.get_maternal()]
+
+    data = {
+        'fields': fields,
+        'values': values
+    }
+
+    return JsonResponse(data)
+
+
+@login_required
+def get_child_care(request):
+
+    fields = [x.verbose_name for x in ChildCare._meta.get_fields()[1:13]]
+    values = [int(x) for x in getters.get_child_care()]
+
+    data = {
+        'fields': fields,
+        'values': values
+    }
+
+    return JsonResponse(data)
+
+

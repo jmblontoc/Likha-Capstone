@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.db.models import Sum
 
-from datainput.models import ChildCare, Immunization
+from datainput.models import ChildCare, Immunization, MaternalCare
 
 
 def get_micronutrient(sex):
@@ -28,3 +28,41 @@ def get_micronutrient(sex):
 
     return data
 
+
+def get_maternal():
+
+    data = []
+
+    records = MaternalCare.objects.filter(fhsis__date__year=datetime.now().year)
+
+    for field in MaternalCare._meta.get_fields()[1:10]:
+
+        phrase = str(field).split(".")
+        str_field = phrase[2]
+
+        data.append(
+            records.aggregate(sum=Sum(
+                str_field
+            ))['sum']
+        )
+
+    return data
+
+
+def get_child_care():
+
+    data = []
+
+    records = ChildCare.objects.filter(fhsis__date__year=datetime.now().year)
+
+    for field in ChildCare._meta.get_fields()[1:13]:
+        phrase = str(field).split(".")
+        str_field = phrase[2]
+
+        data.append(
+            records.aggregate(sum=Sum(
+                str_field
+            ))['sum']
+        )
+
+    return data

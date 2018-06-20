@@ -1,75 +1,48 @@
 $(document).ready(function() {
 
     $.ajax({
-        url: "/visualizations/micronutrient/get_data",
+        url: "/visualizations/child_care/get_data",
         method: "POST",
         dataType: "json",
         success: function(data) {
 
-            male = [];
-            female = [];
-
-            for (var x in data.male) {
-                male.push(parseInt(data.male[x]));
-            }
-
-            for (var y in data.female) {
-                female.push(parseInt(data.female[y]));
-            }
+            console.log(data);
 
             Highcharts.chart('container', {
               chart: {
                 type: 'column'
               },
               title: {
-                text: 'Total Micronutrient Supplementation Count as of Today'
+                text: 'Total Child Care Count as of Today'
               },
               xAxis: {
-                categories: data.fields
+                categories: data.fields,
+                crosshair: true
               },
               yAxis: {
                 min: 0,
                 title: {
                   text: 'Total Count'
-                },
-                stackLabels: {
-                  enabled: true,
-                  style: {
-                    fontWeight: 'bold',
-                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
-                  }
                 }
               },
-              legend: {
-                align: 'right',
-                x: -30,
-                verticalAlign: 'top',
-                y: 25,
-                floating: true,
-                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
-                borderColor: '#CCC',
-                borderWidth: 1,
-                shadow: false
-              },
               tooltip: {
-                headerFormat: '<b>{point.x}</b><br/>',
-                pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">Total: </td>' +
+                  '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
               },
               plotOptions: {
                 column: {
-                  stacking: 'normal',
-                  dataLabels: {
-                    enabled: true,
-                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
-                  }
+                  pointPadding: 0.2,
+                  borderWidth: 0
                 }
               },
-              series: [{
-                name: 'Male',
-                data: male
-              }, {
-                name: 'Female',
-                data: female
+              series: [ {
+                name: 'Fields',
+                data: data.values
+
               }]
             });
         },

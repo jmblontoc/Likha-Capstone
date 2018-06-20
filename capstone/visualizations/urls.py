@@ -14,7 +14,15 @@ urlpatterns = [
     # micronutrient
     path('micronutrient', views.micronutrient_report, name='micronutrient'),
 
+    # maternal
+    path('maternal', views.maternal_report, name='maternal'),
+
+    # child care
+    path('child_care', views.child_care, name='child_care'),
+
     # ajax
     path('nutritional_status/get_weights', views.get_nutritional_status, name='get_weights'),
-    path('micronutrient/get_data', views.get_micronutrient, name='get_micronutrient')
+    path('micronutrient/get_data', views.get_micronutrient, name='get_micronutrient'),
+    path('maternal/get_data', views.get_maternal, name='get_maternal'),
+    path('child_care/get_data', views.get_child_care, name='get_child_care')
 ]
