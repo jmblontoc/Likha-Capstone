@@ -19,7 +19,7 @@ def index(request):
 
     }
 
-    return render(request, 'visualizations/index.html', context)
+    return render(request, 'visualizations/select_report.html', context)
 
 
 @login_required

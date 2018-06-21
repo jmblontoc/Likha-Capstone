@@ -10,6 +10,12 @@ class Metric(models.Model):
 
     metric = models.CharField(max_length=150)
     threshold = models.DecimalField(max_digits=10, decimal_places=2)
+
+    UNIT_CHOICES = (
+        ('Total', 'Total'),
+        ('Rate', 'Rate')
+    )
+    unit = models.CharField(max_length=20, choices=UNIT_CHOICES, default='Total')
     date = models.DateTimeField(default=datetime.now)
     is_completed = models.BooleanField(default=False)
 

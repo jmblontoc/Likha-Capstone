@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reject</title>
+</head>
+<body>
+    <h1>Reject</h1>
+    <p>Please leave the Barangay Nutrition Scholar the reason/s why you have rejected the data upload. Include in the form the revisions that must be made.</p>
+    <form method="POST">
+        {% csrf_token %}
+        {% include 'core/helpers/form_template.html' %}
+
+        <input type="submit">
+    </form>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Select Report</title>
+</head>
+<body>
+    <h1>Generate Report</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <label>
+            Start Date:
+            <input name="date1">
+        </label>
+        <label>
+            End Date:
+            <input name="date2">
+        </label>
+        <label> Report
+            <select name="report">
+                <option value="1">City Nutritional Status Report</option>
+                <option value="2">City Micronutrient Supplementation Report</option>
+                <option value="3">City Maternal Care Report</option>
+                <option value="4">City Children Care Report</option>
+                <option value="5">City Nutritional Status Report</option>
+                <option value="6">Socioeconomic Impact on Malnutrition Report</option>
+                <option value="7">Health Care Waste Management Report</option>
+                <option value="8">Unemployment Rate Report</option>
+            </select>
+        </label>
+        <input type="submit">
+    </form>
+</body>
+</html>

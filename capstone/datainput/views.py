@@ -9,6 +9,8 @@ from django.core import serializers
 from django.core.files.storage import default_storage
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
+
+from core.forms import RejectForm
 from datainput.forms import FamilyProfileForm, PatientForm, MonthlyReweighingForm, HealthCareWasteManagementForm, \
     InformalSettlersForm, UnemploymentRateForm
 from friends.datainput import excel_uploads, validations, misc
@@ -205,6 +207,11 @@ def family_profiles(request):
 def add_family_profile(request):
 
     barangay = Profile.objects.get(user=request.user).barangay
+
+    if barangay.has_family_profile:
+        messages.error(request, 'Family profile for this year has already been uploaded')
+        return redirect('datainput:family_profiles')
+
     form = FamilyProfileForm(request.POST or None)
 
     if form.is_valid():
@@ -557,11 +564,28 @@ def show_fhsis(request, id):
 
     profile = Profile.objects.get(user=request.user)
 
+    form = RejectForm(request.POST or None)
+
+    user_from = Profile.objects.get(user=request.user)
+    user_to = fhsis[0].uploaded_by
+
+    if form.is_valid():
+        n = form.save(commit=False)
+        n.profile_to = user_to
+        n.profile_from = user_from
+        n.save()
+
+        fhsis.delete()
+
+        messages.success(request, 'FHSIS record rejected.')
+        return redirect('datainput:data_status_index')
+
     context = {
         'profile': profile,
         'active': 'ds',
         'fhsis': fhsis,
-        'barangay': barangay
+        'barangay': barangay,
+        'form': form
     }
 
     return render(request, 'datainput/show_fhsis.html', context)
@@ -652,20 +676,27 @@ def reject_fhsis(request, id, fhsis_id):
 
     fhsis = FHSIS.objects.get(id=fhsis_id)
 
-    msg = 'Your FHSIS upload has been rejected. Please re-upload again'
+    form = RejectForm(request.POST or None)
+
     user_from = Profile.objects.get(user=request.user)
     user_to = fhsis.uploaded_by
 
-    Notification.objects.create(
-        message=msg,
-        profile_to=user_to,
-        profile_from=user_from
-    )
+    if form.is_valid():
+        n = form.save(commit=False)
+        n.profile_to = user_to
+        n.profile_from = user_from
+        n.save()
 
-    fhsis.delete()
+        fhsis.delete()
 
-    messages.success(request, 'FHSIS record rejected.')
-    return redirect('datainput:data_status_index')
+        messages.success(request, 'FHSIS record rejected.')
+        return redirect('datainput:data_status_index')
+
+    context = {
+        'form': form
+    }
+
+    return render(request, 'core/reject_form.html', context)
 
 
 @login_required

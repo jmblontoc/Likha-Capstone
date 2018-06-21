@@ -20,11 +20,12 @@
     </div>
     <section class="content">
         <div class="container-fluid">
+
             <div class="row">
                 <div class="col-8">
                     <div class="card card-primary">
                         <div class="card-header d-flex p-0" style="cursor: move;">
-                        <h3 class="card-title p-3">FHSIS Records of {{ barangay }}</h3>
+                        <h3 class="card-title p-3" id="headH3" data-barangay="{{ barangay.id }}">FHSIS Records of {{ barangay }}</h3>
                         </div>
                         <div class="card-body">
 
@@ -38,7 +39,7 @@
                                 <tbody>
                                     {% load tags %}
                                     {% for record in fhsis %}
-                                        <tr>
+                                        <tr data-id="{{ record.id }}">
                                             <td style="vertical-align: middle;">FHSIS Record for {{ record.date.month|month_name }} {{ record.date.year }}</td>
                                             {% if record.status == 'Approved' %}
                                             <td style="font-weight: bold; color:#00a65a;"><i class="fa fa-check-circle"></i> Approved</td>
@@ -68,5 +69,25 @@
             </div>
         </div>
     </section>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="titleFHSIS" data-id="">Reject FHSIS</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST">
+            {% csrf_token %}
+            {% include 'core/helpers/form_template.html' %}
+            <button type="submit" class="btn btn-primary" id="rejectFHSIS">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

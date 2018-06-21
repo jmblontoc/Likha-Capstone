@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from core.models import Notification, Profile
 
 
@@ -28,4 +30,11 @@ def get_unread_notifications(request):
 
     return {
         'unread_count': None
+    }
+
+
+def today(request):
+
+    return {
+        'today': datetime.now()
     }

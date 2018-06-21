@@ -46,7 +46,7 @@
                             {% include 'core/helpers/notifications.html' %}
                             </div>
                             <div class="dropdown-divider"></div>
-                            <div href="#" class="dropdown-item dropdown-footer">Mark all as read</div>
+                            <a href="{% url 'core:mark_all' %}"><div href="#" class="dropdown-item dropdown-footer">Mark all as read</div></a>
                         </div>
                     </li>
                 </ul>

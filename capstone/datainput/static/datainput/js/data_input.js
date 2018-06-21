@@ -81,6 +81,11 @@ $(document).ready(function() {
             }
         });
     });
+
+    // reject FHSIS
+    $("button#reject_fhsis").click(function() {
+        console.log("wew");
+    });
 });
 
 
