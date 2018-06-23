@@ -1,9 +1,16 @@
 $(document).ready(function() {
 
+    var startDate = $("#start_date").html();
+    var endDate =$("#end_date").html();
+
     $.ajax({
         url: "/visualizations/maternal/get_data",
         method: "POST",
         dataType: "json",
+        data: {
+            start_date: startDate,
+            end_date: endDate
+        },
         success: function(data) {
 
             console.log(data);

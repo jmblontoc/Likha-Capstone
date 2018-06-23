@@ -1,9 +1,18 @@
 $(document).ready(function() {
 
+    var startDate = $("#start_date").html();
+    var endDate = $("#end_date").html();
+
+    console.log(startDate);
+
     $.ajax({
         url: "/visualizations/nutritional_status/get_weights",
         method: "POST",
         dataType: "json",
+        data: {
+            start_date: startDate,
+            end_date: endDate
+        },
         success: function(data) {
             var statuses = JSON.parse(data.statuses);
 
@@ -67,7 +76,7 @@ $(document).ready(function() {
             });
         },
         error: function(data) {
-            console.log(data.responseText);
+           // console.log(data.responseText);
         }
     });
 

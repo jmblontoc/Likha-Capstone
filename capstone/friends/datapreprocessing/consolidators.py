@@ -1,4 +1,7 @@
 from datetime import datetime
+
+from django.db.models import Sum
+
 from friends import datapoints
 from django.apps import apps
 
@@ -173,6 +176,18 @@ def get_total_opt(status, sex):
     return count
 
 
+def get_total_opt_date(status, sex, start_date, end_date):
+
+    records = OPTValues.objects.filter(nutritional_status=status, age_group__sex=sex, opt__date__range=[
+        start_date, end_date
+    ])
+
+    if records.count() == 0:
+        return 0
+
+    return records.aggregate(sum=Sum('values'))['sum']
+
+
 def get_reweighing_counts(status, sex):
 
     records = MonthlyReweighing.objects.filter(date__year=datetime.now().year, date__month=datetime.now().month,
@@ -187,6 +202,21 @@ def get_reweighing_counts(status, sex):
 
     return count
 
+
+def get_reweighing_counts_date(status, sex, start_date, end_date):
+
+    records = MonthlyReweighing.objects.filter(
+        patient__sex=sex,
+        date__range=[start_date, end_date]
+    )
+
+    count = 0
+    for record in records:
+
+        if status in record.get_nutritional_status():
+            count = count + 1
+
+    return count
 
 # for family profiles
 def get_field_choices(field):

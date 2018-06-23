@@ -20,6 +20,9 @@ urlpatterns = [
     # child care
     path('child_care', views.child_care, name='child_care'),
 
+    # display report
+    path('display_report', views.display_report, name='display_report'),
+
     # ajax
     path('nutritional_status/get_weights', views.get_nutritional_status, name='get_weights'),
     path('micronutrient/get_data', views.get_micronutrient, name='get_micronutrient'),

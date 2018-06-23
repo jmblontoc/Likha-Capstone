@@ -77,6 +77,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'capstone.wsgi.application'
 
+DATE_INPUT_FORMATS = [
+    '%m/%d/%Y'
+]
+
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases

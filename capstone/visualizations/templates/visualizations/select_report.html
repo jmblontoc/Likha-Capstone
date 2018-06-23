@@ -5,9 +5,10 @@
     <title>Select Report</title>
 </head>
 <body>
+    {% include 'core/helpers/messages.html' %}
     <h1>Generate Report</h1>
 
-    <form method="POST">
+    <form method="POST" action="{% url 'visualizations:display_report' %}">
         {% csrf_token %}
         <label>
             Start Date:

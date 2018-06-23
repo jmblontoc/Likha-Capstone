@@ -1,9 +1,15 @@
 $(document).ready(function() {
 
+    console.log("wew");
+
     $.ajax({
         url: "/visualizations/micronutrient/get_data",
         method: "POST",
         dataType: "json",
+        data: {
+            start_date: $("#start_date").html(),
+            end_date: $("#end_date").html()
+        },
         success: function(data) {
 
             male = [];

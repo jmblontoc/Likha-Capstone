@@ -5,18 +5,18 @@ from django.db.models import Sum
 from datainput.models import ChildCare, Immunization, MaternalCare
 
 
-def get_micronutrient(sex):
+def get_micronutrient(sex, date_range):
 
     data = []
 
-    records = ChildCare.objects.filter(fhsis__date__year=datetime.now().year, sex=sex)
+    records = ChildCare.objects.filter(fhsis__date__range=date_range, sex=sex)
 
     data.append(records.aggregate(sum=Sum('received_vitamin_A'))['sum'])
     data.append(records.aggregate(sum=Sum('received_iron'))['sum'])
     data.append(records.aggregate(sum=Sum('received_MNP'))['sum'])
     data.append(records.aggregate(sum=Sum('diarrhea_with_ORS'))['sum'])
 
-    immunizations = Immunization.objects.filter(fhsis__date__year=datetime.now().year, sex=sex)
+    immunizations = Immunization.objects.filter(fhsis__date__range=date_range, sex=sex)
 
     data.append(immunizations.aggregate(sum=Sum('given_bcg'))['sum'])
     data.append(immunizations.aggregate(sum=Sum('given_hepa'))['sum'])
@@ -29,11 +29,11 @@ def get_micronutrient(sex):
     return data
 
 
-def get_maternal():
+def get_maternal(date_range):
 
     data = []
 
-    records = MaternalCare.objects.filter(fhsis__date__year=datetime.now().year)
+    records = MaternalCare.objects.filter(fhsis__date__range=date_range)
 
     for field in MaternalCare._meta.get_fields()[1:10]:
 
@@ -43,17 +43,17 @@ def get_maternal():
         data.append(
             records.aggregate(sum=Sum(
                 str_field
-            ))['sum']
+            ))['sum'] or 0
         )
 
     return data
 
 
-def get_child_care():
+def get_child_care(date_range):
 
     data = []
 
-    records = ChildCare.objects.filter(fhsis__date__year=datetime.now().year)
+    records = ChildCare.objects.filter(fhsis__date__range=date_range)
 
     for field in ChildCare._meta.get_fields()[1:13]:
         phrase = str(field).split(".")
@@ -62,7 +62,7 @@ def get_child_care():
         data.append(
             records.aggregate(sum=Sum(
                 str_field
-            ))['sum']
+            ))['sum'] or 0
         )
 
     return data
