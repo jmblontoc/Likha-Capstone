@@ -117,7 +117,10 @@ def show_opt_list(request):
     barangay = Profile.objects.get(user=request.user).barangay
     opt_records = OperationTimbang.objects.filter(barangay=barangay)
 
+    profile = Profile.objects.get(user=request.user)
+
     context = {
+        'profile': profile,
         'opt_records': opt_records
     }
 
@@ -141,7 +144,10 @@ def show_fhsis_list(request):
     barangay = Profile.objects.get(user=request.user).barangay
     fhsis_records = FHSIS.objects.filter(barangay=barangay)
 
+    profile = Profile.objects.get(user=request.user)
+
     context = {
+        'profile': profile,
         'fhsis_records': fhsis_records
     }
 
