@@ -26,6 +26,22 @@ def get_equation_string(r, numbers):
     return 'y = ' + str(a) + ' + (' + str(b) + ')x'
 
 
+def get_line(r, numbers):
+
+    a = round(get_y_intercept(r, numbers), 2)
+    b = round(get_slope(r, numbers), 2)
+
+    return [[0, a], [-a / b, 0]]
+
+
+def get_variables(r, numbers):
+
+    a = round(get_y_intercept(r, numbers), 2)
+    b = round(get_slope(r, numbers), 2)
+
+    return [a, b]
+
+
 def get_standard_deviation(numbers, n):
 
     mean = correlations.get_means(numbers)[n]

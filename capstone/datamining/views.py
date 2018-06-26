@@ -184,7 +184,10 @@ def forecast(request, id):
 
     context = {
         'cr': cr_line,
-        'equation': equation
+        'equation': equation,
+        'variables': variables,
+        'line': f.get_line(score, variables),
+        'equation_variables': f.get_variables(score, variables)
     }
 
     return render(request, 'datamining/forecast.html', context)

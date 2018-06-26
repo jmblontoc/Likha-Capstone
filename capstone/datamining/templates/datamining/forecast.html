@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Forecast</title>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.js"
+      integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+      crossorigin="anonymous"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
 </head>
 <body>
     <h1>Forecast:</h1>
@@ -10,8 +15,106 @@
 
     <div>
         Correlation Score: {{ cr.score }}
-        SHOW GRAPH HERE TODO
     </div>
     <p>Linear Regression Equation: <b>{{ equation }}</b></p>
+    <label>
+        Input predicted value of <b>{{ cr.field }}</b> for next month
+        <input id="prediction" type="number" min="0">
+        <button id="compute">Predict</button>
+    </label>
+    <p>Result: <b><span id="result"></span></b></p>
+    <div id="container">
+
+    </div>
+    <script>
+        $(document).ready(function() {
+            console.log({{ variables }});
+
+            var data = {{ variables }};
+            var vars = {{ equation_variables }};
+            var con = $("div#container");
+
+            Highcharts.chart('container', {
+                xAxis: {
+                },
+                yAxis: {
+                },
+                title: {
+                    text: '{{ cr.category }} - {{ cr.sex }}  vs. {{ cr.source }} - {{ cr.field }}'
+                },
+                series: [{
+                    type: 'line',
+                    name: 'Regression Line',
+                    data: {{ line }},
+                    marker: {
+                        enabled: false
+                    },
+                    states: {
+                        hover: {
+                            lineWidth: 0
+                        }
+                    },
+                    enableMouseTracking: false
+                }, {
+                    type: 'scatter',
+                    name: 'Observations',
+                    data: data,
+                    marker: {
+                        radius: 4
+                    }
+                }]
+            });
+
+            $("button#compute").click(function(){
+
+                var prediction = $("#prediction").val();
+
+                if (prediction != '') {
+
+                    con.empty();
+
+                    var result = $("#result");
+                    var y;
+
+                    y = Math.round(vars[1] * prediction + vars[0]);
+                    result.html(y);
+
+                    data.push([parseInt(prediction), y]);
+                    console.log(data);
+
+                    Highcharts.chart('container', {
+                        xAxis: {
+                        },
+                        yAxis: {
+                        },
+                        title: {
+                            text: '{{ cr.category }} - {{ cr.sex }}  vs. {{ cr.source }} - {{ cr.field }}'
+                        },
+                        series: [{
+                            type: 'line',
+                            name: 'Regression Line',
+                            data: {{ line }},
+                            marker: {
+                                enabled: false
+                            },
+                            states: {
+                                hover: {
+                                    lineWidth: 0
+                                }
+                            },
+                            enableMouseTracking: false
+                        }, {
+                            type: 'scatter',
+                            name: 'Observations',
+                            data: data,
+                            marker: {
+                                radius: 4
+                            }
+                        }]
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
