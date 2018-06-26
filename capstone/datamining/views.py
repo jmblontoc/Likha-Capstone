@@ -171,6 +171,23 @@ def index(request):
     return redirect('core:nutritionist')
 
 
+@login_required
+def get_positive(request):
+
+    correlations = request.session['scores']
+    profile = Profile.objects.get(user=request.user)
+
+    scores = [x for x in correlations if x['score'] > 0]
+
+    context = {
+        'profile': profile,
+        'active': 'ct',
+        'scores': scores
+    }
+
+    return render(request, 'datamining/index.html', context)
+
+
 # predictive modeling page
 @login_required
 def forecast(request, id):

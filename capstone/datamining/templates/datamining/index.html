@@ -24,6 +24,7 @@
                     <div class="card card-primary">
                         <div class="card-header d-flex p-0">
                             <h3 class="card-title p-3">Correlations and Forecasts</h3>
+                            <p id="positive">View Positive Correlations Only</p>
                         </div>
                         <div class="card-body">
                             <table id="correlation_overview" class="table table-bordered table-hover dataTable">
@@ -34,19 +35,19 @@
                                     <th style="width: 10%;">Sex</th>
                                     <th style="width: 24%;">Field</th>
                                     <th style="width: 10%;">Score</th>
-                                    <th style="width: 10%;">View Graph</th>
+                                    <th style="width: 10%;">Add as Root Cause</th>
                                     <th style="width: 10%;">Forecasts</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {% for s in scores %}
-                                    <tr>
+                                    <tr class="correlation-row">
                                         <td>{{ s.category }}</td>
                                         <td>{{ s.source }}</td>
                                         <td>{{ s.sex }}</td>
                                         <td>{{ s.field }}</td>
-                                        <td>{{ s.score }}</td>
-                                        <td><a>View Graph</a></td>
+                                        <td class="score">{{ s.score }}</td>
+                                        <td><a>Add as Root Cause</a></td>
                                         {% if not s.score == 0 %}
                                             <td style="text-align: center;"><a class="btn btn-primary btn-sm col-11" href="{% url 'datamining:forecast' forloop.counter0 %}">Go</a></td>
                                         {% else %}
@@ -58,11 +59,46 @@
                             </table>
                             <script>
                                 $(document).ready(function() {
-                                    $('#correlation_overview').DataTable({
+
+                                    var table = $("#correlation_overview");
+                                    var dt;
+
+                                    dt = table.DataTable({
                                         "paging": true,
                                         "lengthChange": true,
                                         "ordering": true,
                                         "autoWidth": false
+                                    });
+
+                                    $("#positive").click(function() {
+
+                                        dt.destroy();
+
+                                        dt = table.DataTable({
+                                        "paging": false,
+                                        "lengthChange": true,
+                                        "ordering": true,
+                                        "autoWidth": false
+                                        });
+
+                                        $('tr.correlation-row').each(function(){
+
+                                        var score = parseFloat($(this).children('td.score').html());
+
+                                        if (score <= 0)
+                                            $(this).hide();
+
+                                        });
+
+                                        dt.destroy();
+
+                                        dt = table.DataTable({
+                                        "paging": true,
+                                        "lengthChange": true,
+                                        "ordering": true,
+                                        "autoWidth": false
+                                        });
+
                                     });
                                 });
                             </script>
