@@ -1,20 +1,66 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Show FHSIS List</title>
-</head>
-<body>
-    <h1>FHSIS Records</h1>
+{% extends 'core/bns-layout.html' %}
+{% block content %}
 
-    <ul>
+{% include 'core/helpers/messages.html' %}
+<div class="content-wrapper" style="min-height: 620px;">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Barangay Nutrition Scholar Dashboard</h1>
+                    </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{% url 'core:bns-index' %}">BNS Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'datainput:family_profiles' %}">Family Profile</a></li>
+                        <li class="breadcrumb-item active">Add Family Profile</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-6">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">FHSIS Records</h3>
+                        </div>
+                        <div class="card-body">
+
+    <table id="family_list" class="table table-bordered table-hover dataTable">
+                                <thead>
+                                    <tr>
+                                        <th>FHSIS Record</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
         {% for fhsis in fhsis_records %}
-            <li>
-                <a href="{% url 'datainput:view_fhsis_file' fhsis.id %}">
+            <tr class="clickable-row" data-href="{% url 'datainput:view_fhsis_file' fhsis.id %}" style="cursor: pointer;">
+                <td>
                     FHSIS - {{ fhsis.date.date }}
-                </a>
-            </li>
+                </td>
+            </tr>
+
         {% endfor %}
-    </ul>
-</body>
-</html>
+        <tbody>
+    </table>
+                            <script>
+                                $(document).ready(function(){
+                                    $('#family_list').DataTable({
+                                        "paging": true,
+                                        "lengthChange": true,
+                                        "ordering": true,
+                                        "autoWidth": false
+                                    });
+                                });
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

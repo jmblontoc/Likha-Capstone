@@ -1,39 +1,6 @@
 {% extends 'core/nutritionist-layout.html' %}
 {% block content %}
 
-    <h1>Correlations and Forecasts</h1>
-
-    <table border="1">
-        <thead>
-        <tr>
-            <th>Category</th>
-            <th>Source</th>
-            <th>Sex</th>
-            <th>Field</th>
-            <th>Score</th>
-            <th>View Graph</th>
-            <th>Forecasts</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for s in scores %}
-            <tr>
-                <td>{{ s.category }}</td>
-                <td>{{ s.source }}</td>
-                <td>{{ s.sex }}</td>
-                <td>{{ s.field }}</td>
-                <td>{{ s.score }}</td>
-                <td><a>View Graph</a></td>
-                {% if not s.score == 0 %}
-                    <td><a href="{% url 'datamining:forecast' forloop.counter0 %}">Go</a></td>
-                {% else %}
-                    <td>N/A</td>
-                {% endif %}
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
 {% include 'core/helpers/messages.html' %}
 <div class="content-wrapper" style="min-height: 620px;">
     <div class="content-header">
@@ -67,6 +34,8 @@
                                     <th style="width: 10%;">Sex</th>
                                     <th style="width: 30%;">Field</th>
                                     <th style="width: 10%;">Score</th>
+                                    <th style="width: 10%;">View Graph</th>
+                                    <th style="width: 10%;">Forecasts</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -77,6 +46,12 @@
                                         <td>{{ s.sex }}</td>
                                         <td>{{ s.field }}</td>
                                         <td>{{ s.score }}</td>
+                                        <td><a>View Graph</a></td>
+                                        {% if not s.score == 0 %}
+                                            <td><a class="btn btn-primary btn-sm col-10" href="{% url 'datamining:forecast' forloop.counter0 %}">Go</a></td>
+                                        {% else %}
+                                            <td>N/A</td>
+                                        {% endif %}
                                     </tr>
                                 {% endfor %}
                                 </tbody>
