@@ -33,6 +33,9 @@ class SignInView(View):
 
         if user is not None:
             login(request, user)
+
+            if Profile.objects.get(user=user).user_type == 'Nutritionist':
+                correlations.create_session(request)
             return user_redirects.redirect_to(user)
 
         else:
@@ -103,7 +106,6 @@ def bns_index(request):
 @login_required
 def nutritionist(request):
     profile = Profile.objects.get(user=request.user)
-    correlations.create_session(request)
 
     context = {
         'profile': profile,

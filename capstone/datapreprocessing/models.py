@@ -56,21 +56,3 @@ class Metric(models.Model):
         return [x for x in Metric.objects.all() if x.get_total_value >= x.threshold]
 
 
-class RootCause(models.Model):
-
-    name = models.CharField(max_length=256)
-
-    def __str__(self):
-        return self.name
-
-
-class DataMap(models.Model):
-
-    root_cause = models.ForeignKey(RootCause, on_delete=models.CASCADE)
-    metric = models.ForeignKey(Metric, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.root_cause} - {self.metric.metric}"
-
-
-

@@ -3,9 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <title>Root Causes</title>
+
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'core/plugins/bootstrap/css/bootstrap.min.css' %}">
 </head>
 <body>
-    <h1>Root Causes</h1>
-    <a href="{% url 'causalmodel:add_root_cause' %}">Add Root Cause</a>
+    <div class="container">
+
+        <h1>Root Causes</h1>
+        <a href="{% url 'causalmodel:add_root_cause' %}"><button class="btn btn-primary">Add Root Cause</button></a>
+        <table class="table mt-3">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th colspan="3" class="text-center">Details</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for cause in root_causes %}
+                <tr>
+                    <td>{{ cause.name }}</td>
+                    <td>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Metric/s</th>
+                                <th>Value</th>
+                                <th>Threshold</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for data in cause.datamap_set.all %}
+                                <tr>
+                                    <td>{{ data.metric }}</td>
+                                    <td>{{ data.value }}</td>
+                                    <td>{{ data.threshold }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
 </body>
 </html>
