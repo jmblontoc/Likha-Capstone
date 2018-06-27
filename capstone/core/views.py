@@ -10,6 +10,7 @@ from core.models import Profile, Notification
 from datainput.models import OperationTimbang, MonthlyReweighing, FamilyProfile, FHSIS
 from friends import user_redirects
 from datetime import datetime
+from friends.datamining import correlations
 
 
 class SignInView(View):
@@ -102,6 +103,7 @@ def bns_index(request):
 @login_required
 def nutritionist(request):
     profile = Profile.objects.get(user=request.user)
+    correlations.create_session(request)
 
     context = {
         'profile': profile,

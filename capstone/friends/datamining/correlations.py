@@ -4,7 +4,9 @@ from datetime import datetime
 import numpy
 
 from datainput.models import NutritionalStatus, OPTValues, MonthlyReweighing, OperationTimbang, MaternalCare, \
-    STISurveillance, UnemploymentRate, InformalSettlers, Sex
+    STISurveillance, UnemploymentRate, InformalSettlers, Sex, Flariasis, Leprosy, Schistosomiasis, Immunization, \
+    Malaria, Tuberculosis, ChildCare
+from friends import  datapoints
 import collections
 
 month_now = datetime.now().month
@@ -372,6 +374,142 @@ def display_informal_settlers(scores):
         })
 
 
+def create_session(request):
+    scores = []
 
+    # # # # # # # # # # # # #
+    # FEMALE
+    sex = Sex.objects.get(name='Female')
+    sex2 = Sex.objects.get(name='Male')
+
+    display(
+        datapoints.get_child_care_fields(),
+        scores,
+        ChildCare,
+        sex
+    )
+
+    display(
+        datapoints.get_tb_fields(),
+        scores,
+        Tuberculosis,
+        sex
+    )
+
+    display(
+        Malaria._meta.get_fields()[1:6],
+        scores,
+        Malaria,
+        sex
+    )
+
+    display(
+        Immunization._meta.get_fields()[1:11],
+        scores,
+        Immunization,
+        sex
+    )
+
+    display(
+        Schistosomiasis._meta.get_fields()[1:3],
+        scores,
+        Schistosomiasis,
+        sex
+    )
+
+    display(
+        Leprosy._meta.get_fields()[1:3],
+        scores,
+        Leprosy,
+        sex
+    )
+
+    display(
+        Flariasis._meta.get_fields()[1:4],
+        scores,
+        Flariasis,
+        sex
+    )
+
+    display_no_sex(
+        MaternalCare._meta.get_fields()[1:10],
+        scores,
+        MaternalCare,
+        sex
+    )
+
+    display_no_sex(
+        STISurveillance._meta.get_fields()[2:5],
+        scores,
+        STISurveillance,
+        sex
+    )
+
+    display(
+        datapoints.get_child_care_fields(),
+        scores,
+        ChildCare,
+        sex2
+    )
+
+    display(
+        datapoints.get_tb_fields(),
+        scores,
+        Tuberculosis,
+        sex2
+    )
+
+    display(
+        Malaria._meta.get_fields()[1:6],
+        scores,
+        Malaria,
+        sex2
+    )
+
+    display(
+        Immunization._meta.get_fields()[1:11],
+        scores,
+        Immunization,
+        sex2
+    )
+
+    display(
+        Schistosomiasis._meta.get_fields()[1:3],
+        scores,
+        Schistosomiasis,
+        sex2
+    )
+
+    display(
+        Leprosy._meta.get_fields()[1:3],
+        scores,
+        Leprosy,
+        sex2
+    )
+
+    display(
+        Flariasis._meta.get_fields()[1:4],
+        scores,
+        Flariasis,
+        sex2
+    )
+
+    display_no_sex(
+        MaternalCare._meta.get_fields()[1:10],
+        scores,
+        MaternalCare,
+        sex2
+    )
+
+    display_no_sex(
+        STISurveillance._meta.get_fields()[2:5],
+        scores,
+        STISurveillance,
+        sex2
+    )
+
+    display_informal_settlers(scores)
+
+    request.session['scores'] = scores
 
 

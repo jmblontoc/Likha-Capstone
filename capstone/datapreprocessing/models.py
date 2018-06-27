@@ -50,6 +50,11 @@ class Metric(models.Model):
         except IndexError:
             return 'N/A'
 
+    @staticmethod
+    def get_alarming():
+
+        return [x for x in Metric.objects.all() if x.get_total_value >= x.threshold]
+
 
 class RootCause(models.Model):
 
