@@ -46,6 +46,18 @@ def add_root_cause(request):
     return render(request, 'causalmodel/add_root_cause.html', context)
 
 
+@login_required
+def create_causal_model(request):
+
+    root_causes = RootCause.objects.all()
+
+    context = {
+        'root_causes': root_causes
+    }
+
+    return render(request, 'causalmodel/create_causal_model.html', context)
+
+
 # ajax
 def insert_root_cause(request):
 

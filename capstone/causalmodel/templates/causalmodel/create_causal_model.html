@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Causal Model</title>
+
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'core/plugins/bootstrap/css/bootstrap.css' %}">
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.js"
+      integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+      crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+</head>
+<body>
+    <h1>Create Causal Model</h1>
+    <button data-toggle="modal" data-target="#causalModelForm">Add Parent</button>
+
+    <table border="1">
+        <thead>
+        <tr>
+            <th>Root Cause</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for rc in root_causes %}
+            <tr data-id="{{ rc.id }}">
+                <td class="rc-name">{{ rc.name }}</td>
+                <td><input type="checkbox" class="blocks"></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h5>Added Blocks</h5>
+    <table border="1" class="added-blocks-table" style="display: none;">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody class="other-blocks">
+
+        </tbody>
+    </table>
+    <button>Save</button>
+
+    <div class="modal fade bd-example-modal-lg" id="causalModelForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add Parent</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body form-body">
+              <p class="empty" style="display: none">Please choose from the rows below</p>
+              <div class="form-group form-head">
+                  <label>
+                      Block Name
+                  </label>
+                  <input class="form-control" placeholder="Enter block name" id="block-name">
+
+                  <div class="added-choices">
+                      <table class="table">
+                          <thead>
+                          <tr>
+                              <th>Name</th>
+                          </tr>
+                          </thead>
+                          <tbody class="table-body">
+
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="generateCM">Generate</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <script>
+        $(function() {
+
+            const modal = $("#causalModelForm");
+            const body = $('.form-body');
+            const head = $(".form-head");
+            const msg = $(".empty");
+            const choices = $(".table-body");
+            const submit = $("#generateCM");
+            const otherBlocks = $(".added-blocks-table");
+            const otherBlocksBody = $(".other-blocks");
+            const blockName = $("#block-name");
+            var selected;
+
+
+            var blocks = [];
+
+            modal.on('shown.bs.modal', function(){
+
+                selected = [];
+
+                $('input.blocks:checked').each(function() {
+
+                    var box = $(this);
+
+                    var id = box.parent().parent().attr('data-id');
+                    var name = box.parent().siblings('.rc-name').html();
+
+                    selected.push({
+                        'id': id,
+                        'name': name
+                    });
+                });
+
+                if (selected.length === 0) {
+                    head.hide();
+                    msg.show();
+                    submit.hide();
+                }
+                else {
+                    msg.hide();
+                    head.show();
+                    choices.empty();
+                    submit.show();
+
+                    var html = '';
+
+                    console.log(blocks);
+
+                    if (has_undefined(selected)) {
+                        html = '<tr><td colspan="2">Add a root cause </td></tr> ' +
+                            '{% for rc in root_causes %}\n'+
+                            '            <tr data-id="{{ rc.id }}">\n'+
+                            '                <td class="rc-name">{{ rc.name }}</td>\n'+
+                            '                <td><input type="checkbox" class="blocks"></td>\n'+
+                            '            </tr>\n'+
+                            '   {% endfor %}';
+                    }
+
+                    removeUndefined(selected);
+
+                    for (x in selected) {
+
+                        if (typeof selected[x].id === 'undefined') {
+
+                        }
+
+                        else {
+                             html += '' +
+                                '<tr>' +
+                                '<td>' + selected[x].name + '</td>' +
+                                '</tr>';
+                        }
+
+                    }
+
+                    choices.append(html);
+                }
+            });
+
+            submit.click(function() {
+
+                blocks.push({
+                    'name': blockName.val(),
+                    'rootCauses': selected
+                });
+
+
+                $('input.blocks').each(function(){
+                    $(this).prop('checked', false);
+                });
+
+
+                modal.modal('hide');
+
+                otherBlocks.show();
+
+                var html = '<tr>' +
+                    '<td>' + blockName.val() + '</td>' +
+                    '<td><input type="checkbox" class="blocks"></td> ' +
+                    '</tr>';
+
+                blockName.val('');
+
+                otherBlocksBody.append(html);
+            });
+
+            function has_undefined(arr) {
+
+                for (x in arr) {
+                    if (typeof arr[x].id === 'undefined')
+                        return true;
+                }
+
+                return false;
+            }
+
+            function removeUndefined(arr) {
+
+                for (x in arr) {
+                    if (typeof arr[x].id === 'undefined')
+                        arr.splice(x, 1);
+                }
+            }
+
+        });
+    </script>
+</body>
+</html>
