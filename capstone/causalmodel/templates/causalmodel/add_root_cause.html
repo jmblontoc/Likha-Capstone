@@ -170,9 +170,14 @@
                         dataType: "json",
                         success: function(data) {
 
-                            $("#root-cause-name").value = '';
+                            $("#root-cause-name").val('');
                             body.empty();
                             selected = [];
+
+                            $('input.choice').each(function() {
+                                $(this).prop('checked', false);
+                            });
+
                             modal.modal('hide');
                         },
                         error: function(e) {
