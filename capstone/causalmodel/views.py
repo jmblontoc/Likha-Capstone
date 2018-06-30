@@ -1,6 +1,7 @@
 import json
 
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from friends.causalmodel import helper
@@ -100,4 +101,7 @@ def insert_blocks(request):
                 c = Child(block=bl, parent=b)
                 c.save()
 
+    # TODO
+    child_dict = [x.to_tree_dict() for x in Child.objects.all()]
+    return JsonResponse(child_dict, safe=False)
 

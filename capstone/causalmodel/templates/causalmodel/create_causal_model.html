@@ -14,6 +14,7 @@
       crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <script src="{% static 'causalmodel/js/go-debug.js' %}"></script>
     <script src="{% static 'causalmodel/js/tree.js' %}"></script>
 </head>
 <body>
@@ -50,6 +51,10 @@
         </tbody>
     </table>
     <button id="createTree">Save</button>
+
+    <div id="tree" style="width: 1000px; height: 500px; background-color: #DAE4E4;">
+
+    </div>
 
     <div class="modal fade bd-example-modal-lg" id="causalModelForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">

@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 
 # Create your models here.
@@ -32,10 +34,28 @@ class Block(models.Model):
     def __str__(self):
         return self.name
 
+
 class Child(models.Model):
 
     block = models.ForeignKey(Block, on_delete=models.CASCADE)
     parent = models.ForeignKey(Block, on_delete=models.CASCADE, related_name='Dad')
 
     def __str__(self):
-        return 'My parent is %s' % self.parent.name
+        return 'I am %s .My parent is %s' % (self.block.name, self.parent.name)
+
+    # TODO
+    def to_tree_dict(self):
+
+        return {
+            'key': self.block.id,
+            'name': self.block.name,
+            'parent': self.parent.id
+        }
+
+
+class CausalModel(models.Model):
+
+    date = models.DateTimeField(default=datetime.now)
+    is_approved = models.BooleanField(default=False)
+
+

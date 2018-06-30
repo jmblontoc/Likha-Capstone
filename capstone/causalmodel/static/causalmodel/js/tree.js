@@ -149,6 +149,22 @@ $(function() {
 
     });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     $("#createTree").click(function() {
 
         addedBlocks = [];
@@ -159,10 +175,8 @@ $(function() {
             }
         }
 
-        console.log(addedBlocks);
 
         var ajaxReady = JSON.stringify(addedBlocks);
-        console.log(ajaxReady);
 
         $.ajax({
             url: "/causal-models/create_tree",
@@ -170,14 +184,49 @@ $(function() {
             data: {
                 'blocks': ajaxReady
             },
-            success: function(e) {
-                console.log('1');
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+
+                var GO = go.GraphObject.make;
+
+                var diagram = GO(go.Diagram, "tree", { layout: GO(go.TreeLayout, { angle: 90, layerSpacing: 35 }) });
+                var myModel = GO(go.TreeModel);
+
+                diagram.nodeTemplate =
+                    GO(go.Node, "Vertical", { background: "white", width: 200, padding: 10, height: 60 },
+                        GO(go.TextBlock, { font: " bold 11pt Arial" }, new go.Binding("text", "name"))
+
+                    );
+
+                myModel.nodeDataArray = data;
+
+                diagram.model = myModel;
             },
             error: function(x) {
                 console.log(x.responseText);
             }
         });
     });
+
+    // var GO = go.GraphObject.make;
+    //
+    //             var diagram = GO(go.Diagram, "tree", { layout: GO(go.TreeLayout, { angle: 90, layerSpacing: 35 }) });
+    //             var myModel = GO(go.TreeModel);
+    //
+    //             diagram.nodeTemplate =
+    //                 GO(go.Node, "Vertical", { background: "white",  width: 200, padding: 10, height: 80 },
+    //                     GO(go.TextBlock, { font: "bold 15pt Arial" }, new go.Binding("text", "name"))
+    //
+    //                 );
+    //
+    //             myModel.nodeDataArray = [
+    //                 { key: "1", name: "JM", food: "Chicken", parent: "3"},
+    //                 { key: "2", name: "Gab", food: "Fries", parent: "3"},
+    //                 { key: "3", name: "MJ", food: "Adobo"}
+    //             ];
+    //
+    //             diagram.model = myModel;
 
     function has_undefined(arr) {
 
