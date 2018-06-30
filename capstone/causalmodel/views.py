@@ -3,11 +3,10 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
-
-
+from friends.causalmodel import helper
 # Create your views here.
 from datapreprocessing.models import Metric
-from causalmodel.models import RootCause, DataMap
+from causalmodel.models import RootCause, DataMap, Block, Child
 
 
 @login_required
@@ -71,4 +70,34 @@ def insert_root_cause(request):
             threshold=x['threshold']
         )
 
+    Block.objects.create(
+        root_cause=root_cause,
+        name=root_cause.name,
+    )
+
     return JsonResponse('success', safe=False)
+
+
+def insert_blocks(request):
+
+    blocks = json.loads(request.POST['blocks'])
+
+    for block in blocks:
+
+        b = Block()
+        b.name = block['name']
+        b.save()
+
+        causes = helper.get_root_causes(block['rootCauses'])
+        for cause in causes:
+            b.root_causes_content.add(cause)
+
+
+        if block['child'] is not None:
+            for child in block['child']:
+
+                bl = Block.objects.get(name=child['name'])
+                c = Child(block=bl, parent=b)
+                c.save()
+
+

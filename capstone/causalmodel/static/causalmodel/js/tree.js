@@ -25,7 +25,6 @@ $(function() {
         );
     });
 
-
     modal.on('shown.bs.modal', function(){
 
         selected = [];
@@ -147,6 +146,37 @@ $(function() {
         otherBlocksBody.append(html);
 
         console.log(blocks);
+
+    });
+
+    $("#createTree").click(function() {
+
+        addedBlocks = [];
+
+        for (b in blocks) {
+            if (blocks[b].id == null) {
+                addedBlocks.push(blocks[b]);
+            }
+        }
+
+        console.log(addedBlocks);
+
+        var ajaxReady = JSON.stringify(addedBlocks);
+        console.log(ajaxReady);
+
+        $.ajax({
+            url: "/causal-models/create_tree",
+            type: "post",
+            data: {
+                'blocks': ajaxReady
+            },
+            success: function(e) {
+                console.log('1');
+            },
+            error: function(x) {
+                console.log(x.responseText);
+            }
+        });
     });
 
     function has_undefined(arr) {
@@ -182,14 +212,73 @@ $(function() {
 
 function Block(id, name, rootCauses, isDefault, child) {
 
+    this.id = id;
     this.name = name;
     this.rootCauses = rootCauses;
     this.isDefault = isDefault;
     this.child = child;
-    this.id = id;
-
 }
 
 function Relationship() {
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function getCookie(name) {
+
+        var cookieValue = null;
+
+        if (document.cookie && document.cookie != '') {
+
+            var cookies = document.cookie.split(';');
+
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+        var csrftoken = getCookie('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });

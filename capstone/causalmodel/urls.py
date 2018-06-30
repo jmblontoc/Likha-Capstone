@@ -17,5 +17,7 @@ urlpatterns= [
     path('create_causal_model', views.create_causal_model, name='create_causal_model'),
 
     # ajax
-    path('root_cause/add/ajax', views.insert_root_cause, name='ajax_add_root_cause')
+    path('root_cause/add/ajax', views.insert_root_cause, name='ajax_add_root_cause'),
+
+    path('create_tree', views.insert_blocks, name='create_tree')
 ]

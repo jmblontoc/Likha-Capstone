@@ -22,4 +22,20 @@ class DataMap(models.Model):
         return '%s - %s' % (self.root_cause.name, self.metric)
 
 
+class Block(models.Model):
 
+    root_cause = models.ForeignKey(RootCause, on_delete=models.CASCADE, null=True)
+    name = models.CharField(max_length=128)
+    root_causes_content = models.ManyToManyField(RootCause, related_name='block_root_causes')
+
+
+    def __str__(self):
+        return self.name
+
+class Child(models.Model):
+
+    block = models.ForeignKey(Block, on_delete=models.CASCADE)
+    parent = models.ForeignKey(Block, on_delete=models.CASCADE, related_name='Dad')
+
+    def __str__(self):
+        return 'My parent is %s' % self.parent.name
