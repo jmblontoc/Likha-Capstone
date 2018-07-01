@@ -315,14 +315,14 @@ $(function() {
     function addParent(arr) {
 
         function exists(parent) {
-
-            for (x in arr) {
-                if (arr[x].name === parent) {
+            for (x in arr)
+                if (arr[x].name === parent)
                     return true;
-                }
-            }
-
             return false;
+        }
+
+        for (x in arr) {
+            
         }
     }
 

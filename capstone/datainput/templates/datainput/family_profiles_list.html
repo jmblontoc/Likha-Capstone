@@ -30,13 +30,11 @@
 
                                 <div>
                                     <table id="familyprofile_overview" class="table table-bordered table-hover dataTable">
-                                        <thead>
+
                                         <tr>
                                             <th style="width: 60%">Profile</th>
                                             <th style="width: 40%">Action</th>
                                         </tr>
-                                        </thead>
-                                        <tbody>
                                         {% for family in families %}
                                         <tr>
                                             <td style="vertical-align: middle;"><a href="{% url 'datainput:show_profiles' family.id %}">Family Profile Record for {{ family.date.year }}</a></td>
@@ -50,7 +48,6 @@
                                             {% endif %}
                                         </tr>
                                         {% endfor %}
-                                        </tbody>
                                     </table>
                                     <script>
                                         $(document).ready(function() {
