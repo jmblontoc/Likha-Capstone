@@ -23,6 +23,10 @@ class DataMap(models.Model):
     def __str__(self):
         return '%s - %s' % (self.root_cause.name, self.metric)
 
+    @property
+    def display(self):
+        return '%s - %s' % (self.metric, self.value)
+
 
 class Block(models.Model):
 
@@ -49,8 +53,16 @@ class Child(models.Model):
         return {
             'key': self.block.id,
             'name': self.block.name,
-            'parent': self.parent.id
+            'parent': self.parent.id,
+            'quantifiable_data': self.get_quantifiable_data()
         }
+
+    def get_quantifiable_data(self):
+
+        if self.block.root_cause is None:
+            return []
+
+        return [x.display for x in self.block.root_cause.datamap_set.all()]
 
 
 class CausalModel(models.Model):

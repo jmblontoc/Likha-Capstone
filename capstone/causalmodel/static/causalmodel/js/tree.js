@@ -194,10 +194,22 @@ $(function() {
                 var myModel = GO(go.TreeModel);
 
                 diagram.nodeTemplate =
-                    GO(go.Node, "Vertical", { background: "white", width: 200, padding: 10, height: 60 },
-                        GO(go.TextBlock, { font: " bold 11pt Arial" }, new go.Binding("text", "name"))
+                   GO(go.Node, "Vertical",
+                       GO(go.Panel, "Vertical", { background: "white", padding: 10 },
+                           GO(go.TextBlock, new go.Binding("text", "name"), { font: "bold 12pt Arial" }),
+                           GO(go.Panel, "Vertical", new go.Binding("itemArray", "quantifiable_data"),
+                               {
+                                   itemTemplate:
+                                       GO(go.Panel, "Auto",
+                                        { margin: 2 },
+                                       GO(go.TextBlock, new go.Binding("text", ""),
+                                        { margin: 2, font: "italic bold 10pt Arial", stroke: "red" })
+                                    )
 
-                    );
+                               }
+                           )
+                       )
+                   );
 
                 myModel.nodeDataArray = data;
 
@@ -211,19 +223,34 @@ $(function() {
 
     // var GO = go.GraphObject.make;
     //
-    //             var diagram = GO(go.Diagram, "tree", { layout: GO(go.TreeLayout, { angle: 90, layerSpacing: 35 }) });
-    //             var myModel = GO(go.TreeModel);
+    //     var diagram = GO(go.Diagram, "tree", { layout: GO(go.TreeLayout, { angle: 90, layerSpacing: 35 }) });
+    //     var myModel = GO(go.TreeModel);
     //
-    //             diagram.nodeTemplate =
-    //                 GO(go.Node, "Vertical", { background: "white",  width: 200, padding: 10, height: 80 },
-    //                     GO(go.TextBlock, { font: "bold 15pt Arial" }, new go.Binding("text", "name"))
+    //     diagram.nodeTemplate =
     //
-    //                 );
+    //        GO(go.Node, "Vertical",
+    //            GO(go.Panel, "Vertical", { background: "white", padding: 10 },
+    //                GO(go.TextBlock, new go.Binding("text", "name"), { font: "bold 12pt Arial" }),
+    //                GO(go.Panel, "Vertical", new go.Binding("itemArray", "food"),
+    //                    {
+    //                        itemTemplate:
+    //                            GO(go.Panel, "Auto",
+    //                             { margin: 2 },
+    //                            GO(go.TextBlock, new go.Binding("text", ""),
+    //                             { margin: 2, font: "italic bold 10pt Arial", stroke: "red" })
+    //                         )
+    //
+    //                    }
+    //                )
+    //            )
+    //        );
+    //
+    //
+    //
     //
     //             myModel.nodeDataArray = [
-    //                 { key: "1", name: "JM", food: "Chicken", parent: "3"},
-    //                 { key: "2", name: "Gab", food: "Fries", parent: "3"},
-    //                 { key: "3", name: "MJ", food: "Adobo"}
+    //                 { key: "1", name: "JM", food: ["fries", "pizza", "pasta"], parent: "3"},
+    //                 { key: "2", name: "Gab", food: ["spag", "adobo", "chicken"], parent: "3"}
     //             ];
     //
     //             diagram.model = myModel;
