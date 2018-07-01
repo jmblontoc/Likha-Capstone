@@ -7,6 +7,11 @@
 <body>
     <h1>Causal Models</h1>
 
+    <ul>
+        {% for c in causals %}
+            <li><a href="{% url 'causalmodel:details' c.id %}">Causal Model for {{ c.date|date:"M d Y" }}</a></li>
+        {% endfor %}
+    </ul>
     <a href="{% url 'causalmodel:create_causal_model' %}">Create Causal Model</a>
 </body>
 </html>

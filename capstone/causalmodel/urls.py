@@ -7,6 +7,9 @@ app_name = 'causalmodel'
 urlpatterns= [
     path('', views.index, name='index'),
 
+    # details
+    path('<int:id>/', views.details, name='details'),
+
     # RC index
     path('root_cause/', views.root_causes, name='rc_index'),
 
@@ -19,5 +22,8 @@ urlpatterns= [
     # ajax
     path('root_cause/add/ajax', views.insert_root_cause, name='ajax_add_root_cause'),
 
-    path('create_tree', views.insert_blocks, name='create_tree')
+    path('create_tree', views.insert_blocks, name='create_tree'),
+
+    # details ajax
+    path('details', views.get_blocks, name='details_ajax')
 ]

@@ -207,13 +207,11 @@ $(function() {
         addedBlocks = [];
 
         for (b in blocks) {
-            if (blocks[b].id == null) {
-                addedBlocks.push(blocks[b]);
-            }
+            addedBlocks.push(blocks[b]);
         }
 
-        var endBlock = new Block(null, 'end', [] , false, [addedBlocks[addedBlocks.length - 1]]);
-        addedBlocks.push(endBlock);
+        // var endBlock = new Block(null, 'end', [] , false, [addedBlocks[addedBlocks.length - 1]]);
+        // addedBlocks.push(endBlock);
 
         var ajaxReady = JSON.stringify(addedBlocks);
         console.log(addedBlocks);
@@ -226,33 +224,7 @@ $(function() {
             dataType: "json",
             success: function(data) {
                 console.log(data);
-
-                var GO = go.GraphObject.make;
-
-                var diagram = GO(go.Diagram, "tree", { layout: GO(go.TreeLayout, { angle: 90, layerSpacing: 35 }) });
-                var myModel = GO(go.TreeModel);
-
-                diagram.nodeTemplate =
-                   GO(go.Node, "Vertical",
-                       GO(go.Panel, "Vertical", { background: "white", padding: 10 },
-                           GO(go.TextBlock, new go.Binding("text", "name"), { font: "bold 12pt Arial" }),
-                           GO(go.Panel, "Vertical", new go.Binding("itemArray", "quantifiable_data"),
-                               {
-                                   itemTemplate:
-                                       GO(go.Panel, "Auto",
-                                        { margin: 2 },
-                                       GO(go.TextBlock, new go.Binding("text", ""),
-                                        { margin: 2, font: "italic bold 10pt Arial", stroke: "red" })
-                                    )
-
-                               }
-                           )
-                       )
-                   );
-
-                myModel.nodeDataArray = data;
-
-                diagram.model = myModel;
+                alert("Success");
             },
             error: function(x) {
                 console.log(x.responseText);
@@ -309,20 +281,6 @@ $(function() {
         for (x in arr) {
             if (typeof arr[x].id === 'undefined')
                 arr.splice(x, 1);
-        }
-    }
-
-    function addParent(arr) {
-
-        function exists(parent) {
-            for (x in arr)
-                if (arr[x].name === parent)
-                    return true;
-            return false;
-        }
-
-        for (x in arr) {
-            
         }
     }
 

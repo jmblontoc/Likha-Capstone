@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect
 from friends.causalmodel import helper
 # Create your views here.
 from datapreprocessing.models import Metric
-from causalmodel.models import RootCause, DataMap, Block, Child
+from causalmodel.models import RootCause, DataMap, Block, Child, CausalModel
 from friends.datamining.correlations import create_session
 from friends.datapreprocessing import checkers
 from friends.datamining import correlations
@@ -17,11 +17,25 @@ from friends.datamining import correlations
 @login_required
 def index(request):
 
-    context = {
+    models = CausalModel.objects.all()
 
+    context = {
+        'causals': models
     }
 
     return render(request, 'causalmodel/index.html', context)
+
+
+@login_required
+def details(request, id):
+
+    causal = CausalModel.objects.get(id=id)
+
+    context = {
+        'causal': causal
+    }
+
+    return render(request, 'causalmodel/details.html', context)
 
 
 @login_required
@@ -81,11 +95,6 @@ def insert_root_cause(request):
             threshold=x['threshold']
         )
 
-    Block.objects.create(
-        root_cause=root_cause,
-        name=root_cause.name,
-    )
-
     return JsonResponse('success', safe=False)
 
 
@@ -93,10 +102,15 @@ def insert_blocks(request):
 
     blocks = json.loads(request.POST['blocks'])
 
+    causal_model = CausalModel()
+    causal_model.save()
+
     for block in blocks:
 
         b = Block()
+        b.root_cause = helper.set_root_cause(block['name'])
         b.name = block['name']
+        b.causal_model = causal_model
         b.save()
 
         causes = helper.get_root_causes(block['rootCauses'])
@@ -105,13 +119,23 @@ def insert_blocks(request):
 
 
         if block['child'] is not None:
+
             for child in block['child']:
 
-                bl = Block.objects.get(name=child['name'])
+                bl = Block.objects.get(name=child['name'], causal_model=causal_model)
                 c = Child(block=bl, parent=b)
                 c.save()
 
-    # TODO
     child_dict = [x.to_tree_dict() for x in Child.objects.all()]
     return JsonResponse(child_dict, safe=False)
 
+
+def get_blocks(request):
+
+    id = request.POST['id']
+    causal = CausalModel.objects.get(id=id)
+
+    q1 = Child.objects.filter(block__causal_model=causal)
+
+    child_dict = [x.to_tree_dict() for x in q1]
+    return JsonResponse(child_dict, safe=False)
