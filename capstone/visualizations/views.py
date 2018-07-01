@@ -10,6 +10,7 @@ from django.core import serializers
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from friends.datamining import correlations
+from core.models import Profile, Notification
 from friends.datapreprocessing import consolidators
 # Create your views here.
 from datainput.models import NutritionalStatus, Sex, MaternalCare, ChildCare
@@ -18,9 +19,11 @@ from friends.datamining.correlations import get_weight_values_per_month
 
 @login_required
 def index(request):
+    profile = Profile.objects.get(user=request.user)
 
     context = {
-
+        'profile': profile,
+        'active': 'rv',
     }
 
     return render(request, 'visualizations/select_report.html', context)
@@ -37,7 +40,11 @@ def display_report(request):
         messages.error(request, 'Please put a date')
         return redirect('visualizations:index')
 
+    profile = Profile.objects.get(user=request.user)
+
     context = {
+        'profile': profile,
+        'active': 'rv',
         'start_date': start_date,
         'end_date': end_date
     }

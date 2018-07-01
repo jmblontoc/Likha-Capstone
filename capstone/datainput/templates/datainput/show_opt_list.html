@@ -2,7 +2,7 @@
 {% block content %}
 
 {% include 'core/helpers/messages.html' %}
-<div class="content-wrapper" style="min-height: 620px;">
+<div class="content-wrapper" style="min-height: 620px; height: auto; margin-top: 57px;">
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -38,7 +38,7 @@
 
         {% for opt in opt_records %}
             <tr class="clickable-row" data-href="{% url 'datainput:view_opt_file' opt.id %}" style="cursor: pointer;">
-                <td >
+                <td>
                     eOPT - {{ opt.date.date }}
                 </td>
             </tr>

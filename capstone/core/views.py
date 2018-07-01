@@ -108,7 +108,6 @@ def nutritionist(request):
     context = {
         'profile': profile,
         'active': 'db',
-
     }
 
     return render(request, 'core/nutritionist_index.html', context)

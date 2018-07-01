@@ -1,35 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Select Report</title>
-</head>
-<body>
-    {% include 'core/helpers/messages.html' %}
-    <h1>Generate Report</h1>
+{% extends 'core/nutritionist-layout.html' %}
+{% block content %}
+
+{% include 'core/helpers/messages.html' %}
+<div class="content-wrapper" style="height: auto; margin-top: 57px;">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Nutritionist Reports and Visualization</h1>
+                    </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">Reports and Visualization</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-6">
+                    <div class="card card-primary">
+                        <div class="card-header p-0">
+                            <h3 class="card-title p-3">Generate Report</h3>
+                        </div>
+                        <div class="card-body">
 
     <form method="POST" action="{% url 'visualizations:display_report' %}">
         {% csrf_token %}
-        <label>
-            Start Date:
-            <input name="date1">
-        </label>
-        <label>
-            End Date:
-            <input name="date2">
-        </label>
-        <label> Report
-            <select name="report">
+
+
+<div class="form-group">
+<label>Start Date:</label>
+
+<div class="input-group">
+<div class="input-group-prepend">
+<span class="input-group-text"><i class="fa fa-calendar"></i></span>
+</div>
+<input type="text" class="form-control" id="date1" name="date1">
+</div>
+
+</div>
+
+<div class="form-group">
+<label>End Date:</label>
+
+<div class="input-group">
+<div class="input-group-prepend">
+<span class="input-group-text"><i class="fa fa-calendar"></i></span>
+</div>
+<input type="text" class="form-control" id="date2" name="date2">
+</div>
+<!-- /.input group -->
+</div>
+
+        <script>
+            $('#date1').inputmask('yyyy-mm-dd', { 'placeholder': 'YYYY-MM-DD' })
+            $('#date2').inputmask('yyyy-mm-dd', { 'placeholder': 'YYYY-MM-DD' })
+        </script>
+
+<div class="form-group">
+        <label>Report: </label>
+            <select class="form-control" name="report">
                 <option value="1">City Nutritional Status Report</option>
                 <option value="2">City Micronutrient Supplementation Report</option>
                 <option value="3">City Maternal Care Report</option>
                 <option value="4">City Children Care Report</option>
                 <option value="6">Socioeconomic Report</option>
             </select>
-        </label>
-        <input type="submit">
+</div>
+        <input class="btn btn-primary col-3"type="submit">
     </form>
 
     <p><a>Customizable Reports</a></p>
-</body>
-</html>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
