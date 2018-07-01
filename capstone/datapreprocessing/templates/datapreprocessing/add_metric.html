@@ -31,7 +31,7 @@
     <form method="POST">
         {% csrf_token %}
         <div class="form-group">
-        <label>Metric Name:</label>
+            <label>Metric Name:</label>
             <select class="form-control select2" style="width: 100%;" name="metric">
                 <optgroup label="Health Care Waste Management">
                     {% for x in hcwm %}
@@ -162,13 +162,16 @@
                     {% endfor %}
                 </optgroup>
             </select>
-            </div>
+        </div>
             <script>
                     $('.select2').select2();
             </script>
         {% include 'core/helpers/form_template.html' %}
         <input class="btn btn-primary col-2" type="submit">
     </form>
+
+
+
                         </div>
                     </div>
                 </div>
@@ -184,8 +187,6 @@
 
         dropdown.change(function() {
             var metric = $(this).val();
-
-            c
         });
     });
 </script>
