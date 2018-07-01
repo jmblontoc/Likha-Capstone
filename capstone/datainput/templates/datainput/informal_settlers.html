@@ -30,7 +30,7 @@
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th style="width: 50%;">Year</th>
+                                        <th style="width: 50%;">Date</th>
                                         <th>Count</th>
                                     </tr>
                                 </thead>
@@ -42,7 +42,7 @@
                                     {% else %}
                                     {% for record in records %}
                                     <tr>
-                                        <td>{{ record.date.year }}</td>
+                                        <td>{{ record.date|date:"M Y"}}</td>
                                         <td>{{ record.families_count }}</td>
                                     </tr>
                                     {% endfor %}
@@ -59,7 +59,7 @@
                         </div>
                         <div class="card-body">
                             {% if not has_record %}
-                            <h3>Informal Settlers Record for {% now "Y" %}</h3>
+                            <h3>Informal Settlers Record for {% now "M" %}</h3>
                             <div>
                                 <form method="POST">
                                     {% csrf_token %}

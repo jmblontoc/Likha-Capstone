@@ -36,7 +36,7 @@
                                 <tbody>
                                     <tr class="clickable-row" data-href="{% url 'datainput:health_care_index' %}" style="cursor: pointer;">
                                         <td>Health Care Waste Management</td>
-                                        {% if has_ur %}
+                                        {% if has_health_care %}
                                         <td style="font-weight: bold; color: #00a65a;">
                                             <i class="fa fa-check-circle"></i> Up to date
                                         </td>
@@ -48,13 +48,13 @@
                                     </tr>
                                     <tr class="clickable-row" data-href="{% url 'datainput:informal_settlers_index' %}" style="cursor: pointer;">
                                         <td>Informal Settlers</td>
-                                        {% if has_ur %}
+                                        {% if has_informal %}
                                         <td style="font-weight: bold; color: #00a65a;">
                                             <i class="fa fa-check-circle"></i> Up to date
                                         </td>
                                         {% else %}
                                         <td style="font-weight: bold; color: #f56954;">
-                                            <i class="fa fa-exclamation-circle"></i> No record for this year
+                                                <i class="fa fa-exclamation-circle"></i> No record for this month
                                         </td>
                                         {% endif %}
                                     </tr>

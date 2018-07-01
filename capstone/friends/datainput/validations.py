@@ -47,7 +47,7 @@ def has_health_care():
 
 def has_informal_settlers():
 
-    return InformalSettlers.objects.filter(date__year=datetime.now().year).count() > 0
+    return InformalSettlers.objects.filter(date__year=datetime.now().year, date__month=datetime.now().month).count() > 0
 
 
 def has_unemployment_rate():

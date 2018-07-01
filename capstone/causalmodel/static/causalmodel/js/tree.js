@@ -16,6 +16,10 @@ $(function() {
 
     var defaultRootCauses = $("input.blocks");
 
+    var GO = go.GraphObject.make;
+    var diagram = GO(go.Diagram, "tree", { layout: GO(go.TreeLayout, { angle: 90, layerSpacing: 35 }) });
+    var myModel = GO(go.TreeModel);
+
     defaultRootCauses.each(function () {
 
         var name = $(this).parent().siblings(".rc-name").html();
@@ -93,6 +97,13 @@ $(function() {
 
     submit.click(function() {
 
+        diagram.nodeTemplate =
+           GO(go.Node, "Vertical",
+               GO(go.Panel, "Vertical", { background: "white", padding: 10 },
+                   GO(go.TextBlock, new go.Binding("text", "name"), { font: "bold 12pt Arial" })
+               )
+           );
+
         rcModalArr = [];
 
         var modalArr = $('.modal-blocks:checked');
@@ -109,13 +120,10 @@ $(function() {
 
         });
 
-        console.log(selected);
 
         kids = [];
 
         for (s in selected) {
-
-            console.log(selected[s]);
 
             kids.push(
                 getBlock(selected[s].name)
@@ -147,6 +155,35 @@ $(function() {
 
         console.log(blocks);
 
+        // blocks.push(
+        //     new Block(null, "end", [], false,
+        //         [blocks[blocks.length - 1]])
+        // );
+
+        var sons = [];
+
+        for (b in blocks) {
+            if (blocks[b].id == null) {
+                var b1 = blocks[b];
+
+                if (b1.child != null) {
+                    for (c in b1.child) {
+                        sons.push({
+                            "key": b1.child[c].name,
+                            "name": b1.child[c].name,
+                            "parent": b1.name
+                        });
+                    }
+                }
+            }
+        }
+
+        console.log(sons);
+
+        myModel.nodeDataArray = sons;
+
+        diagram.model = myModel;
+
     });
 
 
@@ -175,9 +212,11 @@ $(function() {
             }
         }
 
+        var endBlock = new Block(null, 'end', [] , false, [addedBlocks[addedBlocks.length - 1]]);
+        addedBlocks.push(endBlock);
 
         var ajaxReady = JSON.stringify(addedBlocks);
-
+        console.log(addedBlocks);
         $.ajax({
             url: "/causal-models/create_tree",
             type: "post",
@@ -271,6 +310,34 @@ $(function() {
             if (typeof arr[x].id === 'undefined')
                 arr.splice(x, 1);
         }
+    }
+
+    function addParent(arr) {
+
+        function exists(parent) {
+
+            for (x in arr) {
+                if (arr[x].name === parent) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    function getEndIndex(arr) {
+
+        var len = arr.length;
+
+        for (var i = len - 1; i >= 0; i--) {
+
+            if (arr[i].name === 'end') {
+                return i
+            }
+        }
+
+        return -1;
     }
 
     function getBlock(name) {

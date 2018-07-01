@@ -22,6 +22,7 @@ def index(request):
 
 
         profile = Profile.objects.get(user=request.user)
+        correlations.create_session(request)
         scores = request.session['scores']
 
         context = {

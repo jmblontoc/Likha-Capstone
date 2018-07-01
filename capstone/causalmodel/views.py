@@ -1,13 +1,17 @@
 import json
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from friends.causalmodel import helper
 # Create your views here.
 from datapreprocessing.models import Metric
 from causalmodel.models import RootCause, DataMap, Block, Child
+from friends.datamining.correlations import create_session
+from friends.datapreprocessing import checkers
+from friends.datamining import correlations
 
 
 @login_required
@@ -23,18 +27,24 @@ def index(request):
 @login_required
 def root_causes(request):
 
-    causes = RootCause.objects.all()
+    if checkers.is_updated():
 
-    context = {
-        'root_causes': causes
-    }
+        causes = RootCause.objects.all()
 
-    return render(request, 'causalmodel/root_causes.html', context)
+        context = {
+            'root_causes': causes
+        }
+
+        return render(request, 'causalmodel/root_causes.html', context)
+
+    messages.error(request, 'Data is not up to date')
+    return redirect('core:nutritionist')
 
 
 @login_required
 def add_root_cause(request):
 
+    create_session(request)
     scores = request.session['scores']
     correlations = [x for x in scores if 1 >= abs(x['score']) >= 0.5]
 

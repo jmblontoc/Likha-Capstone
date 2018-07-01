@@ -21,7 +21,7 @@ class SignInView(View):
 
         if request.user.is_authenticated:
             return user_redirects.redirect_to(request.user)
-            pass
+
         return render(request, self.template_name, None)
 
     def post(self, request):
@@ -34,8 +34,6 @@ class SignInView(View):
         if user is not None:
             login(request, user)
 
-            if Profile.objects.get(user=user).user_type == 'Nutritionist':
-                correlations.create_session(request)
             return user_redirects.redirect_to(user)
 
         else:
