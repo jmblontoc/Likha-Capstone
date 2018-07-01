@@ -36,11 +36,14 @@
                                 <h1>There are no family profiles yet for the current year</h1>
                             {% else %}
                                 <div>
-                                    <table class="table table-bordered table-hover">
+                                    <table id="familyprofile_list" class="table table-bordered table-hover dataTable">
+                                        <thead>
                                         <tr>
                                             <th style="width: 70%;">Profile</th>
                                             <th style="width: 30%;">Status</th>
                                         </tr>
+                                        </thead>
+                                        <tbody>
                                         {% for family in families %}
                                             <tr>
                                                 <td>
@@ -59,7 +62,18 @@
                                                 {% endif %}
                                             </tr>
                                         {% endfor %}
+                                        </tbody>
                                     </table>
+                                    <script>
+                                $(document).ready(function(){
+                                    $('#familyprofile_list').DataTable({
+                                        "paging": true,
+                                        "lengthChange": true,
+                                        "ordering": true,
+                                        "autoWidth": false
+                                    });
+                                });
+                            </script>
                                 </div>
                             {% endif %}
                         </div>
