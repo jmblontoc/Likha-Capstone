@@ -162,6 +162,12 @@ def view_fhsis_file(request, id):
     file = os.path.join(settings.MEDIA_ROOT, 'fhsis', file_name)
 
     os.startfile(file)
+
+    profile = Profile.objects.get(user=request.user)
+
+    if profile.user_type == 'Nutritionist':
+        return redirect('datainput:show_fhsis', fhsis.barangay.id)
+
     return redirect('datainput:show_fhsis_list')
 
 
@@ -558,6 +564,7 @@ def show_opt(request, id):
         'opt': opt,
         'barangay': barangay,
     }
+
 
     return render(request, 'datainput/show_opt.html', context)
 

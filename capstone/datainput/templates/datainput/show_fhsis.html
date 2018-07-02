@@ -1,4 +1,4 @@
-{% extends 'core/nutritionist-layout.html' %}
+ {% extends 'core/nutritionist-layout.html' %}
 {% block content %}
 
 {% include 'core/helpers/messages.html' %}
@@ -40,7 +40,7 @@
                                     {% load tags %}
                                     {% for record in fhsis %}
                                         <tr data-id="{{ record.id }}">
-                                            <td style="vertical-align: middle;">FHSIS Record for {{ record.date.month|month_name }} {{ record.date.year }}</td>
+                                            <td style="vertical-align: middle;"><a href="{% url 'datainput:view_fhsis_file' record.id %}">FHSIS Record for {{ record.date.month|month_name }} {{ record.date.year }}</a></td>
                                             {% if record.status == 'Approved' %}
                                             <td style="font-weight: bold; color:#00a65a;"><i class="fa fa-check-circle"></i> Approved</td>
                                             {% else %}
