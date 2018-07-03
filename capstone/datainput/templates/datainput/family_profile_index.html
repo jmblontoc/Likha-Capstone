@@ -40,7 +40,7 @@
                                         <thead>
                                         <tr>
                                             <th style="width: 70%;">Profile</th>
-                                            <th style="width: 30%;">Status</th>
+                                            <th style="width: 30%;">Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -51,15 +51,9 @@
                                                         Family Profile for {{ family.date.year }}
                                                     </a>
                                                 </td>
-                                                {% if family.status == 'Approved' %}
-                                                <td style="color: #00a65a; font-weight: bold;">
-                                                    <i class="fa fa-check-circle"></i> {{ family.status }}
-                                                </td>
-                                                {% else %}
-                                                <td style="color: #f56954; font-weight: bold;">
-                                                    <i class="fa fa-exclamation-circle"></i> {{ family.status }}
-                                                </td>
-                                                {% endif %}
+                                               <td>
+                                                   <a class="btn btn-primary" href="{% url 'datainput:show_profiles' family.id %}">View</a>
+                                               </td>
                                             </tr>
                                         {% endfor %}
                                         </tbody>

@@ -22,6 +22,9 @@ urlpatterns = [
     path('bns/family_profile/file', views.handle_family_profile_file, name='handle_family_profile_file'),
     path('bns/family_profile/list', views.family_profiles, name='family_profiles'),
 
+    # view current family profile
+    path('bns/family_profile/view_current', views.view_family_uploaded, name='view_current_fp'),
+
     # add family profile
     path('bns/family_profile/add', views.add_family_profile, name='add_family'),
 
@@ -45,6 +48,12 @@ urlpatterns = [
 
     # fhsis
     path('bns/fhsis/upload', views.handle_fhsis_file, name='handle_fhsis_file'),
+
+    # archives
+    path('bns/archives', views.reports_archive, name='archives'),
+
+    # select from archive
+    path('bns/archives/select', views.select_report, name='select_report'),
 
     # # # # # # # # # NUTRITIONIST URLS BELOW # # # # # # # # # #
 

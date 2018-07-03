@@ -70,14 +70,19 @@
                                                 <i class="fa fa-check-circle"></i> Completed
                                             </td>
                                             <td>
-                                                <button class="btn btn-primary">View Report</button>
+                                                <a href="{% url 'datainput:monthly_reweighing_index' %}" class="btn btn-primary btn-sm">
+                                                    View Report
+                                                </a>
                                             </td>
                                         {% else %}
                                             <td class="text-danger">
                                                 <i class="fa fa-exclamation-circle"></i> Incomplete
                                             </td>
                                             <td>
-                                                <button class="btn btn-primary">Update Report</button>
+                                                <a href="{% url 'datainput:monthly_reweighing_index' %}">
+                                                    <button class="btn btn-primary">Update Report</button>
+                                                </a>
+
                                             </td>
                                         {% endif %}
                                     </tr>
@@ -137,14 +142,16 @@
                                             <i class="fa fa-exclamation-circle"></i> {{ fp_status }}
                                            </td>
                                            <td>
-                                            <button class="btn btn-primary">Update Report</button>
+                                            <a href="{% url 'datainput:family_profiles' %}">
+                                                <button class="btn btn-primary">Update Report</button>
+                                            </a>
                                            </td>
                                        {% else %}
                                            <td class="text-success">
                                             <i class="fa fa-check-circle"></i> {{ fp_status }}
                                            </td>
                                            <td>
-                                            <button class="btn btn-primary">View Report</button>
+                                            <a href="{% url 'datainput:view_current_fp' %}" class="btn btn-primary">View Report</a>
                                            </td>
                                        {% endif %}
                                    </tr>
