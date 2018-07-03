@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Complete Fields</title>
+</head>
+<body>
+    <h1>Complete Fields</h1>
+    <p>The following fields were incomplete during the excel upload</p>
+
+    <form method="POST" action="{% url 'datainput:complete_fields' %}">
+        {% csrf_token %}
+
+        <table>
+            <thead>
+            <tr>
+                <th>Field</th>
+                <th>Row</th>
+                <th>Column</th>
+                <th>Input</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for row in rows %}
+                <tr>
+                    <td>{{ row.field }}</td>
+                    <td>{{ row.row }}</td>
+                    <td>{{ row.column }}</td>
+                    <td>
+                        <input type="number" name="{{ row.row }}-{{ row.column }}">
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <input type="submit">
+    </form>
+</body>
+</html>

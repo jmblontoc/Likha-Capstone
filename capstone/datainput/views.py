@@ -877,7 +877,6 @@ def handle_fhsis_file(request):
     barangay = Profile.objects.get(user=request.user).barangay
     fhsis = FHSIS(barangay=barangay, uploaded_by=Profile.objects.get(user=request.user), status='Pending')
     fhsis.save()
-
     renamed = os.path.join(temp_path, str(fhsis.id) + ".xlsx")
     os.rename(path, renamed)
 
@@ -887,11 +886,22 @@ def handle_fhsis_file(request):
     sheet = workbook.sheet_by_index(0)
 
     if not excel_uploads.is_valid_fhsis(sheet):
-        # fhsis.delete()
-        # os.remove(renamed)
-        print(excel_uploads.return_incomplete_fhsis(sheet))
-        messages.error(request, 'FHSIS file is incomplete. Upload again')
-        return redirect('core:bns-index')
+        rows = excel_uploads.return_incomplete_fhsis(sheet)
+
+        if len(rows) > 5:
+            messages.error(request, 'FHSIS file contains many incomplete fields. Upload again')
+            fhsis.delete()
+            os.remove(renamed)
+            return redirect('core:bns-index')
+        else:
+            context = {
+                'rows': rows,
+                'fhsis': fhsis,
+                'file': renamed
+            }
+
+            return render(request, 'datainput/complete_fields.html', context)
+
 
     # maternal care
     maternal_fields = misc.get_fields(MaternalCare)[1:10]
@@ -1058,6 +1068,13 @@ def select_report(request):
         return redirect('datainput:show_opt_list')
     elif post == 'fp':
         return redirect('datainput:family_profiles')
+
+
+
+@login_required
+def complete_fields(request):
+
+    print(request.POST)
 
 
 # KAMMY ITO!
