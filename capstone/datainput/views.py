@@ -1074,8 +1074,17 @@ def select_report(request):
 @login_required
 def complete_fields(request):
 
-    print(request.POST)
+    my_dict = dict(request.POST)
 
+    for x, y in my_dict.items():
+
+        if x == 'csrfmiddlewaretoken':
+            continue
+
+        splits = x.split('-')
+        row = splits[0]
+        col = splits[2]
+        value = y[0]
 
 # KAMMY ITO!
 @login_required
@@ -1130,6 +1139,7 @@ def display_fhsis(request, id):
         'child_care_male': child_care_male,
         'sti': sti
     }
+
 
     return render(request, 'datainput/display_fhsis.html', context)
 
