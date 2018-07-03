@@ -7,8 +7,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from django.core.files.storage import default_storage
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
+from django.urls import reverse
 
 from core.forms import RejectForm
 from datainput.forms import FamilyProfileForm, PatientForm, MonthlyReweighingForm, HealthCareWasteManagementForm, \
@@ -886,8 +887,9 @@ def handle_fhsis_file(request):
     sheet = workbook.sheet_by_index(0)
 
     if not excel_uploads.is_valid_fhsis(sheet):
-        fhsis.delete()
-        os.remove(renamed)
+        # fhsis.delete()
+        # os.remove(renamed)
+        print(excel_uploads.return_incomplete_fhsis(sheet))
         messages.error(request, 'FHSIS file is incomplete. Upload again')
         return redirect('core:bns-index')
 
@@ -1056,6 +1058,32 @@ def select_report(request):
         return redirect('datainput:show_opt_list')
     elif post == 'fp':
         return redirect('datainput:family_profiles')
+
+
+# KAMMY ITO!
+@login_required
+def display_fhsis(request, id):
+
+    fhsis = FHSIS.objects.get(id=id)
+
+    maternal = MaternalCare.objects.filter(fhsis=fhsis)
+    immunization = Immunization.objects.filter(fhsis=fhsis)
+    tb = Tuberculosis.objects.filter(fhsis=fhsis)
+    schisto = Schistosomiasis.objects.filter(fhsis=fhsis)
+    flariasis = Flariasis.objects.filter(fhsis=fhsis)
+    leprosy = Leprosy.objects.filter(fhsis=fhsis)
+    child_care = ChildCare.objects.filter(fhsis=fhsis)
+    sti = STISurveillance.objects.filter(fhsis=fhsis)
+
+    # Micronutrient fields are included na sa tuberculosis
+    # check mo na rin yung models for your reference
+    # pass the variables sa context tapos display mo na lang sa template
+
+    context = {
+
+    }
+
+    return render(request, 'datainput/display_fhsis.html', context)
 
 
 

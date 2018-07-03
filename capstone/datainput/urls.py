@@ -19,6 +19,9 @@ urlpatterns = [
     # show fhsis file
     path('bns/fhsis/show/<int:id>', views.view_fhsis_file, name='view_fhsis_file'),
 
+    # kammy this is the path in case you want to know
+    path('bns/fhsis/display/<int:id>', views.display_fhsis, name='display_fhsis'),
+
     path('bns/family_profile/file', views.handle_family_profile_file, name='handle_family_profile_file'),
     path('bns/family_profile/list', views.family_profiles, name='family_profiles'),
 
