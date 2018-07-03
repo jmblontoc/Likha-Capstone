@@ -7,7 +7,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Data Upload</h1>
+                        <h1 class="m-0 text-dark">City Nutritionist Data Upload</h1>
                     </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -20,55 +20,65 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-8">
+                <div class="col-12">
                     <div class="card card-primary">
                         <div class="card-header p-0">
                             <h3 class="card-title p-3">Data Points</h3>
                         </div>
-                        <div class="card-body p-0">
-                            <table class="table table-hover table-bordered">
+                        <div class="card-body">
+                            <table class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th style="70%">Data</th>
-                                        <th style="3    0%">Status</th>
+                                        <th>Data</th>
+                                        <th style="width: 30%;">Status</th>
+                                        <th style="width: 10%;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="clickable-row" data-href="{% url 'datainput:health_care_index' %}" style="cursor: pointer;">
-                                        <td>Health Care Waste Management</td>
+                                    <tr>
+                                        <td style="vertical-align: middle;">Health Care Waste Management</td>
                                         {% if has_health_care %}
-                                        <td style="font-weight: bold; color: #00a65a;">
+                                        <td style="vertical-align: middle; font-weight: bold; color: #00a65a;">
                                             <i class="fa fa-check-circle"></i> Up to date
                                         </td>
                                         {% else %}
-                                        <td style="font-weight: bold; color: #f56954;">
+                                        <td  style="vertical-align: middle; font-weight: bold; color: #f56954;">
                                             <i class="fa fa-exclamation-circle"></i> No record for this year
                                         </td>
                                         {% endif %}
+                                        <td style="text-align: center;">
+                                            <a href="{% url 'datainput:health_care_index' %}" class="btn btn-primary btn-sm col-12">View Report</a>
+                                        </td>
                                     </tr>
-                                    <tr class="clickable-row" data-href="{% url 'datainput:informal_settlers_index' %}" style="cursor: pointer;">
-                                        <td>Informal Settlers</td>
+                                    <tr>
+                                        <td style="vertical-align: middle;">Informal Settlers</td>
                                         {% if has_informal %}
-                                        <td style="font-weight: bold; color: #00a65a;">
+                                        <td  style="vertical-align: middle; font-weight: bold; color: #00a65a;">
                                             <i class="fa fa-check-circle"></i> Up to date
                                         </td>
                                         {% else %}
-                                        <td style="font-weight: bold; color: #f56954;">
+                                        <td  style="vertical-align: middle; font-weight: bold; color: #f56954;">
                                                 <i class="fa fa-exclamation-circle"></i> No record for this month
                                         </td>
                                         {% endif %}
+                                        <td style="text-align: center;">
+                                            <a href="{% url 'datainput:informal_settlers_index' %}" class="btn btn-primary btn-sm col-12">View Report</a>
+                                        </td>
                                     </tr>
-                                    <tr class="clickable-row" data-href="{% url 'datainput:unemployment_rate_index' %}" style="cursor: pointer;">
-                                        <td>Unemployment Rate</td>
+                                    <tr>
+                                        <td style="vertical-align: middle;">Unemployment Rate</td>
                                         {% if has_ur %}
-                                        <td style="font-weight: bold; color: #00a65a;">
+                                        <td  style="vertical-align: middle; font-weight: bold; color: #00a65a;">
                                             <i class="fa fa-check-circle"></i> Up to date
                                         </td>
                                         {% else %}
-                                        <td style="font-weight: bold; color: #f56954;">
+                                        <td  style="vertical-align: middle; font-weight: bold; color: #f56954;">
                                             <i class="fa fa-exclamation-circle"></i> No record for this year
                                         </td>
                                         {% endif %}
+                                        <td style="text-align: center;">
+                                            <a href="{% url 'datainput:unemployment_rate_index' %}" class="btn btn-primary btn-sm col-12">View Report</a>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
