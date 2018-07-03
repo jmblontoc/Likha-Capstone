@@ -264,7 +264,7 @@ class MonthlyReweighing(models.Model):
     uploaded_by = models.ForeignKey('core.Profile', on_delete=models.DO_NOTHING)
 
     def __str__(self):
-        return self.patient.name
+        return '%s - %s' % (self.patient.barangay.name, str(self.date.month))
 
     def get_nutritional_status(self):
 

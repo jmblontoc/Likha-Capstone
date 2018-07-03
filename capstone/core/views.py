@@ -11,6 +11,7 @@ from datainput.models import OperationTimbang, MonthlyReweighing, FamilyProfile,
 from friends import user_redirects
 from datetime import datetime
 from friends.datamining import correlations
+from friends.datainput import misc
 
 
 class SignInView(View):
@@ -93,12 +94,83 @@ def bns_index(request):
         'date': datetime.now(),
         'opt': opt,
         'fp': family_profiles,
-        'has_mr': validations.has_monthly_reweighing(profile.barangay, datetime.now().month),
         'approved_mr': approved_mr,
-        'fhsis': fhsis
+        'fhsis': fhsis,
+        'month_due': misc.get_due_date('monthly')
     }
 
-    return render(request, 'core/bns_index.html', context)
+    fhsis_current = FHSIS.objects.filter(barangay=profile.barangay, date__month=datetime.now().month,
+                                               date__year=datetime.now().year)
+
+    if fhsis_current.count() == 0:
+        fhsis_date_uploaded = 'Not yet uploaded'
+        fhsis_status = 'Incomplete'
+
+    else:
+        fhsis_date_uploaded = fhsis_current[0].date
+        fhsis_status = 'Completed'
+
+
+    has_mr = validations.has_monthly_reweighing(profile.barangay, datetime.now().month, datetime.now().year)
+
+    if not has_mr:
+        mr_uploaded = 'Not yet uploaded'
+        mr_status = 'Incomplete'
+
+    else:
+        mr_uploaded = MonthlyReweighing.objects.filter(patient__barangay=profile.barangay,
+                                                       date__month=datetime.now().month,
+                                                       date__year=datetime.now().year).latest('date').date
+        mr_status = 'Complete'
+
+    try:
+        opt = OperationTimbang.objects.get(barangay=profile.barangay, date__year=datetime.now().year)
+    except OperationTimbang.DoesNotExist:
+        opt = None
+
+    if opt is None:
+        opt_date = 'Not yet uploaded'
+        opt_status = 'Incomplete'
+    else:
+        opt_date = opt.date
+        opt_status = 'Completed'
+
+    try:
+        fp = FamilyProfile.objects.get(barangay=profile.barangay, date__year=datetime.now().year)
+    except FamilyProfile.DoesNotExist:
+        fp = None
+
+    if fp is None:
+        fp_date = 'Not yet uploaded'
+        fp_status = 'Incomplete'
+
+    else:
+        fp_date = fp.date
+        fp_status = 'Completed'
+
+    context2 = {
+        'month_due': misc.get_due_date('monthly'),
+        'profile': profile,
+        'year': datetime.now().year,
+
+        # FHSIS
+        'fhsis_uploaded': fhsis_date_uploaded,
+        'fhsis_status': fhsis_status,
+
+        # reweighing
+        'has_mr': has_mr,
+        'mr_date': mr_uploaded,
+
+        # OPT
+        'opt_date': opt_date,
+        'opt_status': opt_status,
+
+        # family profile
+        'fp_date': fp_date,
+        'fp_status': fp_status
+    }
+
+    return render(request, 'core/bns_index.html', context2)
 
 
 @login_required

@@ -3,7 +3,7 @@ from datetime import datetime
 from datainput.models import Patient, MonthlyReweighing, HealthCareWasteManagement, InformalSettlers, UnemploymentRate
 
 
-def has_monthly_reweighing(barangay, month):
+def has_monthly_reweighing(barangay, month, year):
 
     patients = Patient.objects.filter(barangay=barangay)
 
@@ -13,7 +13,7 @@ def has_monthly_reweighing(barangay, month):
     for patient in patients:
 
         try:
-            mr = MonthlyReweighing.objects.get(patient=patient, date__month=month)
+            mr = MonthlyReweighing.objects.get(patient=patient, date__month=month, date__year=year)
             print(mr)
         except MonthlyReweighing.DoesNotExist:
             return False

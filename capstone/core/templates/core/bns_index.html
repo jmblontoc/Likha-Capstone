@@ -36,97 +36,52 @@
                                         <th style="width: 33%;">Action</th>
                                     </tr>
                                     <tr style="height: 58px;">
-                                        <td style="vertical-align: middle;">eOPT</td>
-                                        {% if opt is None %}
-                                            <td style="vertical-align: middle;">
-                                                <form class="m-0" method="POST" enctype="multipart/form-data" action="{% url 'datainput:handle_opt_file' %}">
-                                                    {% csrf_token %}
-                                                    <input type="file" name="eOPT">
-                                                    <input class="btn btn-primary btn-sm" type="submit">
-                                                </form>
+                                        <td style="vertical-align: middle;">Field Health Service Information System M1</td>
+                                        <td>{{ month_due }}</td>
+                                        <td>{{ fhsis_uploaded }}</td>
+                                        {% if fhsis_status == 'Completed' %}
+                                            <td class="text-success">
+                                                <i class="fa fa-check-circle"></i> {{ fhsis_status }}
                                             </td>
-                                            <td style="color: #f56954; font-weight: bold; vertical-align: middle;">
-                                                <i class="fa fa-exclamation-circle"></i> Not yet uploaded
+                                            <td>
+                                                <button class="btn btn-primary">
+                                                    View Report
+                                                </button>
                                             </td>
                                         {% else %}
-                                            <td style="vertical-align: middle;"><a href="{% url 'datainput:show_opt_list' %}">View OPT Records</a></td>
-                                            {% if opt.status == "Approved" %}
-                                            <td style="color: #00a65a; font-weight: bold; vertical-align: middle;">
-                                                <i class="fa fa-check-circle"></i> Approved
+                                            <td class="text-danger">
+                                                <i class="fa fa-exclamation-circle"></i> Incomplete
                                             </td>
-                                            {% else %}
-                                            <td style="color: #f39c12; font-weight: bold; vertical-align: middle;">
-                                                <i class="fa fa-exclamation-circle"></i> Pending
-                                            </td>
-                                            {% endif %}
-                                        {% endif %}
-                                    </tr>
-                                    <tr style="height: 58px;">
-                                        <td style="vertical-align: middle;">Monthly Reweighing</td>
-                                        <td style="vertical-align: middle;"><a href="{% url 'datainput:monthly_reweighing_index' %}">Upload data</a></td>
-                                        {% if has_mr %}
-                                            {% if approved_mr %}
-                                            <td style="color: #00a65a; font-weight: bold; vertical-align: middle;">
-                                                <i class="fa fa-check-circle"></i> Approved
-                                            </td>
-                                            {% else %}
-                                            <td style="color: #f39c12; font-weight: bold; vertical-align: middle;">
-                                                <i class="fa fa-exclamation-circle"></i> Complete but still needs approval
-                                            </td>
-                                            {% endif %}
-                                        {% else %}
-                                            <td style="color: #f56954; font-weight: bold; vertical-align: middle;">
-                                                <i class="fa fa-exclamation-circle"></i> Not yet complete
-                                            </td>
-                                        {% endif %}
-                                    </tr>
-                                    <tr style="height: 58px;">
-                                        <td style="vertical-align: middle;">FHSIS</td>
-                                        {% if fhsis is None %}
-                                            <td style="vertical-align: middle;">
+                                            <td>
                                                 <form class="m-0" method="POST" enctype="multipart/form-data" action="{% url 'datainput:handle_fhsis_file' %}">
                                                     {% csrf_token %}
                                                     <input type="file" name="fhsis">
                                                     <input class="btn btn-primary btn-sm" type="submit">
                                                 </form>
                                             </td>
-                                            <td style="font-weight: bold; color:#f56954; vertical-align: middle;">
-                                                <i class="fa fa-exclamation-circle"></i> Not yet uploaded
-                                            </td>
-                                        {% else %}
-                                            <td style="vertical-align: middle;">
-                                                <a href="{% url 'datainput:show_fhsis_list' %}">View FHSIS Records</a>
-                                            </td>
-                                            {% if fhsis.status == "Approved" %}
-                                            <td style="color: #00a65a; font-weight: bold; vertical-align: middle;">
-                                                <i class="fa fa-check-circle"></i> Approved
-                                            </td>
-                                            {% else %}
-                                            <td style="color: #f39c12; font-weight: bold; vertical-align: middle;">
-                                                <i class="fa fa-exclamation-circle"></i> Pending
-                                            </td>
-                                            {% endif %}
                                         {% endif %}
                                     </tr>
-                                    <tr style="height: 58px;">
-                                        <td style="vertical-align: middle;">Family Profile</td>
-                                        <td style="vertical-align: middle;"><a href="{% url 'datainput:family_profiles' %}">Go to Family Profiles</a></td>
-                                        {% if fp is None %}
-                                            <td style="color: #f56954; font-weight: bold; vertical-align: middle;">
-                                                <i class="fa fa-exclamation-circle"></i> Not yet uploaded
+                                    <tr>
+                                        <td>Monthly Reweighing</td>
+                                        <td>{{ month_due }}</td>
+                                        <td>{{ mr_date }}</td>
+                                        {% if has_mr %}
+                                            <td class="text-success">
+                                                <i class="fa fa-check-circle"></i> Completed
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-primary">View Report</button>
                                             </td>
                                         {% else %}
-                                            {% if fp.status == "Approved" %}
-                                            <td style="color: #00a65a; font-weight: bold; vertical-align: middle;">
-                                                <i class="fa fa-check-circle"></i> Approved
+                                            <td class="text-danger">
+                                                <i class="fa fa-exclamation-circle"></i> Incomplete
                                             </td>
-                                            {% else %}
-                                            <td style="color: #f39c12; font-weight: bold; vertical-align: middle;">
-                                                <i class="fa fa-exclamation-circle"></i> Pending
+                                            <td>
+                                                <button class="btn btn-primary">Update Report</button>
                                             </td>
-                                            {% endif %}
                                         {% endif %}
                                     </tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -143,13 +98,27 @@
                             <table class="table table-hover table-bordered">
                                 <tbody>
                                     <tr>
-                                        <th style="width: 33%;">Data</th>
-                                        <th style="width: 33%;">Action</th>
+                                        <th style="width: 33%;">Report</th>
+                                        <th style="width: 33%;">Due Date</th>
+                                        <th style="width: 33%;">Date Uploaded</th>
                                         <th style="width: 33%;">Status</th>
+                                        <th style="width: 33%;">Action</th>
                                     </tr>
                                     <tr style="height: 58px;">
-                                        <td style="vertical-align: middle;">eOPT</td>
-                                        {% if opt is None %}
+                                        <td style="vertical-align: middle;">Operation Timbang</td>
+                                        <td>January 30, {{ year }}</td>
+                                        <td>{{ opt_date }}</td>
+                                        {% if opt_status == 'Completed' %}
+                                            <td class="text-success">
+                                                <i class="fa fa-check-circle"></i> {{ opt_status }}
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-primary">View Report</button>
+                                            </td>
+                                        {% else %}
+                                            <td class="text-danger">
+                                                <i class="fa fa-exclamation-circle"></i> {{ opt_status }}
+                                            </td>
                                             <td style="vertical-align: middle;">
                                                 <form class="m-0" method="POST" enctype="multipart/form-data" action="{% url 'datainput:handle_opt_file' %}">
                                                     {% csrf_token %}
@@ -157,88 +126,28 @@
                                                     <input class="btn btn-primary btn-sm" type="submit">
                                                 </form>
                                             </td>
-                                            <td style="color: #f56954; font-weight: bold; vertical-align: middle;">
-                                                <i class="fa fa-exclamation-circle"></i> Not yet uploaded
-                                            </td>
-                                        {% else %}
-                                            <td style="vertical-align: middle;"><a href="{% url 'datainput:show_opt_list' %}">View OPT Records</a></td>
-                                            {% if opt.status == "Approved" %}
-                                            <td style="color: #00a65a; font-weight: bold; vertical-align: middle;">
-                                                <i class="fa fa-check-circle"></i> Approved
-                                            </td>
-                                            {% else %}
-                                            <td style="color: #f39c12; font-weight: bold; vertical-align: middle;">
-                                                <i class="fa fa-exclamation-circle"></i> Pending
-                                            </td>
-                                            {% endif %}
                                         {% endif %}
                                     </tr>
-                                    <tr style="height: 58px;">
-                                        <td style="vertical-align: middle;">Monthly Reweighing</td>
-                                        <td style="vertical-align: middle;"><a href="{% url 'datainput:monthly_reweighing_index' %}">Upload data</a></td>
-                                        {% if has_mr %}
-                                            {% if approved_mr %}
-                                            <td style="color: #00a65a; font-weight: bold; vertical-align: middle;">
-                                                <i class="fa fa-check-circle"></i> Approved
-                                            </td>
-                                            {% else %}
-                                            <td style="color: #f39c12; font-weight: bold; vertical-align: middle;">
-                                                <i class="fa fa-exclamation-circle"></i> Complete but still needs approval
-                                            </td>
-                                            {% endif %}
-                                        {% else %}
-                                            <td style="color: #f56954; font-weight: bold; vertical-align: middle;">
-                                                <i class="fa fa-exclamation-circle"></i> Not yet complete
-                                            </td>
-                                        {% endif %}
-                                    </tr>
-                                    <tr style="height: 58px;">
-                                        <td style="vertical-align: middle;">FHSIS</td>
-                                        {% if fhsis is None %}
-                                            <td style="vertical-align: middle;">
-                                                <form class="m-0" method="POST" enctype="multipart/form-data" action="{% url 'datainput:handle_fhsis_file' %}">
-                                                    {% csrf_token %}
-                                                    <input type="file" name="fhsis">
-                                                    <input class="btn btn-primary btn-sm" type="submit">
-                                                </form>
-                                            </td>
-                                            <td style="font-weight: bold; color:#f56954; vertical-align: middle;">
-                                                <i class="fa fa-exclamation-circle"></i> Not yet uploaded
-                                            </td>
-                                        {% else %}
-                                            <td style="vertical-align: middle;">
-                                                <a href="{% url 'datainput:show_fhsis_list' %}">View FHSIS Records</a>
-                                            </td>
-                                            {% if fhsis.status == "Approved" %}
-                                            <td style="color: #00a65a; font-weight: bold; vertical-align: middle;">
-                                                <i class="fa fa-check-circle"></i> Approved
-                                            </td>
-                                            {% else %}
-                                            <td style="color: #f39c12; font-weight: bold; vertical-align: middle;">
-                                                <i class="fa fa-exclamation-circle"></i> Pending
-                                            </td>
-                                            {% endif %}
-                                        {% endif %}
-                                    </tr>
-                                    <tr style="height: 58px;">
-                                        <td style="vertical-align: middle;">Family Profile</td>
-                                        <td style="vertical-align: middle;"><a href="{% url 'datainput:family_profiles' %}">Go to Family Profiles</a></td>
-                                        {% if fp is None %}
-                                            <td style="color: #f56954; font-weight: bold; vertical-align: middle;">
-                                                <i class="fa fa-exclamation-circle"></i> Not yet uploaded
-                                            </td>
-                                        {% else %}
-                                            {% if fp.status == "Approved" %}
-                                            <td style="color: #00a65a; font-weight: bold; vertical-align: middle;">
-                                                <i class="fa fa-check-circle"></i> Approved
-                                            </td>
-                                            {% else %}
-                                            <td style="color: #f39c12; font-weight: bold; vertical-align: middle;">
-                                                <i class="fa fa-exclamation-circle"></i> Pending
-                                            </td>
-                                            {% endif %}
-                                        {% endif %}
-                                    </tr>
+                                   <tr>
+                                       <td>Family Profile</td>
+                                       <td>December 30, {{ year }}</td>
+                                       <td>{{ fp_date }}</td>
+                                       {% if fp_status == 'Incomplete' %}
+                                           <td class="text-danger">
+                                            <i class="fa fa-exclamation-circle"></i> {{ fp_status }}
+                                           </td>
+                                           <td>
+                                            <button class="btn btn-primary">Update Report</button>
+                                           </td>
+                                       {% else %}
+                                           <td class="text-success">
+                                            <i class="fa fa-check-circle"></i> {{ fp_status }}
+                                           </td>
+                                           <td>
+                                            <button class="btn btn-primary">View Report</button>
+                                           </td>
+                                       {% endif %}
+                                   </tr>
                                 </tbody>
                             </table>
                         </div>
