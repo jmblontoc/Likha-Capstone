@@ -35,14 +35,15 @@
                             <table id="patient_overview" class="table table-bordered table-hover dataTable">
                                 <thead>
                                     <tr>
-                                        <th style="width: 33%">Name</th>
-                                        <th style="width: 33%">Age in Months</th>
-                                        <th style="width: 33%">Status</th>
+                                        <th style="width: 30%">Name</th>
+                                        <th style="width: 30%">Age in Months</th>
+                                        <th style="width: 30%">Status</th>
+                                        <th style="width: 10%;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for patient in patients %}
-                                    <tr class="clickable-row" data-href="{% url 'datainput:patient_overview' patient.id %}" style="cursor: pointer;">
+                                    <tr>
                                         <td>{{ patient.name }}</td>
                                         <td>{{ patient.get_age }} months</td>
                                         {% if patient.get_reweighing_status == 'Updated' %}
@@ -54,6 +55,9 @@
                                             <i class="fa fa-exclamation-circle"></i> Not Updated
                                         </td>
                                         {% endif %}
+                                        <td>
+                                            <a href="{% url 'datainput:patient_overview' patient.id %}" class="btn btn-primary btn-sm col-12">View Record</a>
+                                        </td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
