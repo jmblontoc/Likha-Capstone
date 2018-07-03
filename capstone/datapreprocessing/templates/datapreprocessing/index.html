@@ -23,12 +23,53 @@
                 <div class="col-12">
                     <div class="card card-primary">
                         <div class="card-header d-flex p-0" style="cursor: move;">
-                        <h3 class="card-title p-3">Metrics and Thresholds as of {{ date }}</h3>
-                        <ul class="nav nav-pills ml-auto p-2">
-                            <li class="nav-item">
-                                <a class="nav-link btn-default" style="text-align: center; color: #004876;" href="{% url 'datapreprocessing:add_metric' %}">Add a Metric</a>
-                            </li>
-                        </ul>
+                            <h3 class="card-title p-3">Default Metrics</h3>
+                        </div>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>City Nutritional Status</td>
+                                <td>TODO</td>
+                                <td>TODO</td>
+                            </tr>
+                            <tr>
+                                <td>City Micronutrient Supplementation</td>
+                                <td>TODO</td>
+                                <td>TODO</td>
+                            </tr>
+                            <tr>
+                                <td>City Maternal Care</td>
+                                <td>TODO</td>
+                                <td>TODO</td>
+                            </tr>
+                            <tr>
+                                <td>City Children Care</td>
+                                <td>TODO</td>
+                                <td>TODO</td>
+                            </tr>
+                            <tr>
+                                <td>Socioeconomic Status</td>
+                                <td>TODO</td>
+                                <td>TODO</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card card-primary">
+                        <div class="card-header d-flex p-0" style="cursor: move;">
+                            <h3 class="card-title p-3">Metrics and Thresholds as of {{ date }}</h3>
+                            <ul class="nav nav-pills ml-auto p-2">
+                                <li class="nav-item">
+                                    <a class="nav-link btn-default" style="text-align: center; color: #004876;" href="{% url 'datapreprocessing:add_metric' %}">Add a Metric</a>
+                                </li>
+                            </ul>
                         </div>
                         <div class="card-body">
                             <table id="metricsthresholds" class="table table-bordered table-hover dataTable">

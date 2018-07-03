@@ -102,6 +102,12 @@
                                 </a>
                                 </li>
                             <li class="nav-item">
+                                <a href="{% url 'datapreprocessing:index' %}" class="nav-link {% if active == 'mt' %}active{% endif %}">
+                                    <i class="nav-icon fa fa-sliders"></i>
+                                    <p>Metrics and Thresholds</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{% url 'datainput:nutritionist_upload' %}" class="nav-link {% if active == 'du' %}active{% endif %}">
                                     <i class="nav-icon fa fa-upload"></i>
                                     <p>Data Upload</p>
@@ -111,12 +117,6 @@
                                 <a href="{% url 'datainput:data_status_index' %}" class="nav-link {% if active == 'ds' %}active{% endif %}">
                                     <i class="nav-icon fa fa-file"></i>
                                     <p>Data Status</p>
-                                </a>
-                                </li>
-                            <li class="nav-item">
-                                <a href="{% url 'datapreprocessing:index' %}" class="nav-link {% if active == 'mt' %}active{% endif %}">
-                                    <i class="nav-icon fa fa-sliders"></i>
-                                    <p>Metrics and Thresholds</p>
                                 </a>
                                 </li>
                             <li class="nav-item">
