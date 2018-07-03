@@ -1084,12 +1084,27 @@ def display_fhsis(request, id):
     fhsis = FHSIS.objects.get(id=id)
 
     maternal = MaternalCare.objects.filter(fhsis=fhsis)
-    immunization = Immunization.objects.filter(fhsis=fhsis)
-    tb = Tuberculosis.objects.filter(fhsis=fhsis)
-    schisto = Schistosomiasis.objects.filter(fhsis=fhsis)
-    flariasis = Flariasis.objects.filter(fhsis=fhsis)
-    leprosy = Leprosy.objects.filter(fhsis=fhsis)
-    child_care = ChildCare.objects.filter(fhsis=fhsis)
+    immunization_female = Immunization.objects.filter(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
+    immunization_male = Immunization.objects.filter(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
+
+    malaria_female = Malaria.objects.filter(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
+    malaria_male = Malaria.objects.filter(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
+
+    tb_female = Tuberculosis.objects.filter(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
+    tb_male = Tuberculosis.objects.filter(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
+
+    schisto_female = Schistosomiasis.objects.filter(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
+    schisto_male = Schistosomiasis.objects.filter(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
+
+    flariasis_female = Flariasis.objects.filter(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
+    flariasis_male = Flariasis.objects.filter(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
+
+    leprosy_female = Leprosy.objects.filter(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
+    leprosy_male = Leprosy.objects.filter(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
+
+    child_care_female = ChildCare.objects.filter(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
+    child_care_male = ChildCare.objects.filter(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
+
     sti = STISurveillance.objects.filter(fhsis=fhsis)
 
     # Micronutrient fields are included na sa tuberculosis
@@ -1098,7 +1113,22 @@ def display_fhsis(request, id):
     # template is display_fhsis.html under datainput
 
     context = {
-
+        'maternal': maternal,
+        'immunization_female': immunization_female,
+        'immunization_male': immunization_male,
+        'malaria_female': malaria_female,
+        'malaria_male': malaria_male,
+        'tb_female': tb_female,
+        'tb_male': tb_male,
+        'schisto_female': schisto_female,
+        'schisto_male': schisto_male,
+        'flariasis_female': flariasis_female,
+        'flariasis_male': flariasis_male,
+        'leprosy_female': leprosy_female,
+        'leprosy_male': leprosy_male,
+        'child_care_female': child_care_female,
+        'child_care_male': child_care_male,
+        'sti': sti
     }
 
     return render(request, 'datainput/display_fhsis.html', context)

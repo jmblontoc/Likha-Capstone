@@ -21,7 +21,7 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-6">
+                <div class="col-8">
                     <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">Operation Timbang Records</h3>
@@ -32,14 +32,18 @@
                                 <thead>
                                     <tr>
                                         <th>OPT Record</th>
+                                        <th style="width: 16%;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
 
         {% for opt in opt_records %}
-            <tr class="clickable-row" data-href="{% url 'datainput:view_opt_file' opt.id %}" style="cursor: pointer;">
-                <td>
+            <tr>
+                <td style="vertical-align: middle;">
                     eOPT - {{ opt.date.date }}
+                </td>
+                <td>
+                    <a href="{% url 'datainput:view_opt_file' opt.id %}" class="btn btn-primary btn-sm col-12">View Report</a>
                 </td>
             </tr>
        {% endfor %}
