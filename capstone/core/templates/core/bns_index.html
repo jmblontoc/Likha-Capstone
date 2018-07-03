@@ -1,14 +1,13 @@
 {% extends 'core/bns-layout.html' %}
 {% block content %}
 
-{% include 'core/helpers/messages.html' %}
 <div class="content-wrapper" style="height: auto; margin-top: 57px;">
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Upload Facility</h1>
-                    </div>
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Upload Facility</h1>
+                </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item">Upload Facility</li>
@@ -16,6 +15,7 @@
                 </div>
             </div>
         </div>
+        {% include 'core/helpers/messages.html' %}
     </div>
     <section class="content">
         <div class="container-fluid">
@@ -25,15 +25,15 @@
                         <div class="card-header p-0">
                             <h3 class="card-title p-3">Monthly Reports</h3>
                         </div>
-                        <div class="card-body table-responsive p-0">
+                        <div class="card-body table-responsive p-2">
                             <table class="table table-hover table-bordered">
                                 <tbody>
                                     <tr>
-                                        <th style="width: 33%;">Report</th>
-                                        <th style="width: 33%;">Due Date</th>
-                                        <th style="width: 33%;">Date Uploaded</th>
-                                        <th style="width: 33%;">Status</th>
-                                        <th style="width: 33%;">Action</th>
+                                        <th style="width: 30%;">Report</th>
+                                        <th style="width: 20%;">Due Date</th>
+                                        <th style="width: 20%;">Date Uploaded</th>
+                                        <th style="width: 10%;">Status</th>
+                                        <th style="width: 20%;">Action</th>
                                     </tr>
                                     <tr style="height: 58px;">
                                         <td style="vertical-align: middle;">Field Health Service Information System M1</td>
@@ -55,10 +55,8 @@
                                             <td>
                                                 <form class="m-0" method="POST" enctype="multipart/form-data" action="{% url 'datainput:handle_fhsis_file' %}">
                                                     {% csrf_token %}
-                                                    <input type="file" name="fhsis" id="fhsis" class="inputfile" />
-                                                    <label class="btn btn-primary btn-sm" for="fhsis">Choose a file</label>
-
-
+                                                    <input type="file" name="fhsis" id="fhsis" class="inputfile">
+                                                    <label class="btn btn-primary btn-sm m-0" for="fhsis">Choose a file</label>
 
                                                     <input class="btn btn-primary btn-sm" type="submit">
                                                 </form>
@@ -74,14 +72,14 @@
                                                 <i class="fa fa-check-circle"></i> Completed
                                             </td>
                                             <td>
-                                                <button class="btn btn-primary">View Report</button>
+                                                <button class="btn btn-primary btn-sm">View Report</button>
                                             </td>
                                         {% else %}
                                             <td class="text-danger">
                                                 <i class="fa fa-exclamation-circle"></i> Incomplete
                                             </td>
                                             <td>
-                                                <button class="btn btn-primary">Update Report</button>
+                                                <button class="btn btn-primary btn-sm">Update Report</button>
                                             </td>
                                         {% endif %}
                                     </tr>
@@ -102,11 +100,11 @@
                             <table class="table table-hover table-bordered">
                                 <tbody>
                                     <tr>
-                                        <th style="width: 33%;">Report</th>
-                                        <th style="width: 33%;">Due Date</th>
-                                        <th style="width: 33%;">Date Uploaded</th>
-                                        <th style="width: 33%;">Status</th>
-                                        <th style="width: 33%;">Action</th>
+                                        <th style="width: 30%;">Report</th>
+                                        <th style="width: 20%;">Due Date</th>
+                                        <th style="width: 20%;">Date Uploaded</th>
+                                        <th style="width: 10%;">Status</th>
+                                        <th style="width: 20%;">Action</th>
                                     </tr>
                                     <tr style="height: 58px;">
                                         <td style="vertical-align: middle;">Operation Timbang</td>
@@ -117,7 +115,7 @@
                                                 <i class="fa fa-check-circle"></i> {{ opt_status }}
                                             </td>
                                             <td>
-                                                <button class="btn btn-primary">View Report</button>
+                                                <button class="btn btn-primary btn-sm">View Report</button>
                                             </td>
                                         {% else %}
                                             <td class="text-danger">
@@ -126,10 +124,9 @@
                                             <td style="vertical-align: middle;">
                                                 <form class="m-0" method="POST" enctype="multipart/form-data" action="{% url 'datainput:handle_opt_file' %}">
                                                     {% csrf_token %}
-                                                    <input type="file" name="eOPT">
+                                                    <input type="file" name="eOPT" id="eOPT" class="inputfile">
+                                                    <label class="btn btn-primary btn-sm m-0" for="eOPT">Choose a file</label>
                                                     <input class="btn btn-primary btn-sm" type="submit">
-
-
                                                 </form>
                                             </td>
                                         {% endif %}
@@ -143,22 +140,19 @@
                                             <i class="fa fa-exclamation-circle"></i> {{ fp_status }}
                                            </td>
                                            <td>
-                                            <button class="btn btn-primary">Update Report</button>
+                                            <button class="btn btn-primary btn-sm">Update Report</button>
                                            </td>
                                        {% else %}
                                            <td class="text-success">
                                             <i class="fa fa-check-circle"></i> {{ fp_status }}
                                            </td>
                                            <td>
-                                            <button class="btn btn-primary">View Report</button>
+                                            <button class="btn btn-primary btn-sm">View Report</button>
                                            </td>
                                        {% endif %}
                                    </tr>
                                 </tbody>
                             </table>
-
-
-
                         </div>
                     </div>
                 </div>
