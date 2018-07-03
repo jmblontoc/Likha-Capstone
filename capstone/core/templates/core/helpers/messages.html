@@ -1,6 +1,6 @@
 {% if messages %}
 {% for message in messages %}
-<div class="alert alert-{{ message.tags }} alert-dismissible" style="position: fixed; right: 2%; bottom: 2%">
+<div class="alert alert-{{ message.tags }} alert-dismissible" style="margin-left: 7.5px; margin-right: 7.5px; margin-top: 15px; margin-bottom: 0;">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
     {% if message.tags == 'success' %}
     <h5 style="text-transform: capitalize;"><i class="icon fa fa-check"></i>{{ message.tags }}</h5>

@@ -21,7 +21,7 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-6">
+                <div class="col-8">
                     <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">FHSIS Records</h3>
@@ -32,13 +32,17 @@
                                 <thead>
                                     <tr>
                                         <th>FHSIS Record</th>
+                                        <th style="width: 16%;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
         {% for fhsis in fhsis_records %}
-            <tr class="clickable-row" data-href="{% url 'datainput:display_fhsis' fhsis.id %}" style="cursor: pointer;">
-                <td>
+            <tr>
+                <td style="vertical-align: middle;">
                     FHSIS - {{ fhsis.date.date }}
+                </td>
+                <td>
+                    <a style="text-align: center;" class="btn btn-primary btn-sm col-12" href="{% url 'datainput:display_fhsis' fhsis.id %}">View Report</a>
                 </td>
             </tr>
 

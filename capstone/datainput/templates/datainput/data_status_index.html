@@ -1,7 +1,6 @@
 {% extends 'core/nutritionist-layout.html' %}
 {% block content %}
 
-{% include 'core/helpers/messages.html' %}
 <div class="content-wrapper" style="min-height: 620px; height: auto; margin-top: 57px;">
     <div class="content-header">
         <div class="container-fluid">
@@ -16,6 +15,7 @@
                 </div>
             </div>
         </div>
+        {% include 'core/helpers/messages.html' %}
     </div>
     <section class="content">
         <div class="container-fluid">
@@ -37,10 +37,10 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body p-2">
                             <div class="tab-content">
                                 <div class="tab-pane active show" id="initial">
-                                    <p style="text-align: center; margin: 0;">Please Select a Barangay</p>
+                                    <p style="text-align: center; margin: 30px;">Please Select a Barangay</p>
                                 </div>
                                 {% for barangay in barangays %}
                                 <div class="tab-pane" id="tab_{{ forloop.counter }}">

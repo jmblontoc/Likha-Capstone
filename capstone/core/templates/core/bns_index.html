@@ -1,14 +1,13 @@
 {% extends 'core/bns-layout.html' %}
 {% block content %}
 
-{% include 'core/helpers/messages.html' %}
 <div class="content-wrapper" style="height: auto; margin-top: 57px;">
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Upload Facility </h1>
-                    </div>
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Upload Facility</h1>
+                </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item">Upload Facility</li>
@@ -16,6 +15,7 @@
                 </div>
             </div>
         </div>
+        {% include 'core/helpers/messages.html' %}
     </div>
     <section class="content">
         <div class="container-fluid">
@@ -25,40 +25,38 @@
                         <div class="card-header p-0">
                             <h3 class="card-title p-3">Monthly Reports</h3>
                         </div>
-                        <div class="card-body table-responsive p-0">
+                        <div class="card-body table-responsive p-2">
                             <table class="table table-hover table-bordered">
                                 <tbody>
                                     <tr>
-                                        <th style="width: 33%;">Report</th>
-                                        <th style="width: 33%;">Due Date</th>
-                                        <th style="width: 33%;">Date Uploaded</th>
-                                        <th style="width: 33%;">Status</th>
-                                        <th style="width: 33%;">Action</th>
+                                        <th style="width: 30%;">Report</th>
+                                        <th style="width: 20%;">Due Date</th>
+                                        <th style="width: 20%;">Date Uploaded</th>
+                                        <th style="width: 10%;">Status</th>
+                                        <th style="width: 20%;">Action</th>
                                     </tr>
-                                    <tr style="height: 58px;">
+                                    <tr>
                                         <td style="vertical-align: middle;">Field Health Service Information System M1</td>
-                                        <td>{{ month_due }}</td>
-                                        <td>{{ fhsis_uploaded }}</td>
+                                        <td style="vertical-align: middle;">{{ month_due }}</td>
+                                        <td style="vertical-align: middle;">{{ fhsis_uploaded }}</td>
                                         {% if fhsis_status == 'Completed' %}
-                                            <td class="text-success">
+                                            <td style="vertical-align: middle;" class="text-success">
                                                 <i class="fa fa-check-circle"></i> {{ fhsis_status }}
                                             </td>
-                                            <td>
-                                                <button class="btn btn-primary">
+                                            <td style="text-align: center;">
+                                                <a href="{% url 'datainput:show_fhsis_list' %}" class="btn btn-primary btn-sm">
                                                     View Report
-                                                </button>
+                                                </a>
                                             </td>
                                         {% else %}
-                                            <td class="text-danger">
+                                            <td style="vertical-align: middle;" class="text-danger">
                                                 <i class="fa fa-exclamation-circle"></i> Incomplete
                                             </td>
-                                            <td>
+                                            <td style="text-align: center;">
                                                 <form class="m-0" method="POST" enctype="multipart/form-data" action="{% url 'datainput:handle_fhsis_file' %}">
                                                     {% csrf_token %}
-                                                    <input type="file" name="fhsis" id="fhsis" class="inputfile" />
-                                                    <label class="btn btn-primary btn-sm" for="fhsis">Choose a file</label>
-
-
+                                                    <input type="file" name="fhsis" id="fhsis" class="inputfile">
+                                                    <label class="btn btn-primary btn-sm m-0 col-8" for="fhsis"><i class="fa fa-upload"></i> Choose a file</label>
 
                                                     <input class="btn btn-primary btn-sm" type="submit">
                                                 </form>
@@ -66,27 +64,26 @@
                                         {% endif %}
                                     </tr>
                                     <tr>
-                                        <td>Monthly Reweighing</td>
-                                        <td>{{ month_due }}</td>
-                                        <td>{{ mr_date }}</td>
+                                        <td style="vertical-align: middle;">Monthly Reweighing</td>
+                                        <td style="vertical-align: middle;">{{ month_due }}</td>
+                                        <td style="vertical-align: middle;">{{ mr_date }}</td>
                                         {% if has_mr %}
-                                            <td class="text-success">
+                                            <td style="vertical-align: middle;" class="text-success">
                                                 <i class="fa fa-check-circle"></i> Completed
                                             </td>
-                                            <td>
+                                            <td style="text-align: center;">
                                                 <a href="{% url 'datainput:monthly_reweighing_index' %}" class="btn btn-primary btn-sm">
                                                     View Report
                                                 </a>
                                             </td>
                                         {% else %}
-                                            <td class="text-danger">
+                                            <td style="vertical-align: middle;" class="text-danger">
                                                 <i class="fa fa-exclamation-circle"></i> Incomplete
                                             </td>
-                                            <td>
-                                                <a href="{% url 'datainput:monthly_reweighing_index' %}">
-                                                    <button class="btn btn-primary">Update Report</button>
+                                            <td style="text-align: center;">
+                                                <a class="btn btn-primary btn-sm" href="{% url 'datainput:monthly_reweighing_index' %}">
+                                                    Update Report
                                                 </a>
-
                                             </td>
                                         {% endif %}
                                     </tr>
@@ -103,69 +100,63 @@
                         <div class="card-header p-0">
                             <h3 class="card-title p-3">Annual Reports</h3>
                         </div>
-                        <div class="card-body table-responsive p-0">
+                        <div class="card-body table-responsive  p-2">
                             <table class="table table-hover table-bordered">
                                 <tbody>
                                     <tr>
-                                        <th style="width: 33%;">Report</th>
-                                        <th style="width: 33%;">Due Date</th>
-                                        <th style="width: 33%;">Date Uploaded</th>
-                                        <th style="width: 33%;">Status</th>
-                                        <th style="width: 33%;">Action</th>
+                                        <th style="width: 30%;">Report</th>
+                                        <th style="width: 20%;">Due Date</th>
+                                        <th style="width: 20%;">Date Uploaded</th>
+                                        <th style="width: 10%;">Status</th>
+                                        <th style="width: 20%;">Action</th>
                                     </tr>
-                                    <tr style="height: 58px;">
+                                    <tr>
                                         <td style="vertical-align: middle;">Operation Timbang</td>
-                                        <td>January 30, {{ year }}</td>
-                                        <td>{{ opt_date }}</td>
+                                        <td style="vertical-align: middle;">January 30, {{ year }}</td>
+                                        <td style="vertical-align: middle;">{{ opt_date }}</td>
                                         {% if opt_status == 'Completed' %}
-                                            <td class="text-success">
+                                            <td style="vertical-align: middle;" class="text-success">
                                                 <i class="fa fa-check-circle"></i> {{ opt_status }}
                                             </td>
-                                            <td>
-                                                <button class="btn btn-primary">View Report</button>
+                                            <td style="text-align: center;">
+                                                <a class="btn btn-primary btn-sm" href="{% url 'datainput:show_opt_list' %}">View Report</a>
                                             </td>
                                         {% else %}
-                                            <td class="text-danger">
+                                            <td style="vertical-align: middle;" class="text-danger">
                                                 <i class="fa fa-exclamation-circle"></i> {{ opt_status }}
                                             </td>
-                                            <td style="vertical-align: middle;">
+                                            <td  style="text-align: center;">
                                                 <form class="m-0" method="POST" enctype="multipart/form-data" action="{% url 'datainput:handle_opt_file' %}">
                                                     {% csrf_token %}
-                                                    <input type="file" name="eOPT">
+                                                    <input type="file" name="eOPT" id="eOPT" class="inputfile">
+                                                    <label class="btn btn-primary btn-sm m-0 col-8" for="eOPT"><i class="fa fa-upload"></i> Choose a file</label>
                                                     <input class="btn btn-primary btn-sm" type="submit">
-
-
                                                 </form>
                                             </td>
                                         {% endif %}
                                     </tr>
                                    <tr>
-                                       <td>Family Profile</td>
-                                       <td>December 30, {{ year }}</td>
-                                       <td>{{ fp_date }}</td>
+                                       <td style="vertical-align: middle;">Family Profile</td>
+                                       <td style="vertical-align: middle;">December 30, {{ year }}</td>
+                                       <td style="vertical-align: middle;">{{ fp_date }}</td>
                                        {% if fp_status == 'Incomplete' %}
-                                           <td class="text-danger">
+                                           <td style="vertical-align: middle;" class="text-danger">
                                             <i class="fa fa-exclamation-circle"></i> {{ fp_status }}
                                            </td>
-                                           <td>
-                                            <a href="{% url 'datainput:family_profiles' %}">
-                                                <button class="btn btn-primary">Update Report</button>
-                                            </a>
+                                           <td style="text-align: center;">
+                                            <a class="btn btn-primary btn-sm" href="{% url 'datainput:family_profiles' %}">Update Report</a>
                                            </td>
                                        {% else %}
-                                           <td class="text-success">
+                                           <td style="vertical-align: middle;" class="text-success">
                                             <i class="fa fa-check-circle"></i> {{ fp_status }}
                                            </td>
-                                           <td>
-                                            <a href="{% url 'datainput:view_current_fp' %}" class="btn btn-primary">View Report</a>
+                                           <td style="text-align: center;">
+                                            <a href="{% url 'datainput:view_current_fp' %}" class="btn btn-primary btn-sm">View Report</a>
                                            </td>
                                        {% endif %}
                                    </tr>
                                 </tbody>
                             </table>
-
-
-
                         </div>
                     </div>
                 </div>
