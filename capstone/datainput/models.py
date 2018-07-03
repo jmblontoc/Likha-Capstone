@@ -160,7 +160,6 @@ class FamilyProfile(models.Model):
 
     barangay = models.ForeignKey(Barangay, on_delete=models.CASCADE)
     date = models.DateTimeField(default=datetime.now)
-    status = models.CharField(max_length=20)
     uploaded_by = models.ForeignKey('core.Profile', on_delete=models.DO_NOTHING)
 
     def __str__(self):

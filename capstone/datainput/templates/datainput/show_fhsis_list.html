@@ -36,7 +36,7 @@
                                 </thead>
                                 <tbody>
         {% for fhsis in fhsis_records %}
-            <tr class="clickable-row" data-href="{% url 'datainput:view_fhsis_file' fhsis.id %}" style="cursor: pointer;">
+            <tr class="clickable-row" data-href="{% url 'datainput:display_fhsis' fhsis.id %}" style="cursor: pointer;">
                 <td>
                     FHSIS - {{ fhsis.date.date }}
                 </td>
