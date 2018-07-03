@@ -55,7 +55,11 @@
                                             <td>
                                                 <form class="m-0" method="POST" enctype="multipart/form-data" action="{% url 'datainput:handle_fhsis_file' %}">
                                                     {% csrf_token %}
-                                                    <input type="file" name="fhsis">
+                                                    <input type="file" name="fhsis" id="fhsis" class="inputfile" />
+                                                    <label class="btn btn-primary btn-sm" for="fhsis">Choose a file</label>
+
+
+
                                                     <input class="btn btn-primary btn-sm" type="submit">
                                                 </form>
                                             </td>
@@ -129,6 +133,8 @@
                                                     {% csrf_token %}
                                                     <input type="file" name="eOPT">
                                                     <input class="btn btn-primary btn-sm" type="submit">
+
+
                                                 </form>
                                             </td>
                                         {% endif %}
@@ -157,6 +163,9 @@
                                    </tr>
                                 </tbody>
                             </table>
+
+
+
                         </div>
                     </div>
                 </div>
@@ -164,4 +173,38 @@
         </div>
     </section>
 </div>
+<script>
+var inputs = document.querySelectorAll( '.inputfile' );
+Array.prototype.forEach.call( inputs, function( input )
+{
+	var label	 = input.nextElementSibling,
+		labelVal = label.innerHTML;
+
+	input.addEventListener( 'change', function( e )
+	{
+		var fileName = '';
+		if( this.files && this.files.length > 1 )
+			fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
+		else
+			fileName = e.target.value.split( '\\' ).pop();
+
+        console.log(fileName);
+
+		if( fileName )
+			$('label').html(fileName);
+		else
+			label.innerHTML = labelVal;
+	});
+});
+</script>
+<style>
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+</style>
 {% endblock %}
