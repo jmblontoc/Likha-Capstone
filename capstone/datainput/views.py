@@ -1078,6 +1078,7 @@ def display_fhsis(request, id):
     # Micronutrient fields are included na sa tuberculosis
     # check mo na rin yung models for your reference
     # pass the variables sa context tapos display mo na lang sa template
+    # template is display_fhsis.html under datainput
 
     context = {
 
