@@ -19,6 +19,9 @@ urlpatterns = [
     # show fhsis file
     path('bns/fhsis/show/<int:id>', views.view_fhsis_file, name='view_fhsis_file'),
 
+    # complete errors
+    path('bns/fhsis/validate', views.complete_fields, name='complete_fields'),
+
     # kammy this is the path in case you want to know
     path('bns/fhsis/display/<int:id>', views.display_fhsis, name='display_fhsis'),
 
