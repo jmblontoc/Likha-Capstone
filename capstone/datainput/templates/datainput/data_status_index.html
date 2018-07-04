@@ -49,8 +49,7 @@
                                             <tr>
                                                 <th>Barangay</th>
                                                 <th style="width: 35%;">Data Source</th>
-                                                <th style="width: 15%;">BNS Status</th>
-                                                <th style="width: 15%;">Nutritionist Status</th>
+                                                <th style="width: 15%;">Status</th>
                                                 <th style="width: 10%;">Action</th>
                                             </tr>
                                         </thead>
@@ -60,28 +59,23 @@
                                                 <td>Operation Timbang Records</td>
                                                 <td style="font-weight: bold; color:{% if barangay.has_opt %}#00a65a;"><i class="fa fa-check-circle"></i> {% else %}#f56954;"><i class="fa fa-exclamation-circle"></i> {% endif %}{{ barangay.has_opt|yesno:"Uploaded, Not Yet Uploaded" }}</td>
 
-                                                <td style="font-weight: bold; color:{% if barangay.has_validated_opt %}#00a65a;"><i class="fa fa-check-circle"></i> {% else %}#f56954;"><i class="fa fa-exclamation-circle"></i> {% endif %}{{ barangay.has_validated_opt|yesno:"Approved, Not Yet Approved" }}</td>
                                                 <td style="text-align: center;"><a class="btn btn-primary btn-sm col-12" href="{% url 'datainput:show_opt' barangay.id %}">View Report</a></td>
                                             </tr>
                                             <tr>
                                                 <td>Monthly Reweighing Report</td>
                                                 <td style="font-weight: bold; color:{% if barangay.has_reweighed %}#00a65a;"><i class="fa fa-check-circle"></i> {% else %}#f56954;"><i class="fa fa-exclamation-circle"></i> {% endif %}{{ barangay.has_reweighed|yesno:"Uploaded, Not Yet Uploaded" }}</td>
-
-                                                <td style="font-weight: bold; color:{% if barangay.has_validated_reweighing %}#00a65a;"><i class="fa fa-check-circle"></i> {% else %}#f56954;"><i class="fa fa-exclamation-circle"></i> {% endif %}{{ barangay.has_validated_reweighing|yesno:"Approved, Not Yet Approved" }}</td>
                                                 <td style="text-align: center;"><a class="btn btn-primary btn-sm col-12" href="{% url 'datainput:view_reweighing' barangay.id %}">View Report</a></td>
                                             </tr>
-                                            <trstyle="margin: 0; vertical-align: middle;">
+                                            <tr style="margin: 0; vertical-align: middle;">
                                                 <td>Family Profiles Report</td>
                                                 <td style="font-weight: bold; color:{% if barangay.has_family_profile %}#00a65a;"><i class="fa fa-check-circle"></i> {% else %}#f56954;"><i class="fa fa-exclamation-circle"></i> {% endif %}{{ barangay.has_family_profile|yesno:"Uploaded,Not Yet Uploaded" }}</td>
 
-                                                <td style="font-weight: bold; color:{% if barangay.has_validated_family_profiles %}#00a65a;"><i class="fa fa-check-circle"></i> {% else %}#f56954;"><i class="fa fa-exclamation-circle"></i> {% endif %}{{ barangay.has_validated_family_profiles|yesno:"Approved, Not Yet Approved" }}</td>
                                                 <td style="text-align: center;"><a class="btn btn-primary btn-sm col-12" href="{% url 'datainput:show_family_profiles' barangay.id %}">View Report</a></td>
                                             </tr>
                                             <tr>
                                                 <td>Field Health Service Information System Report</td>
                                                 <td style="font-weight: bold; color:{% if barangay.has_fhsis %}#00a65a;"><i class="fa fa-check-circle"></i> {% else %}#f56954;"><i class="fa fa-exclamation-circle"></i> {% endif %}{{ barangay.has_fhsis|yesno:"Uploaded,Not Yet Uploaded" }}</td>
 
-                                                <td style="font-weight: bold; color:{% if barangay.has_validated_fhsis %}#00a65a;"><i class="fa fa-check-circle"></i> {% else %}#f56954;"><i class="fa fa-exclamation-circle"></i> {% endif %}{{ barangay.has_validated_fhsis|yesno:"Approved, Not Yet Approved" }}</td>
                                                 <td style="text-align: center;"><a class="btn btn-primary btn-sm col-12" href="{% url 'datainput:show_fhsis' barangay.id %}">View Report</a></td>
                                             </tr>
                                         </tbody>

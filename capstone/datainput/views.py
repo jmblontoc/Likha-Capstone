@@ -1288,6 +1288,16 @@ def display_opt(request, id):
     return render(request, 'datainput/display_opt.html', context)
 
 
+@login_required
+def barangay_archives(request):
+
+    context = {
+        'barangays': Barangay.objects.all()
+    }
+
+    return render(request, 'datainput/nutritionist_barangay_archives.html', context)
+
+
 
 
 

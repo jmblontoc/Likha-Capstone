@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Barangay Reports Archive</title>
+</head>
+<body>
+    <h1>Select Report</h1>
+    <form method="post">
+        {% csrf_token %}
+        <select name="report">
+            <optgroup label="Monthly">
+                <option value="fhsis">Field Health Service Information System M1</option>
+                <option value="mr">Monthly Reweighing</option>
+            </optgroup>
+            <optgroup label="Annual">
+                <option value="fp">Family Profile</option>
+                <option value="opt">Operation Timbang</option>
+            </optgroup>
+        </select>
+        <select name="barangay">
+            {% for b in barangays %}
+                <option value="{{ b.id }}">{{ b.name }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit">
+    </form>
+</body>
+</html>

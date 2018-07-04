@@ -62,28 +62,6 @@ class Barangay(models.Model):
 
         return True
 
-    @property
-    def has_validated_opt(self):
-
-        opt = OperationTimbang.objects.filter(barangay=self, date__year=datetime.now().year)
-
-        if opt.count() == 0:
-            return False
-
-        return opt[0].status == 'Approved'
-
-    @property
-    def has_validated_reweighing(self):
-
-        if not self.has_reweighed:
-            return False
-
-        mr = MonthlyReweighing.objects.filter(patient__barangay=self, date__month=datetime.now().month)
-
-        if mr.count() == 0:
-            return False
-
-        return mr[0].status == 'Approved'
 
     def __str__(self):
         return self.name
@@ -93,22 +71,11 @@ class Barangay(models.Model):
 
         return FHSIS.objects.filter(barangay=self, date__month=datetime.now().month, date__year=datetime.now().year).count() > 0
 
-    @property
-    def has_validated_fhsis(self):
-
-        fhsis = FHSIS.objects.filter(barangay=self, date__month=datetime.now().month, date__year=datetime.now().year)
-
-        if fhsis.count() == 0:
-            return False
-
-        return fhsis[0].status == 'Approved'
-
 
 class OperationTimbang(models.Model):
 
     date = models.DateTimeField(default=datetime.now)
     barangay = models.ForeignKey(Barangay, on_delete=models.DO_NOTHING)
-    status = models.CharField(max_length=50)
     uploaded_by = models.ForeignKey('core.Profile', on_delete=models.DO_NOTHING)
 
     def __str__(self):
@@ -254,7 +221,6 @@ class MonthlyReweighing(models.Model):
     height_for_age = models.ForeignKey(HeightForAge, on_delete=models.CASCADE)
     weight_for_height_length = models.ForeignKey(WeightForHeightLength, on_delete=models.CASCADE)
     date = models.DateField(default=datetime.now)
-    status = models.CharField(max_length=40)
     uploaded_by = models.ForeignKey('core.Profile', on_delete=models.DO_NOTHING)
 
     def __str__(self):
@@ -305,7 +271,6 @@ class InformalSettlers(models.Model):
 class FHSIS(models.Model):
 
     date = models.DateTimeField(default=datetime.now)
-    status = models.CharField(max_length=30)
     uploaded_by = models.ForeignKey('core.Profile', on_delete=models.DO_NOTHING)
     barangay = models.ForeignKey(Barangay, on_delete=models.CASCADE)
 
