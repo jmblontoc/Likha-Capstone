@@ -1060,7 +1060,6 @@ def select_report(request):
         return redirect('datainput:family_profiles')
 
 
-# KAMMY ITO!
 @login_required
 def display_fhsis(request, id):
 
@@ -1089,11 +1088,6 @@ def display_fhsis(request, id):
     child_care_male = ChildCare.objects.filter(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
 
     sti = STISurveillance.objects.filter(fhsis=fhsis)
-
-    # Micronutrient fields are included na sa tuberculosis
-    # check mo na rin yung models for your reference
-    # pass the variables sa context tapos display mo na lang sa template
-    # template is display_fhsis.html under datainput
 
     context = {
         'maternal': maternal,
