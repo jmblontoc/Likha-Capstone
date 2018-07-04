@@ -85,11 +85,6 @@ class Barangay(models.Model):
 
         return mr[0].status == 'Approved'
 
-    @property
-    def has_validated_family_profiles(self):
-
-        return FamilyProfile.objects.get(barangay=self, date__year=datetime.now().year).status == 'Approved'
-
     def __str__(self):
         return self.name
 
