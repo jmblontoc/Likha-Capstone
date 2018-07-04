@@ -5,12 +5,15 @@
     <title>Complete Fields</title>
 </head>
 <body>
+    {% include 'core/helpers/messages.html' %}
     <h1>Complete Fields</h1>
     <p>The following fields were incomplete during the excel upload</p>
 
     <form method="POST" action="{% url 'datainput:complete_fields' %}">
         {% csrf_token %}
 
+
+        <input type="hidden" name="path" value="{{ file }}">
         <table>
             <thead>
             <tr>

@@ -2,6 +2,7 @@
 import os
 from datetime import datetime
 import xlrd
+from xlutils.copy import copy
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -893,12 +894,15 @@ def handle_fhsis_file(request):
             fhsis.delete()
             os.remove(renamed)
             return redirect('core:bns-index')
+
         else:
             context = {
                 'rows': rows,
                 'fhsis': fhsis,
                 'file': renamed
             }
+
+            fhsis.delete()
 
             return render(request, 'datainput/complete_fields.html', context)
 
@@ -1074,16 +1078,147 @@ def select_report(request):
 def complete_fields(request):
 
     my_dict = dict(request.POST)
+    print(my_dict)
+    workbook = xlrd.open_workbook(my_dict.get('path')[0])
+    sheet = workbook.sheet_by_index(0)
 
-    for x, y in my_dict.items():
+    profile = Profile.objects.get(user=request.user)
+    fhsis = FHSIS(barangay=profile.barangay, uploaded_by=profile)
+    fhsis.save()
+    maternal_fields = misc.get_fields(MaternalCare)[1:10]
 
-        if x == 'csrfmiddlewaretoken':
-            continue
 
-        splits = x.split('-')
-        row = splits[0]
-        col = splits[2]
-        value = y[0]
+    mc = MaternalCare(fhsis=fhsis)
+
+    counter_mc = 0
+    for x in range(4, 13):
+        setattr(mc, maternal_fields[counter_mc], sheet.cell_value(x, 1) or 0)
+        counter_mc = counter_mc + 1
+
+    mc.save()
+
+    # sti surveillance
+    sti_fields = misc.get_fields(STISurveillance)[2:]
+    sti = STISurveillance(fhsis=fhsis)
+
+    counter_sti = 0
+    for x in range(64, 67):
+        setattr(sti, sti_fields[counter_sti], sheet.cell_value(x, 1) or 0)
+        counter_sti = counter_sti + 1
+    sti.save()
+
+    # immunization
+    immunization_fields = misc.get_fields(Immunization)[1:11]
+    immunization_male = Immunization(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
+    immunization_female = Immunization(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
+
+    counter_immune = 0
+    for x in range(18, 21):
+        # male
+        setattr(immunization_male, immunization_fields[counter_immune], sheet.cell_value(x, 1) or 0)
+        # female
+        setattr(immunization_female, immunization_fields[counter_immune], sheet.cell_value(x, 2) or 0)
+
+        counter_immune = counter_immune + 1
+
+    for x in range(70, 77):
+        setattr(immunization_male, immunization_fields[counter_immune], sheet.cell_value(x, 1) or 0)
+        setattr(immunization_female, immunization_fields[counter_immune], sheet.cell_value(x, 2) or 0)
+
+        counter_immune = counter_immune + 1
+
+    immunization_female.save()
+    immunization_male.save()
+
+    # malaria
+    malaria_fields = misc.get_fields(Malaria)[1:6]
+    malaria_male = Malaria(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
+    malaria_female = Malaria(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
+    counter_malaria = 0
+
+    for x in range(23, 28):
+        setattr(malaria_male, malaria_fields[counter_malaria], sheet.cell_value(x, 1) or 0)
+        setattr(malaria_female, malaria_fields[counter_malaria], sheet.cell_value(x, 2) or 0)
+        counter_malaria = counter_malaria + 1
+
+    malaria_male.save()
+    malaria_female.save()
+
+    # tuberculosis
+
+    tb_fields = misc.get_fields(Tuberculosis)[1:5]
+    tb_male = Tuberculosis(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
+    tb_female = Tuberculosis(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
+    counter_tb = 0
+
+    for x in range(30, 34):
+        setattr(tb_male, tb_fields[counter_tb], sheet.cell_value(x, 1) or 0)
+        setattr(tb_female, tb_fields[counter_tb], sheet.cell_value(x, 2) or 0)
+        counter_tb = counter_tb + 1
+
+    tb_male.save()
+    tb_female.save()
+
+    # schistosomiasis
+    schisto_fields = misc.get_fields(Schistosomiasis)[1:3]
+    schisto_male = Schistosomiasis(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
+    schisto_female = Schistosomiasis(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
+    sc_counter = 0
+
+    for x in range(36, 38):
+        setattr(schisto_male, schisto_fields[sc_counter], sheet.cell_value(x, 1) or 0)
+        setattr(schisto_female, schisto_fields[sc_counter], sheet.cell_value(x, 2) or 0)
+        sc_counter = sc_counter + 1
+
+    schisto_male.save()
+    schisto_female.save()
+
+    # flariasis
+
+    flariasis_fields = misc.get_fields(Flariasis)[1:4]
+    flariasis_male = Flariasis(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
+    flariasis_female = Flariasis(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
+    flariasis_counter = 0
+
+    for x in range(40, 43):
+        setattr(flariasis_male, flariasis_fields[flariasis_counter], sheet.cell_value(x, 1) or 0)
+        setattr(flariasis_female, flariasis_fields[flariasis_counter], sheet.cell_value(x, 2) or 0)
+        flariasis_counter = flariasis_counter + 1
+
+    flariasis_male.save()
+    flariasis_female.save()
+
+    # leprosy
+
+    leprosy_fields = misc.get_fields(Leprosy)[1:3]
+    leprosy_male = Leprosy(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
+    leprosy_female = Leprosy(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
+    leprosy_counter = 0
+
+    for x in range(45, 47):
+        setattr(leprosy_male, leprosy_fields[leprosy_counter], sheet.cell_value(x, 1) or 0)
+        setattr(leprosy_female, leprosy_fields[leprosy_counter], sheet.cell_value(x, 2) or 0)
+        leprosy_counter = leprosy_counter + 1
+
+    leprosy_male.save()
+    leprosy_female.save()
+
+    # child care
+    child_care_fields = misc.get_fields(ChildCare)[1:13]
+    child_care_male = ChildCare(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
+    child_care_female = ChildCare(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
+    child_care_counter = 0
+
+    for x in range(49, 61):
+        setattr(child_care_male, child_care_fields[child_care_counter], sheet.cell_value(x, 1) or 0)
+        setattr(child_care_female, child_care_fields[child_care_counter], sheet.cell_value(x, 2) or 0)
+        child_care_counter = child_care_counter + 1
+
+    child_care_male.save()
+    child_care_female.save()
+
+    messages.success(request, 'You have successfully uploaded the report')
+    return redirect('core:bns-index')
 
 
 @login_required
