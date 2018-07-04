@@ -1070,7 +1070,6 @@ def select_report(request):
         return redirect('datainput:family_profiles')
 
 
-
 @login_required
 def complete_fields(request):
 
@@ -1086,7 +1085,7 @@ def complete_fields(request):
         col = splits[2]
         value = y[0]
 
-# KAMMY ITO!
+
 @login_required
 def display_fhsis(request, id):
 
@@ -1116,11 +1115,6 @@ def display_fhsis(request, id):
 
     sti = STISurveillance.objects.filter(fhsis=fhsis)
 
-    # Micronutrient fields are included na sa tuberculosis
-    # check mo na rin yung models for your reference
-    # pass the variables sa context tapos display mo na lang sa template
-    # template is display_fhsis.html under datainput
-
     context = {
         'maternal': maternal,
         'immunization_female': immunization_female,
@@ -1139,7 +1133,6 @@ def display_fhsis(request, id):
         'child_care_male': child_care_male,
         'sti': sti
     }
-
 
     return render(request, 'datainput/display_fhsis.html', context)
 
