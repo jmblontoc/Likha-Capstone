@@ -13,6 +13,9 @@ urlpatterns = [
     # show eOPT file
     path('bns/eOPT/show/<int:id>', views.view_opt_file, name='view_opt_file'),
 
+    # show OPT! KAMMY here
+    path('bns/eOPT/display/<int:id>', views.display_opt, name='display_opt'),
+
     # show fhsis records
     path('bns/fhsis/list', views.show_fhsis_list, name='show_fhsis_list'),
 

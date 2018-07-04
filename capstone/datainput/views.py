@@ -1144,6 +1144,22 @@ def display_fhsis(request, id):
     return render(request, 'datainput/display_fhsis.html', context)
 
 
+# KAMMY AGAIN!
+@login_required
+def display_opt(request, id):
+
+    opt = OperationTimbang.objects.get(id=id)
+    opt_values = OPTValues.objects.filter(opt=opt)
+
+    print(opt_values[5].values)
+
+    context = {
+
+    }
+
+    return render(request, 'datainput/display_opt.html', context)
+
+
 
 
 
