@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Operation Timbang Records</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Action</th>
+        </tr>
+        {% for x in records %}
+            <tr>
+                <td>{{ x.date }}</td>
+                <td><a href="{% url 'datainput:display_opt' x.id %}">View</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

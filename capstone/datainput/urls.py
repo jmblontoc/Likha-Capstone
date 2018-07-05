@@ -128,5 +128,8 @@ urlpatterns = [
     path('nutritionist/data_status/<int:id>/family_profiles/reject', views.reject_family_profiles, name='reject_family_profiles'),
 
     # nutritionist archives of barangay reports
-    path('nutritionist/archives/barangay_reports/', views.barangay_archives, name='barangay_archives')
+    path('nutritionist/archives/barangay_reports/', views.barangay_archives, name='barangay_archives'),
+
+    # select report by nutritionist
+    path('nutritionist/archives/select', views.select_report_nutritionist, name='select_report_nutritionist')
 ]

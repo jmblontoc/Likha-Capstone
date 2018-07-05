@@ -1298,6 +1298,31 @@ def barangay_archives(request):
     return render(request, 'datainput/nutritionist_barangay_archives.html', context)
 
 
+@login_required
+def select_report_nutritionist(request):
+
+    report = request.POST['report']
+    barangay = request.POST['barangay']
+
+    context = {
+
+    }
+
+    if report == 'fhsis':
+        context['records'] = FHSIS.objects.filter(barangay_id=barangay)
+        return render(request, 'datainput/archives_nutritionist/fhsis_records.html', context)
+
+    elif report == 'mr':
+        context['records'] = Patient.objects.filter(barangay_id=barangay)
+        return render(request, 'datainput/archives_nutritionist/reweighing_records.html', context)
+
+    elif report == 'opt':
+        context['records'] = OperationTimbang.objects.filter(barangay_id=barangay)
+        return render(request, 'datainput/archives_nutritionist/opt_records.html', context)
+
+    elif report == 'fp':
+        context['records'] = FamilyProfile.objects.filter(barangay_id=barangay)
+        return render(request, 'datainput/archives_nutritionist/family_records.html', context)
 
 
 
