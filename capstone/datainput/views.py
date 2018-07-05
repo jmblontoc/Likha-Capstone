@@ -163,7 +163,7 @@ def view_fhsis_file(request, id):
     file_name = str(fhsis.id) + '.xlsx'
     file = os.path.join(settings.MEDIA_ROOT, 'fhsis', file_name)
 
-    os.startfile(file)
+    # os.startfile(file)
 
     profile = Profile.objects.get(user=request.user)
 
@@ -1272,17 +1272,137 @@ def display_fhsis(request, id):
     return render(request, 'datainput/display_fhsis.html', context)
 
 
-# KAMMY AGAIN!
 @login_required
 def display_opt(request, id):
 
     opt = OperationTimbang.objects.get(id=id)
     opt_values = OPTValues.objects.filter(opt=opt)
+    wfa_normal = {}
+    wfa_ow = {}
+    wfa_uw = {}
+    wfa_suw = {}
+    hfa_normal = {}
+    hfa_tall = {}
+    hfa_stunted = {}
+    hfa_ss = {}
+    wfh_normal = {}
+    wfh_ow = {}
+    wfh_obese = {}
+    wfh_wasted = {}
+    wfh_sw = {}
 
-    print(opt_values[5].values)
+    def append_values(category, dict_name):
+        for value in category:
+            age_group = value.age_group
+
+            if age_group.name == "0 to 5 months old":
+                if age_group.sex.name == "Male":
+                    dict_name["Male - 0 to 5 months old"] = value
+                elif age_group.sex.name == "Female":
+                    dict_name["Female - 0 to 5 months old"] = value
+
+            if age_group.name == "6 to 11 months old":
+                if age_group.sex.name == "Male":
+                    dict_name["Male - 6 to 11 months old"] = value
+                elif age_group.sex.name == "Female":
+                    dict_name["Female - 6 to 11 months old"] = value
+
+            if age_group.name == "12 to 23 months old":
+                if age_group.sex.name == "Male":
+                    dict_name["Male - 12 to 23 months old"] = value
+                elif age_group.sex.name == "Female":
+                    dict_name["Female - 12 to 23 months old"] = value
+
+            if age_group.name == "24 to 35 months old":
+                if age_group.sex.name == "Male":
+                    dict_name["Male - 24 to 35 months old"] = value
+                elif age_group.sex.name == "Female":
+                    dict_name["Female - 24 to 35 months old"] = value
+
+            if age_group.name == "36 to 47 months old":
+                if age_group.sex.name == "Male":
+                    dict_name["Male - 36 to 37 months old"] = value
+                elif age_group.sex.name == "Female":
+                    dict_name["Female - 36 to 47 months old"] = value
+
+            if age_group.name == "48 to 59 months old":
+                if age_group.sex.name == "Male":
+                    dict_name["Male - 48 to 59 months old"] = value
+                elif age_group.sex.name == "Female":
+                    dict_name["Female - 48 to 59 months old"] = value
+
+            if age_group.name == "60 to 71 months old":
+                if age_group.sex.name == "Male":
+                    dict_name["Male - 60 to 71 months old"] = value
+                elif age_group.sex.name == "Female":
+                    dict_name["Female - 60 to 71 months old"] = value
+
+    # Weight for Age -- Normal
+    opt_values_wfa_normal = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Weight for Age - Normal"))
+    append_values(opt_values_wfa_normal, wfa_normal)
+
+    # Weight for Age -- Overweight
+    opt_values_wfa_ow = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Weight for Age - Overweight"))
+    append_values(opt_values_wfa_ow, wfa_ow)
+
+    #Weight for Age - Underweight
+    opt_values_wfa_uw = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Weight for Age - Underweight"))
+    append_values(opt_values_wfa_uw, wfa_uw)
+
+    # Weight for Age - Severely Underweight
+    opt_values_wfa_suw = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Weight for Age - Severely Underweight"))
+    append_values(opt_values_wfa_suw, wfa_suw)
+
+    # Height for Age - Normal
+    opt_values_hfa_normal = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Height for Age - Normal"))
+    append_values(opt_values_hfa_normal, hfa_normal)
+
+    # Height for Age - Tall
+    opt_values_hfa_tall = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Height for Age - Tall"))
+    append_values(opt_values_hfa_tall, hfa_tall)
+
+    # Height for Age - Stunted
+    opt_values_hfa_stunted = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Height for Age - Stunted"))
+    append_values(opt_values_hfa_stunted, hfa_stunted)
+
+    # Height for Age - Severely Stunted
+    opt_values_hfa_ss = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Height for Age - Severely Stunted"))
+    append_values(opt_values_hfa_ss, hfa_ss)
+
+    # Weight for Height - Normal
+    opt_values_wfh_normal = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Weight for Height/Length - Normal"))
+    append_values(opt_values_wfh_normal, wfh_normal)
+
+    # Weight for Height - Overweight
+    opt_values_wfh_ow = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Weight for Height/Length - Overweight"))
+    append_values(opt_values_wfh_ow, wfh_ow)
+
+    # Weight for Height - Obese
+    opt_values_wfh_obese = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Weight for Height/Length - Obese"))
+    append_values(opt_values_wfh_obese, wfh_obese)
+
+    # Weight for Height - Wasted
+    opt_values_wfh_wasted = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Weight for Height/Length - Wasted"))
+    append_values(opt_values_wfh_wasted, wfh_wasted)
+
+    # Weight for Height - Severely Wasted
+    opt_values_wfh_sw = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Weight for Height/Length - Severely Wasted"))
+    append_values(opt_values_wfh_sw, wfh_sw)
 
     context = {
-
+        'wfa_normal': wfa_normal,
+        'wfa_ow': wfa_ow,
+        'wfa_uw': wfa_uw,
+        'wfa_suw': wfa_suw,
+        'hfa_normal': hfa_normal,
+        'hfa_tall': hfa_normal,
+        'hfa_stunted': hfa_stunted,
+        'hfa_ss': hfa_ss,
+        'wfh_normal': wfh_normal,
+        'wfh_ow': wfh_ow,
+        'wfh_obese': wfh_obese,
+        'wfh_wasted': wfh_wasted,
+        'wfh_sw': wfh_sw
     }
 
     return render(request, 'datainput/display_opt.html', context)
