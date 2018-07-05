@@ -59,46 +59,6 @@ def bns_index(request):
 
     profile = Profile.objects.get(user=request.user)
 
-    try:
-        family_profiles = FamilyProfile.objects.get(barangay=profile.barangay, date__year=datetime.now().year)
-    except FamilyProfile.DoesNotExist:
-        family_profiles = None
-
-
-    try:
-        opt = OperationTimbang.objects.get(
-            barangay=profile.barangay,
-            date__year=datetime.now().year
-        )
-    except OperationTimbang.DoesNotExist:
-        opt = None
-
-    try:
-        fhsis = FHSIS.objects.get(
-            barangay=profile.barangay,
-            date__month=datetime.now().month
-        )
-    except FHSIS.DoesNotExist:
-        fhsis = None
-
-    records = MonthlyReweighing.objects.filter(patient__barangay=profile.barangay, date__month=datetime.now().month)
-
-    if records.count() == 0:
-        approved_mr = False
-    else:
-        approved_mr = records[0].status == 'Approved'
-
-
-    context = {
-        'profile': profile,
-        'date': datetime.now(),
-        'opt': opt,
-        'fp': family_profiles,
-        'approved_mr': approved_mr,
-        'fhsis': fhsis,
-        'month_due': misc.get_due_date('monthly')
-    }
-
     fhsis_current = FHSIS.objects.filter(barangay=profile.barangay, date__month=datetime.now().month,
                                                date__year=datetime.now().year)
 

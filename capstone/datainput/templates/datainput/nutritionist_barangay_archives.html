@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Select Report</h1>
-    <form method="post">
+    <form method="post" action="{% url 'datainput:select_report_nutritionist' %}">
         {% csrf_token %}
         <select name="report">
             <optgroup label="Monthly">

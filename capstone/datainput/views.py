@@ -1345,7 +1345,7 @@ def display_opt(request, id):
     opt_values_wfa_ow = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Weight for Age - Overweight"))
     append_values(opt_values_wfa_ow, wfa_ow)
 
-    #Weight for Age - Underweight
+    # Weight for Age - Underweight
     opt_values_wfa_uw = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Weight for Age - Underweight"))
     append_values(opt_values_wfa_uw, wfa_uw)
 
@@ -1418,6 +1418,31 @@ def barangay_archives(request):
     return render(request, 'datainput/nutritionist_barangay_archives.html', context)
 
 
+@login_required
+def select_report_nutritionist(request):
+
+    report = request.POST['report']
+    barangay = request.POST['barangay']
+
+    context = {
+
+    }
+
+    if report == 'fhsis':
+        context['records'] = FHSIS.objects.filter(barangay_id=barangay)
+        return render(request, 'datainput/archives_nutritionist/fhsis_records.html', context)
+
+    elif report == 'mr':
+        context['records'] = Patient.objects.filter(barangay_id=barangay)
+        return render(request, 'datainput/archives_nutritionist/reweighing_records.html', context)
+
+    elif report == 'opt':
+        context['records'] = OperationTimbang.objects.filter(barangay_id=barangay)
+        return render(request, 'datainput/archives_nutritionist/opt_records.html', context)
+
+    elif report == 'fp':
+        context['records'] = FamilyProfile.objects.filter(barangay_id=barangay)
+        return render(request, 'datainput/archives_nutritionist/family_records.html', context)
 
 
 
