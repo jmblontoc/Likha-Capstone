@@ -1419,7 +1419,7 @@ pre code {
 
 .table-bordered thead th,
 .table-bordered thead td {
-  border-bottom-width: 2px;
+  border-bottom-width: 3px;
 }
 
 .table-borderless th,
@@ -10755,7 +10755,7 @@ label:not(.form-check-label):not(.custom-file-label) {
 
 .card-body > .table > thead > tr > th,
 .card-body > .table > thead > tr > td {
-  border-top-width: 0;
+  border-top-width: 1;
 }
 
 .card-body .fc {
