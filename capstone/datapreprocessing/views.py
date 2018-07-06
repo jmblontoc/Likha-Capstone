@@ -32,7 +32,12 @@ def index(request):
         'profile': profile,
         'active': 'mt',
         'metrics': metrics,
-        'date': datetime.now().date()
+        'date': datetime.now().date(),
+        'has_nutritional': checkers.has_nutritional(),
+        'has_micronutrient': checkers.has_micronutrient(),
+        'has_maternal': checkers.has_maternal(),
+        'has_child_care': checkers.has_child_care(),
+        'has_socioeconomic': checkers.has_socioeconomic()
     }
 
     return render(request, 'datapreprocessing/index.html', context)
@@ -144,7 +149,6 @@ def set_nutritional_status(request):
 
     else:
 
-        print(request.POST)
         my_dict = dict(request.POST)
 
         for k, v in my_dict.items():
@@ -161,6 +165,126 @@ def set_nutritional_status(request):
                     threshold=value,
                     unit='Total',
                 )
+
+        messages.success(request, 'Thresholds successfully set')
+        return redirect('datapreprocessing:index')
+
+
+@login_required
+def set_micronutrient(request):
+
+    if request.method == 'GET':
+
+        context = {
+            'fields': datapoints.micronutrient
+        }
+
+        return render(request, 'datapreprocessing/default_metrics/micronutrient.html', context)
+
+    if request.method == 'POST':
+
+        my_dict = dict(request.POST)
+
+        for k, v in my_dict.items():
+
+            if not k == 'csrfmiddlewaretoken':
+
+                value = v[0]
+                model = 'Child Care'
+                field = k
+
+                metric = '%s | %s' % (model, field)
+
+                Metric.objects.create(
+                    metric=metric,
+                    threshold=value,
+                    unit='Total'
+                )
+
+        messages.success(request, 'Thresholds successfully set')
+        return redirect('datapreprocessing:index')
+
+
+@login_required
+def set_maternal(request):
+
+    if request.method == 'GET':
+
+        context = {
+            'fields': datapoints.maternal
+        }
+
+        return render(request, 'datapreprocessing/default_metrics/maternal.html', context)
+
+    if request.method == 'POST':
+
+        my_dict = dict(request.POST)
+
+        for k, v in my_dict.items():
+
+            if not k == 'csrfmiddlewaretoken':
+
+                value = v[0]
+                field = k
+                metric = '%s | %s' % ('Maternal Care', field)
+
+                Metric.objects.create(metric=metric, threshold=value, unit='Total')
+
+        messages.success(request, 'Thresholds successfully set')
+        return redirect('datapreprocessing:index')
+
+
+@login_required
+def set_child_care(request):
+
+    if request.method == 'GET':
+
+        context = {
+            'fields': datapoints.child_care
+        }
+
+        return render(request, 'datapreprocessing/default_metrics/child_care.html', context)
+
+    if request.method == 'POST':
+
+        my_dict = dict(request.POST)
+
+        for k, v in my_dict.items():
+
+            if not k == 'csrfmiddlewaretoken':
+                value = v[0]
+                field = k
+                metric = '%s | %s' % ('Child Care', field)
+
+                Metric.objects.create(metric=metric, threshold=value, unit='Total')
+
+        messages.success(request, 'Thresholds successfully set')
+        return redirect('datapreprocessing:index')
+
+
+@login_required
+def set_socioeconomic(request):
+
+    if request.method == 'GET':
+
+        context = {
+            'fields': datapoints.socioeconomic
+        }
+
+        return render(request, 'datapreprocessing/default_metrics/socioeconomic.html', context)
+
+    if request.method == 'POST':
+
+        my_dict = dict(request.POST)
+
+        for k, v in my_dict.items():
+
+            if not k == 'csrfmiddlewaretoken':
+                value = v[0]
+                field = k
+                metric = '%s | %s' % ('Family Profile', field)
+
+                Metric.objects.create(metric=metric, threshold=value, unit='Total')
 
         messages.success(request, 'Thresholds successfully set')
         return redirect('datapreprocessing:index')

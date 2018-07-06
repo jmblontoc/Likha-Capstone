@@ -50,6 +50,56 @@ boolean_fields_fp = [
     'is_using_ifr'
 ]
 
+micronutrient = [
+    ('Infants who received vitamin A', 'received_vitamin_A'),
+    ('Infants who received iron', 'received_iron'),
+    ('Infants who received MNP', 'received_MNP')
+
+]
+
+maternal = [
+    'Pregnant women given 2 doses of Tetanus Toxoid',
+    'Pregnant women given TT2 plus',
+    'Pregnant women given complete iron with folic acid supplementation',
+    'Postpartum women with given complete iron supplementation',
+    'Postpartum women given Vitamin A supplementation'
+]
+
+child_care = [
+    'Given complimentary food',
+    'Sick children',
+    'Children given deworming',
+    'Anemic children',
+    'Anemic children receiving full dose iron',
+    'Diarrhea cases',
+    'Pneumonia cases'
+
+]
+
+socioeconomic = [
+    'Is Practicing Family Planning',
+    'Is Practicing Exclusive Breastfeeding',
+    'Is Practicing Mixed Milk Feeding',
+    'Is Practicing Bottled Feeding',
+    'Is Using Iodized Salt',
+    'Is Using Iron Fortification',
+    'Fishpond',
+    'Poultry/Livestock',
+    'Vegetable Garden',
+    'Pipe',
+    'Well',
+    'Spring',
+    'Water Sealed',
+    'Open Pit',
+    'Elementary Undergraduate',
+    'Elementary Graduate',
+    'Highschool Undergraduate',
+    'Highschool Graduate',
+    'College Undergraduate',
+    'College Graduate',
+    'Vocational'
+]
+
 # # # # # # # # #
 
 # # # # # # DEPRECATED!!! # # # # #

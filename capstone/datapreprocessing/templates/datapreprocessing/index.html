@@ -36,28 +36,53 @@
                             <tbody>
                             <tr>
                                 <td>City Nutritional Status</td>
-                                <td>TODO</td>
-                                <td><a class="btn btn-primary btn-sm" href="{% url 'datapreprocessing:set_nutritional_status' %}">Set Thresholds</a></td>
+                                {% if not has_nutritional %}
+                                    <td class="text-warning">Not yet set</td>
+                                    <td><a class="btn btn-primary btn-sm" href="{% url 'datapreprocessing:set_nutritional_status' %}">Set Thresholds</a></td>
+                                {% else %}
+                                    <td class="text-success">Completed</td>
+                                    <td><button class="btn btn-primary btn-sm">View Thresholds</button></td>
+                                {% endif %}
                             </tr>
                             <tr>
                                 <td>City Micronutrient Supplementation</td>
-                                <td>TODO</td>
-                                <td>TODO</td>
+                                {% if not has_micronutrient %}
+                                    <td class="text-warning">Not yet set</td>
+                                    <td><a class="btn btn-primary btn-sm" href="{% url 'datapreprocessing:set_micronutrient' %}">Set Thresholds</a></td>
+                                {% else %}
+                                    <td class="text-success">Completed</td>
+                                    <td><button class="btn btn-primary btn-sm">View Thresholds</button></td>
+                                {% endif %}
                             </tr>
                             <tr>
                                 <td>City Maternal Care</td>
-                                <td>TODO</td>
-                                <td>TODO</td>
+                                {% if not has_maternal %}
+                                    <td class="text-warning">Not yet set</td>
+                                    <td><a class="btn btn-primary btn-sm" href="{% url 'datapreprocessing:set_maternal' %}">Set Thresholds</a></td>
+                                {% else %}
+                                    <td class="text-success">Completed</td>
+                                    <td><button class="btn btn-primary btn-sm">View Thresholds</button></td>
+                                {% endif %}
                             </tr>
                             <tr>
                                 <td>City Children Care</td>
-                                <td>TODO</td>
-                                <td>TODO</td>
+                                {% if not has_child_care %}
+                                    <td class="text-warning">Not yet set</td>
+                                    <td><a class="btn btn-primary btn-sm" href="{% url 'datapreprocessing:set_child_care' %}">Set Thresholds</a></td>
+                                {% else %}
+                                    <td class="text-success">Completed</td>
+                                    <td><button class="btn btn-primary btn-sm">View Thresholds</button></td>
+                                {% endif %}
                             </tr>
                             <tr>
                                 <td>Socioeconomic Status</td>
-                                <td>TODO</td>
-                                <td>TODO</td>
+                                {% if not has_socioeconomic %}
+                                    <td class="text-warning">Not yet set</td>
+                                    <td><a class="btn btn-primary btn-sm" href="{% url 'datapreprocessing:set_socioeconomic' %}">Set Thresholds</a></td>
+                                {% else %}
+                                    <td class="text-success">Completed</td>
+                                    <td><button class="btn btn-primary btn-sm">View Thresholds</button></td>
+                                {% endif %}
                             </tr>
                             </tbody>
                         </table>
@@ -77,7 +102,7 @@
                                     <tr>
                                         <th style="width: 18%">Source</th>
                                         <th style="width: 18%">Data Point</th>
-                                        <th style="width: 18">Gender</th>
+                                        <th style="width: 18px">Gender</th>
                                         <th style="width: 9%">Value/Total</th>
                                         <th style="">Unit</th>
                                         <th style="width: 9%">Threshold</th>
