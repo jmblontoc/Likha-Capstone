@@ -2,10 +2,6 @@ from datainput.models import Barangay, NutritionalStatus
 from datapreprocessing.models import Metric
 from friends import datapoints
 
-def is_updated():
-
-    return True
-
 
 def has_nutritional():
 

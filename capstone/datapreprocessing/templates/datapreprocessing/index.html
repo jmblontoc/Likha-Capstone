@@ -1,6 +1,8 @@
 {% extends 'core/nutritionist-layout.html' %}
 {% block content %}
 
+{% load static %}
+<script src="{% static 'datapreprocessing/js/default_metrics.js' %}"></script>
 <div class="content-wrapper" style="min-height: 620px; height: auto; margin-top: 57px;">
     <div class="content-header">
         <div class="container-fluid">
@@ -41,7 +43,7 @@
                                     <td><a class="btn btn-primary btn-sm" href="{% url 'datapreprocessing:set_nutritional_status' %}">Set Thresholds</a></td>
                                 {% else %}
                                     <td class="text-success">Completed</td>
-                                    <td><button class="btn btn-primary btn-sm">View Thresholds</button></td>
+                                    <td><button data-toggle="modal" data-target="#viewDefault" class="btn btn-primary btn-sm default-report" data-report="ns">View Thresholds</button></td>
                                 {% endif %}
                             </tr>
                             <tr>
@@ -51,7 +53,7 @@
                                     <td><a class="btn btn-primary btn-sm" href="{% url 'datapreprocessing:set_micronutrient' %}">Set Thresholds</a></td>
                                 {% else %}
                                     <td class="text-success">Completed</td>
-                                    <td><button class="btn btn-primary btn-sm">View Thresholds</button></td>
+                                    <td><button data-toggle="modal" data-target="#viewDefault" class="btn btn-primary btn-sm default-report" data-report="micro">View Thresholds</button></td>
                                 {% endif %}
                             </tr>
                             <tr>
@@ -61,7 +63,7 @@
                                     <td><a class="btn btn-primary btn-sm" href="{% url 'datapreprocessing:set_maternal' %}">Set Thresholds</a></td>
                                 {% else %}
                                     <td class="text-success">Completed</td>
-                                    <td><button class="btn btn-primary btn-sm">View Thresholds</button></td>
+                                    <td><button data-toggle="modal" data-target="#viewDefault" class="btn btn-primary btn-sm default-report" data-report="maternal">View Thresholds</button></td>
                                 {% endif %}
                             </tr>
                             <tr>
@@ -71,7 +73,7 @@
                                     <td><a class="btn btn-primary btn-sm" href="{% url 'datapreprocessing:set_child_care' %}">Set Thresholds</a></td>
                                 {% else %}
                                     <td class="text-success">Completed</td>
-                                    <td><button class="btn btn-primary btn-sm">View Thresholds</button></td>
+                                    <td><button data-toggle="modal" data-target="#viewDefault" class="btn btn-primary btn-sm default-report" data-report="cc">View Thresholds</button></td>
                                 {% endif %}
                             </tr>
                             <tr>
@@ -81,7 +83,7 @@
                                     <td><a class="btn btn-primary btn-sm" href="{% url 'datapreprocessing:set_socioeconomic' %}">Set Thresholds</a></td>
                                 {% else %}
                                     <td class="text-success">Completed</td>
-                                    <td><button class="btn btn-primary btn-sm">View Thresholds</button></td>
+                                    <td><button data-toggle="modal" data-target="#viewDefault" class="btn btn-primary btn-sm default-report" data-report="socio">View Thresholds</button></td>
                                 {% endif %}
                             </tr>
                             </tbody>
@@ -160,6 +162,35 @@
             </div>
         </div>
     </section>
+</div>
+<div class="modal fade" id="viewDefault" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitle">View Thresholds</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body default-body">
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th>Field</th>
+                <th>Threshold</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            <tbody id="metric-table">
+
+            </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
 <style>
     td {

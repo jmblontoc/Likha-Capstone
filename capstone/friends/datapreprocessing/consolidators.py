@@ -64,7 +64,6 @@ def get_value(metric):
     elif str_model == 'FamilyProfileLine':
         try:
             field = get_field(model, phrase[1])
-            print(field)
             if field in datapoints.main_family_profile:
                 return get_population(field)
 

@@ -26,5 +26,10 @@ urlpatterns = [
 
     path('default/child_care', views.set_child_care, name='set_child_care'),
 
-    path('default/socioeconomic', views.set_socioeconomic, name='set_socioeconomic')
+    path('default/socioeconomic', views.set_socioeconomic, name='set_socioeconomic'),
+
+
+    # # # # # # # # # AJAX # # # # # # # # #
+
+    path('default/ajax', views.view_threshold, name='view_threshold_ajax')
 ]

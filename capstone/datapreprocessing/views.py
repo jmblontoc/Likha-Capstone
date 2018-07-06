@@ -291,3 +291,38 @@ def set_socioeconomic(request):
 
 
 
+# # # # # # # # # AJAX # # # # # # # # # #
+
+def view_threshold(request):
+
+    report = request.GET['report']
+    metrics = Metric.objects.all()
+
+    if report == 'ns':
+
+        data = [metric.to_dict() for metric in metrics if NutritionalStatus.objects.filter(name=metric.get_data_point).count() > 0]
+        print(data)
+        return JsonResponse(data, safe=False)
+
+    elif report == 'cc':
+
+        data = [metric.to_dict() for metric in metrics if metric.get_data_point in datapoints.child_care]
+        return JsonResponse(data, safe=False)
+
+    elif report == 'maternal':
+
+        data = [metric.to_dict() for metric in metrics if metric.get_data_point in datapoints.maternal]
+        return JsonResponse(data, safe=False)
+
+    elif report == 'socio':
+
+        data = [metric.to_dict() for metric in metrics if metric.get_data_point in datapoints.socioeconomic]
+        return JsonResponse(data, safe=False)
+
+    elif report == 'micro':
+
+        data = [metric.to_dict() for metric in metrics if metric.get_data_point in datapoints.micronutrient]
+        return JsonResponse(data, safe=False)
+
+
+

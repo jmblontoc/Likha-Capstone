@@ -56,3 +56,13 @@ class Metric(models.Model):
         return [x for x in Metric.objects.all() if x.get_total_value >= x.threshold]
 
 
+    def to_dict(self):
+        return {
+            'field': self.get_data_point,
+            'threshold': int(self.threshold),
+            'value': int(self.get_total_value),
+            'is_alarming': self.get_total_value >= self.threshold
+
+        }
+
+
