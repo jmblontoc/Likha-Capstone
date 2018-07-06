@@ -11,7 +11,7 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 :root {
-  --blue: #004876;
+  --blue: #007bff;
   --indigo: #6610f2;
   --purple: #6f42c1;
   --pink: #e83e8c;
@@ -2731,7 +2731,7 @@ fieldset:disabled a.btn {
 
 .btn-link {
   font-weight: 400;
-  color: #004876;
+  color: #007bff;
   background-color: transparent;
 }
 
@@ -2985,15 +2985,13 @@ input[type="button"].btn-block {
 .dropdown-item:hover, .dropdown-item:focus {
   color: #16181b;
   text-decoration: none;
-  background-color: #fff;
-  border-radius: 0.25rem;
+  background-color: #f8f9fa;
 }
 
 .dropdown-item.active, .dropdown-item:active {
-  color: #16181b;
+  color: #ffffff;
   text-decoration: none;
-  background-color: #fff;
-  border-radius: 0.25rem;
+  background-color: #007bff;
 }
 
 .dropdown-item.disabled, .dropdown-item:disabled {
@@ -3315,7 +3313,7 @@ input[type="button"].btn-block {
 
 .custom-control-input:checked ~ .custom-control-label::before {
   color: #ffffff;
-  background-color: #004876;
+  background-color: #007bff;
   box-shadow: none;
 }
 
@@ -3373,7 +3371,7 @@ input[type="button"].btn-block {
 }
 
 .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
-  background-color: #004876;
+  background-color: #007bff;
 }
 
 .custom-checkbox .custom-control-input:checked ~ .custom-control-label::after {
@@ -3381,7 +3379,7 @@ input[type="button"].btn-block {
 }
 
 .custom-checkbox .custom-control-input:indeterminate ~ .custom-control-label::before {
-  background-color: #004876;
+  background-color: #007bff;
   box-shadow: none;
 }
 
@@ -3402,7 +3400,7 @@ input[type="button"].btn-block {
 }
 
 .custom-radio .custom-control-input:checked ~ .custom-control-label::before {
-  background-color: #004876;
+  background-color: #007bff;
 }
 
 .custom-radio .custom-control-input:checked ~ .custom-control-label::after {
@@ -3550,7 +3548,7 @@ input[type="button"].btn-block {
   width: 1rem;
   height: 1rem;
   margin-top: -0.25rem;
-  background-color: #004876;
+  background-color: #007bff;
   border: 0;
   border-radius: 1rem;
   box-shadow: 0 0.1rem 0.25rem rgba(0, 0, 0, 0.1);
@@ -3580,7 +3578,7 @@ input[type="button"].btn-block {
 .custom-range::-moz-range-thumb {
   width: 1rem;
   height: 1rem;
-  background-color: #004876;
+  background-color: #007bff;
   border: 0;
   border-radius: 1rem;
   box-shadow: 0 0.1rem 0.25rem rgba(0, 0, 0, 0.1);
@@ -3610,7 +3608,7 @@ input[type="button"].btn-block {
 .custom-range::-ms-thumb {
   width: 1rem;
   height: 1rem;
-  background-color: #004876;
+  background-color: #007bff;
   border: 0;
   border-radius: 1rem;
   box-shadow: 0 0.1rem 0.25rem rgba(0, 0, 0, 0.1);
@@ -3713,7 +3711,7 @@ input[type="button"].btn-block {
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
   color: #ffffff;
-  background-color: #004876;
+  background-color: #007bff;
 }
 
 .nav-fill .nav-item {
@@ -4775,7 +4773,7 @@ input[type="button"].btn-block {
   color: #ffffff;
   text-align: center;
   white-space: nowrap;
-  background-color: #004876;
+  background-color: #007bff;
   transition: width 0.6s ease;
 }
 
@@ -4860,8 +4858,8 @@ input[type="button"].btn-block {
 .list-group-item.active {
   z-index: 2;
   color: #ffffff;
-  background-color: #004876;
-  border-color: #004876;
+  background-color: #007bff;
+  border-color: #007bff;
 }
 
 .list-group-flush .list-group-item {
@@ -10922,19 +10920,13 @@ label:not(.form-check-label):not(.custom-file-label) {
   border-bottom: 0;
 }
 
-.card-primary .card-header .test{
-  color: #004876;
-}
-
 .card-primary:not(.card-outline) .card-header,
 .card-primary:not(.card-outline) .card-header a {
-  color: #ffffff;
+  color: #ffffff !important;
 }
 
-
-
 .card-primary.card-outline {
-  border-top: 3px solid #004876;
+  border-top: 3px solid #007bff;
 }
 
 .bg-primary .btn-tool, .label-primary .btn-tool,
@@ -11542,7 +11534,9 @@ label:not(.form-check-label):not(.custom-file-label) {
   color: #6c757d;
 }
 
-
+.nav-pills .nav-link:not(.active):hover {
+  color: #004876;
+}
 
 /*
  * Component: Products List
@@ -12433,7 +12427,7 @@ label:not(.form-check-label):not(.custom-file-label) {
 }
 
 .select2-container--default.select2-container--open {
-  border-color: #004876;
+  border-color: #007bff;
 }
 
 .select2-dropdown {
@@ -12441,7 +12435,7 @@ label:not(.form-check-label):not(.custom-file-label) {
 }
 
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
-  background-color: #004876;
+  background-color: #007bff;
   color: white;
 }
 
@@ -12480,7 +12474,7 @@ label:not(.form-check-label):not(.custom-file-label) {
 .select2-dropdown .select2-search__field:focus,
 .select2-search--inline .select2-search__field:focus {
   outline: none;
-  border: 1px solid #004876;
+  border: 1px solid #007bff;
 }
 
 .select2-container--default .select2-results__option[aria-disabled=true] {
@@ -12500,7 +12494,7 @@ label:not(.form-check-label):not(.custom-file-label) {
 }
 
 .select2-container--default .select2-selection--multiple:focus {
-  border-color: #004876;
+  border-color: #007bff;
 }
 
 .select2-container--default.select2-container--focus .select2-selection--multiple {
@@ -12508,7 +12502,7 @@ label:not(.form-check-label):not(.custom-file-label) {
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
-  background-color: #004876;
+  background-color: #007bff;
   border-color: #006fe6;
   padding: 1px 10px;
   color: #ffffff;
@@ -12532,7 +12526,7 @@ label:not(.form-check-label):not(.custom-file-label) {
  * ----------------------
  */
 a.text-muted:hover {
-  color: #004876 !important;
+  color: #007bff !important;
 }
 
 .border-transparent {
@@ -12689,10 +12683,10 @@ a.text-muted:hover {
 
 .bg-primary-gradient {
   background: #004876;
-  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #004876), color-stop(1, #3395ff));
-  background: -ms-linear-gradient(bottom, #004876, #3395ff);
-  background: -moz-linear-gradient(center bottom, #004876 0%, #3395ff 100%);
-  background: -o-linear-gradient(#3395ff, #004876);
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #007bff), color-stop(1, #3395ff));
+  background: -ms-linear-gradient(bottom, #007bff, #3395ff);
+  background: -moz-linear-gradient(center bottom, #007bff 0%, #3395ff 100%);
+  background: -o-linear-gradient(#3395ff, #007bff);
   color: #ffffff;
 }
 

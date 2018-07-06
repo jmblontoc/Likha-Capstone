@@ -120,7 +120,14 @@ def show_opt_list(request):
 
     profile = Profile.objects.get(user=request.user)
 
+    if request.session['active'] != 'uf':
+        active = 'ot'
+    else:
+        active = 'uf'
+        request.session['active'] = ''
+
     context = {
+        'active': active,
         'profile': profile,
         'opt_records': opt_records
     }
@@ -147,7 +154,14 @@ def show_fhsis_list(request):
 
     profile = Profile.objects.get(user=request.user)
 
+    if request.session['active'] != 'uf':
+        active = 'fh'
+    else:
+        active = 'uf'
+        request.session['active'] = ''
+
     context = {
+        'active': active,
         'profile': profile,
         'fhsis_records': fhsis_records
     }
@@ -207,7 +221,12 @@ def family_profiles(request):
     families = FamilyProfile.objects.filter(barangay=barangay, date__year=datetime.now().year)
     profile = Profile.objects.get(user=request.user)
 
+
+    active = 'fp'
+
+
     context = {
+        'active': active,
         'profile': profile,
         'barangay': barangay,
         'families': families
@@ -264,11 +283,17 @@ def show_profiles(request, id):
     else:
         template_values = 'core/nutritionist-layout.html'
 
+    if request.session['active'] != 'uf':
+        active = 'fp'
+    else:
+        active = 'uf'
+        request.session['active'] = ''
+
     context = {
+        'active': active,
         'template_values': template_values,
         'profile': profile,
         'barangay': barangay.id,
-        'active': 'ds',
         'profiles': profiles,
         'id': id,
         'form': form
@@ -299,7 +324,14 @@ def monthly_reweighing_index(request):
     patients = Patient.objects.filter(barangay=barangay)
     profile = Profile.objects.get(user=request.user)
 
+    if request.session['active'] != 'uf':
+        active = 'mr'
+    else:
+        active = 'uf'
+        request.session['active'] = ''
+
     context = {
+        'active': active,
         'profile': profile,
         'patients': patients,
         'has_opt': len(opt) > 0,
@@ -788,7 +820,6 @@ def show_family_profiles(request, id):
 
     context = {
         'profile': profile,
-        'active': 'ds',
         'families': profiles,
         'barangay': barangay
     }

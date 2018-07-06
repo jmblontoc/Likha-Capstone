@@ -10,8 +10,6 @@
         <link rel="stylesheet" type="text/css" href="{% static 'core/plugins/datatables/dataTables.bootstrap4.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'core/plugins/font-awesome/css/font-awesome.css' %}">
 
-
-
         <script src="{% static 'core/plugins/jquery/jquery.min.js' %}"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
         <script src="{% static 'core/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
@@ -76,7 +74,7 @@
 
             <aside class="main-sidebar elevation-4 sidebar-light-primary" style="min-height: 620px;">
                 <div class="brand-link bg-primary">
-                    <img src="{% static 'core/images/nnc.png' %}" class="brand-image img-circle" style="opacity: .8">
+                    <img src="{% static 'core/images/com.png' %}" class="brand-image img-circle" style="opacity: .8">
                     <span class="brand-text font-weight-light">MCMCMAS</span>
                 </div>
                 <div class="sidebar">
@@ -92,17 +90,47 @@
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                             <li class="nav-header">BARANGAY NUTRITION SCHOLAR</li>
                             <li class="nav-item">
-                                <a href="{% url 'core:bns-index' %}" class="nav-link active">
+                                <a href="{% url 'core:bns-index' %}" class="nav-link {% if active == 'uf' %}active{% endif %}">
                                     <i class="nav-icon fa fa-th"></i>
                                     <p>Upload Facility</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'datainput:archives' %}">
-                                    <i class="nav-icon fa fa-th"></i>
-                                    <p>Reports Archive</p>
+                            <li class="nav-item has-treeview {% if active == 'fh' or active == 'mr' or active == 'ot' or active == 'fp' %}menu-open{% endif %}">
+                            <a href="#" class="nav-link {% if active == 'fh' or active == 'mr' or active == 'ot' or active == 'fp' %}active{% endif %}">
+                              <i class="nav-icon fa fa-pie-chart"></i>
+                              <p>
+                                Reports Archive
+                                <i class="right fa fa-angle-left"></i>
+                              </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                              <li class="nav-item">
+                                <a  href="{% url 'datainput:show_fhsis_list' %}" class="nav-link {% if active == 'fh' %}active{% endif %}">
+                                  <i class="fa fa-circle-o nav-icon"></i>
+                                  <p>Field Health Information System</p>
                                 </a>
+                              </li>
+                              <li class="nav-item">
+                                <a href="{% url 'datainput:monthly_reweighing_index' %}" class="nav-link {% if active == 'mr' %}active{% endif %}">
+                                  <i class="fa fa-circle-o nav-icon"></i>
+                                  <p>Monthly Reweighing</p>
+                                </a>
+                              </li>
+                              <li class="nav-item">
+                                <a href="{% url 'datainput:show_opt_list' %}" class="test nav-link {% if active == 'ot' %}active{% endif %}">
+                                  <i class="fa fa-circle-o nav-icon"></i>
+                                  <p>Operation Timbang</p>
+                                </a>
+                              </li>
+                                <li class="nav-item">
+                                <a href="{% url 'datainput:family_profiles' %}" class="test nav-link {% if active == 'fp' %}active{% endif %}">
+                                  <i class="fa fa-circle-o nav-icon"></i>
+                                  <p>Family Profile</p>
+                                </a>
+                              </li>
+                            </ul>
                             </li>
+
                         </ul>
                     </nav>
                 </div>
