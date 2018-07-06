@@ -2,7 +2,6 @@
 import os
 from datetime import datetime
 import xlrd
-from xlutils.copy import copy
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required

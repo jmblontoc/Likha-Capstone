@@ -130,3 +130,40 @@ def edit_metric(request, id):
 
     return render(request, 'datapreprocessing/edit_metric.html', context)
 
+
+@login_required
+def set_nutritional_status(request):
+
+    if request.method == 'GET':
+
+        context = {
+            'nutritional_statuses': NutritionalStatus.objects.all()
+        }
+
+        return render(request, 'datapreprocessing/default_metrics/nutritional_status.html', context)
+
+    else:
+
+        print(request.POST)
+        my_dict = dict(request.POST)
+
+        for k, v in my_dict.items():
+
+            if k != 'csrfmiddlewaretoken':
+
+                value = v[0]
+                model = 'Nutritional Status'
+                status = NutritionalStatus.objects.get(code=k)
+
+                metric = '%s | %s' % (model, status)
+                Metric.objects.create(
+                    metric=metric,
+                    threshold=value,
+                    unit='Total',
+                )
+
+        messages.success(request, 'Thresholds successfully set')
+        return redirect('datapreprocessing:index')
+
+
+

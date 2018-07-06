@@ -21,7 +21,16 @@ def get_value(metric):
     # not applicable for NutritionalStatuses
 
     if str_model == 'OPTValues':
+
         status = NutritionalStatus.objects.get(name=phrase[1].strip())
+
+        if len(phrase) == 2:
+
+            opt = get_total_opt_no_sex(status)
+            reweighing = get_reweighing_no_sex(status)
+
+            return opt + reweighing
+
         sex = Sex.objects.get(name=phrase[2].strip())
         opt = get_total_opt(status, sex)
         reweighing = get_reweighing_counts(phrase[1].strip(), sex)
@@ -85,6 +94,8 @@ def get_model(metric):
             model = 'HealthCareWasteManagement'
         elif 'Informal Settlers' in first:
             model = 'InformalSettlers'
+        elif 'Nutritional Status' in first:
+            return 'OPTValues'
 
     elif len(phrase) == 1:
 
@@ -172,6 +183,26 @@ def get_total_opt(status, sex):
     count = 0
     for record in records:
         count = count + record.values
+
+    return count
+
+
+# opt total without sex
+def get_total_opt_no_sex(status):
+
+    return OPTValues.objects.filter(opt__date__year=datetime.now().year,
+                                    nutritional_status=status).aggregate(sum=Sum('values'))['sum']
+
+
+def get_reweighing_no_sex(status):
+    records = MonthlyReweighing.objects.filter(date__year=datetime.now().year, date__month=datetime.now().month)
+
+    # status = 'Weight for Age - Overweight'
+    count = 0
+    for record in records:
+
+        if status in record.get_nutritional_status():
+            count = count + 1
 
     return count
 

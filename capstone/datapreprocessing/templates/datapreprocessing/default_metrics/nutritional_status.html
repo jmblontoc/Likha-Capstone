@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>City Nutritional Status</title>
+</head>
+<body>
+    <h1>Set Thresholds</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <th>Data Point</th>
+                <th>Action</th>
+            </tr>
+            {% for status in nutritional_statuses %}
+                <tr>
+                    <td>{{ status.name }}</td>
+                    <td>
+                        <input type="number" placeholder="Input threshold" name="{{ status.code }}">
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <input type="submit">
+    </form>
+</body>
+</html>

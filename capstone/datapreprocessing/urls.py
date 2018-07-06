@@ -15,4 +15,8 @@ urlpatterns = [
 
     # edit metric
     path('edit_metric/<int:id>', views.edit_metric, name='edit_metric'),
+
+    # # # # # # # # # DEFAULT # # # # # # # # #
+
+    path('default/nutritional_status/set', views.set_nutritional_status, name='set_nutritional_status')
 ]
