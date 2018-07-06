@@ -1,6 +1,7 @@
 from datetime import datetime
 
-from datainput.models import Patient, MonthlyReweighing, HealthCareWasteManagement, InformalSettlers, UnemploymentRate
+from datainput.models import Patient, MonthlyReweighing, HealthCareWasteManagement, InformalSettlers, UnemploymentRate, \
+    FHSIS, OperationTimbang, FamilyProfile, Barangay
 
 
 def has_monthly_reweighing(barangay, month, year):
@@ -53,3 +54,41 @@ def has_informal_settlers():
 def has_unemployment_rate():
 
     return UnemploymentRate.objects.filter(date__year=datetime.now().year).count() > 0
+
+
+# # # # # # # # # # # # # # # # # # # # # # # # # #
+
+def todo_list():
+
+    barangays = Barangay.objects.all()
+
+    todo = []
+
+    for b in barangays:
+
+        if not b.has_opt:
+            todo.append({
+                'report_name': 'Operation Timbang',
+                'barangay': b.name
+            })
+
+        if not b.has_family_profile:
+            todo.append({
+                'report_name': 'Family Profile',
+                'barangay': b.name
+            })
+
+        if not b.has_reweighed:
+            todo.append({
+                'report_name': 'Monthly Reweighing',
+                'barangay': b.name
+            })
+
+        if not b.has_fhsis:
+            todo.append({
+                'report_name': 'FHSIS',
+                'barangay': b.name
+            })
+
+    return todo
+

@@ -153,10 +153,10 @@ class FamilyProfileLine(models.Model):
 
     educational_attainment = models.CharField(max_length=50, choices=EDUCATIONAL_ATTAINMENT)
     is_mother_pregnant = models.BooleanField()
-    is_family_planning = models.BooleanField()
-    is_ebf = models.BooleanField()
-    is_mixed_milk_feeding = models.BooleanField()
-    is_bottle_feeding = models.BooleanField()
+    is_family_planning = models.BooleanField(verbose_name='Is Practicing Family Planning')
+    is_ebf = models.BooleanField(verbose_name='Is Practicing Exclusive Breastfeeding')
+    is_mixed_milk_feeding = models.BooleanField(verbose_name='Is Practicing Mixed Milk Feeding')
+    is_bottle_feeding = models.BooleanField(verbose_name='Is Practicing Bottled Feeding')
 
     TOILET_TYPES = (
         ('Water Sealed', 'Water Sealed'),
@@ -180,8 +180,8 @@ class FamilyProfileLine(models.Model):
     toilet_type = models.CharField(max_length=50, choices=TOILET_TYPES)
     water_sources = models.CharField(max_length=50, choices=WATER_SOURCES)
     food_production_activity = models.CharField(max_length=50, choices=FOOD_PRODUCTION_ACTIVITIES)
-    is_using_iodized_salt = models.BooleanField()
-    is_using_ifr = models.BooleanField()
+    is_using_iodized_salt = models.BooleanField(verbose_name='Is Using Iodized Salt')
+    is_using_ifr = models.BooleanField(verbose_name='Is Using Iron Fortification')
 
     def __str__(self):
         return self.household_head_name + " - " + self.family_profile.barangay.name
@@ -368,17 +368,17 @@ class Leprosy(models.Model):
 
 class ChildCare(models.Model):
 
-    given_complimentary_food = models.DecimalField(decimal_places=2, max_digits=5)
-    received_vitamin_A = models.DecimalField(decimal_places=2, max_digits=5)
-    received_iron = models.DecimalField(decimal_places=2, max_digits=5)
-    received_MNP = models.DecimalField(decimal_places=2, max_digits=5)
-    sick_children = models.DecimalField(decimal_places=2, max_digits=5)
-    given_deworming = models.DecimalField(decimal_places=2, max_digits=5)
-    anemic_children = models.DecimalField(decimal_places=2, max_digits=5)
-    anemic_children_with_iron = models.DecimalField(decimal_places=2, max_digits=5)
-    diarrhea_cases = models.DecimalField(decimal_places=2, max_digits=5)
+    given_complimentary_food = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Given complimentary food')
+    received_vitamin_A = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Infants who received vitamin A')
+    received_iron = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Infants who received iron')
+    received_MNP = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Infants who received MNP')
+    sick_children = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Sick children')
+    given_deworming = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Children given deworming')
+    anemic_children = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Anemic children')
+    anemic_children_with_iron = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Anemic children receiving full dose iron')
+    diarrhea_cases = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Diarrhea cases')
     diarrhea_with_ORS = models.DecimalField(decimal_places=2, max_digits=5)
-    pneumonia_cases = models.DecimalField(decimal_places=2, max_digits=5)
+    pneumonia_cases = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Pneumonia cases')
     pneumonia_cases_with_Tx = models.DecimalField(decimal_places=2, max_digits=5)
 
     fhsis = models.ForeignKey(FHSIS, on_delete=models.CASCADE)

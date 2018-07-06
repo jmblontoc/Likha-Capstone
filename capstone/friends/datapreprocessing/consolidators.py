@@ -56,12 +56,14 @@ def get_value(metric):
         or str_model == 'Flariasis' or str_model == 'Leprosy' or str_model == 'ChildCare':
 
         field = get_field(model, phrase[1])
+        if len(phrase) == 2:
+            return get_total_without_sex(model, field)
+
         return get_total_with_sex(model, field, sex=Sex.objects.get(name=phrase[2].strip()))
 
     elif str_model == 'FamilyProfileLine':
         try:
             field = get_field(model, phrase[1])
-
             if field in datapoints.main_family_profile:
                 return get_population(field)
 
@@ -96,6 +98,8 @@ def get_model(metric):
             model = 'InformalSettlers'
         elif 'Nutritional Status' in first:
             return 'OPTValues'
+        elif 'Child Care' in first:
+            return 'ChildCare'
 
     elif len(phrase) == 1:
 
@@ -117,7 +121,7 @@ def get_field(model, verbose):
     if not model is OPTValues:
         fields = []
         for field in model._meta.get_fields():
-            if field.verbose_name == verbose.strip():
+            if field.verbose_name.strip() == verbose.strip():
                 fields.append(field)
 
         str_field =  str(fields[0]).split(".")
@@ -161,6 +165,21 @@ def get_maternal_or_sti(model, field):
 def get_total_with_sex(model, field, sex):
 
     records = model.objects.all().filter(fhsis__date__year=datetime.now().year, sex=sex)
+    count = 0
+
+    for record in records:
+
+        try:
+            count = count + getattr(record, field)
+        except TypeError:
+            print('aha')
+
+    return count
+
+
+def get_total_without_sex(model, field):
+
+    records = model.objects.all().filter(fhsis__date__year=datetime.now().year)
     count = 0
 
     for record in records:
