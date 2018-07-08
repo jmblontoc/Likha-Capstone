@@ -1475,7 +1475,23 @@ def select_report_nutritionist(request):
         return render(request, 'datainput/archives_nutritionist/family_records.html', context)
 
 
+@login_required
+def notify_bns(request):
 
+    barangay = request.POST.get('barangay')
+    sender = Profile.objects.get(user=request.user)
+
+    message = 'Please upload the reports as soon as possible.'
+
+    for user in Barangay.objects.get(id=barangay.id).profile_set.all():
+
+        Notification.objects.create(
+            message=message,
+            profile_to=user,
+            profile_from=sender
+        )
+
+    messages.success(request, 'Users successfully notified')
 
 
 
