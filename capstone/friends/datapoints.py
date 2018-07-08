@@ -51,10 +51,9 @@ boolean_fields_fp = [
 ]
 
 micronutrient = [
-    ('Infants who received vitamin A', 'received_vitamin_A'),
-    ('Infants who received iron', 'received_iron'),
-    ('Infants who received MNP', 'received_MNP')
-
+    'Infants who received vitamin A',
+    'Infants who received iron',
+    'Infants who received MNP'
 ]
 
 maternal = [

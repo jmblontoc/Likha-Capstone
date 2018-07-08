@@ -15,12 +15,13 @@ from datapreprocessing.forms import MetricForm, EditMetricForm
 from datapreprocessing.models import Metric
 import operator
 from friends import datapoints
+from friends.datainput import validations
 
 
 @login_required
 def index(request):
 
-    if not checkers.is_updated():
+    if len(validations.todo_list()) > 0:
         messages.error(request, 'Data is not yet up to date')
         return redirect('core:nutritionist')
 
@@ -301,7 +302,6 @@ def view_threshold(request):
     if report == 'ns':
 
         data = [metric.to_dict() for metric in metrics if NutritionalStatus.objects.filter(name=metric.get_data_point).count() > 0]
-        print(data)
         return JsonResponse(data, safe=False)
 
     elif report == 'cc':
@@ -322,6 +322,7 @@ def view_threshold(request):
     elif report == 'micro':
 
         data = [metric.to_dict() for metric in metrics if metric.get_data_point in datapoints.micronutrient]
+        print(datapoints.micronutrient)
         return JsonResponse(data, safe=False)
 
 

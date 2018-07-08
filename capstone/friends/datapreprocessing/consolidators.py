@@ -213,6 +213,7 @@ def get_total_opt_no_sex(status):
                                     nutritional_status=status).aggregate(sum=Sum('values'))['sum']
 
 
+# KAMMY YOU CAN USE THIS METHOD
 def get_reweighing_no_sex(status):
     records = MonthlyReweighing.objects.filter(date__year=datetime.now().year, date__month=datetime.now().month)
 
@@ -238,6 +239,7 @@ def get_total_opt_date(status, sex, start_date, end_date):
     return records.aggregate(sum=Sum('values'))['sum']
 
 
+# THIS IS WITH SEX
 def get_reweighing_counts(status, sex):
 
     records = MonthlyReweighing.objects.filter(date__year=datetime.now().year, date__month=datetime.now().month,

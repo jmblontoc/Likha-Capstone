@@ -1,7 +1,7 @@
-$(document).ready(function() {
+$(function() {
 
     var startDate = $("#start_date").html();
-    var endDate =$("#end_date").html();
+    var endDate = $("#end_date").html();
 
     $.ajax({
         url: "/visualizations/maternal/get_data",
@@ -50,6 +50,17 @@ $(document).ready(function() {
                 name: 'Fields',
                 data: data.values
 
+              }, {
+                  name: 'Threshold',
+                  marker: {
+                    symbol: 'url(/static/visualizations/media/red.png)',
+                    lineWidth: 3,
+                    height: 3,
+                    width: 150,
+                    radius: 10
+                  },
+                  type: 'scatter',
+                  data: data.thresholds
               }]
             });
         },

@@ -2,8 +2,9 @@ import decimal
 import json
 
 from django.contrib import messages
-
+from friends import datapoints
 from capstone import settings
+from datapreprocessing.models import Metric
 from friends.visualizations import getters
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
@@ -102,10 +103,11 @@ def get_nutritional_status(request):
 
     statuses = NutritionalStatus.objects.all()
 
-    statuses_str = [s.name for s in statuses]
+    statuses_str = []
 
     start_date = request.POST.get('start_date')
     end_date = request.POST.get('end_date')
+    stat = request.POST.get('status')
 
     male = Sex.objects.get(name='Male')
     female = Sex.objects.get(name='Female')
@@ -114,25 +116,37 @@ def get_nutritional_status(request):
     female_values = []
 
     for s in statuses:
-        eopt_male = consolidators.get_total_opt_date(s, male, start_date, end_date)
-        mr_male = consolidators.get_reweighing_counts_date(str(s), male, start_date, end_date)
 
-        eopt_female = consolidators.get_total_opt_date(s, female, start_date, end_date)
-        mr_female = consolidators.get_reweighing_counts_date(str(s), female, start_date, end_date)
+        if stat in s.name:
+
+            eopt_male = consolidators.get_total_opt_date(s, male, start_date, end_date)
+            mr_male = consolidators.get_reweighing_counts_date(str(s), male, start_date, end_date)
+
+            eopt_female = consolidators.get_total_opt_date(s, female, start_date, end_date)
+            mr_female = consolidators.get_reweighing_counts_date(str(s), female, start_date, end_date)
 
 
-        male_values.append(
-            int(eopt_male + mr_male)
-        )
+            male_values.append(
+                int(eopt_male + mr_male)
+            )
 
-        female_values.append(
-            int(eopt_female + mr_female)
-        )
+            female_values.append(
+                int(eopt_female + mr_female)
+            )
+
+            statuses_str.append(s.name)
+
+    metrics = Metric.get_nutritional_status_by_category(stat)
+    thresholds = [m['threshold'] for m in metrics]
+    values = [m['value'] for m in metrics]
+
 
     data = {
         'male': male_values,
         'female': female_values,
-        'statuses': json.dumps(statuses_str)
+        'statuses': statuses_str,
+        'thresholds': thresholds,
+        'values': values
     }
 
     return JsonResponse(data)
@@ -146,14 +160,16 @@ def get_micronutrient(request):
 
     date_range = [start_date, end_date]
 
-    fields = [
-        'Vitamin A', 'Iron', 'MNP', 'ORS', 'BCG', 'HEPA B1', 'PENTA', 'OPV', 'MCV', 'ROTA', 'PCV'
-    ]
+    fields = datapoints.micronutrient
+    thresholds = [x['threshold'] for x in Metric.get_micronutrient()]
+    values = [x['value'] for x in Metric.get_micronutrient()]
 
     data = {
         'male': getters.get_micronutrient(Sex.objects.get(name='Male'), date_range),
         'female': getters.get_micronutrient(Sex.objects.get(name='Female'), date_range),
-        'fields': fields
+        'fields': fields,
+        'thresholds': thresholds,
+        'values': values
     }
 
     return JsonResponse(data)
@@ -170,9 +186,16 @@ def get_maternal(request):
     fields = [x.verbose_name for x in MaternalCare._meta.get_fields()[1:10]]
     values = [int(x) for x in getters.get_maternal(date_range)]
 
+    metrics = Metric.get_maternal()
+
+    f = datapoints.maternal
+    thresholds = [m['threshold'] for m in metrics]
+    v = [m['value'] for m in metrics]
+
     data = {
-        'fields': fields,
-        'values': values
+        'fields': f,
+        'values': v,
+        'thresholds': thresholds
     }
 
     return JsonResponse(data)
@@ -189,9 +212,16 @@ def get_child_care(request):
     fields = [x.verbose_name for x in ChildCare._meta.get_fields()[1:13]]
     values = [int(x) for x in getters.get_child_care(date_range)]
 
+    metrics = Metric.get_child_care()
+
+    f = datapoints.child_care
+    thresholds = [m['threshold'] for m in metrics]
+    values = [m['value'] for m in metrics]
+
     data = {
-        'fields': fields,
-        'values': values
+        'fields': f,
+        'values': values,
+        'thresholds': thresholds
     }
 
     return JsonResponse(data)

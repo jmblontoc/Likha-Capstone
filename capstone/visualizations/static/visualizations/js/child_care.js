@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+
     var startDate = $("#start_date").html();
     var endDate =$("#end_date").html();
 
@@ -46,10 +47,21 @@ $(document).ready(function() {
                   borderWidth: 0
                 }
               },
-              series: [ {
+              series: [{
                 name: 'Fields',
                 data: data.values
 
+              }, {
+                  name: 'Threshold',
+                  marker: {
+                    symbol: 'url(/static/visualizations/media/red.png)',
+                    lineWidth: 3,
+                    height: 5,
+                    width: 100,
+                    radius: 10
+                  },
+                  type: 'scatter',
+                  data: data.thresholds
               }]
             });
         },
