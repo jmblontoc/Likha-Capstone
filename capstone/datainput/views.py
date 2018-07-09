@@ -373,7 +373,7 @@ def patient_overview(request, id):
 
     patient = Patient.objects.get(id=id)
     weights = MonthlyReweighing.objects.filter(patient=patient)
-    barangay = Barangay.objects.get(name=patient.barangay)
+    barangay = Barangay.objects.get(name=patient.barangay.name)
     profile = Profile.objects.get(user=request.user)
 
     if profile.user_type == 'Barangay Nutrition Scholar':
@@ -908,7 +908,7 @@ def handle_fhsis_file(request):
     default_storage.save(path, file)
 
     barangay = Profile.objects.get(user=request.user).barangay
-    fhsis = FHSIS(barangay=barangay, uploaded_by=Profile.objects.get(user=request.user), status='Pending')
+    fhsis = FHSIS(barangay=barangay, uploaded_by=Profile.objects.get(user=request.user))
     fhsis.save()
     renamed = os.path.join(temp_path, str(fhsis.id) + ".xlsx")
     os.rename(path, renamed)

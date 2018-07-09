@@ -1,5 +1,7 @@
 import decimal
 from datetime import datetime
+
+from datainput.models import ChildCare
 from friends import datapoints
 from friends.datapreprocessing import consolidators
 from django.db import models
@@ -103,3 +105,55 @@ class Metric(models.Model):
         return [metric.to_dict() for metric in Metric.objects.all()
                 if metric.get_source == 'Child Care' and metric.get_data_point in datapoints.child_care
                 and metric.is_default]
+
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+    # # # # # # # COMPUTATION # # # #
+
+    @staticmethod
+    def get_sum_nutritional_status(status):
+
+        total = 0
+        for m in Metric.objects.filter(is_default=True):
+            if m.get_data_point == status:
+                total = total + m.get_total_value
+
+        return float(total)
+
+    @staticmethod
+    def get_total_per_category(category):
+
+        total = 0
+        for m in Metric.objects.filter(is_default=True):
+            if m.get_source == 'Nutritional Status':
+                cat = m.get_data_point.strip().split("-")[0]
+                if cat == category:
+                    total = total + m.get_total_value
+
+        return float(total)
+
+
+    @staticmethod
+    def get_computations_nutritional_status(status):
+
+        sum = Metric.get_sum_nutritional_status(status)
+        category = status.strip().split("-")[0]
+        total = Metric.get_total_per_category(category)
+        prevalence_rate = round(sum / total, 2)
+        prevalence_rate = prevalence_rate * 100
+        prevalence_rate = str(prevalence_rate) + "%"
+
+        return {
+            'status': status,
+            'sum': sum,
+            'total': total,
+            'prevalence': prevalence_rate
+        }
+
+    @staticmethod
+    def get_micronutrient_dashboard():
+
+        months = [x.month for x in ChildCare.objects.dates('fhsis__date', 'month')]
+        year = datetime.now().year
+        print(months)
+
+

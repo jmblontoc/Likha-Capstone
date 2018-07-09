@@ -207,7 +207,7 @@ $(document).ready(function() {
         }
 
         for( var x in data[0]){
-            row+= '<tr><td>' + data[x].statuses + '</td><td>' + data[x].male + '</td><td>' + data[x].female + '</td></tr>'
+            row+= '<tr><td>' + data[x].statuses + '</td><td>' + data[x].male + '</td><td>' + data[x].female + '</td></tr>';
             console.log("qwe");
         }
         console.log("qsdfiuwe");

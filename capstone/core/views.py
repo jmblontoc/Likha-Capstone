@@ -1,13 +1,16 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.db.models import Sum
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
+
+from datapreprocessing.models import Metric
 from friends.datainput import validations
 from core.forms import UploadFileForm
 from core.models import Profile, Notification
-from datainput.models import OperationTimbang, MonthlyReweighing, FamilyProfile, FHSIS
+from datainput.models import OperationTimbang, MonthlyReweighing, FamilyProfile, FHSIS, NutritionalStatus
 from friends import user_redirects
 from datetime import datetime
 from friends.datamining import correlations
@@ -141,9 +144,16 @@ def bns_index(request):
 def nutritionist(request):
     profile = Profile.objects.get(user=request.user)
 
+    # Nutritional Status
+    nutritional_metrics = Metric.objects.filter(is_default=True, metric__contains='Nutritional Status')
+    computations = [Metric.get_computations_nutritional_status(s.name) for s in NutritionalStatus.objects.all()]
+
+
     context = {
         'profile': profile,
         'active': 'db',
+        'nutritional': nutritional_metrics,
+        'computations_ns': computations
     }
 
     return render(request, 'core/nutritionist_index.html', context)
