@@ -8,7 +8,7 @@
             <div class="row mb-2">
                     <div class="col-sm-6">
                         {% if profile.user_type == 'Barangay Nutrition Scholar' %}
-                        <h1 class="m-0 text-dark">Barangay Nutrition Scholar Dashboard</h1>
+                        <h1 class="m-0 text-dark">Barangay Nutrition Scholar Upload Facility</h1>
                         {% else %}
                         <h1 class="m-0 text-dark">Nutritionist Data Status</h1>
                         {% endif %}
@@ -16,8 +16,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         {% if profile.user_type == 'Barangay Nutrition Scholar' %}
-                        <li class="breadcrumb-item"><a href="{% url 'core:bns-index' %}">BNS Dashboard</a></li>
-                        <li class="breadcrumb-item"><a href="{% url 'datainput:family_profiles' %}">Family Profile</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'core:bns-index' %}">BNS Upload Facility</a></li>
                         <li class="breadcrumb-item active">List of Families</li>
                         {% else %}
                         <li class="breadcrumb-item"><a href="{% url 'datainput:data_status_index' %}">Data Status</a></li>

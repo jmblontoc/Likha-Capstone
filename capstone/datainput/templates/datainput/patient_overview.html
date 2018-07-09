@@ -1,7 +1,6 @@
 {% extends template_values %}
 {% block content %}
 
-{% include 'core/helpers/messages.html' %}
 <div class="content-wrapper" style="min-height: 620px; height: auto; margin-top: 57px;">
     <div class="content-header">
         <div class="container-fluid">
@@ -16,7 +15,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         {% if profile.user_type == 'Barangay Nutrition Scholar' %}
-                        <li class="breadcrumb-item"><a href="{% url 'core:bns-index' %}">BNS Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'core:bns-index' %}">BNS Upload Facility</a></li>
                         <li class="breadcrumb-item"><a href="{% url 'datainput:monthly_reweighing_index' %}">Monthly Reweighing</a></li>
                         <li class="breadcrumb-item active">{{ patient.name }}</li>
                         {% else %}
@@ -28,6 +27,7 @@
                 </div>
             </div>
         </div>
+        {% include 'core/helpers/messages.html' %}
     </div>
     <section class="content">
         <div class="container-fluid">

@@ -6,11 +6,23 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Upload Facility</h1>
+                    <h1 class="m-0 text-dark">
+                        {% if active == 'uf' %}
+                        Barangay Nutrition Scholar Upload Facility
+                        {% else %}
+                        Barangay Nutrition Scholar eOPT Records
+                        {% endif %}
+                    </h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Upload Facility</li>
+                        {% if active == 'uf' %}
+                        <li class="breadcrumb-item"><a href="{% url 'core:bns-index' %}">BNS Upload Facility</a></li>
+                        <li class="breadcrumb-item active">OPT Record - {{ opt.date.date }}</li>
+                        {% else %}
+                        <li class="breadcrumb-item"><a href="{% url 'datainput:show_fhsis_list' %}">BNS eOPT Records</a></li>
+                        <li class="breadcrumb-item active">OPT Record - {{ opt.date.date }}</li>
+                        {% endif %}
                     </ol>
                 </div>
             </div>
@@ -23,7 +35,7 @@
                 <div class="col-12">
                     <div class="card card-primary">
                         <div class="card-header p-0">
-                            <h3 class="card-title p-3">Operation Timbang</h3>
+                            <h3 class="card-title p-3">Operation Timbang Record - {{ opt.date.date }}</h3>
                         </div>
                         <div class="card-body table-responsive p-2">
 

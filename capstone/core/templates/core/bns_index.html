@@ -6,11 +6,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Upload Facility</h1>
+                    <h1 class="m-0 text-dark">Barangay Nutrition Scholar Upload Facility</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Upload Facility</li>
+                        <li class="breadcrumb-item active">BNS Upload Facility</li>
                     </ol>
                 </div>
             </div>
@@ -46,7 +46,7 @@
                                                 <i class="fa fa-check-circle"></i> {{ fhsis_status }}
                                             </td>
                                             <td style="text-align: center;">
-                                                <a href="{% url 'datainput:show_fhsis_list' %}" class="btn btn-primary btn-sm">
+                                                <a href="{% url 'datainput:latest_fhsis' %}" class="btn btn-primary btn-sm">
                                                     View Report
                                                 </a>
                                             </td>
@@ -121,7 +121,7 @@
                                                 <i class="fa fa-check-circle"></i> {{ opt_status }}
                                             </td>
                                             <td style="text-align: center;">
-                                                <a class="btn btn-primary btn-sm" href="{% url 'datainput:show_opt_list' %}">View Report</a>
+                                                <a class="btn btn-primary btn-sm" href="{% url 'datainput:latest_opt' %}">View Report</a>
                                             </td>
                                         {% else %}
                                             <td style="vertical-align: middle;" class="text-danger">

@@ -16,6 +16,9 @@ urlpatterns = [
     # show OPT! KAMMY here
     path('bns/eOPT/display/<int:id>', views.display_opt, name='display_opt'),
 
+    # latest fhsis
+    path('bns/eOPT/display/latest', views.latest_opt, name='latest_opt'),
+
     # show fhsis records
     path('bns/fhsis/list', views.show_fhsis_list, name='show_fhsis_list'),
 
@@ -27,6 +30,9 @@ urlpatterns = [
 
     # display fhsis
     path('bns/fhsis/display/<int:id>', views.display_fhsis, name='display_fhsis'),
+
+    # latest fhsis
+    path('bns/fhsis/display/latest', views.latest_fhsis, name='latest_fhsis'),
 
     path('bns/family_profile/file', views.handle_family_profile_file, name='handle_family_profile_file'),
     path('bns/family_profile/list', views.family_profiles, name='family_profiles'),
