@@ -12,6 +12,7 @@ from causalmodel.models import RootCause, DataMap, Block, Child, CausalModel
 from friends.datamining.correlations import create_session
 from friends.datapreprocessing import checkers
 from friends.datamining import correlations
+from friends.datainput import validations
 
 
 @login_required
@@ -41,7 +42,7 @@ def details(request, id):
 @login_required
 def root_causes(request):
 
-    if checkers.is_updated():
+    if validations.todo_list().__len__() == 0:
 
         causes = RootCause.objects.all()
 

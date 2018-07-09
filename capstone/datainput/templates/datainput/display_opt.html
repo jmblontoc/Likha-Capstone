@@ -1,3 +1,144 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Operation Timbang</title>
+    <style>
+    table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    }
+    th, td {
+    padding: 5px;
+    text-align: left;
+    }
+    </style>
+</head>
+<body>
+    <h1>Operation Timbang</h1>
+
+<table>
+    <tr>
+        <th></th>
+        <th colspan="2">0 to 5 months old</th>
+        <th colspan="2">6 to 11 months old</th>
+        <th colspan="2">12 to 23 months old</th>
+        <th colspan="2">24 to 35 months old</th>
+        <th colspan="2">36 to 47 months old</th>
+        <th colspan="2">48 to 59 months old</th>
+        <th colspan="2">60 to 71 months old</th>
+    </tr>
+    <tr>
+        <th></th>
+        <th>Male</th>
+        <th>Female</th>
+        <th>Male</th>
+        <th>Female</th>
+        <th>Male</th>
+        <th>Female</th>
+        <th>Male</th>
+        <th>Female</th>
+        <th>Male</th>
+        <th>Female</th>
+        <th>Male</th>
+        <th>Female</th>
+        <th>Male</th>
+        <th>Female</th>
+    </tr>
+    <tr>
+        <th>Weight for Age - Normal</th>
+        {% for key, value in wfa_normal.items %}
+            <td>{{ value.values }} </td>
+            <h1> {{ value.values }}</h1>
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <th>Weight for Age - Overweight</th>
+        {% for key, value in wfa_ow.items %}
+            <td>{{ value.values }} </td>
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <th>Weight for Age - Underweight</th>
+        {% for key, value in wfa_uw.items %}
+            <td>{{ value.values }} </td>
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <th>Weight for Age - Severely Underweight</th>
+        {% for key, value in wfa_suw.items %}
+            <td>{{ value.values }} </td>
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <th>Height for Age - Normal</th>
+        {% for key, value in hfa_normal.items %}
+            <td>{{ value.values }} </td>
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <th>Height for Age - Tall</th>
+        {% for key, value in hfa_tall.items %}
+            <td>{{ value.values }} </td>
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <th>Height for Age - Stunted</th>
+        {% for key, value in hfa_stunted.items %}
+            <td>{{ value.values }} </td>
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <th>Height for Age - Severely Stunted</th>
+        {% for key, value in hfa_ss.items %}
+            <td>{{ value.values }} </td>
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <th>Weight for Height - Normal</th>
+        {% for key, value in wfh_normal.items %}
+            <td>{{ value.values }} </td>
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <th>Weight for Height - Overweight</th>
+        {% for key, value in wfh_ow.items %}
+            <td>{{ value.values }} </td>
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <th>Weight for Height - Obese</th>
+        {% for key, value in wfh_obese.items %}
+            <td>{{ value.values }} </td>
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <th>Weight for Height - Wasted</th>
+        {% for key, value in wfh_wasted.items %}
+            <td>{{ value.values }} </td>
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <th>Weight for Height - Severely Wasted</th>
+        {% for key, value in wfh_sw.items %}
+            <td>{{ value.values }} </td>
+        {% endfor %}
+    </tr>
+
+=======
 {% extends 'core/bns-layout.html' %}
 {% block content %}
 
@@ -161,6 +302,7 @@
             {% endfor %}
         </tr>
     </tbody>
+>>>>>>> 1621b9c05173d742808a06a67553df617360f85a
 </table>
 
 

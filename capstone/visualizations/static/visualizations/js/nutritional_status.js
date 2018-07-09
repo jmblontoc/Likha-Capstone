@@ -77,6 +77,8 @@ $(document).ready(function() {
                     }]
                 });
 
+                createTable($("#for-table"), data);
+
             },
             error: function(e) {
                 console.log(e.responseText);
@@ -182,6 +184,37 @@ $(document).ready(function() {
 
         });
     });
+
+    function createTable(selector, data) {
+
+        var head = '<thead>' +
+                   '<tr>' +
+                   '<th>-</th>' +
+                    '<th>Male</th>' +
+                    '<th>Female</th>' +
+                    '<th>Total</th>' +
+                    '<th>Threshold</th>' +
+                    '</tr>' +
+                   '</thead>';
+
+        var body = '<tbody class="bodyTable">';
+
+        var row = '';
+
+        for ( var i = 0; i < data.statuses.length; i++) {
+            row+= '<tr><td>' + data.statuses[i] + '</td><td>' + data.male[i] + '</td><td>' + data.female[i] + '</td><td>' + data.values[i] + '</td><td>' + data.thresholds[i] + '</td></tr>'
+            console.log(row);
+        }
+
+        for( var x in data[0]){
+            row+= '<tr><td>' + data[x].statuses + '</td><td>' + data[x].male + '</td><td>' + data[x].female + '</td></tr>'
+            console.log("qwe");
+        }
+        console.log("qsdfiuwe");
+        selector.append(head);
+        selector.append(body);
+        selector.append(row);
+    }
 
 });
 

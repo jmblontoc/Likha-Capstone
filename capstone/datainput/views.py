@@ -1,7 +1,9 @@
 
 import os
-from datetime import datetime
+from datetime import datetime, date
 import xlrd
+from django.views import View
+from xlutils.copy import copy
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -1362,6 +1364,7 @@ def display_opt(request, id):
                     dict_name["Male - 60 to 71 months old"] = value
                 elif age_group.sex.name == "Female":
                     dict_name["Female - 60 to 71 months old"] = value
+                    print(value.age_group, value.values)
 
     # Weight for Age -- Normal
     opt_values_wfa_normal = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Weight for Age - Normal"))
@@ -1674,6 +1677,36 @@ def select_report_nutritionist(request):
         return render(request, 'datainput/archives_nutritionist/family_records.html', context)
 
 
+@login_required()
+def populate_eopt(request):
+    path = "/Users/kamillegamboa/Documents/GitHub/Likha-Capstone/capstone/files/OPTValuesExcelVer2.xls"
+    workbook = xlrd.open_workbook(path)
+    sheet = workbook.sheet_by_index(0)
+
+# 23661
+#
+
+    for x in range(2, 4733):
+        for n in range(0, 3+1):
+            if n == 0:
+                opt = OperationTimbang.objects.get(id=sheet.cell_value(x, n))
+            if n == 1:
+                values = sheet.cell_value(x, n)
+            if n == 2:
+                nutritional_status = NutritionalStatus.objects.get(id=sheet.cell_value(x, n))
+            if n == 3:
+                age_group = AgeGroup.objects.get(id=sheet.cell_value(x, n))
+
+        new_opt_value_instance = OPTValues.objects.create(opt=opt, values=values,
+                                                          nutritional_status=nutritional_status, age_group=age_group)
+
+    return HttpResponse("success")
+    # date1 = date(2013, 3, 31)
+    # barangays = Barangay.objects.all()
+    # profile = Profile.objects.get(user=request.user)
+    # for b in barangays:
+    #     OperationTimbang.objects.create(date=date1, barangay=b, uploaded_by=profile)
+
 @login_required
 def notify_bns(request):
 
@@ -1691,11 +1724,6 @@ def notify_bns(request):
         )
 
     messages.success(request, 'Users successfully notified')
-
-
-
-
-
 
 
 

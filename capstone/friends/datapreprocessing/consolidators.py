@@ -27,9 +27,9 @@ def get_value(metric):
         if len(phrase) == 2:
 
             opt = get_total_opt_no_sex(status)
-            reweighing = get_reweighing_no_sex(status)
+            reweighing = get_reweighing_no_sex(str(status))
 
-            return opt + reweighing
+            return opt # + reweighing
 
         sex = Sex.objects.get(name=phrase[2].strip())
         opt = get_total_opt(status, sex)
@@ -242,8 +242,7 @@ def get_total_opt_date(status, sex, start_date, end_date):
 # THIS IS WITH SEX
 def get_reweighing_counts(status, sex):
 
-    records = MonthlyReweighing.objects.filter(date__year=datetime.now().year, date__month=datetime.now().month,
-                                               patient__sex=sex)
+    records = MonthlyReweighing.objects.filter(date__year=datetime.now().year, patient__sex=sex)
 
     # status = 'Weight for Age - Overweight'
     count = 0
@@ -264,7 +263,6 @@ def get_reweighing_counts_date(status, sex, start_date, end_date):
 
     count = 0
     for record in records:
-
         if status in record.get_nutritional_status():
             count = count + 1
 
