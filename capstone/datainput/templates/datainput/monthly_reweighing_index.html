@@ -26,11 +26,13 @@
                     <div class="card card-primary">
                         <div class="card-header d-flex p-0">
                             <h3 class="card-title p-3">Patients for Monthly Reweighing for {{ barangay }}</h3>
+                            {% if active == 'mw' %}
                             <ul class="nav nav-pills ml-auto p-2">
                                 <li class="nav-item">
                                     <a class="nav-link btn btn-default" style="text-align: center; color:#004876;" href="{% url 'datainput:add_patient' %}">Add a patient</a>
                                 </li>
                             </ul>
+                            {% endif %}
                         </div>
                         <div class="card-body">
                             <table id="patient_overview" class="table table-bordered table-hover dataTable">

@@ -125,7 +125,7 @@ def show_opt_list(request):
     print(request.META.get('HTTP_REFERER'))
 
     context = {
-        'active': 'uf',
+        'active':'ot',
         'profile': profile,
         'opt_records': opt_records
     }
@@ -317,7 +317,7 @@ def monthly_reweighing_index(request):
     profile = Profile.objects.get(user=request.user)
 
     context = {
-        'active': 'mw',
+        'active': 'mr',
         'profile': profile,
         'patients': patients,
         'has_opt': len(opt) > 0,
@@ -326,6 +326,23 @@ def monthly_reweighing_index(request):
 
     return render(request, 'datainput/monthly_reweighing_index.html', context)
 
+@login_required
+def latest_monthly_reweighing_index(request):
+
+    barangay = Profile.objects.get(user=request.user).barangay
+    opt = OperationTimbang.objects.filter(barangay=barangay, date__year=datetime.now().year)
+    patients = Patient.objects.filter(barangay=barangay, monthlyreweighing__date__year=datetime.now().year)
+    profile = Profile.objects.get(user=request.user)
+
+    context = {
+        'active': 'mw',
+        'profile': profile,
+        'patients': patients,
+        'has_opt': len(opt) > 0,
+        'barangay': barangay
+    }
+
+    return render(request, 'datainput/monthly_reweighing_index.html', context)
 
 @login_required
 def add_patient(request):
