@@ -316,15 +316,8 @@ def monthly_reweighing_index(request):
     patients = Patient.objects.filter(barangay=barangay)
     profile = Profile.objects.get(user=request.user)
 
-    if request.session['active'] != 'uf':
-        active = 'mr'
-    else:
-        active = 'uf'
-        request.session['active'] = ''
-
-
     context = {
-        'active': active,
+        'active': 'mw',
         'profile': profile,
         'patients': patients,
         'has_opt': len(opt) > 0,
@@ -364,7 +357,7 @@ def patient_overview(request, id):
 
     patient = Patient.objects.get(id=id)
     weights = MonthlyReweighing.objects.filter(patient=patient)
-    barangay = Barangay.objects.get(name=patient.barangay)
+    barangay = Barangay.objects.get(name=patient.barangay.name)
     profile = Profile.objects.get(user=request.user)
 
     if profile.user_type == 'Barangay Nutrition Scholar':

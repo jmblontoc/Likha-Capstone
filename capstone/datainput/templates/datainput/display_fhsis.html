@@ -32,388 +32,380 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-8">
+                <div class="col-12">
                     <div class="card card-primary">
                         <div class="card-header d-flex p-0">
                             <h3 class="card-title p-3">Field Health Service Information System Report of {{ profile.barangay }} for {{ fhsis.date.date }}</h3>
-                            <ul class="nav nav-pills ml-auto p-2">
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle target" data-toggle="dropdown" href="#" aria-expanded="false">
-                                        Select Category <span class="caret"></span>
-                                    </a>
-                                    <div class="dropdown-menu white" x-placement="bottom-start" style="position: absolute; transform: translate3d(-33px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                        <a class="dropdown-item test-click" href="#tab_1" data-toggle="tab" style="color: #000;">Maternal Care</a>
-                                        <a class="dropdown-item test-click" href="#tab_2" data-toggle="tab" style="color: #000;">Malaria</a>
-                                        <a class="dropdown-item test-click" href="#tab_3" data-toggle="tab" style="color: #000;">Immunization</a>
-                                        <a class="dropdown-item test-click" href="#tab_4" data-toggle="tab" style="color: #000;">Micronutrient Supplementation</a>
-                                        <a class="dropdown-item test-click" href="#tab_5" data-toggle="tab" style="color: #000;">Child Care</a>
-                                        <a class="dropdown-item test-click" href="#tab_6" data-toggle="tab" style="color: #000;">Other Diseases</a>
-                                    </div>
-                                </li>
-                            </ul>
                         </div>
                         <div class="card-body p-2">
-                            <div class="tab-content">
-                                <div class="tab-pane active show" id="initial">
-                                    <p style="text-align: center; margin: 30px;">Please Select a Category</p>
-                                </div>
-
-                                <div class="tab-pane" id="tab_1">
-                                    <h3 class="p-2"><b>Maternal Care</b></h3>
-                                    <table class="table table-hover table-bordered">
+                            <div class="row">
+                                <div class="col-6">
+                                    <h3 class="p-2 m-0"><b>Maternal Care</b></h3>
+                                    <table class="table table-hover table-bordered m-0 col-6">
                                         <thead>
                                             <tr>
                                                 <th></th>
                                                 <th style="width: 15%;">Value</th>
                                             </tr>
                                         </thead>
-                                        <tr>
-                                            <th>Pregnant women with 4 or more prenatal visits</th>
-                                            <td>{{ maternal.first.prenatal_visits|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Pregnant women given 2 doses of Tetanus Toxoid</th>
-                                            <td>{{ maternal.first.tetanus_toxoid|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Pregnant women given TT2 plus</th>
-                                            <td>{{ maternal.first.tt2_plus|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Pregnant women given complete iron with folic acid supplementation</th>
-                                            <td>{{ maternal.first.complete_iron|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Postpartum women with given complete iron supplementation</th>
-                                            <td>{{ maternal.first.complete_iron_post|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Postpartum women with at least 2 postpartum visits</th>
-                                            <td>{{ maternal.first.postpartum_visits|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Postpartum women given Vitamin A supplementation</th>
-                                            <td>{{ maternal.first.vitamin_a|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Postpartum women given Vitamin A supplementation</th>
-                                            <td>{{ maternal.first.breastfed|floatformat:"0"}}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Postpartum women initiated breastfeeding within 1 hour after delivery</th>
-                                            <td>{{ maternal.first.deliveries|floatformat:"0" }}</td>
-                                        </tr>
+                                        <tbody>
+                                            <tr>
+                                                <th>Pregnant women with 4 or more prenatal visits</th>
+                                                <td>{{ maternal.first.prenatal_visits|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Pregnant women given 2 doses of Tetanus Toxoid</th>
+                                                <td>{{ maternal.first.tetanus_toxoid|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Pregnant women given TT2 plus</th>
+                                                <td>{{ maternal.first.tt2_plus|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Pregnant women given complete iron with folic acid supplementation</th>
+                                                <td>{{ maternal.first.complete_iron|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Postpartum women with given complete iron supplementation</th>
+                                                <td>{{ maternal.first.complete_iron_post|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Postpartum women with at least 2 postpartum visits</th>
+                                                <td>{{ maternal.first.postpartum_visits|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Postpartum women given Vitamin A supplementation</th>
+                                                <td>{{ maternal.first.vitamin_a|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Postpartum women given Vitamin A supplementation</th>
+                                                <td>{{ maternal.first.breastfed|floatformat:"0"}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Postpartum women initiated breastfeeding within 1 hour after delivery</th>
+                                                <td>{{ maternal.first.deliveries|floatformat:"0" }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <h3 class="p-2 m-0"><b>Malaria</b></h3>
+                                    <table class="table table-hover table-bordered m-0">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th style="width: 15%;">Male</th>
+                                                <th style="width: 15%;">Female</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th>Population at Risk</th>
+                                                <td> {{ malaria_female.first.population_at_risk|floatformat:"0" }}</td>
+                                                <td> {{ malaria_male.first.population_at_risk|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Malaria Cases</th>
+                                                <td> {{ malaria_female.first.malaria_cases|floatformat:"0" }}</td>
+                                                <td> {{ malaria_male.first.malaria_cases|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Malaria Deaths</th>
+                                                <td> {{ malaria_female.first.deaths|floatformat:"0"}}</td>
+                                                <td> {{ malaria_male.first.deaths|floatformat:"0"}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Immunization Given</th>
+                                                <td> {{ malaria_female.first.immunization_given|floatformat:"0" }}</td>
+                                                <td> {{ malaria_male.first.immunization_given|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Given Long Lasting Insecticidal Nets (LLIN)</th>
+                                                <td> {{ malaria_female.first.llin_given|floatformat:"0" }}</td>
+                                                <td> {{ malaria_male.first.llin_given|floatformat:"0" }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <h3 class="p-2 m-0"><b>Immunization</b></h3>
+                                    <table class="table table-hover table-bordered m-0">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th style="width: 15%;">Male</th>
+                                                <th style="width: 15%;">Female</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th>Females Given Immunization</th>
+                                                <td>{{ immunization_female.first.immunization_given|floatformat:"0" }}</td>
+                                                <td>{{ immunization_male.first.immunization_given|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Fully Immunized Child</th>
+                                                <td>{{ immunization_female.first.fully_immunized_child|floatformat:"0" }}</td>
+                                                <td>{{ immunization_male.first.fully_immunized_child|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Child Protected at Birth</th>
+                                                <td>{{ immunization_female.first.child_protected_at_birth|floatformat:"0" }}</td>
+                                                <td>{{ immunization_male.first.child_protected_at_birth|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Given Bacillus Calmette–Guérin Vaccine (BCG)</th>
+                                                <td>{{ immunization_female.first.given_bcg }}</td>
+                                                <td>{{ immunization_male.first.given_bcg }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Given Hepatitis B1 Vaccine (HEPA)</th>
+                                                <td>{{ immunization_female.first.given_hepa }}</td>
+                                                <td>{{ immunization_male.first.given_hepa }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Given Pentavalent Vaccine (PENTA)</th>
+                                                <td>{{ immunization_female.first.given_penta }}</td>
+                                                <td>{{ immunization_male.first.given_penta }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Given Oral Polio Vaccine (OPV)</th>
+                                                <td>{{ immunization_female.first.given_opv }}</td>
+                                                <td>{{ immunization_male.first.given_opv }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Given Measles-Containing Vaccine (MCV)</th>
+                                                <td>{{ immunization_female.first.given_mcv }}</td>
+                                                <td>{{ immunization_male.first.given_mcv }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Given Rotavirus Vaccine (ROTA)</th>
+                                                <td>{{ immunization_female.first.given_rota }}</td>
+                                                <td>{{ immunization_male.first.given_rota }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Given Pneumococcal Conjugate Vaccine (PCV)</th>
+                                                <td>{{ immunization_female.first.given_pcv }}</td>
+                                                <td>{{ immunization_male.first.given_pcv }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <h3 class="p-2 m-0"><b>Micronutrient Supplementation</b></h3>
+                                    <table class="table table-hover table-bordered m-0">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th style="width: 15%;">Male</th>
+                                                <th style="width: 15%;">Female</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th>Received Vitamin A</th>
+                                                <td>{{ child_care_female.received_vitamin_A|floatformat:"0" }}</td>
+                                                <td>{{ child_care_male.received_vitamin_A|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Received Iron</th>
+                                                <td>{{ child_care_female.first.received_iron|floatformat:"0" }}</td>
+                                                <td>{{ child_care_male.first.received_iron|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Received Micronutrient Powder (MNP)</th>
+                                                <td>{{ child_care_female.first.received_mnp|floatformat:"0" }}</td>
+                                                <td>{{ child_care_male.first.received_mnp|floatformat:"0" }}</td>
+                                            </tr>
+                                        </tbody>
                                     </table>
                                 </div>
 
-                                <div class="tab-pane" id="tab_2">
-                                    <h3 class="p-2"><b>Malaria</b></h3>
+                                <div class="col-6">
+                                    <h3 class="p-2 m-0"><b>Child Care</b></h3>
+                                    <table class="table table-hover table-bordered m-0">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th style="width: 15%;">Male</th>
+                                                <th style="width: 15%;">Female</th>
+                                            </tr>
+                                        </thead>
+                                        </tbody>
+                                            <tr>
+                                                <th>Given Complimentary Food</th>
+                                                <td>{{ child_care_female.first.given_complimentary_food|floatformat:"0" }}</td>
+                                                <td>{{ child_care_male.first.given_complimentary_food|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Sick Children</th>
+                                                <td>{{ child_care_female.first.sick_children|floatformat:"0" }}</td>
+                                                <td>{{ child_care_male.first.sick_children|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Given Deworming</th>
+                                                <td>{{ child_care_female.first.given_deworming|floatformat:"0" }}</td>
+                                                <td>{{ child_care_female.first.given_deworming|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Anemic Children</th>
+                                                <td>{{ child_care_female.first.anemic_children|floatformat:"0" }}</td>
+                                                <td>{{ child_care_male.first.anemic_children|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Anemic Children with Iron</th>
+                                                <td>{{ child_care_female.first.anemic_children_with_iron|floatformat:"0" }}</td>
+                                                <td>{{ child_care_male.first.anemic_children_with_iron|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Diarrhea Cases</th>
+                                                <td>{{ child_care_female.first.diarrhea_cases|floatformat:"0" }}</td>
+                                                <td>{{ child_care_male.first.diarrhea_cases|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Diarrhea with ORS</th>
+                                                <td>{{ child_care_female.first.diarrhea_with_ORS|floatformat:"0" }}</td>
+                                                <td>{{ child_care_male.first.diarrhea_with_ORS|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Pneumonia Cases</th>
+                                                <td>{{ child_care_female.first.pneumonia_cases|floatformat:"0" }}</td>
+                                                <td>{{ child_care_male.first.pneumonia_cases|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Pneumonia Cases with TX</th>
+                                                <td>{{ child_care_female.first.pneumonia_cases_with_Tx|floatformat:"0" }}</td>
+                                                <td>{{ child_care_male.first.pneumonia_cases_with_Tx|floatformat:"0" }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <h3 class="p-2 m-0"><b>Tuberculosis</b></h3>
+                                    <table class="table table-hover table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th style="width: 15%;">Male</th>
+                                            <th style="width: 15%;">Female</th>
+                                        </tr>
+                                    </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th>Underwent Direct Sputum Smear Microscopy (DDSM)</th>
+                                                <td>{{ tb_female.first.underwent_ddsm|floatformat:"0" }}</td>
+                                                <td>{{ tb_male.first.underwent_ddsm|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Smear Positive</th>
+                                                <td>{{ tb_female.first.smear_positive|floatformat:"0" }}</td>
+                                                <td>{{ tb_male.first.smear_positive|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Tuberculosis Cases Cured</th>
+                                                <td>{{ tb_female.first.cases_cured|floatformat:"0" }}</td>
+                                                <td>{{ tb_male.first.cases_cured|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Identified Females with Tuberculosis</th>
+                                                <td>{{ tb_female.first.identified|floatformat:"0" }}</td>
+                                                <td>{{ tb_male.first.identified|floatformat:"0" }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <h3 class="p-2 m-0"><b>Schistosomiasis</b></h3>
                                     <table class="table table-hover table-bordered">
                                         <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th style="width: 15%;">Male</th>
-                                            <th style="width: 15%;">Female</th>
-                                        </tr>
+                                            <tr>
+                                                <th></th>
+                                                <th style="width: 15%;">Male</th>
+                                                <th style="width: 15%;">Female</th>
+                                            </tr>
                                         </thead>
-                                        <tr>
-                                            <th>Population at Risk</th>
-                                            <td> {{ malaria_female.first.population_at_risk|floatformat:"0" }}</td>
-                                            <td> {{ malaria_male.first.population_at_risk|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Malaria Cases</th>
-                                            <td> {{ malaria_female.first.malaria_cases|floatformat:"0" }}</td>
-                                            <td> {{ malaria_male.first.malaria_cases|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Malaria Deaths</th>
-                                            <td> {{ malaria_female.first.deaths|floatformat:"0"}}</td>
-                                            <td> {{ malaria_male.first.deaths|floatformat:"0"}}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Immunization Given</th>
-                                            <td> {{ malaria_female.first.immunization_given|floatformat:"0" }}</td>
-                                            <td> {{ malaria_male.first.immunization_given|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Given Long Lasting Insecticidal Nets (LLIN)</th>
-                                            <td> {{ malaria_female.first.llin_given|floatformat:"0" }}</td>
-                                             <td> {{ malaria_male.first.llin_given|floatformat:"0" }}</td>
-                                        </tr>
+                                        <tbody>
+                                            <tr>
+                                                <th>Schistosomiasis Cases Cured</th>
+                                                <td>{{ schisto_female.first.cases_cured|floatformat:"0" }}</td>
+                                                <td>{{ schisto_male.first.cases_cured|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Number of Schistosomiasis Cases on Females</th>
+                                                <td>{{ schisto_female.first.cases|floatformat:"0" }}</td>
+                                                <td>{{ schisto_male.first.cases|floatformat:"0" }}</td>
+                                            </tr>
+                                        </tbody>
                                     </table>
-                                </div>
 
-                                <div class="tab-pane" id="tab_3">
-                                    <h3 class="p-2"><b>Immunization</b></h3>
+                                    <h3 class="p-2 m-0"><b>Flariasis</b></h3>
                                     <table class="table table-hover table-bordered">
-                                         <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th style="width: 15%;">Male</th>
-                                            <th style="width: 15%;">Female</th>
-                                        </tr>
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <td style="width: 15%;">Male</th>
+                                                <td style="width: 15%;">Female</th>
+                                            </tr>
                                         </thead>
-                                        <tr>
-                                            <th>Females Given Immunization</th>
-                                            <td>{{ immunization_female.first.immunization_given|floatformat:"0" }}</td>
-                                            <td>{{ immunization_male.first.immunization_given|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Fully Immunized Child</th>
-                                            <td>{{ immunization_female.first.fully_immunized_child|floatformat:"0" }}</td>
-                                            <td>{{ immunization_male.first.fully_immunized_child|floatformat:"0" }}</td>
-
-                                        </tr>
-                                        <tr>
-                                            <th>Child Protected at Birth</th>
-                                            <td>{{ immunization_female.first.child_protected_at_birth|floatformat:"0" }}</td>
-                                            <td>{{ immunization_male.first.child_protected_at_birth|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Given Bacillus Calmette–Guérin Vaccine (BCG)</th>
-                                            <td>{{ immunization_female.first.given_bcg }}</td>
-                                            <td>{{ immunization_male.first.given_bcg }}</td>
-
-                                        </tr>
-                                        <tr>
-                                            <th>Given Hepatitis B1 Vaccine (HEPA)</th>
-                                            <td>{{ immunization_female.first.given_hepa }}</td>
-                                            <td>{{ immunization_male.first.given_hepa }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Given Pentavalent Vaccine (PENTA)</th>
-                                            <td>{{ immunization_female.first.given_penta }}</td>
-                                            <td>{{ immunization_male.first.given_penta }}</td>
-
-                                        </tr>
-                                        <tr>
-                                            <th>Given Oral Polio Vaccine (OPV)</th>
-                                            <td>{{ immunization_female.first.given_opv }}</td>
-                                            <td>{{ immunization_male.first.given_opv }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Given Measles-Containing Vaccine (MCV)</th>
-                                            <td>{{ immunization_female.first.given_mcv }}</td>
-                                            <td>{{ immunization_male.first.given_mcv }}</td>
-
-                                        </tr>
-                                        <tr>
-                                            <th>Given Rotavirus Vaccine (ROTA)</th>
-                                            <td>{{ immunization_female.first.given_rota }}</td>
-                                            <td>{{ immunization_male.first.given_rota }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Given Pneumococcal Conjugate Vaccine (PCV)</th>
-                                            <td>{{ immunization_female.first.given_pcv }}</td>
-                                            <td>{{ immunization_male.first.given_pcv }}</td>
-                                        </tr>
+                                        <tbody>
+                                            <tr>
+                                                <th>Number of Flariasis Cases on Females</th>
+                                                <td>{{ flariasis_female.first.cases|floatformat:"0" }}</td>
+                                                <td>{{ flariasis_male.first.cases|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Median Microfilarial Density (MFD)</th>
+                                                <td>{{ flariasis_female.first.mfd|floatformat:"0" }}</td>
+                                                <td>{{ flariasis_male.first.mfd|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Mass Drug Administration (MDA)</th>
+                                                <td>{{ flariasis_female.first.given_MDA|floatformat:"0" }}</td>
+                                                <td>{{ flariasis_male.first.given_MDA|floatformat:"0" }}</td>
+                                            </tr>
+                                        </tbody>
                                     </table>
-                                </div>
 
-                                <div class="tab-pane" id="tab_4">
-                                    <h3 class="p-2"><b>Micronutrient Supplementation</b></h3>
+                                    <h3 class="p-2 m-0"><b>Leprosy</b></h3>
                                     <table class="table table-hover table-bordered">
-                                         <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th style="width: 15%;">Male</th>
-                                            <th style="width: 15%;">Female</th>
-                                        </tr>
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th style="width: 15%;">Male</th>
+                                                <th style="width: 15%;">Female</th>
+                                            </tr>
                                         </thead>
-                                        <tr>
-                                            <th>Received Vitamin A</th>
-                                            <td>{{ child_care_female.received_vitamin_A|floatformat:"0" }}</td>
-                                            <td>{{ child_care_male.received_vitamin_A|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Received Iron</th>
-                                            <td>{{ child_care_female.first.received_iron|floatformat:"0" }}</td>
-                                            <td>{{ child_care_male.first.received_iron|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Received Micronutrient Powder (MNP)</th>
-                                            <td>{{ child_care_female.first.received_mnp|floatformat:"0" }}</td>
-                                            <td>{{ child_care_male.first.received_mnp|floatformat:"0" }}</td>
-                                        </tr>
+                                        <tbody>
+                                            <tr>
+                                                <th>Number of Leprosy Cases on Females</th>
+                                                <td>{{ leprosy_female.first.cases|floatformat:"0" }}</td>
+                                                <td>{{ leprosy_male.first.cases|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Number of Leprosy Cases Cured on Females</th>
+                                                <td>{{ leprosy_female.first.cases_cured|floatformat:"0" }}</td>
+                                                <td>{{ leprosy_male.first.cases_cured|floatformat:"0" }}</td>
+                                            </tr>
+                                        </tbody>
                                     </table>
-                                </div>
 
-                                <div class="tab-pane" id="tab_5">
-                                    <h3 class="p-2"><b>Child Care</b></h3>
-                                    <table class="table table-hover table-bordered">
-                                         <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th style="width: 15%;">Male</th>
-                                            <th style="width: 15%;">Female</th>
-                                        </tr>
-                                        </thead>
-                                        <tr>
-                                            <th>Given Complimentary Food</th>
-                                            <td>{{ child_care_female.first.given_complimentary_food|floatformat:"0" }}</td>
-                                            <td>{{ child_care_male.first.given_complimentary_food|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Sick Children</th>
-                                            <td>{{ child_care_female.first.sick_children|floatformat:"0" }}</td>
-                                            <td>{{ child_care_male.first.sick_children|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Given Deworming</th>
-                                            <td>{{ child_care_female.first.given_deworming|floatformat:"0" }}</td>
-                                            <td>{{ child_care_female.first.given_deworming|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Anemic Children</th>
-                                            <td>{{ child_care_female.first.anemic_children|floatformat:"0" }}</td>
-                                            <td>{{ child_care_male.first.anemic_children|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Anemic Children with Iron</th>
-                                            <td>{{ child_care_female.first.anemic_children_with_iron|floatformat:"0" }}</td>
-                                            <td>{{ child_care_male.first.anemic_children_with_iron|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Diarrhea Cases</th>
-                                            <td>{{ child_care_female.first.diarrhea_cases|floatformat:"0" }}</td>
-                                            <td>{{ child_care_male.first.diarrhea_cases|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Diarrhea with ORS</th>
-                                            <td>{{ child_care_female.first.diarrhea_with_ORS|floatformat:"0" }}</td>
-                                            <td>{{ child_care_male.first.diarrhea_with_ORS|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Pneumonia Cases</th>
-                                            <td>{{ child_care_female.first.pneumonia_cases|floatformat:"0" }}</td>
-                                            <td>{{ child_care_male.first.pneumonia_cases|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Pneumonia Cases with TX</th>
-                                            <td>{{ child_care_female.first.pneumonia_cases_with_Tx|floatformat:"0" }}</td>
-                                            <td>{{ child_care_male.first.pneumonia_cases_with_Tx|floatformat:"0" }}</td>
-                                        </tr>
-                                    </table>
-                                </div>
-
-                                <div class="tab-pane" id="tab_6">
-                                    <h3 class="p-2"><b>Tuberculosis</b></h3>
-                                    <table class="table table-hover table-bordered">
-                                         <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th style="width: 15%;">Male</th>
-                                            <th style="width: 15%;">Female</th>
-                                        </tr>
-                                        </thead>
-                                        <tr>
-                                            <th>Underwent Direct Sputum Smear Microscopy (DDSM)</th>
-                                            <td>{{ tb_female.first.underwent_ddsm|floatformat:"0" }}</td>
-                                            <td>{{ tb_male.first.underwent_ddsm|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Smear Positive</th>
-                                            <td>{{ tb_female.first.smear_positive|floatformat:"0" }}</td>
-                                            <td>{{ tb_male.first.smear_positive|floatformat:"0" }}</td>
-
-                                        </tr>
-                                        <tr>
-                                            <th>Tuberculosis Cases Cured</th>
-                                            <td>{{ tb_female.first.cases_cured|floatformat:"0" }}</td>
-                                            <td>{{ tb_male.first.cases_cured|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Identified Females with Tuberculosis</th>
-                                            <td>{{ tb_female.first.identified|floatformat:"0" }}</td>
-                                            <td>{{ tb_male.first.identified|floatformat:"0" }}</td>
-                                        </tr>
-                                    </table>
-                                    <h3 class="p-2"><b>Schistosomiasis</b></h3>
-                                    <table class="table table-hover table-bordered">
-                                         <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th style="width: 15%;">Male</th>
-                                            <th style="width: 15%;">Female</th>
-                                        </tr>
-                                        </thead>
-                                        <tr>
-                                            <th>Schistosomiasis Cases Cured</th>
-                                            <td>{{ schisto_female.first.cases_cured|floatformat:"0" }}</td>
-                                            <td>{{ schisto_male.first.cases_cured|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Number of Schistosomiasis Cases on Females</th>
-                                            <td>{{ schisto_female.first.cases|floatformat:"0" }}</td>
-                                            <td>{{ schisto_male.first.cases|floatformat:"0" }}</td>
-                                        </tr>
-                                    </table>
-                                    <h3 class="p-2"><b>Flariasis</b></h3>
-                                    <table class="table table-hover table-bordered">
-                                         <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th style="width: 15%;">Male</th>
-                                            <th style="width: 15%;">Female</th>
-                                        </tr>
-                                        </thead>
-                                        <tr>
-                                            <th>Number of Flariasis Cases on Females</th>
-                                            <td>{{ flariasis_female.first.cases|floatformat:"0" }}</td>
-                                            <td>{{ flariasis_male.first.cases|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Median Microfilarial Density (MFD)</th>
-                                            <td>{{ flariasis_female.first.mfd|floatformat:"0" }}</td>
-                                            <td>{{ flariasis_male.first.mfd|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Mass Drug Administration (MDA)</th>
-                                            <td>{{ flariasis_female.first.given_MDA|floatformat:"0" }}</td>
-                                            <td>{{ flariasis_male.first.given_MDA|floatformat:"0" }}</td>
-                                        </tr>
-                                    </table>
-                                    <h3 class="p-2"><b>Leprosy</b></h3>
-                                    <table class="table table-hover table-bordered">
-                                         <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th style="width: 15%;">Male</th>
-                                            <th style="width: 15%;">Female</th>
-                                        </tr>
-                                        </thead>
-                                        <tr>
-                                            <th>Number of Leprosy Cases on Females</th>
-                                            <td>{{ leprosy_female.first.cases|floatformat:"0" }}</td>
-                                            <td>{{ leprosy_male.first.cases|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Number of Leprosy Cases Cured on Females</th>
-                                            <td>{{ leprosy_female.first.cases_cured|floatformat:"0" }}</td>
-                                            <td>{{ leprosy_male.first.cases_cured|floatformat:"0" }}</td>
-                                        </tr>
-                                    </table>
-                                    <h3 class="p-2"><b>Sexually Transmitted Infection Surveillance</b></h3>
-                                    <table class="table table-hover table-bordered"Z>
+                                    <h3 class="p-2 m-0"><b>Sexually Transmitted Infection Surveillance</b></h3>
+                                    <table class="table table-hover table-bordered m-0">
                                         <thead>
                                             <tr>
                                                 <th></th>
                                                 <th style="width: 15%;">Value</th>
                                             </tr>
                                         </thead>
-                                        <tr>
-                                            <th>Number of Pregnant Women Seen</th>
-                                            <td>{{ sti.first.number_of_pregnant_women_seen|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Number of Pregnant Women with Syphilis</th>
-                                            <td>{{ sti.first.number_of_pregnant_women_with_Syphylis|floatformat:"0" }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Number of Pregnant Women with Penicillin</th>
-                                            <td>{{ sti.first.number_of_pregnant_women_with_Penicillin|floatformat:"0" }}</td>
-                                        </tr>
+                                        <tbody>
+                                            <tr>
+                                                <th>Number of Pregnant Women Seen</th>
+                                                <td>{{ sti.first.number_of_pregnant_women_seen|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Number of Pregnant Women with Syphilis</th>
+                                                <td>{{ sti.first.number_of_pregnant_women_with_Syphylis|floatformat:"0" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Number of Pregnant Women with Penicillin</th>
+                                                <td>{{ sti.first.number_of_pregnant_women_with_Penicillin|floatformat:"0" }}</td>
+                                            </tr>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -432,4 +424,5 @@
         $('.target').html(text);
     });
 </script>
+
 {% endblock %}

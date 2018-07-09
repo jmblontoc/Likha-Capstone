@@ -91,13 +91,19 @@
                             <li class="nav-header">BARANGAY NUTRITION SCHOLAR</li>
                             <li class="nav-item">
                                 <a href="{% url 'core:bns-index' %}" class="nav-link {% if active == 'uf' %}active{% endif %}">
-                                    <i class="nav-icon fa fa-th"></i>
+                                    <i class="nav-icon fa fa-upload"></i>
                                     <p>Upload Facility</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'datainput:monthly_reweighing_index' %}" class="nav-link {% if active == 'mw' %}active{% endif %}">
+                                    <i class="nav-icon fa fa-dashboard"></i>
+                                    <p>Montly Reweighing</p>
                                 </a>
                             </li>
                             <li class="nav-item has-treeview {% if active == 'fh' or active == 'mr' or active == 'ot' or active == 'fp' %}menu-open{% endif %}">
                             <a href="#" class="nav-link {% if active == 'fh' or active == 'mr' or active == 'ot' or active == 'fp' %}active{% endif %}">
-                              <i class="nav-icon fa fa-pie-chart"></i>
+                              <i class="nav-icon fa fa-folder-open"></i>
                               <p>
                                 Reports Archive
                                 <i class="right fa fa-angle-left"></i>
