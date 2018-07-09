@@ -40,7 +40,7 @@ def has_maternal():
             if metric.get_data_point in datapoints.maternal:
                 count = count + 1
 
-    return count == 5
+    return count == len(datapoints.maternal)
 
 
 def has_child_care():

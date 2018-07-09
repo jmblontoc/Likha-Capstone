@@ -57,6 +57,7 @@ micronutrient = [
 ]
 
 maternal = [
+    'Pregnant women with 4 or more prenatal visits',
     'Pregnant women given 2 doses of Tetanus Toxoid',
     'Pregnant women given TT2 plus',
     'Pregnant women given complete iron with folic acid supplementation',
