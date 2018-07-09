@@ -23,5 +23,5 @@ urlpatterns = [
 
     # # # # # # # # # # # # # # # # DASHBOARD # # # # # # # # # # # # # # #
 
-    path('ajax/dashboard/micronutrient', views.dashboard_micronutrient, name='dashboard_micro')
+    path('ajax/dashboard/', views.dashboard, name='dashboard')
 ]

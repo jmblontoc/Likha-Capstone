@@ -191,4 +191,19 @@ class Metric(models.Model):
 
         return final_dict
 
+    @staticmethod
+    def get_maternal_dashboard():
+
+        maternal_fields = datapoints.maternal
+        fields = [maternal_fields[0], maternal_fields[4], maternal_fields[5]]
+
+        x = [metric.to_dict() for metric in Metric.objects.filter(is_default=True) if metric.get_data_point in fields]
+
+        values = [m['value'] for m in x]
+
+        return {
+            'fields': fields,
+            'values': values
+        }
+
 

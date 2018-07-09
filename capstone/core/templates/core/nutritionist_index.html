@@ -33,7 +33,7 @@
                         <div class="card-body container-fluid">
                             <div class="row">
                                 <div class="col-4">
-                                    <h4>City Nutritional Status Report</h4>
+                                    <h4>City Nutritional Status</h4>
                                     <table border="1">
                                         <tr>
                                             <th>Status</th>
@@ -54,6 +54,39 @@
                                 <div class="col-4">
                                     <h4>City Micronutrient Supplementation</h4>
                                     <div id="micro-dashboard">
+
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <h4>Barangay Reports Not Yet Uploaded</h4>
+                                    {% if not todo_list %}
+                                        <p>Barangay Nutrition Scholar uploads are up to date</p>
+                                    {% else %}
+                                        <table class="table table-hover table-bordered">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Barangay</th>
+                                                    <th>Report </th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for x in todo_list %}
+                                                <tr>
+                                                    <td>{{ x.barangay }}</td>
+                                                    <td>{{ x.report_name }}</td>
+                                                    <td><a class="btn btn-primary">Notify</a></td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <h4>City Maternal Care </h4>
+                                    <div id="maternal-dash">
 
                                     </div>
                                 </div>

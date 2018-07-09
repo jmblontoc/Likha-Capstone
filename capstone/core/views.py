@@ -10,7 +10,7 @@ from datapreprocessing.models import Metric
 from friends.datainput import validations
 from core.forms import UploadFileForm
 from core.models import Profile, Notification
-from datainput.models import OperationTimbang, MonthlyReweighing, FamilyProfile, FHSIS, NutritionalStatus
+from datainput.models import OperationTimbang, MonthlyReweighing, FamilyProfile, FHSIS, NutritionalStatus, Patient
 from friends import user_redirects
 from datetime import datetime
 from friends.datamining import correlations
@@ -148,12 +148,15 @@ def nutritionist(request):
     nutritional_metrics = Metric.objects.filter(is_default=True, metric__contains='Nutritional Status')
     computations = [Metric.get_computations_nutritional_status(s.name) for s in NutritionalStatus.objects.all()]
 
+    todo_list = validations.todo_list()
+    print(todo_list)
 
     context = {
         'profile': profile,
         'active': 'db',
         'nutritional': nutritional_metrics,
-        'computations_ns': computations
+        'computations_ns': computations,
+        'todo_list': todo_list
     }
 
     return render(request, 'core/nutritionist_index.html', context)
@@ -185,6 +188,11 @@ def mark_all_as_read(request):
 
 
 # # # # # # # # #  DASHBOARD # # # # # # # # #
-def dashboard_micronutrient(request):
+def dashboard(request):
 
-    return JsonResponse(Metric.get_micronutrient_dashboard(), safe=False)
+    data = {
+        'micro': Metric.get_micronutrient_dashboard(),
+        'maternal': Metric.get_maternal_dashboard()
+    }
+
+    return JsonResponse(data, safe=False)
