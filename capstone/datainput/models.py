@@ -17,7 +17,7 @@ class AgeGroup(models.Model):
     sex = models.ForeignKey(Sex, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name + " | " + self.sex.name
+        return self.name + " | " + self.sex.name + " | " + str(self.id)
 
 
 class NutritionalStatus(models.Model):
@@ -26,7 +26,7 @@ class NutritionalStatus(models.Model):
     code = models.CharField(max_length=10)
 
     def __str__(self):
-        return self.name
+        return self.name + " " + str(self.id)
 
     class Meta:
         verbose_name_plural = "nutritional statuses"
@@ -64,7 +64,7 @@ class Barangay(models.Model):
 
 
     def __str__(self):
-        return self.name
+        return str(self.id) + " " + self.name
 
     @property
     def has_fhsis(self):
@@ -79,15 +79,15 @@ class OperationTimbang(models.Model):
     uploaded_by = models.ForeignKey('core.Profile', on_delete=models.DO_NOTHING)
 
     def __str__(self):
-        return str(self.date) + " at " + self.barangay.name
+        return str(self.id) + " at " + self.barangay.name
 
 
 class OPTValues(models.Model):
 
     opt = models.ForeignKey(OperationTimbang, on_delete=models.CASCADE)
     values = models.DecimalField(decimal_places=0, max_digits=7)
-    nutritional_status = models.ForeignKey(NutritionalStatus, on_delete=models.DO_NOTHING)
-    age_group = models.ForeignKey(AgeGroup, on_delete=models.DO_NOTHING)
+    nutritional_status = models.ForeignKey(NutritionalStatus, on_delete=models.DO_NOTHING) # 0 to 12
+    age_group = models.ForeignKey(AgeGroup, on_delete=models.DO_NOTHING) # 0 to 13
 
     class Meta:
         verbose_name_plural = 'OPT Values'

@@ -131,5 +131,8 @@ urlpatterns = [
     path('nutritionist/archives/barangay_reports/', views.barangay_archives, name='barangay_archives'),
 
     # select report by nutritionist
-    path('nutritionist/archives/select', views.select_report_nutritionist, name='select_report_nutritionist')
+    path('nutritionist/archives/select', views.select_report_nutritionist, name='select_report_nutritionist'),
+
+    # populate eopt
+    path('populate/eopt', views.populate_eopt, name='populate_eopt')
 ]
