@@ -21,7 +21,16 @@ def get_value(metric):
     # not applicable for NutritionalStatuses
 
     if str_model == 'OPTValues':
+
         status = NutritionalStatus.objects.get(name=phrase[1].strip())
+
+        if len(phrase) == 2:
+
+            opt = get_total_opt_no_sex(status)
+            reweighing = get_reweighing_no_sex(status)
+
+            return opt + reweighing
+
         sex = Sex.objects.get(name=phrase[2].strip())
         opt = get_total_opt(status, sex)
         reweighing = get_reweighing_counts(phrase[1].strip(), sex)
@@ -47,12 +56,14 @@ def get_value(metric):
         or str_model == 'Flariasis' or str_model == 'Leprosy' or str_model == 'ChildCare':
 
         field = get_field(model, phrase[1])
+        if len(phrase) == 2:
+            return get_total_without_sex(model, field)
+
         return get_total_with_sex(model, field, sex=Sex.objects.get(name=phrase[2].strip()))
 
     elif str_model == 'FamilyProfileLine':
         try:
             field = get_field(model, phrase[1])
-
             if field in datapoints.main_family_profile:
                 return get_population(field)
 
@@ -85,6 +96,10 @@ def get_model(metric):
             model = 'HealthCareWasteManagement'
         elif 'Informal Settlers' in first:
             model = 'InformalSettlers'
+        elif 'Nutritional Status' in first:
+            return 'OPTValues'
+        elif 'Child Care' in first:
+            return 'ChildCare'
 
     elif len(phrase) == 1:
 
@@ -106,7 +121,7 @@ def get_field(model, verbose):
     if not model is OPTValues:
         fields = []
         for field in model._meta.get_fields():
-            if field.verbose_name == verbose.strip():
+            if field.verbose_name.strip() == verbose.strip():
                 fields.append(field)
 
         str_field =  str(fields[0]).split(".")
@@ -162,6 +177,21 @@ def get_total_with_sex(model, field, sex):
     return count
 
 
+def get_total_without_sex(model, field):
+
+    records = model.objects.all().filter(fhsis__date__year=datetime.now().year)
+    count = 0
+
+    for record in records:
+
+        try:
+            count = count + getattr(record, field)
+        except TypeError:
+            print('aha')
+
+    return count
+
+
 # NOTE: sex should be the string form and not the model
 def get_total_opt(status, sex):
 
@@ -172,6 +202,27 @@ def get_total_opt(status, sex):
     count = 0
     for record in records:
         count = count + record.values
+
+    return count
+
+
+# opt total without sex
+def get_total_opt_no_sex(status):
+
+    return OPTValues.objects.filter(opt__date__year=datetime.now().year,
+                                    nutritional_status=status).aggregate(sum=Sum('values'))['sum']
+
+
+# KAMMY YOU CAN USE THIS METHOD
+def get_reweighing_no_sex(status):
+    records = MonthlyReweighing.objects.filter(date__year=datetime.now().year, date__month=datetime.now().month)
+
+    # status = 'Weight for Age - Overweight'
+    count = 0
+    for record in records:
+
+        if status in record.get_nutritional_status():
+            count = count + 1
 
     return count
 
@@ -188,6 +239,7 @@ def get_total_opt_date(status, sex, start_date, end_date):
     return records.aggregate(sum=Sum('values'))['sum']
 
 
+# THIS IS WITH SEX
 def get_reweighing_counts(status, sex):
 
     records = MonthlyReweighing.objects.filter(date__year=datetime.now().year, date__month=datetime.now().month,

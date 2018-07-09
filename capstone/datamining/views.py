@@ -1,6 +1,8 @@
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from friends.datainput import validations
+from friends import datapoints
 from django.http import HttpResponse
 from friends.datamining import correlations, forecast as f
 from datainput.models import NutritionalStatus, Barangay, Sex, ChildCare, Tuberculosis, Malaria, Immunization, \
@@ -16,7 +18,7 @@ from friends import datapoints
 @login_required
 def index(request):
 
-    if checkers.is_updated():
+    if validations.todo_list().__len__() == 0:
 
         nutritional_statuses = NutritionalStatus.objects.all()
 

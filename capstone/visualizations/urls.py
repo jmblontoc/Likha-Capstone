@@ -24,7 +24,7 @@ urlpatterns = [
     path('display_report', views.display_report, name='display_report'),
 
     # ajax
-    path('nutritional_status/get_weights', views.get_nutritional_status, name='get_weights'),
+    path('nutritional_status/get_data', views.get_nutritional_status, name='get_weights'),
     path('micronutrient/get_data', views.get_micronutrient, name='get_micronutrient'),
     path('maternal/get_data', views.get_maternal, name='get_maternal'),
     path('child_care/get_data', views.get_child_care, name='get_child_care')

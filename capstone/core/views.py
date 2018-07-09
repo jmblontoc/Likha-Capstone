@@ -108,6 +108,8 @@ def bns_index(request):
         fp_date = fp.date
         fp_status = 'Completed'
 
+    request.session["active"] = 'uf';
+
     context2 = {
         'month_due': misc.get_due_date('monthly'),
         'profile': profile,
@@ -127,7 +129,9 @@ def bns_index(request):
 
         # family profile
         'fp_date': fp_date,
-        'fp_status': fp_status
+        'fp_status': fp_status,
+
+        'active': request.session["active"]
     }
 
     return render(request, 'core/bns_index.html', context2)

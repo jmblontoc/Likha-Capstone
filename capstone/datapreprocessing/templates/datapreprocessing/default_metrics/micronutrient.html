@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Set Thresholds</title>
+</head>
+<body>
+    <form method="POST">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <th>Field</th>
+                <th>Action</th>
+            </tr>
+            {% for f in fields %}
+                <tr>
+                    <td>{{ f.0 }}</td>
+                    <td>
+                        <input placeholder="Input threshold" type="number" name="{{ f.0 }}">
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <input type="submit">
+    </form>
+</body>
+</html>

@@ -15,4 +15,21 @@ urlpatterns = [
 
     # edit metric
     path('edit_metric/<int:id>', views.edit_metric, name='edit_metric'),
+
+    # # # # # # # # # DEFAULT # # # # # # # # #
+
+    path('default/nutritional_status/', views.set_nutritional_status, name='set_nutritional_status'),
+
+    path('default/micronutrient', views.set_micronutrient, name='set_micronutrient'),
+
+    path('default/maternal', views.set_maternal, name='set_maternal'),
+
+    path('default/child_care', views.set_child_care, name='set_child_care'),
+
+    path('default/socioeconomic', views.set_socioeconomic, name='set_socioeconomic'),
+
+
+    # # # # # # # # # AJAX # # # # # # # # #
+
+    path('default/ajax', views.view_threshold, name='view_threshold_ajax')
 ]

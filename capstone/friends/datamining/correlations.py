@@ -2,6 +2,7 @@
 from datetime import datetime
 
 import numpy
+from django.db.models import Sum
 
 from datainput.models import NutritionalStatus, OPTValues, MonthlyReweighing, OperationTimbang, MaternalCare, \
     STISurveillance, UnemploymentRate, InformalSettlers, Sex, Flariasis, Leprosy, Schistosomiasis, Immunization, \
@@ -21,6 +22,9 @@ nutritional_statuses = NutritionalStatus.objects.all()
 # get opt weights per year
 def get_weights_opt(status, sex, year):
 
+    if sex is None:
+        return OPTValues.objects.filter(nutritional_status=status, opt__date__year=year).aggregate(sum=Sum('values'))['sum']
+
     records = OPTValues.objects.filter(nutritional_status=status, age_group__sex=sex, opt__date__year=year)
     count = 0
 
@@ -33,6 +37,17 @@ def get_weights_opt(status, sex, year):
 # get reweighing weights
 def get_weights_reweighing(status, sex, month):
 
+    if sex is None:
+
+        records = MonthlyReweighing.objects.filter(date__month=month)
+        count = 0
+
+        for record in records:
+            if status.name in record.get_nutritional_status():
+                count = count + 1
+
+        return float(count)
+
     records = MonthlyReweighing.objects.filter(date__month=month, patient__sex=sex)
     count = 0
 
@@ -41,6 +56,23 @@ def get_weights_reweighing(status, sex, month):
             count = count + 1
 
     return float(count)
+
+
+def get_weight_values():
+
+    uw = NutritionalStatus.objects.get(name__contains='Weight for Age - Underweight')
+    suw = NutritionalStatus.objects.get(name__contains='Weight for Age - Severely Underweight')
+    month = OperationTimbang.objects.filter(date__year=datetime.now().year)[0].date.month
+
+    values = {
+        month: int(get_weights_opt(uw, None, year_now) + get_weights_opt(suw, None, year_now))
+    }
+
+    while month < month_now:
+        values[month + 1] = get_weights_reweighing(uw, None, month + 1) + get_weights_reweighing(suw, None, month + 1)
+        month = month + 1
+
+    return values
 
 
 def get_weight_values_per_month(status, sex):
@@ -100,7 +132,7 @@ def get_maternal_care(field):
         for record in records:
             count = count + getattr(record, field)
 
-        values[start_month] = count
+        values[start_month] = int(count)
         start_month = start_month + 1
 
     return values
@@ -134,7 +166,11 @@ def get_sti_surveillance(field):
 def get_fhsis(model, field, sex):
 
     start_month = get_starting_month(model)
-    base = model.objects.all().filter(fhsis__date__year=datetime.now().year, sex=sex)
+
+    if sex is None:
+        base = model.objects.all().filter(fhsis__date__year=year_now)
+    else:
+        base = model.objects.all().filter(fhsis__date__year=datetime.now().year, sex=sex)
 
     values = {
 
@@ -149,7 +185,7 @@ def get_fhsis(model, field, sex):
             try:
                 count = count + getattr(record, field)
             except TypeError:
-                print('secret')
+                pass
 
         values[start_month] = float(count)
         start_month = start_month + 1
@@ -310,6 +346,77 @@ def display(source, scores, model, sex):
             )
 
 
+def display_micronutrient(scores):
+
+    fields = [f for f in ChildCare._meta.get_fields() if f.verbose_name in datapoints.micronutrient]
+
+
+    for f in fields:
+
+        point = str(f).strip().split(".")[2]
+        weights = get_weight_values()
+        data_point = get_fhsis(ChildCare, point, None)
+        print(data_point)
+        print(weights)
+        score = get_correlation_score(make_variables(weights, data_point))
+
+        scores.append(
+            {
+                'category': 'Weight for Age - Underweight and Severely Underweight',
+                'source': 'Child Care',
+                'field': f.verbose_name,
+                'score': score,
+                'report': 'Micronutrient Supplementation',
+                'variables': make_variables(weights, data_point)
+            }
+        )
+
+
+def display_maternal(scores):
+
+    fields = [f for f in MaternalCare._meta.get_fields() if f.verbose_name in datapoints.maternal]
+
+    for f in fields:
+
+        point = str(f).strip().split(".")[2]
+        weights = get_weight_values()
+        data_point = get_maternal_care(point)
+        score = get_correlation_score(make_variables(weights, data_point))
+
+        scores.append(
+            {
+                'category': 'Weight for Age - Underweight and Severely Underweight',
+                'source': 'Maternal Care',
+                'field': f.verbose_name,
+                'score': score,
+                'report': 'City Maternal Care',
+                'variables': make_variables(weights, data_point)
+            }
+        )
+
+
+def display_child_care(scores):
+    fields = [f for f in ChildCare._meta.get_fields() if f.verbose_name in datapoints.child_care]
+
+    for f in fields:
+        point = str(f).strip().split(".")[2]
+        weights = get_weight_values()
+        data_point = get_fhsis(ChildCare, point, None)
+        print(data_point)
+        score = get_correlation_score(make_variables(weights, data_point))
+
+        scores.append(
+            {
+                'category': 'Weight for Age - Underweight and Severely Underweight',
+                'source': 'Child Care',
+                'field': f.verbose_name,
+                'score': score,
+                'report': 'City Children Care',
+                'variables': make_variables(weights, data_point)
+            }
+        )
+
+
 def display_no_sex(source, scores, model, sex):
 
     nutritional_statuses = NutritionalStatus.objects.all()
@@ -379,137 +486,143 @@ def create_session(request):
 
     # # # # # # # # # # # # #
     # FEMALE
-    sex = Sex.objects.get(name='Female')
-    sex2 = Sex.objects.get(name='Male')
-
-    display(
-        datapoints.get_child_care_fields(),
-        scores,
-        ChildCare,
-        sex
-    )
-
-    display(
-        datapoints.get_tb_fields(),
-        scores,
-        Tuberculosis,
-        sex
-    )
-
-    display(
-        Malaria._meta.get_fields()[1:6],
-        scores,
-        Malaria,
-        sex
-    )
-
-    display(
-        Immunization._meta.get_fields()[1:11],
-        scores,
-        Immunization,
-        sex
-    )
-
-    display(
-        Schistosomiasis._meta.get_fields()[1:3],
-        scores,
-        Schistosomiasis,
-        sex
-    )
-
-    display(
-        Leprosy._meta.get_fields()[1:3],
-        scores,
-        Leprosy,
-        sex
-    )
-
-    display(
-        Flariasis._meta.get_fields()[1:4],
-        scores,
-        Flariasis,
-        sex
-    )
-
-    display_no_sex(
-        MaternalCare._meta.get_fields()[1:10],
-        scores,
-        MaternalCare,
-        sex
-    )
-
-    display_no_sex(
-        STISurveillance._meta.get_fields()[2:5],
-        scores,
-        STISurveillance,
-        sex
-    )
-
-    display(
-        datapoints.get_child_care_fields(),
-        scores,
-        ChildCare,
-        sex2
-    )
-
-    display(
-        datapoints.get_tb_fields(),
-        scores,
-        Tuberculosis,
-        sex2
-    )
-
-    display(
-        Malaria._meta.get_fields()[1:6],
-        scores,
-        Malaria,
-        sex2
-    )
-
-    display(
-        Immunization._meta.get_fields()[1:11],
-        scores,
-        Immunization,
-        sex2
-    )
-
-    display(
-        Schistosomiasis._meta.get_fields()[1:3],
-        scores,
-        Schistosomiasis,
-        sex2
-    )
-
-    display(
-        Leprosy._meta.get_fields()[1:3],
-        scores,
-        Leprosy,
-        sex2
-    )
-
-    display(
-        Flariasis._meta.get_fields()[1:4],
-        scores,
-        Flariasis,
-        sex2
-    )
-
-    display_no_sex(
-        MaternalCare._meta.get_fields()[1:10],
-        scores,
-        MaternalCare,
-        sex2
-    )
-
-    display_no_sex(
-        STISurveillance._meta.get_fields()[2:5],
-        scores,
-        STISurveillance,
-        sex2
-    )
-
-    display_informal_settlers(scores)
+    # sex = Sex.objects.get(name='Female')
+    # sex2 = Sex.objects.get(name='Male')
+    #
+    # display(
+    #     datapoints.get_child_care_fields(),
+    #     scores,
+    #     ChildCare,
+    #     sex
+    # )
+    #
+    # display(
+    #     datapoints.get_tb_fields(),
+    #     scores,
+    #     Tuberculosis,
+    #     sex
+    # )
+    #
+    # display(
+    #     Malaria._meta.get_fields()[1:6],
+    #     scores,
+    #     Malaria,
+    #     sex
+    # )
+    #
+    # display(
+    #     Immunization._meta.get_fields()[1:11],
+    #     scores,
+    #     Immunization,
+    #     sex
+    # )
+    #
+    # display(
+    #     Schistosomiasis._meta.get_fields()[1:3],
+    #     scores,
+    #     Schistosomiasis,
+    #     sex
+    # )
+    #
+    # display(
+    #     Leprosy._meta.get_fields()[1:3],
+    #     scores,
+    #     Leprosy,
+    #     sex
+    # )
+    #
+    # display(
+    #     Flariasis._meta.get_fields()[1:4],
+    #     scores,
+    #     Flariasis,
+    #     sex
+    # )
+    #
+    # display_no_sex(
+    #     MaternalCare._meta.get_fields()[1:10],
+    #     scores,
+    #     MaternalCare,
+    #     sex
+    # )
+    #
+    # display_no_sex(
+    #     STISurveillance._meta.get_fields()[2:5],
+    #     scores,
+    #     STISurveillance,
+    #     sex
+    # )
+    #
+    # display(
+    #     datapoints.get_child_care_fields(),
+    #     scores,
+    #     ChildCare,
+    #     sex2
+    # )
+    #
+    # display(
+    #     datapoints.get_tb_fields(),
+    #     scores,
+    #     Tuberculosis,
+    #     sex2
+    # )
+    #
+    # display(
+    #     Malaria._meta.get_fields()[1:6],
+    #     scores,
+    #     Malaria,
+    #     sex2
+    # )
+    #
+    # display(
+    #     Immunization._meta.get_fields()[1:11],
+    #     scores,
+    #     Immunization,
+    #     sex2
+    # )
+    #
+    # display(
+    #     Schistosomiasis._meta.get_fields()[1:3],
+    #     scores,
+    #     Schistosomiasis,
+    #     sex2
+    # )
+    #
+    # display(
+    #     Leprosy._meta.get_fields()[1:3],
+    #     scores,
+    #     Leprosy,
+    #     sex2
+    # )
+    #
+    # display(
+    #     Flariasis._meta.get_fields()[1:4],
+    #     scores,
+    #     Flariasis,
+    #     sex2
+    # )
+    #
+    # display_no_sex(
+    #     MaternalCare._meta.get_fields()[1:10],
+    #     scores,
+    #     MaternalCare,
+    #     sex2
+    # )
+    #
+    # display_no_sex(
+    #     STISurveillance._meta.get_fields()[2:5],
+    #     scores,
+    #     STISurveillance,
+    #     sex2
+    # )
+    #
+    # display_informal_settlers(scores)
+    display_micronutrient(scores)
+    display_maternal(scores)
+    display_child_care(scores)
 
     request.session['scores'] = scores
 
+
+def get_micronutrient_data():
+    pass
 

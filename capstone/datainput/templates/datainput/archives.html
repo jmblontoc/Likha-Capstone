@@ -1,10 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Reports Archive</title>
-</head>
-<body>
+{% extends 'core/bns-layout.html' %}
+{% block content %}
+
+{% include 'core/helpers/messages.html' %}
+<div class="content-wrapper" style="min-height: 620px; height: auto; margin-top: 57px;">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">City Nutritionist Data Status</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{% url 'datainput:data_status_index' %}">Data Status</a></li>
+                        <li class="breadcrumb-item active">Operation Timbang Records</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-8">
+                    <div class="card card-primary">
+                        <div class="card-header p-0">
+                            <h3 class="card-title p-3">Operation Timbang Records of {{ barangay }}</h3>
+                        </div>
+                        <div class="card-body">
     <h1>Select Report</h1>
     <form action="{% url 'datainput:select_report' %}" method="post">
         {% csrf_token %}
@@ -20,5 +42,11 @@
         </select>
         <input type="submit">
     </form>
-</body>
-</html>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

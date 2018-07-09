@@ -2,8 +2,11 @@
 import os
 from datetime import datetime, date
 import xlrd
+<<<<<<< HEAD
 from django.views import View
 from xlutils.copy import copy
+=======
+>>>>>>> 1621b9c05173d742808a06a67553df617360f85a
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -122,7 +125,14 @@ def show_opt_list(request):
 
     profile = Profile.objects.get(user=request.user)
 
+    if request.session['active'] != 'uf':
+        active = 'ot'
+    else:
+        active = 'uf'
+        request.session['active'] = ''
+
     context = {
+        'active': active,
         'profile': profile,
         'opt_records': opt_records
     }
@@ -149,7 +159,14 @@ def show_fhsis_list(request):
 
     profile = Profile.objects.get(user=request.user)
 
+    if request.session['active'] != 'uf':
+        active = 'fh'
+    else:
+        active = 'uf'
+        request.session['active'] = ''
+
     context = {
+        'active': active,
         'profile': profile,
         'fhsis_records': fhsis_records
     }
@@ -209,7 +226,12 @@ def family_profiles(request):
     families = FamilyProfile.objects.filter(barangay=barangay, date__year=datetime.now().year)
     profile = Profile.objects.get(user=request.user)
 
+
+    active = 'fp'
+
+
     context = {
+        'active': active,
         'profile': profile,
         'barangay': barangay,
         'families': families
@@ -266,11 +288,17 @@ def show_profiles(request, id):
     else:
         template_values = 'core/nutritionist-layout.html'
 
+    if request.session['active'] != 'uf':
+        active = 'fp'
+    else:
+        active = 'uf'
+        request.session['active'] = ''
+
     context = {
+        'active': active,
         'template_values': template_values,
         'profile': profile,
         'barangay': barangay.id,
-        'active': 'ds',
         'profiles': profiles,
         'id': id,
         'form': form
@@ -301,7 +329,14 @@ def monthly_reweighing_index(request):
     patients = Patient.objects.filter(barangay=barangay)
     profile = Profile.objects.get(user=request.user)
 
+    if request.session['active'] != 'uf':
+        active = 'mr'
+    else:
+        active = 'uf'
+        request.session['active'] = ''
+
     context = {
+        'active': active,
         'profile': profile,
         'patients': patients,
         'has_opt': len(opt) > 0,
@@ -790,7 +825,6 @@ def show_family_profiles(request, id):
 
     context = {
         'profile': profile,
-        'active': 'ds',
         'families': profiles,
         'barangay': barangay
     }
@@ -1447,6 +1481,7 @@ def select_report_nutritionist(request):
         return render(request, 'datainput/archives_nutritionist/family_records.html', context)
 
 
+<<<<<<< HEAD
 @login_required()
 def populate_eopt(request):
     path = "/Users/kamillegamboa/Documents/GitHub/Likha-Capstone/capstone/files/OPTValuesExcelVer2.xls"
@@ -1476,6 +1511,30 @@ def populate_eopt(request):
     # profile = Profile.objects.get(user=request.user)
     # for b in barangays:
     #     OperationTimbang.objects.create(date=date1, barangay=b, uploaded_by=profile)
+=======
+@login_required
+def notify_bns(request):
+
+    barangay = request.POST.get('barangay')
+    sender = Profile.objects.get(user=request.user)
+
+    message = 'Please upload the reports as soon as possible.'
+
+    for user in Barangay.objects.get(id=barangay.id).profile_set.all():
+
+        Notification.objects.create(
+            message=message,
+            profile_to=user,
+            profile_from=sender
+        )
+
+    messages.success(request, 'Users successfully notified')
+
+
+
+
+
+>>>>>>> 1621b9c05173d742808a06a67553df617360f85a
 
 
 

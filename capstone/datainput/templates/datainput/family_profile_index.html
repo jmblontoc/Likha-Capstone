@@ -21,7 +21,7 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-6">
+                <div class="col-8">
                     <div class="card card-primary">
                         <div class="card-header d-flex p-0">
                             <h3 class="card-title p-3">Family Profiles</h3>
@@ -39,20 +39,18 @@
                                     <table id="familyprofile_list" class="table table-bordered table-hover dataTable">
                                         <thead>
                                         <tr>
-                                            <th style="width: 70%;">Profile</th>
-                                            <th style="width: 30%;">Action</th>
+                                            <th>Profile</th>
+                                            <th style="width: 16%;">Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         {% for family in families %}
                                             <tr>
-                                                <td>
-                                                    <a href="{% url 'datainput:show_profiles' family.id %}">
+                                                <td style="vertical-align: middle;">
                                                         Family Profile for {{ family.date.year }}
-                                                    </a>
                                                 </td>
                                                <td>
-                                                   <a class="btn btn-primary" href="{% url 'datainput:show_profiles' family.id %}">View</a>
+                                                   <a class="btn btn-primary btn-sm col-12" href="{% url 'datainput:show_profiles' family.id %}">View</a>
                                                </td>
                                             </tr>
                                         {% endfor %}

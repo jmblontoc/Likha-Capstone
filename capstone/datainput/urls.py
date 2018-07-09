@@ -133,6 +133,12 @@ urlpatterns = [
     # select report by nutritionist
     path('nutritionist/archives/select', views.select_report_nutritionist, name='select_report_nutritionist'),
 
+<<<<<<< HEAD
     # populate eopt
     path('populate/eopt', views.populate_eopt, name='populate_eopt')
 ]
+=======
+    # notify bns
+    path('nutritionist/notify_bns/', views.notify_bns, name='notify_bns')
+]
+>>>>>>> 1621b9c05173d742808a06a67553df617360f85a
