@@ -52,6 +52,9 @@ urlpatterns = [
     # monthly reweighing
     path('bns/monthly_reweighing', views.monthly_reweighing_index, name='monthly_reweighing_index'),
 
+    # latest monthly reweighing
+    path('bns/monthly_reweighing/latest', views.latest_monthly_reweighing_index, name='latest_monthly_reweighing_index'),
+
     # add patient
     path('bns/monthly_reweighing/add_patient', views.add_patient, name='add_patient'),
 
