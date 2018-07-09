@@ -1,22 +1,22 @@
 {% extends 'core/bns-layout.html' %}
 {% block content %}
 
-{% include 'core/helpers/messages.html' %}
+
 <div class="content-wrapper" style="min-height: 620px; height: auto; margin-top: 57px;">
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Barangay Nutrition Scholar Dashboard</h1>
+                        <h1 class="m-0 text-dark">Barangay Nutrition Scholar Family Profiles</h1>
                     </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{% url 'core:bns-index' %}">BNS Dashboard</a></li>
-                        <li class="breadcrumb-item active">Family Profile</li>
+                        <li class="breadcrumb-item active">BNS Family Profiles</li>
                     </ol>
                 </div>
             </div>
         </div>
+        {% include 'core/helpers/messages.html' %}
     </div>
     <section class="content">
         <div class="container-fluid">
@@ -25,16 +25,8 @@
                     <div class="card card-primary">
                         <div class="card-header d-flex p-0">
                             <h3 class="card-title p-3">Family Profiles</h3>
-                            <ul class="nav nav-pills ml-auto p-2">
-                                <li class="nav-item">
-                                    <a class="nav-link btn btn-default" style="text-align: center; color:#004876;" href="{% url 'datainput:add_family' %}">Add family profile</a>
-                                </li>
-                            </ul>
                         </div>
                         <div class="card-body">
-                            {% if families.count == 0 %}
-                                <h1>There are no family profiles yet for the current year</h1>
-                            {% else %}
                                 <div>
                                     <table id="familyprofile_list" class="table table-bordered table-hover dataTable">
                                         <thead>
@@ -47,7 +39,7 @@
                                         {% for family in families %}
                                             <tr>
                                                 <td style="vertical-align: middle;">
-                                                        Family Profile for {{ family.date.year }}
+                                                    Family Profile for {{ family.date.year }}
                                                 </td>
                                                <td>
                                                    <a class="btn btn-primary btn-sm col-12" href="{% url 'datainput:show_profiles' family.id %}">View</a>
@@ -67,7 +59,6 @@
                                 });
                             </script>
                                 </div>
-                            {% endif %}
                         </div>
                     </div>
                 </div>

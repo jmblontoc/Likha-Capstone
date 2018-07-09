@@ -210,12 +210,12 @@ def handle_family_profile_file(request):
 def family_profiles(request):
 
     barangay = Profile.objects.get(user=request.user).barangay
-    families = FamilyProfile.objects.filter(barangay=barangay, date__year=datetime.now().year)
+    families = FamilyProfile.objects.filter(barangay=barangay)
     profile = Profile.objects.get(user=request.user)
 
+    print(families)
 
     active = 'fp'
-
 
     context = {
         'active': active,
@@ -274,15 +274,8 @@ def show_profiles(request, id):
         template_values = 'core/bns-layout.html'
     else:
         template_values = 'core/nutritionist-layout.html'
-
-    if request.session['active'] != 'uf':
-        active = 'fp'
-    else:
-        active = 'uf'
-        request.session['active'] = ''
-
+        
     context = {
-        'active': active,
         'template_values': template_values,
         'profile': profile,
         'barangay': barangay.id,
@@ -331,13 +324,18 @@ def latest_monthly_reweighing_index(request):
 
     barangay = Profile.objects.get(user=request.user).barangay
     opt = OperationTimbang.objects.filter(barangay=barangay, date__year=datetime.now().year)
-    patients = Patient.objects.filter(barangay=barangay, monthlyreweighing__date__year=datetime.now().year)
     profile = Profile.objects.get(user=request.user)
+
+    patients = Patient.objects.filter(barangay=barangay)
+    patients_now = patients.filter(monthlyreweighing__date__year=datetime.now().year)
+
+    print(patients)
+    print(patients_now)
 
     context = {
         'active': 'mw',
         'profile': profile,
-        'patients': patients,
+        'patients': set(patients_now),
         'has_opt': len(opt) > 0,
         'barangay': barangay
     }
