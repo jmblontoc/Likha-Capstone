@@ -122,14 +122,10 @@ def show_opt_list(request):
 
     profile = Profile.objects.get(user=request.user)
 
-    if request.session['active'] != 'uf':
-        active = 'ot'
-    else:
-        active = 'uf'
-        request.session['active'] = ''
+    print(request.META.get('HTTP_REFERER'))
 
     context = {
-        'active': active,
+        'active': 'uf',
         'profile': profile,
         'opt_records': opt_records
     }
@@ -156,14 +152,8 @@ def show_fhsis_list(request):
 
     profile = Profile.objects.get(user=request.user)
 
-    if request.session['active'] != 'uf':
-        active = 'fh'
-    else:
-        active = 'uf'
-        request.session['active'] = ''
-
     context = {
-        'active': active,
+        'active': 'fh',
         'profile': profile,
         'fhsis_records': fhsis_records
     }
@@ -267,7 +257,7 @@ def show_profiles(request, id):
 
     profiles = FamilyProfileLine.objects.filter(family_profile_id__exact=id)
     families = FamilyProfile.objects.get(id=id)
-    barangay = Barangay.objects.get(name=families.barangay)
+    barangay = Barangay.objects.get(name=families.barangay.name)
     profile = Profile.objects.get(user=request.user)
 
     form = FamilyProfileForm(request.POST or None)
@@ -326,14 +316,8 @@ def monthly_reweighing_index(request):
     patients = Patient.objects.filter(barangay=barangay)
     profile = Profile.objects.get(user=request.user)
 
-    if request.session['active'] != 'uf':
-        active = 'mr'
-    else:
-        active = 'uf'
-        request.session['active'] = ''
-
     context = {
-        'active': active,
+        'active': 'mw',
         'profile': profile,
         'patients': patients,
         'has_opt': len(opt) > 0,
@@ -1282,7 +1266,11 @@ def display_fhsis(request, id):
 
     sti = STISurveillance.objects.filter(fhsis=fhsis)
 
+    profile = Profile.objects.get(user=request.user)
+
     context = {
+        'profile': profile,
+        'active': 'fh',
         'maternal': maternal,
         'immunization_female': immunization_female,
         'immunization_male': immunization_male,
@@ -1298,7 +1286,8 @@ def display_fhsis(request, id):
         'leprosy_male': leprosy_male,
         'child_care_female': child_care_female,
         'child_care_male': child_care_male,
-        'sti': sti
+        'sti': sti,
+        'fhsis':fhsis
     }
 
     return render(request, 'datainput/display_fhsis.html', context)
@@ -1422,7 +1411,10 @@ def display_opt(request, id):
     opt_values_wfh_sw = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Weight for Height/Length - Severely Wasted"))
     append_values(opt_values_wfh_sw, wfh_sw)
 
+    profile = Profile.objects.get(user=request.user)
+
     context = {
+        'profile': profile,
         'wfa_normal': wfa_normal,
         'wfa_ow': wfa_ow,
         'wfa_uw': wfa_uw,
@@ -1435,7 +1427,9 @@ def display_opt(request, id):
         'wfh_ow': wfh_ow,
         'wfh_obese': wfh_obese,
         'wfh_wasted': wfh_wasted,
-        'wfh_sw': wfh_sw
+        'wfh_sw': wfh_sw,
+        'opt':opt,
+        'active':'ot'
     }
 
     return render(request, 'datainput/display_opt.html', context)
@@ -1449,6 +1443,204 @@ def barangay_archives(request):
     }
 
     return render(request, 'datainput/nutritionist_barangay_archives.html', context)
+
+@login_required
+def latest_opt(request):
+
+    profile = Profile.objects.get(user=request.user)
+
+    opt = OperationTimbang.objects.filter(barangay=profile.barangay).latest('id')
+
+    opt_values = OPTValues.objects.filter(opt=opt)
+    wfa_normal = {}
+    wfa_ow = {}
+    wfa_uw = {}
+    wfa_suw = {}
+    hfa_normal = {}
+    hfa_tall = {}
+    hfa_stunted = {}
+    hfa_ss = {}
+    wfh_normal = {}
+    wfh_ow = {}
+    wfh_obese = {}
+    wfh_wasted = {}
+    wfh_sw = {}
+
+    def append_values(category, dict_name):
+        for value in category:
+            age_group = value.age_group
+
+            if age_group.name == "0 to 5 months old":
+                if age_group.sex.name == "Male":
+                    dict_name["Male - 0 to 5 months old"] = value
+                elif age_group.sex.name == "Female":
+                    dict_name["Female - 0 to 5 months old"] = value
+
+            if age_group.name == "6 to 11 months old":
+                if age_group.sex.name == "Male":
+                    dict_name["Male - 6 to 11 months old"] = value
+                elif age_group.sex.name == "Female":
+                    dict_name["Female - 6 to 11 months old"] = value
+
+            if age_group.name == "12 to 23 months old":
+                if age_group.sex.name == "Male":
+                    dict_name["Male - 12 to 23 months old"] = value
+                elif age_group.sex.name == "Female":
+                    dict_name["Female - 12 to 23 months old"] = value
+
+            if age_group.name == "24 to 35 months old":
+                if age_group.sex.name == "Male":
+                    dict_name["Male - 24 to 35 months old"] = value
+                elif age_group.sex.name == "Female":
+                    dict_name["Female - 24 to 35 months old"] = value
+
+            if age_group.name == "36 to 47 months old":
+                if age_group.sex.name == "Male":
+                    dict_name["Male - 36 to 37 months old"] = value
+                elif age_group.sex.name == "Female":
+                    dict_name["Female - 36 to 47 months old"] = value
+
+            if age_group.name == "48 to 59 months old":
+                if age_group.sex.name == "Male":
+                    dict_name["Male - 48 to 59 months old"] = value
+                elif age_group.sex.name == "Female":
+                    dict_name["Female - 48 to 59 months old"] = value
+
+            if age_group.name == "60 to 71 months old":
+                if age_group.sex.name == "Male":
+                    dict_name["Male - 60 to 71 months old"] = value
+                elif age_group.sex.name == "Female":
+                    dict_name["Female - 60 to 71 months old"] = value
+
+    # Weight for Age -- Normal
+    opt_values_wfa_normal = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Weight for Age - Normal"))
+    append_values(opt_values_wfa_normal, wfa_normal)
+
+    # Weight for Age -- Overweight
+    opt_values_wfa_ow = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Weight for Age - Overweight"))
+    append_values(opt_values_wfa_ow, wfa_ow)
+
+    # Weight for Age - Underweight
+    opt_values_wfa_uw = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Weight for Age - Underweight"))
+    append_values(opt_values_wfa_uw, wfa_uw)
+
+    # Weight for Age - Severely Underweight
+    opt_values_wfa_suw = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Weight for Age - Severely Underweight"))
+    append_values(opt_values_wfa_suw, wfa_suw)
+
+    # Height for Age - Normal
+    opt_values_hfa_normal = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Height for Age - Normal"))
+    append_values(opt_values_hfa_normal, hfa_normal)
+
+    # Height for Age - Tall
+    opt_values_hfa_tall = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Height for Age - Tall"))
+    append_values(opt_values_hfa_tall, hfa_tall)
+
+    # Height for Age - Stunted
+    opt_values_hfa_stunted = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Height for Age - Stunted"))
+    append_values(opt_values_hfa_stunted, hfa_stunted)
+
+    # Height for Age - Severely Stunted
+    opt_values_hfa_ss = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Height for Age - Severely Stunted"))
+    append_values(opt_values_hfa_ss, hfa_ss)
+
+    # Weight for Height - Normal
+    opt_values_wfh_normal = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Weight for Height/Length - Normal"))
+    append_values(opt_values_wfh_normal, wfh_normal)
+
+    # Weight for Height - Overweight
+    opt_values_wfh_ow = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Weight for Height/Length - Overweight"))
+    append_values(opt_values_wfh_ow, wfh_ow)
+
+    # Weight for Height - Obese
+    opt_values_wfh_obese = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Weight for Height/Length - Obese"))
+    append_values(opt_values_wfh_obese, wfh_obese)
+
+    # Weight for Height - Wasted
+    opt_values_wfh_wasted = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Weight for Height/Length - Wasted"))
+    append_values(opt_values_wfh_wasted, wfh_wasted)
+
+    # Weight for Height - Severely Wasted
+    opt_values_wfh_sw = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Weight for Height/Length - Severely Wasted"))
+    append_values(opt_values_wfh_sw, wfh_sw)
+
+    context = {
+        'wfa_normal': wfa_normal,
+        'wfa_ow': wfa_ow,
+        'wfa_uw': wfa_uw,
+        'wfa_suw': wfa_suw,
+        'hfa_normal': hfa_normal,
+        'hfa_tall': hfa_normal,
+        'hfa_stunted': hfa_stunted,
+        'hfa_ss': hfa_ss,
+        'wfh_normal': wfh_normal,
+        'wfh_ow': wfh_ow,
+        'wfh_obese': wfh_obese,
+        'wfh_wasted': wfh_wasted,
+        'wfh_sw': wfh_sw,
+        'opt':opt,
+        'profile':profile,
+        'active': 'uf'
+    }
+
+    return render(request, 'datainput/display_opt.html', context)
+
+@login_required
+def latest_fhsis(request):
+
+    profile = Profile.objects.get(user=request.user)
+
+    fhsis = FHSIS.objects.filter(barangay=profile.barangay).latest('id')
+
+    maternal = MaternalCare.objects.filter(fhsis=fhsis)
+    immunization_female = Immunization.objects.filter(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
+    immunization_male = Immunization.objects.filter(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
+
+    malaria_female = Malaria.objects.filter(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
+    malaria_male = Malaria.objects.filter(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
+
+    tb_female = Tuberculosis.objects.filter(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
+    tb_male = Tuberculosis.objects.filter(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
+
+    schisto_female = Schistosomiasis.objects.filter(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
+    schisto_male = Schistosomiasis.objects.filter(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
+
+    flariasis_female = Flariasis.objects.filter(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
+    flariasis_male = Flariasis.objects.filter(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
+
+    leprosy_female = Leprosy.objects.filter(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
+    leprosy_male = Leprosy.objects.filter(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
+
+    child_care_female = ChildCare.objects.filter(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
+    child_care_male = ChildCare.objects.filter(fhsis=fhsis, sex=Sex.objects.get(name='Male'))
+
+    sti = STISurveillance.objects.filter(fhsis=fhsis)
+
+
+
+    context = {
+        'profile': profile,
+        'active': 'uf',
+        'maternal': maternal,
+        'immunization_female': immunization_female,
+        'immunization_male': immunization_male,
+        'malaria_female': malaria_female,
+        'malaria_male': malaria_male,
+        'tb_female': tb_female,
+        'tb_male': tb_male,
+        'schisto_female': schisto_female,
+        'schisto_male': schisto_male,
+        'flariasis_female': flariasis_female,
+        'flariasis_male': flariasis_male,
+        'leprosy_female': leprosy_female,
+        'leprosy_male': leprosy_male,
+        'child_care_female': child_care_female,
+        'child_care_male': child_care_male,
+        'sti': sti,
+        'fhsis':fhsis
+    }
+
+    return render(request, 'datainput/display_fhsis.html', context)
 
 
 @login_required

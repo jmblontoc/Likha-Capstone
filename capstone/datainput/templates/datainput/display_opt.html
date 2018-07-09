@@ -1,144 +1,3 @@
-<<<<<<< HEAD
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Operation Timbang</title>
-    <style>
-    table, th, td {
-    border: 1px solid black;
-    border-collapse: collapse;
-    }
-    th, td {
-    padding: 5px;
-    text-align: left;
-    }
-    </style>
-</head>
-<body>
-    <h1>Operation Timbang</h1>
-
-<table>
-    <tr>
-        <th></th>
-        <th colspan="2">0 to 5 months old</th>
-        <th colspan="2">6 to 11 months old</th>
-        <th colspan="2">12 to 23 months old</th>
-        <th colspan="2">24 to 35 months old</th>
-        <th colspan="2">36 to 47 months old</th>
-        <th colspan="2">48 to 59 months old</th>
-        <th colspan="2">60 to 71 months old</th>
-    </tr>
-    <tr>
-        <th></th>
-        <th>Male</th>
-        <th>Female</th>
-        <th>Male</th>
-        <th>Female</th>
-        <th>Male</th>
-        <th>Female</th>
-        <th>Male</th>
-        <th>Female</th>
-        <th>Male</th>
-        <th>Female</th>
-        <th>Male</th>
-        <th>Female</th>
-        <th>Male</th>
-        <th>Female</th>
-    </tr>
-    <tr>
-        <th>Weight for Age - Normal</th>
-        {% for key, value in wfa_normal.items %}
-            <td>{{ value.values }} </td>
-            <h1> {{ value.values }}</h1>
-        {% endfor %}
-    </tr>
-
-    <tr>
-        <th>Weight for Age - Overweight</th>
-        {% for key, value in wfa_ow.items %}
-            <td>{{ value.values }} </td>
-        {% endfor %}
-    </tr>
-
-    <tr>
-        <th>Weight for Age - Underweight</th>
-        {% for key, value in wfa_uw.items %}
-            <td>{{ value.values }} </td>
-        {% endfor %}
-    </tr>
-
-    <tr>
-        <th>Weight for Age - Severely Underweight</th>
-        {% for key, value in wfa_suw.items %}
-            <td>{{ value.values }} </td>
-        {% endfor %}
-    </tr>
-
-    <tr>
-        <th>Height for Age - Normal</th>
-        {% for key, value in hfa_normal.items %}
-            <td>{{ value.values }} </td>
-        {% endfor %}
-    </tr>
-
-    <tr>
-        <th>Height for Age - Tall</th>
-        {% for key, value in hfa_tall.items %}
-            <td>{{ value.values }} </td>
-        {% endfor %}
-    </tr>
-
-    <tr>
-        <th>Height for Age - Stunted</th>
-        {% for key, value in hfa_stunted.items %}
-            <td>{{ value.values }} </td>
-        {% endfor %}
-    </tr>
-
-    <tr>
-        <th>Height for Age - Severely Stunted</th>
-        {% for key, value in hfa_ss.items %}
-            <td>{{ value.values }} </td>
-        {% endfor %}
-    </tr>
-
-    <tr>
-        <th>Weight for Height - Normal</th>
-        {% for key, value in wfh_normal.items %}
-            <td>{{ value.values }} </td>
-        {% endfor %}
-    </tr>
-
-    <tr>
-        <th>Weight for Height - Overweight</th>
-        {% for key, value in wfh_ow.items %}
-            <td>{{ value.values }} </td>
-        {% endfor %}
-    </tr>
-
-    <tr>
-        <th>Weight for Height - Obese</th>
-        {% for key, value in wfh_obese.items %}
-            <td>{{ value.values }} </td>
-        {% endfor %}
-    </tr>
-
-    <tr>
-        <th>Weight for Height - Wasted</th>
-        {% for key, value in wfh_wasted.items %}
-            <td>{{ value.values }} </td>
-        {% endfor %}
-    </tr>
-
-    <tr>
-        <th>Weight for Height - Severely Wasted</th>
-        {% for key, value in wfh_sw.items %}
-            <td>{{ value.values }} </td>
-        {% endfor %}
-    </tr>
-
-=======
 {% extends 'core/bns-layout.html' %}
 {% block content %}
 
@@ -147,11 +6,23 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Upload Facility</h1>
+                    <h1 class="m-0 text-dark">
+                        {% if active == 'uf' %}
+                        Barangay Nutrition Scholar Upload Facility
+                        {% else %}
+                        Barangay Nutrition Scholar eOPT Records
+                        {% endif %}
+                    </h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Upload Facility</li>
+                        {% if active == 'uf' %}
+                        <li class="breadcrumb-item"><a href="{% url 'core:bns-index' %}">BNS Upload Facility</a></li>
+                        <li class="breadcrumb-item active">OPT Record - {{ opt.date.date }}</li>
+                        {% else %}
+                        <li class="breadcrumb-item"><a href="{% url 'datainput:show_fhsis_list' %}">BNS eOPT Records</a></li>
+                        <li class="breadcrumb-item active">OPT Record - {{ opt.date.date }}</li>
+                        {% endif %}
                     </ol>
                 </div>
             </div>
@@ -164,7 +35,7 @@
                 <div class="col-12">
                     <div class="card card-primary">
                         <div class="card-header p-0">
-                            <h3 class="card-title p-3">Operation Timbang</h3>
+                            <h3 class="card-title p-3">Operation Timbang Record - {{ opt.date.date }}</h3>
                         </div>
                         <div class="card-body table-responsive p-2">
 
@@ -290,10 +161,7 @@
             {% endfor %}
         </tr>
     </tbody>
->>>>>>> 1621b9c05173d742808a06a67553df617360f85a
 </table>
-
-
                         </div>
                     </div>
                 </div>

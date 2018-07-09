@@ -6,11 +6,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Upload Facility</h1>
+                    <h1 class="m-0 text-dark">Barangay Nutrition Scholar Upload Facility</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Upload Facility</li>
+                        <li class="breadcrumb-item active">BNS Upload Facility</li>
                     </ol>
                 </div>
             </div>
@@ -46,7 +46,7 @@
                                                 <i class="fa fa-check-circle"></i> {{ fhsis_status }}
                                             </td>
                                             <td style="text-align: center;">
-                                                <a href="{% url 'datainput:show_fhsis_list' %}" class="btn btn-primary btn-sm">
+                                                <a href="{% url 'datainput:latest_fhsis' %}" class="btn btn-primary btn-sm">
                                                     View Report
                                                 </a>
                                             </td>
@@ -65,31 +65,6 @@
                                             </td>
                                         {% endif %}
                                     </tr>
-                                    <tr>
-                                        <td style="vertical-align: middle;">Monthly Reweighing</td>
-                                        <td style="vertical-align: middle;">{{ month_due }}</td>
-                                        <td style="vertical-align: middle;">{{ mr_date }}</td>
-                                        {% if has_mr %}
-                                            <td style="vertical-align: middle;" class="text-success">
-                                                <i class="fa fa-check-circle"></i> Completed
-                                            </td>
-                                            <td style="text-align: center;">
-                                                <a href="{% url 'datainput:monthly_reweighing_index' %}" class="btn btn-primary btn-sm">
-                                                    View Report
-                                                </a>
-                                            </td>
-                                        {% else %}
-                                            <td style="vertical-align: middle;" class="text-danger">
-                                                <i class="fa fa-exclamation-circle"></i> Incomplete
-                                            </td>
-                                            <td style="text-align: center;">
-                                                <a class="btn btn-primary btn-sm" href="{% url 'datainput:monthly_reweighing_index' %}">
-                                                    Update Report
-                                                </a>
-                                            </td>
-                                        {% endif %}
-                                    </tr>
-
                                 </tbody>
                             </table>
                         </div>
@@ -121,7 +96,7 @@
                                                 <i class="fa fa-check-circle"></i> {{ opt_status }}
                                             </td>
                                             <td style="text-align: center;">
-                                                <a class="btn btn-primary btn-sm" href="{% url 'datainput:show_opt_list' %}">View Report</a>
+                                                <a class="btn btn-primary btn-sm" href="{% url 'datainput:latest_opt' %}">View Report</a>
                                             </td>
                                         {% else %}
                                             <td style="vertical-align: middle;" class="text-danger">

@@ -7,11 +7,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Barangay Nutrition Scholar Dashboard</h1>
+                        <h1 class="m-0 text-dark">Barangay Nutrition Scholar Upload Facility</h1>
                     </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{% url 'core:bns-index' %}">BNS Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'core:bns-index' %}">BNS Upload Facility</a></li>
                         <li class="breadcrumb-item"><a href="{% url 'datainput:monthly_reweighing_index' %}">Monthly Reweighing</a></li>
                         <li class="breadcrumb-item active"><a href="{% url 'datainput:patient_overview' patient.id %}">{{ patient.name }}</a></li>
                         <li class="breadcrumb-item active">Reweighing</li>
@@ -32,7 +32,7 @@
                             <form method="POST">
                                 {% csrf_token %}
                                 {% include 'core/helpers/form_template.html' %}
-                                <input type="submit">
+                                <input class="btn btn-primary col-3"type="submit">
                             </form>
                         </div>
                     </div>
