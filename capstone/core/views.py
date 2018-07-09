@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.views import View
 
@@ -182,3 +182,9 @@ def mark_all_as_read(request):
         notif.save()
 
     return redirect(request.META['HTTP_REFERER'])
+
+
+# # # # # # # # #  DASHBOARD # # # # # # # # #
+def dashboard_micronutrient(request):
+
+    return JsonResponse(Metric.get_micronutrient_dashboard(), safe=False)

@@ -1,8 +1,10 @@
 import decimal
 from datetime import datetime
 
+from django.db.models import Sum
+
 from datainput.models import ChildCare
-from friends import datapoints
+from friends import datapoints, general
 from friends.datapreprocessing import consolidators
 from django.db import models
 
@@ -154,6 +156,39 @@ class Metric(models.Model):
 
         months = [x.month for x in ChildCare.objects.dates('fhsis__date', 'month')]
         year = datetime.now().year
-        print(months)
+        latest_months = months[-3:]
+
+        data = []
+        another_list = []
+
+        fields = datapoints.micronutrient
+
+        mn_fields = [str(f).split(".")[2] for f in ChildCare._meta.get_fields()
+                     if f.verbose_name in fields]
+
+        for i, f in enumerate(mn_fields):
+
+            another_list.append({
+                'name': fields[i],
+                'data': []
+            })
+
+            for m in latest_months:
+                value = ChildCare.objects.filter(fhsis__date__month=m,
+                                                     fhsis__date__year=year).aggregate(sum=Sum(f))['sum']
+                data.append({
+                    'month': m,
+                    'field': fields[i],
+                    'value': int(value)
+                })
+
+                another_list[i]['data'].append(int(value))
+
+        final_dict = {
+            'months': [general.month_converter(n) for n in latest_months],
+            'values': another_list
+        }
+
+        return final_dict
 
 

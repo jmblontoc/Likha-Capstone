@@ -19,5 +19,9 @@ urlpatterns = [
     path('notification/mark_read/<int:id>', views.mark_as_read, name='mark_as_read'),
 
     # mark all as read
-    path('notification/mark_all_as_read', views.mark_all_as_read, name='mark_all')
+    path('notification/mark_all_as_read', views.mark_all_as_read, name='mark_all'),
+
+    # # # # # # # # # # # # # # # # DASHBOARD # # # # # # # # # # # # # # #
+
+    path('ajax/dashboard/micronutrient', views.dashboard_micronutrient, name='dashboard_micro')
 ]
