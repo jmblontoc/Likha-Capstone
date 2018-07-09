@@ -257,7 +257,7 @@ def show_profiles(request, id):
 
     profiles = FamilyProfileLine.objects.filter(family_profile_id__exact=id)
     families = FamilyProfile.objects.get(id=id)
-    barangay = Barangay.objects.get(name=families.barangay)
+    barangay = Barangay.objects.get(name=families.barangay.name)
     profile = Profile.objects.get(user=request.user)
 
     form = FamilyProfileForm(request.POST or None)
