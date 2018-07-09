@@ -14,7 +14,7 @@ from friends.datamining import correlations
 from core.models import Profile, Notification
 from friends.datapreprocessing import consolidators
 # Create your views here.
-from datainput.models import NutritionalStatus, Sex, MaternalCare, ChildCare
+from datainput.models import NutritionalStatus, Sex, MaternalCare, ChildCare, FHSIS
 from friends.datamining.correlations import get_weight_values_per_month
 
 
@@ -120,19 +120,21 @@ def get_nutritional_status(request):
         if stat in s.name:
 
             eopt_male = consolidators.get_total_opt_date(s, male, start_date, end_date)
-            mr_male = consolidators.get_reweighing_counts_date(str(s), male, start_date, end_date)
+            mr_male = consolidators.get_reweighing_counts(str(s), male)
 
             eopt_female = consolidators.get_total_opt_date(s, female, start_date, end_date)
-            mr_female = consolidators.get_reweighing_counts_date(str(s), female, start_date, end_date)
+            mr_female = consolidators.get_reweighing_counts(str(s), female)
 
 
             male_values.append(
-                int(eopt_male + mr_male)
+                int(eopt_male)
             )
 
             female_values.append(
-                int(eopt_female + mr_female)
+                int(eopt_female)
             )
+
+            print(eopt_male + eopt_female)
 
             statuses_str.append(s.name)
 
