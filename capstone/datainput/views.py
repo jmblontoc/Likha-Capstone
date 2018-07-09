@@ -2,11 +2,8 @@
 import os
 from datetime import datetime, date
 import xlrd
-<<<<<<< HEAD
 from django.views import View
 from xlutils.copy import copy
-=======
->>>>>>> 1621b9c05173d742808a06a67553df617360f85a
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -1481,7 +1478,6 @@ def select_report_nutritionist(request):
         return render(request, 'datainput/archives_nutritionist/family_records.html', context)
 
 
-<<<<<<< HEAD
 @login_required()
 def populate_eopt(request):
     path = "/Users/kamillegamboa/Documents/GitHub/Likha-Capstone/capstone/files/OPTValuesExcelVer2.xls"
@@ -1511,7 +1507,7 @@ def populate_eopt(request):
     # profile = Profile.objects.get(user=request.user)
     # for b in barangays:
     #     OperationTimbang.objects.create(date=date1, barangay=b, uploaded_by=profile)
-=======
+
 @login_required
 def notify_bns(request):
 
@@ -1529,12 +1525,6 @@ def notify_bns(request):
         )
 
     messages.success(request, 'Users successfully notified')
-
-
-
-
-
->>>>>>> 1621b9c05173d742808a06a67553df617360f85a
 
 
 
