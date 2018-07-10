@@ -52,7 +52,7 @@ def handle_opt_file(request):
     #         destination.write(chunk)
 
     barangay = Profile.objects.get(user=request.user).barangay
-    opt = OperationTimbang(barangay=barangay, status='Pending')
+    opt = OperationTimbang(barangay=barangay)
     opt.uploaded_by = Profile.objects.get(user=request.user)
     opt.save()
 

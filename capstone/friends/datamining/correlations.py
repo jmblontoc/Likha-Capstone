@@ -3,7 +3,7 @@ from datetime import datetime
 
 import numpy
 from django.db.models import Sum
-
+from computations import weights as w, child_care, maternal
 from datainput.models import NutritionalStatus, OPTValues, MonthlyReweighing, OperationTimbang, MaternalCare, \
     STISurveillance, UnemploymentRate, InformalSettlers, Sex, Flariasis, Leprosy, Schistosomiasis, Immunization, \
     Malaria, Tuberculosis, ChildCare
@@ -350,49 +350,52 @@ def display_micronutrient(scores):
 
     fields = [f for f in ChildCare._meta.get_fields() if f.verbose_name in datapoints.micronutrient]
 
+    for st in w.weights_per_year_to_dict():
 
-    for f in fields:
+        for f in fields:
 
-        point = str(f).strip().split(".")[2]
-        weights = get_weight_values()
-        data_point = get_fhsis(ChildCare, point, None)
-        print(data_point)
-        print(weights)
-        score = get_correlation_score(make_variables(weights, data_point))
+            point = str(f).strip().split(".")[2]
+            data_point = child_care.get_fhsis(ChildCare, point, None)
+            score = get_correlation_score(make_variables(st, data_point))
 
-        scores.append(
-            {
-                'category': 'Weight for Age - Underweight and Severely Underweight',
-                'source': 'Child Care',
-                'field': f.verbose_name,
-                'score': score,
-                'report': 'Micronutrient Supplementation',
-                'variables': make_variables(weights, data_point)
-            }
-        )
+            scores.append(
+                {
+                    'category': 'Weight for Age - Underweight and Severely Underweight',
+                    'source': 'Child Care',
+                    'field': f.verbose_name,
+                    'score': score,
+                    'report': 'Micronutrient Supplementation',
+                    'variables': make_variables(st, data_point)
+                }
+            )
+
+    return scores
 
 
 def display_maternal(scores):
 
     fields = [f for f in MaternalCare._meta.get_fields() if f.verbose_name in datapoints.maternal]
 
-    for f in fields:
+    for st in w.weights_per_year_to_dict():
 
-        point = str(f).strip().split(".")[2]
-        weights = get_weight_values()
-        data_point = get_maternal_care(point)
-        score = get_correlation_score(make_variables(weights, data_point))
+        for f in fields:
 
-        scores.append(
-            {
-                'category': 'Weight for Age - Underweight and Severely Underweight',
-                'source': 'Maternal Care',
-                'field': f.verbose_name,
-                'score': score,
-                'report': 'City Maternal Care',
-                'variables': make_variables(weights, data_point)
-            }
-        )
+            point = str(f).strip().split(".")[2]
+            data_point = get_maternal_care(point)
+            score = get_correlation_score(make_variables(st, data_point))
+
+            scores.append(
+                {
+                    'category': 'Weight for Age - Underweight and Severely Underweight',
+                    'source': 'Maternal Care',
+                    'field': f.verbose_name,
+                    'score': score,
+                    'report': 'City Maternal Care',
+                    'variables': make_variables(st, data_point)
+                }
+            )
+
+    return scores
 
 
 def display_child_care(scores):

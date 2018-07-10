@@ -31,156 +31,156 @@
                         <div class="card-header p-0">
                             <h3 class="card-title p-3">DASHBOARD</h3>
                         </div>
-                        <div class="card-body container-fluid">
-                            <div class="row">
-                                <div class="col-4">
-                                    <h4>City Nutritional Status</h4>
-                                    <table border="1">
-                                        <h5>Weight for Age</h5>
-                                        <tr>
-                                        {% for x in wfa %}
-                                            <td>{{ x.status }}</td>
-                                        {% endfor %}
-                                        </tr>
-
-                                        <tr>
-                                        {% for x in wfa %}
-                                            <td>{{ x.sum }}</td>
-                                        {% endfor %}
-                                        </tr>
-
-                                        <tr>
-                                        {% for x in wfa %}
-                                            <td>{{ x.prevalence }}</td>
-                                        {% endfor %}
-                                        </tr>
-
-                                        <tr>
-                                        {% for x in wfa %}
-                                            <td>{{ x.total }}</td>
-                                        {% endfor %}
-                                        </tr>
-                                    </table>
-
-                                <table border="1">
-                                        <h5>Height for Age</h5>
-                                        <tr>
-                                        {% for x in hfa %}
-                                            <td>{{ x.status }}</td>
-                                        {% endfor %}
-                                        </tr>
-
-                                        <tr>
-                                        {% for x in hfa %}
-                                            <td>{{ x.sum }}</td>
-                                        {% endfor %}
-                                        </tr>
-
-                                        <tr>
-                                        {% for x in hfa %}
-                                            <td>{{ x.prevalence }}</td>
-                                        {% endfor %}
-                                        </tr>
-
-                                        <tr>
-                                        {% for x in hfa %}
-                                            <td>{{ x.total }}</td>
-                                        {% endfor %}
-                                        </tr>
-                                    </table>
-
-                                <table border="1">
-                                        <h5>Weight for Length/Height</h5>
-                                        <tr>
-                                        {% for x in wfh %}
-                                            <td>{{ x.status }}</td>
-                                        {% endfor %}
-                                        </tr>
-
-                                        <tr>
-                                        {% for x in wfh %}
-                                            <td>{{ x.sum }}</td>
-                                        {% endfor %}
-                                        </tr>
-
-                                        <tr>
-                                        {% for x in wfh %}
-                                            <td>{{ x.prevalence }}</td>
-                                        {% endfor %}
-                                        </tr>
-
-                                        <tr>
-                                        {% for x in wfh %}
-                                            <td>{{ x.total }}</td>
-                                        {% endfor %}
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div class="col-4">
-                                    <h4>City Micronutrient Supplementation</h4>
-                                    <div id="micro-dashboard">
-
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <h4>Incomplete Reports</h4>
-                                    {% if not todo_list %}
-                                        <p>Barangay Nutrition Scholar uploads are up to date</p>
-                                    {% else %}
-                                        <table class="table table-hover table-bordered">
-                                            <thead class="thead-dark">
-                                                <tr>
-                                                    <th>Barangay</th>
-                                                    <th>Report </th>
-                                                    <th>Due Date</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            {% for x in todo_list %}
-                                                <tr>
-                                                    <td>{{ x.barangay }}</td>
-                                                    <td>{{ x.report_name }}</td>
-                                                    <td>{{ x.due_date }}</td>
-                                                    <td><a href="{% url 'datainput:notify_bns' x.barangay x.report_name %}" class="btn btn-danger" style="color: white">Notify</a></td>
-                                                </tr>
-                                            {% endfor %}
-                                            </tbody>
-                                        </table>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-4">
-                                    <h4>City Maternal Care </h4>
-                                    <div id="maternal-dash">
-
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <h4>City Children Care</h4>
-                                    <div id="childcare-dash">
-
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <h4>Socioeconomic Status</h4>
-                                    <div id="socio-dash" class="container-fluid">
-                                        <div class="row">
-                                            <div class="col-4 container-fluid" id="family">
-
-                                            </div>
-                                            <div class="col-4" id="salt">
-
-                                            </div>
-                                            <div class="col-4" id="ebf">
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+{#                        <div class="card-body container-fluid">#}
+{#                            <div class="row">#}
+{#                                <div class="col-4">#}
+{#                                    <h4>City Nutritional Status</h4>#}
+{#                                    <table border="1">#}
+{#                                        <h5>Weight for Age</h5>#}
+{#                                        <tr>#}
+{#                                        {% for x in wfa %}#}
+{#                                            <td>{{ x.status }}</td>#}
+{#                                        {% endfor %}#}
+{#                                        </tr>#}
+{##}
+{#                                        <tr>#}
+{#                                        {% for x in wfa %}#}
+{#                                            <td>{{ x.sum }}</td>#}
+{#                                        {% endfor %}#}
+{#                                        </tr>#}
+{##}
+{#                                        <tr>#}
+{#                                        {% for x in wfa %}#}
+{#                                            <td>{{ x.prevalence }}</td>#}
+{#                                        {% endfor %}#}
+{#                                        </tr>#}
+{##}
+{#                                        <tr>#}
+{#                                        {% for x in wfa %}#}
+{#                                            <td>{{ x.total }}</td>#}
+{#                                        {% endfor %}#}
+{#                                        </tr>#}
+{#                                    </table>#}
+{##}
+{#                                <table border="1">#}
+{#                                        <h5>Height for Age</h5>#}
+{#                                        <tr>#}
+{#                                        {% for x in hfa %}#}
+{#                                            <td>{{ x.status }}</td>#}
+{#                                        {% endfor %}#}
+{#                                        </tr>#}
+{##}
+{#                                        <tr>#}
+{#                                        {% for x in hfa %}#}
+{#                                            <td>{{ x.sum }}</td>#}
+{#                                        {% endfor %}#}
+{#                                        </tr>#}
+{##}
+{#                                        <tr>#}
+{#                                        {% for x in hfa %}#}
+{#                                            <td>{{ x.prevalence }}</td>#}
+{#                                        {% endfor %}#}
+{#                                        </tr>#}
+{##}
+{#                                        <tr>#}
+{#                                        {% for x in hfa %}#}
+{#                                            <td>{{ x.total }}</td>#}
+{#                                        {% endfor %}#}
+{#                                        </tr>#}
+{#                                    </table>#}
+{##}
+{#                                <table border="1">#}
+{#                                        <h5>Weight for Length/Height</h5>#}
+{#                                        <tr>#}
+{#                                        {% for x in wfh %}#}
+{#                                            <td>{{ x.status }}</td>#}
+{#                                        {% endfor %}#}
+{#                                        </tr>#}
+{##}
+{#                                        <tr>#}
+{#                                        {% for x in wfh %}#}
+{#                                            <td>{{ x.sum }}</td>#}
+{#                                        {% endfor %}#}
+{#                                        </tr>#}
+{##}
+{#                                        <tr>#}
+{#                                        {% for x in wfh %}#}
+{#                                            <td>{{ x.prevalence }}</td>#}
+{#                                        {% endfor %}#}
+{#                                        </tr>#}
+{##}
+{#                                        <tr>#}
+{#                                        {% for x in wfh %}#}
+{#                                            <td>{{ x.total }}</td>#}
+{#                                        {% endfor %}#}
+{#                                        </tr>#}
+{#                                    </table>#}
+{#                                </div>#}
+{#                                <div class="col-4">#}
+{#                                    <h4>City Micronutrient Supplementation</h4>#}
+{#                                    <div id="micro-dashboard">#}
+{##}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="col-4">#}
+{#                                    <h4>Incomplete Reports</h4>#}
+{#                                    {% if not todo_list %}#}
+{#                                        <p>Barangay Nutrition Scholar uploads are up to date</p>#}
+{#                                    {% else %}#}
+{#                                        <table class="table table-hover table-bordered">#}
+{#                                            <thead class="thead-dark">#}
+{#                                                <tr>#}
+{#                                                    <th>Barangay</th>#}
+{#                                                    <th>Report </th>#}
+{#                                                    <th>Due Date</th>#}
+{#                                                    <th>Action</th>#}
+{#                                                </tr>#}
+{#                                            </thead>#}
+{#                                            <tbody>#}
+{#                                            {% for x in todo_list %}#}
+{#                                                <tr>#}
+{#                                                    <td>{{ x.barangay }}</td>#}
+{#                                                    <td>{{ x.report_name }}</td>#}
+{#                                                    <td>{{ x.due_date }}</td>#}
+{#                                                    <td><a href="{% url 'datainput:notify_bns' x.barangay x.report_name %}" class="btn btn-danger" style="color: white">Notify</a></td>#}
+{#                                                </tr>#}
+{#                                            {% endfor %}#}
+{#                                            </tbody>#}
+{#                                        </table>#}
+{#                                    {% endif %}#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="row">#}
+{#                                <div class="col-4">#}
+{#                                    <h4>City Maternal Care </h4>#}
+{#                                    <div id="maternal-dash">#}
+{##}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="col-4">#}
+{#                                    <h4>City Children Care</h4>#}
+{#                                    <div id="childcare-dash">#}
+{##}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="col-4">#}
+{#                                    <h4>Socioeconomic Status</h4>#}
+{#                                    <div id="socio-dash" class="container-fluid">#}
+{#                                        <div class="row">#}
+{#                                            <div class="col-4 container-fluid" id="family">#}
+{##}
+{#                                            </div>#}
+{#                                            <div class="col-4" id="salt">#}
+{##}
+{#                                            </div>#}
+{#                                            <div class="col-4" id="ebf">#}
+{##}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
                     </div>
                 </div>
             </div>

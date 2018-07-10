@@ -75,7 +75,7 @@ class Barangay(models.Model):
 class OperationTimbang(models.Model):
 
     date = models.DateTimeField(default=datetime.now)
-    barangay = models.ForeignKey(Barangay, on_delete=models.DO_NOTHING)
+    barangay = models.ForeignKey(Barangay, on_delete=models.CASCADE)
     uploaded_by = models.ForeignKey('core.Profile', on_delete=models.DO_NOTHING)
 
     def __str__(self):
