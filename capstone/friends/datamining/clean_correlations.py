@@ -1,4 +1,4 @@
-from computations import weights, child_care, maternal
+from computations import weights, child_care, maternal, socioeconomic
 from datainput.models import *
 from friends.datamining import correlations as c
 from friends import datapoints
@@ -161,3 +161,55 @@ def display_child_care(scores):
                 'variables': c.make_variables(records[2], data_point)
             }
         )
+
+
+def display_socioeconomic(scores):
+
+    fields = socioeconomic.fields
+
+    for f in fields:
+        data_point = socioeconomic.get_socioeconomic(f)
+        score = c.get_correlation_score(c.make_variables(records[0], data_point))
+
+        scores.append(
+            {
+                'category': 'Weight for Age - Underweight and Severely Underweight',
+                'source': 'Family Profile',
+                'field': f,
+                'score': score,
+                'report': 'Socioeconomic',
+                'variables': c.make_variables(records[0], data_point)
+            }
+        )
+
+    for f in fields:
+        data_point = socioeconomic.get_socioeconomic(f)
+        score = c.get_correlation_score(c.make_variables(records[0], data_point))
+
+        scores.append(
+            {
+                'category': 'Height for Age - Stunted and Severely Stunted',
+                'source': 'Family Profile',
+                'field': f,
+                'score': score,
+                'report': 'Socioeconomic',
+                'variables': c.make_variables(records[1], data_point)
+            }
+        )
+
+    for f in fields:
+        data_point = socioeconomic.get_socioeconomic(f)
+        score = c.get_correlation_score(c.make_variables(records[0], data_point))
+
+        scores.append(
+            {
+                'category': 'Weight for Height/Length - Wasted and Severely Wasted',
+                'source': 'Family Profile',
+                'field': f,
+                'score': score,
+                'report': 'Socioeconomic',
+                'variables': c.make_variables(records[2], data_point)
+            }
+        )
+
+    return scores
