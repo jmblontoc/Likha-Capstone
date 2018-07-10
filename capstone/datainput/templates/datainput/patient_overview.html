@@ -7,7 +7,7 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     {% if profile.user_type == 'Barangay Nutrition Scholar' %}
-                    <h1 class="m-0 text-dark">Barangay Nutrition Scholar Dashboard</h1>
+                    <h1 class="m-0 text-dark">Barangay Nutrition Scholar Monthly Reweighing{% if active == 'mr' %} Archive{% endif %}</h1>
                     {% else %}
                     <h1 class="m-0 text-dark">Nutritionist Data Status</h1>
                     {% endif %}
@@ -15,9 +15,14 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         {% if profile.user_type == 'Barangay Nutrition Scholar' %}
-                        <li class="breadcrumb-item"><a href="{% url 'core:bns-index' %}">BNS Upload Facility</a></li>
-                        <li class="breadcrumb-item"><a href="{% url 'datainput:monthly_reweighing_index' %}">Monthly Reweighing</a></li>
-                        <li class="breadcrumb-item active">{{ patient.name }}</li>
+                            {% if active == 'mw' %}
+                                <li class="breadcrumb-item"><a href="{% url 'datainput:latest_monthly_reweighing_index' %}">BNS Monthly Reweighing</a></li>
+                                <li class="breadcrumb-item active">{{ patient.name }}</li>
+                            {% else %}
+                                <li class="breadcrumb-item"><a href="{% url 'datainput:monthly_reweighing_list' %}">BNS Monthly Reweighing Archive</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'datainput:display_monthly' patient.date_created.year %}">Monthly Reweighing - {{ patient.date_created.year }}</a></li>
+                                <li class="breadcrumb-item active">{{ patient.name }}</li>
+                            {% endif %}
                         {% else %}
                         <li class="breadcrumb-item"><a href="{% url 'datainput:data_status_index' %}">Data Status</a></li>
                         <li class="breadcrumb-item"><a href="{% url 'datainput:view_reweighing' barangay %}">Monthly Reweighing</a></li>
@@ -67,9 +72,14 @@
                             <br>
                             {% endif %}
                             {% if is_bns %}
-                            <div>
-                                <a class="btn btn-primary"  href="{% url 'datainput:reweigh' patient.id %}">Update {{ patient.name }}'s nutritional status</a>
-                            </div>
+                                {% if active == 'mw' %}
+                                    <div>
+                                        <a class="btn btn-primary"  href="{% url 'datainput:reweigh' patient.id %}">Update {{ patient.name }}'s nutritional status</a>
+                                    </div>
+                                {% endif %}
+
+
+
                             {% endif %}
                         </div>
                     </div>

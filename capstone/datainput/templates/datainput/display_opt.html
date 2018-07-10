@@ -20,7 +20,7 @@
                         <li class="breadcrumb-item"><a href="{% url 'core:bns-index' %}">BNS Upload Facility</a></li>
                         <li class="breadcrumb-item active">OPT Record - {{ opt.date.date }}</li>
                         {% else %}
-                        <li class="breadcrumb-item"><a href="{% url 'datainput:show_fhsis_list' %}">BNS eOPT Records</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'datainput:show_opt_list' %}">BNS eOPT Records</a></li>
                         <li class="breadcrumb-item active">OPT Record - {{ opt.date.date }}</li>
                         {% endif %}
                     </ol>

@@ -12,6 +12,7 @@ from django.core.files.storage import default_storage
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.db.models import Count
 
 from core.forms import RejectForm
 from datainput.forms import FamilyProfileForm, PatientForm, MonthlyReweighingForm, HealthCareWasteManagementForm, \
@@ -228,6 +229,28 @@ def family_profiles(request):
 
 
 @login_required
+def monthly_reweighing_list(request):
+
+    barangay = Profile.objects.get(user=request.user).barangay
+    families = Patient.objects.values('date_created').annotate(dcount=Count('date_created'))
+
+    profile = Profile.objects.get(user=request.user)
+
+    print(families)
+
+    active = 'mr'
+
+    context = {
+        'active': active,
+        'profile': profile,
+        'barangay': barangay,
+        'families': families
+    }
+
+    return render(request, 'datainput/monthly_reweighing_list.html', context)
+
+
+@login_required
 def add_family_profile(request):
 
     profile = Profile.objects.get(user=request.user)
@@ -327,10 +350,13 @@ def latest_monthly_reweighing_index(request):
     profile = Profile.objects.get(user=request.user)
 
     patients = Patient.objects.filter(barangay=barangay)
-    patients_now = patients.filter(monthlyreweighing__date__year=datetime.now().year)
-
-    print(patients)
+    patients_now = patients.filter(date_created__year=datetime.now().year)
+    request.session['active'] = 'mw'
+    print(request.session['active'])
     print(patients_now)
+
+    if patients_now.count == 0:
+        patients_now = patients
 
     context = {
         'active': 'mw',
@@ -360,6 +386,7 @@ def add_patient(request):
     profile = Profile.objects.get(user=request.user)
 
     context = {
+        'active': 'mw',
         'profile': profile,
         'form': form
     }
@@ -380,10 +407,12 @@ def patient_overview(request, id):
     else:
         template_values = 'core/nutritionist-layout.html'
 
+    print(request.META.get('HTTP_REFERER'))
+
     context = {
         'patient': patient,
         'template_values': template_values,
-        'active': 'ds',
+        'active': request.session['active'],
         'profile': profile,
         'barangay': barangay.id,
         'weights': weights,
@@ -1306,6 +1335,30 @@ def display_fhsis(request, id):
     }
 
     return render(request, 'datainput/display_fhsis.html', context)
+
+
+@login_required
+def display_monthly(request, id):
+    profile = Profile.objects.get(user=request.user)
+    barangay = Profile.objects.get(user=request.user).barangay
+
+    patients = Patient.objects.filter(barangay=barangay)
+    patients_now = patients.filter(date_created__year=id)
+    print(datetime.now().year)
+    print(patients_now)
+
+    request.session['active'] = 'mr'
+    print(barangay)
+
+    context = {
+        'profile': profile,
+        'active': 'mr',
+        'patients': set(patients_now),
+        'barangay': barangay,
+        'id': id
+    }
+
+    return render(request, 'datainput/monthly_reweighing_index.html', context)
 
 
 @login_required
