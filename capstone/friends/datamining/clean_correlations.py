@@ -212,4 +212,10 @@ def display_socioeconomic(scores):
             }
         )
 
-    return scores
+
+def create_correlation_session(request):
+
+    request.session['micronutrient'] = display_micronutrient([])
+    request.session['maternal'] = display_maternal([])
+    request.session['socioeconomic'] = display_socioeconomic([])
+    request.session['child_care'] = display_child_care([])

@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from friends.datainput import validations
 from friends import datapoints
 from django.http import HttpResponse
-from friends.datamining import correlations, forecast as f
+from friends.datamining import correlations, forecast as f, clean_correlations
 from datainput.models import NutritionalStatus, Barangay, Sex, ChildCare, Tuberculosis, Malaria, Immunization, \
     MaternalCare, Schistosomiasis, Leprosy, Flariasis, STISurveillance
 from friends.datapreprocessing import checkers
@@ -24,8 +24,12 @@ def index(request):
 
 
         profile = Profile.objects.get(user=request.user)
-        correlations.create_session(request)
-        scores = request.session['scores']
+        clean_correlations.create_correlation_session(request)
+
+        micro = request.session['micronutrient']
+        maternal = request.session['maternal']
+        child_care = request.session['child_care']
+        socio = request.session['socioeconomic']
 
         context = {
             'profile': profile,
