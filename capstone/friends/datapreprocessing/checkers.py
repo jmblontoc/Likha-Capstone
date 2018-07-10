@@ -14,7 +14,8 @@ def has_nutritional():
             if metric.get_data_point in statuses:
                 count = count + 1
 
-    return count == 13
+    print(count)
+    return count == NutritionalStatus.objects.all().count()
 
 
 def has_micronutrient():
@@ -63,8 +64,8 @@ def has_socioeconomic():
 
     for metric in metrics:
         if metric.get_sex == 'N/A':
-            if metric.get_data_point in datapoints.child_care:
+            if metric.get_data_point in datapoints.socioeconomic:
                 count = count + 1
 
-    return count == datapoints.child_care.__len__()
+    return count == datapoints.socioeconomic.__len__()
 

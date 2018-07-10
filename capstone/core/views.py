@@ -5,12 +5,13 @@ from django.db.models import Sum
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.views import View
-
+from friends.visualizations import getters
 from datapreprocessing.models import Metric
 from friends.datainput import validations
 from core.forms import UploadFileForm
 from core.models import Profile, Notification
-from datainput.models import OperationTimbang, MonthlyReweighing, FamilyProfile, FHSIS, NutritionalStatus, Patient
+from datainput.models import OperationTimbang, MonthlyReweighing, FamilyProfile, FHSIS, NutritionalStatus, Patient, \
+    FamilyProfileLine
 from friends import user_redirects
 from datetime import datetime
 from friends.datamining import correlations
@@ -151,6 +152,9 @@ def nutritionist(request):
     hfa = []
     wfh = []
 
+    # Socioeconomic
+    average_members = getters.get_average_family_members()
+
     for x in range(0, 4):
         wfa.append(computations[x])
 
@@ -171,7 +175,8 @@ def nutritionist(request):
         'wfa': wfa,
         'hfa': hfa,
         'wfh': wfh,
-        'todo_list': todo_list
+        'todo_list': todo_list,
+        'average_members': average_members
     }
 
     return render(request, 'core/nutritionist_index.html', context)
@@ -205,10 +210,23 @@ def mark_all_as_read(request):
 # # # # # # # # #  DASHBOARD # # # # # # # # #
 def dashboard(request):
 
+    # socioeconomic
+
+    total = FamilyProfileLine.objects.filter(family_profile__date__year=datetime.now().year).count()
+    using_salt = FamilyProfileLine.objects.filter(family_profile__date__year=datetime.now().year, is_using_iodized_salt=True).count()
+    ebf = FamilyProfileLine.objects.filter(family_profile__date__year=datetime.now().year, is_ebf=True).count()
+
+    socioeconomic = {
+        'average_families': getters.get_average_family_members(),
+        'is_using_salt': round(using_salt / total * 100, 2),
+        'is_ebf': round(ebf / total * 100, 2)
+    }
+
     data = {
         'micro': Metric.get_micronutrient_dashboard(),
         'maternal': Metric.get_maternal_dashboard(),
-        'child_care': Metric.get_child_care_dashboard()
+        'child_care': Metric.get_child_care_dashboard(),
+        'socioeconomic': socioeconomic
     }
 
     return JsonResponse(data, safe=False)

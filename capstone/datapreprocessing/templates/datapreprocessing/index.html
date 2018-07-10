@@ -36,16 +36,16 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>City Nutritional Status</td>
-                                {% if not has_nutritional %}
-                                    <td class="text-warning">Not yet set</td>
-                                    <td><a class="btn btn-primary btn-sm" href="{% url 'datapreprocessing:set_nutritional_status' %}">Set Thresholds</a></td>
-                                {% else %}
-                                    <td class="text-success">Completed</td>
-                                    <td><button data-toggle="modal" data-target="#viewDefault" class="btn btn-primary btn-sm default-report" data-report="ns">View Thresholds</button></td>
-                                {% endif %}
-                            </tr>
+{#                            <tr>#}
+{#                                <td>City Nutritional Status</td>#}
+{#                                {% if not has_nutritional %}#}
+{#                                    <td class="text-warning">Not yet set</td>#}
+{#                                    <td><a class="btn btn-primary btn-sm" href="{% url 'datapreprocessing:set_nutritional_status' %}">Set Thresholds</a></td>#}
+{#                                {% else %}#}
+{#                                    <td class="text-success">Completed</td>#}
+{#                                    <td><button data-toggle="modal" data-target="#viewDefault" class="btn btn-primary btn-sm default-report" data-report="ns">View Thresholds</button></td>#}
+{#                                {% endif %}#}
+{#                            </tr>#}
                             <tr>
                                 <td>City Micronutrient Supplementation</td>
                                 {% if not has_micronutrient %}

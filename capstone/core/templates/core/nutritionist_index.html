@@ -3,6 +3,7 @@
 
 {% load static %}
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="{% static 'core/js/dashboard.js' %}"></script>
 
@@ -35,7 +36,7 @@
                                 <div class="col-4">
                                     <h4>City Nutritional Status</h4>
                                     <table border="1">
-                                        <h1>Weight for Age</h1>
+                                        <h5>Weight for Age</h5>
                                         <tr>
                                         {% for x in wfa %}
                                             <td>{{ x.status }}</td>
@@ -58,13 +59,11 @@
                                         {% for x in wfa %}
                                             <td>{{ x.total }}</td>
                                         {% endfor %}
-                                        </tr>
-
                                         </tr>
                                     </table>
 
                                 <table border="1">
-                                        <h1>Height for Age</h1>
+                                        <h5>Height for Age</h5>
                                         <tr>
                                         {% for x in hfa %}
                                             <td>{{ x.status }}</td>
@@ -87,13 +86,11 @@
                                         {% for x in hfa %}
                                             <td>{{ x.total }}</td>
                                         {% endfor %}
-                                        </tr>
-
                                         </tr>
                                     </table>
 
                                 <table border="1">
-                                        <h1>Weight for Length/Height</h1>
+                                        <h5>Weight for Length/Height</h5>
                                         <tr>
                                         {% for x in wfh %}
                                             <td>{{ x.status }}</td>
@@ -116,8 +113,6 @@
                                         {% for x in wfh %}
                                             <td>{{ x.total }}</td>
                                         {% endfor %}
-                                        </tr>
-
                                         </tr>
                                     </table>
                                 </div>
@@ -128,7 +123,7 @@
                                     </div>
                                 </div>
                                 <div class="col-4">
-                                    <h4>Barangay Reports Not Yet Uploaded</h4>
+                                    <h4>Incomplete Reports</h4>
                                     {% if not todo_list %}
                                         <p>Barangay Nutrition Scholar uploads are up to date</p>
                                     {% else %}
@@ -137,6 +132,7 @@
                                                 <tr>
                                                     <th>Barangay</th>
                                                     <th>Report </th>
+                                                    <th>Due Date</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -145,7 +141,8 @@
                                                 <tr>
                                                     <td>{{ x.barangay }}</td>
                                                     <td>{{ x.report_name }}</td>
-                                                    <td><a class="btn btn-primary">Notify</a></td>
+                                                    <td>{{ x.due_date }}</td>
+                                                    <td><a href="{% url 'datainput:notify_bns' x.barangay x.report_name %}" class="btn btn-danger" style="color: white">Notify</a></td>
                                                 </tr>
                                             {% endfor %}
                                             </tbody>
@@ -164,6 +161,22 @@
                                     <h4>City Children Care</h4>
                                     <div id="childcare-dash">
 
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <h4>Socioeconomic Status</h4>
+                                    <div id="socio-dash" class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-4 container-fluid" id="family">
+
+                                            </div>
+                                            <div class="col-4" id="salt">
+
+                                            </div>
+                                            <div class="col-4" id="ebf">
+
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

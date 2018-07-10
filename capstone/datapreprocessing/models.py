@@ -24,6 +24,7 @@ class Metric(models.Model):
     date = models.DateTimeField(default=datetime.now)
     is_completed = models.BooleanField(default=False)
     is_default = models.BooleanField(default=True)
+    threshold_bad = models.BooleanField(default=True, verbose_name='Is Value Reaching Threshold Bad')
 
     def __str__(self):
         return self.metric

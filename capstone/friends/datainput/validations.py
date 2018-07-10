@@ -2,6 +2,7 @@ from datetime import datetime
 
 from datainput.models import Patient, MonthlyReweighing, HealthCareWasteManagement, InformalSettlers, UnemploymentRate, \
     FHSIS, OperationTimbang, FamilyProfile, Barangay
+from friends.datainput import misc
 
 
 def has_monthly_reweighing(barangay, month, year):
@@ -69,25 +70,29 @@ def todo_list():
         if not b.has_opt:
             todo.append({
                 'report_name': 'Operation Timbang',
-                'barangay': b.name
+                'barangay': b.name,
+                'due_date': 'March 30, %i' % datetime.now().year
             })
 
         if not b.has_family_profile:
             todo.append({
                 'report_name': 'Family Profile',
-                'barangay': b.name
+                'barangay': b.name,
+                'due_date': 'December 30, %i' % datetime.now().year
             })
 
         if not b.has_reweighed:
             todo.append({
                 'report_name': 'Monthly Reweighing',
-                'barangay': b.name
+                'barangay': b.name,
+                'due_date': misc.get_due_date('monthly')
             })
 
         if not b.has_fhsis:
             todo.append({
                 'report_name': 'FHSIS',
-                'barangay': b.name
+                'barangay': b.name,
+                'due_date': misc.get_due_date('monthly')
             })
 
     return todo

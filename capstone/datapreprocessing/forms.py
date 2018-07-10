@@ -7,7 +7,7 @@ class MetricForm(ModelForm):
 
     class Meta:
         model = Metric
-        fields = ['threshold', 'unit']
+        fields = ['threshold', 'unit', 'threshold_bad']
 
 
 class EditMetricForm(ModelForm):

@@ -1,8 +1,8 @@
 from datetime import datetime
 
-from django.db.models import Sum
+from django.db.models import Sum, Avg
 
-from datainput.models import ChildCare, Immunization, MaternalCare
+from datainput.models import ChildCare, Immunization, MaternalCare, FamilyProfileLine
 
 
 def get_micronutrient(sex, date_range):
@@ -67,3 +67,9 @@ def get_child_care(date_range):
         )
 
     return data
+
+
+def get_average_family_members():
+
+    return FamilyProfileLine.objects.filter(family_profile__date__year=datetime.now().year).aggregate(average=
+                                                                                               Avg('no_members'))['average']

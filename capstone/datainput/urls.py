@@ -146,5 +146,5 @@ urlpatterns = [
     path('populate/eopt', views.populate_eopt, name='populate_eopt'),
 
     # notify bns
-    path('nutritionist/notify_bns/', views.notify_bns, name='notify_bns')]
+    path('nutritionist/notify_bns/<str:barangay_name>/<str:report>', views.notify, name='notify_bns')]
 

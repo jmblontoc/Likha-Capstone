@@ -160,7 +160,7 @@ def set_nutritional_status(request):
                 model = 'Nutritional Status'
                 status = NutritionalStatus.objects.get(code=k)
 
-                metric = '%s | %s' % (model, status)
+                metric = '%s | %s' % (model, status.name)
                 Metric.objects.create(
                     metric=metric,
                     threshold=value,
@@ -186,9 +186,13 @@ def set_micronutrient(request):
 
         my_dict = dict(request.POST)
 
+        print(my_dict)
+
         for k, v in my_dict.items():
 
-            if not k == 'csrfmiddlewaretoken':
+            counter = 0
+
+            if not k == 'csrfmiddlewaretoken' and not k == 'is_bad':
 
                 value = v[0]
                 model = 'Child Care'
@@ -201,6 +205,8 @@ def set_micronutrient(request):
                     threshold=value,
                     unit='Total'
                 )
+
+            counter = counter + 1
 
         messages.success(request, 'Thresholds successfully set')
         return redirect('datapreprocessing:index')

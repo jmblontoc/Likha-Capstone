@@ -42,7 +42,7 @@ $(function() {
                 series: data.micro.values
             });
 
-            const date = new Date();
+            const date = moment().format("LLLL");
 
             Highcharts.chart('maternal-dash', {
                 chart: {
@@ -118,6 +118,84 @@ $(function() {
                 data: data.child_care.values
 
               }]
+            });
+
+            Highcharts.chart('salt', {
+
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Families Using Iodized Salt ' + date
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: false
+                        },
+                        showInLegend: true
+                    }
+                },
+                series: [{
+                    name: 'Using Iodized Salt',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'Yes',
+                        y: data.socioeconomic.is_using_salt,
+                        sliced: true,
+                        selected: true
+                    }, {
+                        name: 'No',
+                        y: 100 - data.socioeconomic.is_using_salt
+                    }]
+                }]
+            });
+
+            Highcharts.chart('ebf', {
+
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Families Practicing Exclusive Breastfeeding as of ' + date
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: false
+                        },
+                        showInLegend: true
+                    }
+                },
+                series: [{
+                    name: 'Using Iodized Salt',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'Yes',
+                        y: data.socioeconomic.is_ebf,
+                        sliced: true,
+                        selected: true
+                    }, {
+                        name: 'No',
+                        y: 100 - data.socioeconomic.is_ebf
+                    }]
+                }]
             });
         },
         error: function(e) {

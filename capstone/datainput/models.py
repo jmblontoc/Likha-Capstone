@@ -193,6 +193,7 @@ class Patient(models.Model):
     date_of_birth = models.DateField()
     barangay = models.ForeignKey(Barangay, on_delete=models.CASCADE)
     sex = models.ForeignKey(Sex, on_delete=models.DO_NOTHING)
+    date_created = models.DateTimeField(default=datetime.now)
 
     def __str__(self):
         return self.name + " - " + self.barangay.name

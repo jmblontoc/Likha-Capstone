@@ -1734,4 +1734,24 @@ def notify_bns(request):
     messages.success(request, 'Users successfully notified')
 
 
+@login_required
+def notify(request, barangay_name, report):
+
+    barangay = Barangay.objects.get(name=barangay_name)
+
+
+    message = 'Please upload your %s report as soon as possible' % report
+    sender = Profile.objects.get(user=request.user)
+
+    for p in Profile.objects.filter(barangay=barangay):
+        Notification.objects.create(
+            message=message,
+            profile_to=p,
+            profile_from=sender
+        )
+
+    messages.success(request, 'Users successfully notified')
+    return redirect('core:nutritionist')
+
+
 

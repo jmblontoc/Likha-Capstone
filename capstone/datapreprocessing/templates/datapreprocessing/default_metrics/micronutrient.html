@@ -10,13 +10,17 @@
         <table>
             <tr>
                 <th>Field</th>
-                <th>Action</th>
+                <th>Threshold</th>
+                <th>Is Bad</th>
             </tr>
             {% for f in fields %}
                 <tr>
-                    <td>{{ f.0 }}</td>
+                    <td>{{ f }}</td>
                     <td>
-                        <input placeholder="Input threshold" type="number" name="{{ f.0 }}">
+                        <input placeholder="Input threshold" type="number" name="{{ f }}">
+                    </td>
+                    <td>
+                        <input type="radio" name="is_bad">
                     </td>
                 </tr>
             {% endfor %}
