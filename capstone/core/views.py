@@ -147,6 +147,19 @@ def nutritionist(request):
     # Nutritional Status
     nutritional_metrics = Metric.objects.filter(is_default=True, metric__contains='Nutritional Status')
     computations = [Metric.get_computations_nutritional_status(s.name) for s in NutritionalStatus.objects.all()]
+    wfa = []
+    hfa = []
+    wfh = []
+
+    for x in range(0, 4):
+        wfa.append(computations[x])
+
+    for x in range(4, 8):
+        hfa.append(computations[x])
+
+    for x in range(8, 13):
+        wfh.append(computations[x])
+
 
     todo_list = validations.todo_list()
     print(todo_list)
@@ -155,7 +168,9 @@ def nutritionist(request):
         'profile': profile,
         'active': 'db',
         'nutritional': nutritional_metrics,
-        'computations_ns': computations,
+        'wfa': wfa,
+        'hfa': hfa,
+        'wfh': wfh,
         'todo_list': todo_list
     }
 

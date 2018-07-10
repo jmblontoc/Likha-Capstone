@@ -35,20 +35,90 @@
                                 <div class="col-4">
                                     <h4>City Nutritional Status</h4>
                                     <table border="1">
+                                        <h1>Weight for Age</h1>
                                         <tr>
-                                            <th>Status</th>
-                                            <th>Total</th>
-                                            <th>Prevalence</th>
-                                            <th>Total per Category</th>
-                                        </tr>
-                                        {% for x in computations_ns %}
-                                            <tr>
-                                                <td>{{ x.status }}</td>
-                                                <td>{{ x.sum }}</td>
-                                                <td>{{ x.prevalence }}</td>
-                                                <td>{{ x.total }}</td>
-                                            </tr>
+                                        {% for x in wfa %}
+                                            <td>{{ x.status }}</td>
                                         {% endfor %}
+                                        </tr>
+
+                                        <tr>
+                                        {% for x in wfa %}
+                                            <td>{{ x.sum }}</td>
+                                        {% endfor %}
+                                        </tr>
+
+                                        <tr>
+                                        {% for x in wfa %}
+                                            <td>{{ x.prevalence }}</td>
+                                        {% endfor %}
+                                        </tr>
+
+                                        <tr>
+                                        {% for x in wfa %}
+                                            <td>{{ x.total }}</td>
+                                        {% endfor %}
+                                        </tr>
+
+                                        </tr>
+                                    </table>
+
+                                <table border="1">
+                                        <h1>Height for Age</h1>
+                                        <tr>
+                                        {% for x in hfa %}
+                                            <td>{{ x.status }}</td>
+                                        {% endfor %}
+                                        </tr>
+
+                                        <tr>
+                                        {% for x in hfa %}
+                                            <td>{{ x.sum }}</td>
+                                        {% endfor %}
+                                        </tr>
+
+                                        <tr>
+                                        {% for x in hfa %}
+                                            <td>{{ x.prevalence }}</td>
+                                        {% endfor %}
+                                        </tr>
+
+                                        <tr>
+                                        {% for x in hfa %}
+                                            <td>{{ x.total }}</td>
+                                        {% endfor %}
+                                        </tr>
+
+                                        </tr>
+                                    </table>
+
+                                <table border="1">
+                                        <h1>Weight for Length/Height</h1>
+                                        <tr>
+                                        {% for x in wfh %}
+                                            <td>{{ x.status }}</td>
+                                        {% endfor %}
+                                        </tr>
+
+                                        <tr>
+                                        {% for x in wfh %}
+                                            <td>{{ x.sum }}</td>
+                                        {% endfor %}
+                                        </tr>
+
+                                        <tr>
+                                        {% for x in wfh %}
+                                            <td>{{ x.prevalence }}</td>
+                                        {% endfor %}
+                                        </tr>
+
+                                        <tr>
+                                        {% for x in wfh %}
+                                            <td>{{ x.total }}</td>
+                                        {% endfor %}
+                                        </tr>
+
+                                        </tr>
                                     </table>
                                 </div>
                                 <div class="col-4">
