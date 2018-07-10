@@ -67,12 +67,12 @@ maternal = [
 
 child_care = [
     'Given complimentary food',
-    'Sick children',
+    'Sick children', # 1
     'Children given deworming',
-    'Anemic children',
+    'Anemic children', # 3
     'Anemic children receiving full dose iron',
-    'Diarrhea cases',
-    'Pneumonia cases'
+    'Diarrhea cases', # 5
+    'Pneumonia cases' # 6
 
 ]
 

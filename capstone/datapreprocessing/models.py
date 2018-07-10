@@ -206,4 +206,19 @@ class Metric(models.Model):
             'values': values
         }
 
+    @staticmethod
+    def get_child_care_dashboard():
+
+        cc_fields = datapoints.child_care
+        fields = [cc_fields[1], cc_fields[3], cc_fields[5], cc_fields[6]]
+
+        x = [metric.to_dict() for metric in Metric.objects.filter(is_default=True) if metric.get_data_point in fields]
+
+        values = [m['value'] for m in x]
+
+        return {
+            'fields': fields,
+            'values': values
+        }
+
 

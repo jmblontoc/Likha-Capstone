@@ -192,7 +192,8 @@ def dashboard(request):
 
     data = {
         'micro': Metric.get_micronutrient_dashboard(),
-        'maternal': Metric.get_maternal_dashboard()
+        'maternal': Metric.get_maternal_dashboard(),
+        'child_care': Metric.get_child_care_dashboard()
     }
 
     return JsonResponse(data, safe=False)
