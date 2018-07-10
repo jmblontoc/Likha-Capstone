@@ -49,6 +49,9 @@ urlpatterns = [
     # ajax of showing profile
     path('bns/family_profile/show_ajax', views.show_profile_ajax, name='show_profile_ajax'),
 
+    # ajax of showing profile
+    path('bns/monthly_reweighing/list', views.monthly_reweighing_list, name='monthly_reweighing_list'),
+
     # monthly reweighing
     path('bns/monthly_reweighing', views.monthly_reweighing_index, name='monthly_reweighing_index'),
 
@@ -57,6 +60,9 @@ urlpatterns = [
 
     # add patient
     path('bns/monthly_reweighing/add_patient', views.add_patient, name='add_patient'),
+
+    # add patient
+    path('bns/monthly_reweighing/<int:id>', views.display_monthly, name='display_monthly'),
 
     # patient overview
     path('patient/<int:id>', views.patient_overview, name='patient_overview'),

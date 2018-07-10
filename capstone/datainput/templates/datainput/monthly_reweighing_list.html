@@ -1,10 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'core/bns-layout.html' %}
+{% block content %}
 
-</body>
-</html>
+
+<div class="content-wrapper" style="min-height: 620px; height: auto; margin-top: 57px;">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Barangay Nutrition Scholar Monthly Reweighing{% if active == 'mr' %} Archive{% endif %}</h1>
+                    </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item active">BNS Monthly Reweighing{% if active == 'mr' %} Archive{% endif %}</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        {% include 'core/helpers/messages.html' %}
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-8">
+                    <div class="card card-primary">
+                        <div class="card-header d-flex p-0">
+                            <h3 class="card-title p-3">Monthly Reweighing</h3>
+                        </div>
+                        <div class="card-body">
+                                <div>
+                                    <table id="monthlyreweighing_list" class="table table-bordered table-hover dataTable">
+                                        <thead>
+                                        <tr>
+                                            <th>Profile</th>
+                                            <th style="width: 16%;">Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for family in families %}
+                                            <tr>
+                                                <td style="vertical-align: middle;">
+                                                    Monthly Reweighing for {{ family.date_created.year }}
+                                                </td>
+                                               <td>
+                                                   <a class="btn btn-primary btn-sm col-12" href="{% url 'datainput:display_monthly' family.date_created.year %}">View</a>
+                                               </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <script>
+                                $(document).ready(function(){
+                                    $('#monthlyreweighing_list').DataTable({
+                                        "paging": true,
+                                        "lengthChange": true,
+                                        "ordering": true,
+                                        "autoWidth": false,
+                                        "columnDefs": [{
+                                            "targets": [1],
+                                            "orderable": false,
+                                        }],
+                                    });
+                                });
+                            </script>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
