@@ -2,7 +2,9 @@
 {% block content %}
 
 {% load static %}
+<script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="{% static 'datapreprocessing/js/default_metrics.js' %}"></script>
+<script src="{% static 'datapreprocessing/js/display_graph.js' %}"></script>
 <div class="content-wrapper" style="min-height: 620px; height: auto; margin-top: 57px;">
     <div class="content-header">
         <div class="container-fluid">
@@ -23,6 +25,16 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-6" id="graph">
+
+                            </div>
+                            <div class="col-6" id="table">
+
+                            </div>
+                        </div>
+                    </div>
 {#                    <div class="card card-primary">#}
 {#                        <div class="card-header d-flex p-0" style="cursor: move;">#}
 {#                            <h3 class="card-title p-3">Default Metrics</h3>#}
@@ -113,9 +125,9 @@
                                     </tr>
                                     {% else %}
                                         {% for x in metrics %}
-                                            <tr>
-                                                <td>{{ x.get_source }}</td>
-                                                <td>{{ x.get_data_point }}</td>
+                                            <tr class="display" style="cursor: pointer;" data-value="{{ x.get_value_over_time }}">
+                                                <td class="source">{{ x.get_source }}</td>
+                                                <td class="point">{{ x.get_data_point }}</td>
                                                 <td>{{ x.get_total_value }}</td>
                                                 <td>{{ x.get_type }}</td>
                                                 <td>{{ x.threshold }}</td>

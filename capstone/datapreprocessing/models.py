@@ -1,9 +1,11 @@
 import decimal
+import json
 from datetime import datetime
 
 from django.db.models import Sum
 
-from datainput.models import ChildCare
+from computations import weights
+from datainput.models import ChildCare, FamilyProfileLine, MaternalCare
 from friends import datapoints, general
 from friends.datapreprocessing import consolidators
 from django.db import models
@@ -241,5 +243,50 @@ class Metric(models.Model):
 
     # # # # # # # # # # # # # # # # NEW HERE # # # # # # # # # # #
 
+    def get_value_over_time(self):
 
+        if self.get_source.strip() == 'Family Profile':
+            field = consolidators.get_field(FamilyProfileLine, self.get_data_point.strip())
+            start_year = [d.year for d in FamilyProfileLine.objects.dates('family_profile__date', 'year')][0]
+
+            data = {}
+            while start_year <= weights.year_now:
+
+                count = 0
+                for f in FamilyProfileLine.objects.filter(family_profile__date__year=start_year):
+                    if getattr(f, field):
+                        count = count + 1
+
+                data[start_year] = count
+                start_year = start_year + 1
+
+            return json.dumps(data)
+
+        elif self.get_source.strip() == 'Maternal Care':
+
+            field = consolidators.get_field(MaternalCare, self.get_data_point.strip())
+            start_month = [d.month for d in MaternalCare.objects.filter(fhsis__date__year=weights.year_now).dates('fhsis__date', 'month')][0]
+
+            data = {}
+            while start_month <= weights.month_now:
+                data[general.month_converter(start_month)] = float(MaternalCare.objects.filter(fhsis__date__year=weights.year_now, fhsis__date__month=start_month).aggregate(sum=Sum(field))['sum'])
+                start_month = start_month + 1
+
+            return json.dumps(data)
+
+        elif self.get_source.strip() == 'Child Care':
+
+            field = consolidators.get_field(ChildCare, self.get_data_point.strip())
+            start_month = [d.month for d in
+                           ChildCare.objects.filter(fhsis__date__year=weights.year_now).dates('fhsis__date',
+                                                                                                 'month')][0]
+
+            data = {}
+            while start_month <= weights.month_now:
+                data[general.month_converter(start_month)] = float(ChildCare.objects.filter(fhsis__date__year=weights.year_now,
+                                                                      fhsis__date__month=start_month).aggregate(
+                    sum=Sum(field))['sum'])
+                start_month = start_month + 1
+
+            return json.dumps(data)
 
