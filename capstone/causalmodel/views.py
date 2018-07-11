@@ -59,13 +59,8 @@ def root_causes(request):
 @login_required
 def add_root_cause(request):
 
-    create_session(request)
-    scores = request.session['scores']
-    correlations = [x for x in scores if 1 >= abs(x['score']) >= 0.5]
-
     context = {
         'metrics': Metric.get_alarming(),
-        'correlations': correlations
     }
 
     return render(request, 'causalmodel/add_root_cause.html', context)

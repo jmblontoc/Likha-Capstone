@@ -145,24 +145,24 @@ def bns_index(request):
 def nutritionist(request):
     profile = Profile.objects.get(user=request.user)
 
-    # Nutritional Status
-    nutritional_metrics = Metric.objects.filter(is_default=True, metric__contains='Nutritional Status')
-    computations = [Metric.get_computations_nutritional_status(s.name) for s in NutritionalStatus.objects.all()]
-    wfa = []
-    hfa = []
-    wfh = []
-
-    # Socioeconomic
-    average_members = getters.get_average_family_members()
-
-    for x in range(0, 4):
-        wfa.append(computations[x])
-
-    for x in range(4, 8):
-        hfa.append(computations[x])
-
-    for x in range(8, 13):
-        wfh.append(computations[x])
+    # # Nutritional Status
+    # nutritional_metrics = Metric.objects.filter(is_default=True, metric__contains='Nutritional Status')
+    # computations = [Metric.get_computations_nutritional_status(s.name) for s in NutritionalStatus.objects.all()]
+    # wfa = []
+    # hfa = []
+    # wfh = []
+    #
+    # # Socioeconomic
+    # average_members = getters.get_average_family_members()
+    #
+    # for x in range(0, 4):
+    #     wfa.append(computations[x])
+    #
+    # for x in range(4, 8):
+    #     hfa.append(computations[x])
+    #
+    # for x in range(8, 13):
+    #     wfh.append(computations[x])
 
 
     todo_list = validations.todo_list()
@@ -171,12 +171,6 @@ def nutritionist(request):
     context = {
         'profile': profile,
         'active': 'db',
-        'nutritional': nutritional_metrics,
-        'wfa': wfa,
-        'hfa': hfa,
-        'wfh': wfh,
-        'todo_list': todo_list,
-        'average_members': average_members
     }
 
     return render(request, 'core/nutritionist_index.html', context)

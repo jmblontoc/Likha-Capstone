@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from friends.datainput import validations
 from friends import datapoints
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from friends.datamining import correlations, forecast as f, clean_correlations
 from datainput.models import NutritionalStatus, Barangay, Sex, ChildCare, Tuberculosis, Malaria, Immunization, \
     MaternalCare, Schistosomiasis, Leprosy, Flariasis, STISurveillance
@@ -49,6 +49,39 @@ def index(request):
     messages.error(request, 'Data is not up to date')
     return redirect('core:nutritionist')
 
+
+@login_required
+def get_variables(request):
+
+    category = request.POST['category']
+    source = request.POST['source']
+    field = request.POST['field']
+
+    if source == 'Maternal Care':
+
+        for m in request.session['maternal']:
+            if m['category'] == category and m['source'] == source and m['field'] == field:
+                data = {
+                    'variables': m['variables']
+                }
+                return JsonResponse(data, safe=False)
+
+
+    elif source == 'Child Care':
+
+        for m in request.session['child_care'] + request.session['micronutrient']:
+            if m['category'] == category and m['source'] == source and m['field'] == field:
+                return JsonResponse({
+                    'variables': m['variables']
+                })
+
+    elif source == 'Family Profile':
+
+        for m in request.session['socioeconomic']:
+            if m['category'] == category and m['source'] == source and m['field'] == field:
+                return JsonResponse({
+                    'variables': m['variables']
+                })
 
 @login_required
 def get_positive(request):

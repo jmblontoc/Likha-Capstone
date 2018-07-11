@@ -9,5 +9,8 @@ urlpatterns = [
     path('', views.index, name='index'),
 
     # forecasts
-    path('forecast/<int:id>', views.forecast, name='forecast')
+    path('forecast/<int:id>', views.forecast, name='forecast'),
+
+    # ajax
+    path('get_variables', views.get_variables, name='get_variables')
 ]

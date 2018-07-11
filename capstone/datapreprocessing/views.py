@@ -332,4 +332,25 @@ def view_threshold(request):
         return JsonResponse(data, safe=False)
 
 
+def add_metric_ajax(request):
+
+    metric = request.POST['metric']
+    is_bad = request.POST['is_bad']
+    threshold = request.POST['threshold']
+
+    if is_bad == 1:
+        bad = True
+    else: bad = False
+
+    Metric.objects.create(
+        metric=metric,
+        threshold=threshold,
+        threshold_bad=bad,
+        is_default=False,
+        unit='Total'
+    )
+
+    return redirect('datapreprocessing:index')
+
+
 
