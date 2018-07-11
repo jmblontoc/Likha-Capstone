@@ -21,7 +21,8 @@ def display_micronutrient(scores):
                 'field': f.verbose_name,
                 'score': score,
                 'report': 'Micronutrient Supplementation',
-                'variables': c.make_variables(records[0], data_point)
+                'variables': c.make_variables(records[0], data_point),
+                'remark': get_correlation_remark(score)
             }
         )
 
@@ -37,7 +38,8 @@ def display_micronutrient(scores):
                 'field': f.verbose_name,
                 'score': score,
                 'report': 'Micronutrient Supplementation',
-                'variables': c.make_variables(records[1], data_point)
+                'variables': c.make_variables(records[1], data_point),
+                'remark': get_correlation_remark(score)
             }
         )
 
@@ -53,9 +55,12 @@ def display_micronutrient(scores):
                 'field': f.verbose_name,
                 'score': score,
                 'report': 'Micronutrient Supplementation',
-                'variables': c.make_variables(records[2], data_point)
+                'variables': c.make_variables(records[2], data_point),
+                'remark': get_correlation_remark(score)
             }
         )
+
+    return scores
 
 
 def display_maternal(scores):
@@ -74,7 +79,8 @@ def display_maternal(scores):
                 'field': f.verbose_name,
                 'score': score,
                 'report': 'City Maternal Care',
-                'variables': c.make_variables(records[0], data_point)
+                'variables': c.make_variables(records[0], data_point),
+                'remark': get_correlation_remark(score)
             }
         )
 
@@ -90,7 +96,8 @@ def display_maternal(scores):
                 'field': f.verbose_name,
                 'score': score,
                 'report': 'City Maternal Care',
-                'variables': c.make_variables(records[1], data_point)
+                'variables': c.make_variables(records[1], data_point),
+                'remark': get_correlation_remark(score)
             }
         )
 
@@ -106,9 +113,12 @@ def display_maternal(scores):
                 'field': f.verbose_name,
                 'score': score,
                 'report': 'City Maternal Care',
-                'variables': c.make_variables(records[2], data_point)
+                'variables': c.make_variables(records[2], data_point),
+                'remark': get_correlation_remark(score)
             }
         )
+
+    return scores
 
 
 def display_child_care(scores):
@@ -126,7 +136,8 @@ def display_child_care(scores):
                 'field': f.verbose_name,
                 'score': score,
                 'report': 'City Children Care',
-                'variables': c.make_variables(records[0], data_point)
+                'variables': c.make_variables(records[0], data_point),
+                'remark': get_correlation_remark(score)
             }
         )
 
@@ -142,7 +153,8 @@ def display_child_care(scores):
                 'field': f.verbose_name,
                 'score': score,
                 'report': 'City Children Care',
-                'variables': c.make_variables(records[1], data_point)
+                'variables': c.make_variables(records[1], data_point),
+                'remark': get_correlation_remark(score)
             }
         )
 
@@ -158,9 +170,12 @@ def display_child_care(scores):
                 'field': f.verbose_name,
                 'score': score,
                 'report': 'City Children Care',
-                'variables': c.make_variables(records[2], data_point)
+                'variables': c.make_variables(records[2], data_point),
+                'remark': get_correlation_remark(score)
             }
         )
+
+    return scores
 
 
 def display_socioeconomic(scores):
@@ -178,7 +193,8 @@ def display_socioeconomic(scores):
                 'field': f,
                 'score': score,
                 'report': 'Socioeconomic',
-                'variables': c.make_variables(records[0], data_point)
+                'variables': c.make_variables(records[0], data_point),
+                'remark': get_correlation_remark(score)
             }
         )
 
@@ -193,7 +209,8 @@ def display_socioeconomic(scores):
                 'field': f,
                 'score': score,
                 'report': 'Socioeconomic',
-                'variables': c.make_variables(records[1], data_point)
+                'variables': c.make_variables(records[1], data_point),
+                'remark': get_correlation_remark(score)
             }
         )
 
@@ -208,9 +225,12 @@ def display_socioeconomic(scores):
                 'field': f,
                 'score': score,
                 'report': 'Socioeconomic',
-                'variables': c.make_variables(records[2], data_point)
+                'variables': c.make_variables(records[2], data_point),
+                'remark': get_correlation_remark(score)
             }
         )
+
+    return scores
 
 
 def create_correlation_session(request):
@@ -219,3 +239,19 @@ def create_correlation_session(request):
     request.session['maternal'] = display_maternal([])
     request.session['socioeconomic'] = display_socioeconomic([])
     request.session['child_care'] = display_child_care([])
+
+
+def get_correlation_remark(score):
+
+
+    if 1 >= abs(score) >= 0.7:
+        return "Strong"
+
+    elif 0.7 > abs(score) >= 0.5:
+        return "Mild"
+
+    elif 0.5 > abs(score) > 0:
+        return "Weak"
+
+    return "No Correlation"
+
