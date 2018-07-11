@@ -50,3 +50,37 @@ def weights_per_year_to_dict():
                                      + get_weights_per_year_per_status(severely_wasted, year))
 
     return [weight_for_age, height_for_age, weight_for_height_length]
+
+
+def get_totals_per_year():
+
+    data = {}
+
+    for status in NutritionalStatus.objects.all():
+
+        data[status.name] = float(OPTValues.objects.filter(opt__date__year=year_now, nutritional_status=status).aggregate(
+            sum=Sum('values')
+        )['sum'])
+
+    return data
+
+
+# # # # # # # for nutritionist dashboard # # # # # #
+
+def get_computations_per_category(category):
+
+    fields = [status for status in NutritionalStatus.objects.all() if category == status.name.split("-")[0].strip()]
+    total = sum([get_weights_per_year_per_status(status, year_now) for status in fields])
+
+    data = []
+    for f in fields:
+        sub_data = {}
+        sub_total = get_weights_per_year_per_status(f, year_now)
+        sub_data[f.name] = sub_total
+        sub_data['prevalence_rate'] = round(sub_total / total, 3) * 100
+        data.append(sub_data)
+
+    return {
+        'data': data,
+        'total': total
+    }
