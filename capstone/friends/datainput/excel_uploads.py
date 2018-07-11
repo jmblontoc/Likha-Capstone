@@ -61,6 +61,10 @@ def is_valid_fhsis(sheet):
         if sheet.cell_value(c, 1) == '':
             return False
 
+    for d in range(70, 77):
+        if sheet.cell_value(d, 1) == '' or sheet.cell_value(d, 2) == '':
+            return False
+
     return True
 
 
@@ -111,5 +115,25 @@ def return_incomplete_fhsis(sheet):
                 'row': c,
                 'column': 1
             })
+
+    for d in range(70, 77):
+
+        if sheet.cell_value(d, 1) == '' or sheet.cell_value(d, 2) == '':
+
+            field = sheet.cell_value(d, 0)
+
+            if sheet.cell_value(d, 1) == '':
+                rows.append({
+                    'field': field,
+                    'row': d,
+                    'column': 1
+                })
+
+            if sheet.cell_value(d, 2) == '':
+                rows.append({
+                    'field': field,
+                    'row': d,
+                    'column': 2
+                })
 
     return rows
