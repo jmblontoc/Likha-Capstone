@@ -23,19 +23,19 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <div class="card card-primary">
-                        <div class="card-header d-flex p-0" style="cursor: move;">
-                            <h3 class="card-title p-3">Default Metrics</h3>
-                        </div>
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th></th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
+{#                    <div class="card card-primary">#}
+{#                        <div class="card-header d-flex p-0" style="cursor: move;">#}
+{#                            <h3 class="card-title p-3">Default Metrics</h3>#}
+{#                        </div>#}
+{#                        <table class="table">#}
+{#                            <thead>#}
+{#                            <tr>#}
+{#                                <th></th>#}
+{#                                <th>Status</th>#}
+{#                                <th>Action</th>#}
+{#                            </tr>#}
+{#                            </thead>#}
+{#                            <tbody>#}
 {#                            <tr>#}
 {#                                <td>City Nutritional Status</td>#}
 {#                                {% if not has_nutritional %}#}
@@ -46,70 +46,64 @@
 {#                                    <td><button data-toggle="modal" data-target="#viewDefault" class="btn btn-primary btn-sm default-report" data-report="ns">View Thresholds</button></td>#}
 {#                                {% endif %}#}
 {#                            </tr>#}
-                            <tr>
-                                <td>City Micronutrient Supplementation</td>
-                                {% if not has_micronutrient %}
-                                    <td class="text-warning">Not yet set</td>
-                                    <td><a class="btn btn-primary btn-sm" href="{% url 'datapreprocessing:set_micronutrient' %}">Set Thresholds</a></td>
-                                {% else %}
-                                    <td class="text-success">Completed</td>
-                                    <td><button data-toggle="modal" data-target="#viewDefault" class="btn btn-primary btn-sm default-report" data-report="micro">View Thresholds</button></td>
-                                {% endif %}
-                            </tr>
-                            <tr>
-                                <td>City Maternal Care</td>
-                                {% if not has_maternal %}
-                                    <td class="text-warning">Not yet set</td>
-                                    <td><a class="btn btn-primary btn-sm" href="{% url 'datapreprocessing:set_maternal' %}">Set Thresholds</a></td>
-                                {% else %}
-                                    <td class="text-success">Completed</td>
-                                    <td><button data-toggle="modal" data-target="#viewDefault" class="btn btn-primary btn-sm default-report" data-report="maternal">View Thresholds</button></td>
-                                {% endif %}
-                            </tr>
-                            <tr>
-                                <td>City Children Care</td>
-                                {% if not has_child_care %}
-                                    <td class="text-warning">Not yet set</td>
-                                    <td><a class="btn btn-primary btn-sm" href="{% url 'datapreprocessing:set_child_care' %}">Set Thresholds</a></td>
-                                {% else %}
-                                    <td class="text-success">Completed</td>
-                                    <td><button data-toggle="modal" data-target="#viewDefault" class="btn btn-primary btn-sm default-report" data-report="cc">View Thresholds</button></td>
-                                {% endif %}
-                            </tr>
-                            <tr>
-                                <td>Socioeconomic Status</td>
-                                {% if not has_socioeconomic %}
-                                    <td class="text-warning">Not yet set</td>
-                                    <td><a class="btn btn-primary btn-sm" href="{% url 'datapreprocessing:set_socioeconomic' %}">Set Thresholds</a></td>
-                                {% else %}
-                                    <td class="text-success">Completed</td>
-                                    <td><button data-toggle="modal" data-target="#viewDefault" class="btn btn-primary btn-sm default-report" data-report="socio">View Thresholds</button></td>
-                                {% endif %}
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
+{#                            <tr>#}
+{#                                <td>City Micronutrient Supplementation</td>#}
+{#                                {% if not has_micronutrient %}#}
+{#                                    <td class="text-warning">Not yet set</td>#}
+{#                                    <td><a class="btn btn-primary btn-sm" href="{% url 'datapreprocessing:set_micronutrient' %}">Set Thresholds</a></td>#}
+{#                                {% else %}#}
+{#                                    <td class="text-success">Completed</td>#}
+{#                                    <td><button data-toggle="modal" data-target="#viewDefault" class="btn btn-primary btn-sm default-report" data-report="micro">View Thresholds</button></td>#}
+{#                                {% endif %}#}
+{#                            </tr>#}
+{#                            <tr>#}
+{#                                <td>City Maternal Care</td>#}
+{#                                {% if not has_maternal %}#}
+{#                                    <td class="text-warning">Not yet set</td>#}
+{#                                    <td><a class="btn btn-primary btn-sm" href="{% url 'datapreprocessing:set_maternal' %}">Set Thresholds</a></td>#}
+{#                                {% else %}#}
+{#                                    <td class="text-success">Completed</td>#}
+{#                                    <td><button data-toggle="modal" data-target="#viewDefault" class="btn btn-primary btn-sm default-report" data-report="maternal">View Thresholds</button></td>#}
+{#                                {% endif %}#}
+{#                            </tr>#}
+{#                            <tr>#}
+{#                                <td>City Children Care</td>#}
+{#                                {% if not has_child_care %}#}
+{#                                    <td class="text-warning">Not yet set</td>#}
+{#                                    <td><a class="btn btn-primary btn-sm" href="{% url 'datapreprocessing:set_child_care' %}">Set Thresholds</a></td>#}
+{#                                {% else %}#}
+{#                                    <td class="text-success">Completed</td>#}
+{#                                    <td><button data-toggle="modal" data-target="#viewDefault" class="btn btn-primary btn-sm default-report" data-report="cc">View Thresholds</button></td>#}
+{#                                {% endif %}#}
+{#                            </tr>#}
+{#                            <tr>#}
+{#                                <td>Socioeconomic Status</td>#}
+{#                                {% if not has_socioeconomic %}#}
+{#                                    <td class="text-warning">Not yet set</td>#}
+{#                                    <td><a class="btn btn-primary btn-sm" href="{% url 'datapreprocessing:set_socioeconomic' %}">Set Thresholds</a></td>#}
+{#                                {% else %}#}
+{#                                    <td class="text-success">Completed</td>#}
+{#                                    <td><button data-toggle="modal" data-target="#viewDefault" class="btn btn-primary btn-sm default-report" data-report="socio">View Thresholds</button></td>#}
+{#                                {% endif %}#}
+{#                            </tr>#}
+{#                            </tbody>#}
+{#                        </table>#}
+{#                    </div>#}
                     <div class="card card-primary">
                         <div class="card-header d-flex p-0" style="cursor: move;">
                             <h3 class="card-title p-3">Metrics and Thresholds as of {{ date }}</h3>
-                            <ul class="nav nav-pills ml-auto p-2">
-                                <li class="nav-item">
-                                    <a class="nav-link btn-default" style="text-align: center; color: #004876;" href="{% url 'datapreprocessing:add_metric' %}">Add a Metric</a>
-                                </li>
-                            </ul>
+                            <ul class="nav nav-pills ml-auto p-2"></ul>
                         </div>
                         <div class="card-body">
                             <table id="metricsthresholds" class="table table-bordered table-hover dataTable">
                                 <thead>
                                     <tr>
-                                        <th style="width: 18%">Source</th>
-                                        <th style="width: 18%">Data Point</th>
-                                        <th style="width: 18px">Gender</th>
-                                        <th style="width: 9%">Value/Total</th>
-                                        <th style="">Unit</th>
-                                        <th style="width: 9%">Threshold</th>
-                                        <th style="width: 9%">Status</th>
-                                        <th style="width: 19%">Action</th>
+                                        <th>Source</th>
+                                        <th>Data Point</th>
+                                        <th>Value/Total</th>
+                                        <th>Type</th>
+                                        <th>Threshold</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -118,31 +112,16 @@
                                         <td colspan="4">You have no metrics set yet</td>
                                     </tr>
                                     {% else %}
-                                    {% for metric in metrics %}
-                                    {% if metric.get_total_value >= metric.threshold %}
-                                    <tr>
-                                        <td>{{ metric.get_source }}</td>
-                                        <td style="text-transform: capitalize;">{{ metric.get_data_point }}</td>
-                                        <td>{{ metric.get_sex }}</td>
-                                        <td>{{ metric.get_total_value }}</td>
-                                        <td>{{ metric.unit }}</td>
-                                        <td>{{ metric.threshold }}</td>
-                                        <td style="font-weight: bold; color:#f56954"><i class="fa fa-exclamation-circle"></i> Alarming</td>
-                                        <td style="text-align: center;"><a href="{% url 'datapreprocessing:edit_metric' metric.id %}" class="btn btn-primary btn-sm col-5">Edit</a> <a href="{% url 'datapreprocessing:delete_metric' metric.id %}" class="btn btn-danger btn-sm col-5">Delete</a></td>
-                                    </tr>
-                                    {% else %}
-                                    <tr>
-                                        <td>{{ metric.get_source }}</td>
-                                        <td style="text-transform: capitalize;">{{ metric.get_data_point }}</td>
-                                        <td>{{ metric.get_sex }}</td>
-                                        <td>{{ metric.get_total_value }}</td>
-                                        <td>{{ metric.unit }}</td>
-                                        <td>{{ metric.threshold }}</td>
-                                        <td style="font-weight: bold; color:#00a65a"><i class="fa fa-check-circle"></i> Normal</td>
-                                        <td style="text-align: center;"><a href="{% url 'datapreprocessing:edit_metric' metric.id %}" class="btn btn-primary btn-sm col-5">Edit</a> <a href="{% url 'datapreprocessing:delete_metric' metric.id %}" class="btn btn-danger btn-sm col-5">Delete</a></td>
-                                    </tr>
-                                    {% endif %}
-                                    {% endfor %}
+                                        {% for x in metrics %}
+                                            <tr>
+                                                <td>{{ x.get_source }}</td>
+                                                <td>{{ x.get_data_point }}</td>
+                                                <td>{{ x.get_total_value }}</td>
+                                                <td>{{ x.get_type }}</td>
+                                                <td>{{ x.threshold }}</td>
+                                                <td>{{ x.is_alarming|yesno:"Alarming,Not Alarming" }}</td>
+                                            </tr>
+                                        {% endfor %}
                                     {% endif %}
                                 </tbody>
                             </table>

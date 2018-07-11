@@ -31,5 +31,7 @@ urlpatterns = [
 
     # # # # # # # # # AJAX # # # # # # # # #
 
-    path('default/ajax', views.view_threshold, name='view_threshold_ajax')
+    path('default/ajax', views.view_threshold, name='view_threshold_ajax'),
+
+    path('ajax/add_metric', views.add_metric_ajax, name='add_metric_ajax')
 ]

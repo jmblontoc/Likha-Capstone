@@ -30,6 +30,22 @@ class Metric(models.Model):
         return self.metric
 
     @property
+    def get_type(self):
+        if self.threshold_bad:
+            return "is greater than"
+        return "is less than"
+
+
+    @property
+    def is_alarming(self):
+
+        if self.threshold_bad:
+            return float(self.get_total_value) > float(self.threshold)
+
+        return float(self.get_total_value) < float(self.threshold)
+
+
+    @property
     def get_total_value(self):
         return consolidators.get_value(self.metric)
 
@@ -60,7 +76,7 @@ class Metric(models.Model):
     @staticmethod
     def get_alarming():
 
-        return [x for x in Metric.objects.all() if x.get_total_value >= x.threshold]
+        return [x for x in Metric.objects.all() if x.is_alarming]
 
 
     def to_dict(self):
@@ -221,5 +237,9 @@ class Metric(models.Model):
             'fields': fields,
             'values': values
         }
+
+
+    # # # # # # # # # # # # # # # # NEW HERE # # # # # # # # # # #
+
 
 
