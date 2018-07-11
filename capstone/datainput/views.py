@@ -942,6 +942,8 @@ def handle_fhsis_file(request):
     renamed = os.path.join(temp_path, str(fhsis.id) + ".xlsx")
     os.rename(path, renamed)
 
+    profile = Profile.objects.get(user=request.user)
+
     # handle excel file
 
     workbook = xlrd.open_workbook(renamed)
@@ -960,8 +962,21 @@ def handle_fhsis_file(request):
             context = {
                 'rows': rows,
                 'fhsis': fhsis,
-                'file': renamed
+                'file': renamed,
+                'profile': profile,
+                'active': 'uf',
             }
+
+            for row in rows:
+                if row['value'] != '':
+                    try:
+                        value = int(row['value'])
+                    except:
+                        print(row['value'])
+                        messages.error(request, 'FHSIS file contains strings. Upload again')
+                        fhsis.delete()
+                        os.remove(renamed)
+                        return redirect('core:bns-index')
 
             fhsis.delete()
 
@@ -1150,8 +1165,6 @@ def complete_fields(request):
     fhsis = FHSIS(barangay=profile.barangay, uploaded_by=profile)
     fhsis.save()
     maternal_fields = misc.get_fields(MaternalCare)[1:10]
-
-
 
     mc = MaternalCare(fhsis=fhsis)
 
