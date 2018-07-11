@@ -31,11 +31,17 @@ def index(request):
         child_care = request.session['child_care']
         socio = request.session['socioeconomic']
 
+        scores = [micro, maternal, child_care, socio]
+
         context = {
             'profile': profile,
             'active': 'ct',
             'statuses': nutritional_statuses,
-            'scores': scores
+            'micro': micro,
+            'maternal': maternal,
+            'child_care': child_care,
+            'socio': socio
+
         }
 
         return render(request, 'datamining/index.html', context)
