@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
+from computations import weights, maternal, child_care
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.views import View
@@ -10,8 +11,7 @@ from datapreprocessing.models import Metric
 from friends.datainput import validations
 from core.forms import UploadFileForm
 from core.models import Profile, Notification
-from datainput.models import OperationTimbang, MonthlyReweighing, FamilyProfile, FHSIS, NutritionalStatus, Patient, \
-    FamilyProfileLine
+from datainput.models import *
 from friends import user_redirects
 from datetime import datetime
 from friends.datamining import correlations
@@ -146,31 +146,40 @@ def nutritionist(request):
     profile = Profile.objects.get(user=request.user)
 
     # # Nutritional Status
-    # nutritional_metrics = Metric.objects.filter(is_default=True, metric__contains='Nutritional Status')
-    # computations = [Metric.get_computations_nutritional_status(s.name) for s in NutritionalStatus.objects.all()]
-    # wfa = []
-    # hfa = []
-    # wfh = []
-    #
-    # # Socioeconomic
-    # average_members = getters.get_average_family_members()
-    #
-    # for x in range(0, 4):
-    #     wfa.append(computations[x])
-    #
-    # for x in range(4, 8):
-    #     hfa.append(computations[x])
-    #
-    # for x in range(8, 13):
-    #     wfh.append(computations[x])
-
+    wfa = weights.get_computations_per_category('Weight for Age')
+    hfa = weights.get_computations_per_category('Height for Age')
+    wfhl = weights.get_computations_per_category('Weight for Height/Length')
 
     todo_list = validations.todo_list()
-    print(todo_list)
+
+    # socioeconomic
+
+    total = FamilyProfileLine.objects.filter(family_profile__date__year=datetime.now().year).count()
+    using_salt = FamilyProfileLine.objects.filter(family_profile__date__year=datetime.now().year,
+                                                  is_using_iodized_salt=True).count()
+    ebf = FamilyProfileLine.objects.filter(family_profile__date__year=datetime.now().year, is_ebf=True).count()
+
+    socioeconomic = {
+        'average_families': round(getters.get_average_family_members()),
+        'is_using_salt': round(using_salt / total * 100, 2),
+        'is_ebf': round(ebf / total * 100, 2)
+    }
 
     context = {
         'profile': profile,
         'active': 'db',
+        'todo_list': todo_list,
+
+        # nutritional statuses
+        'wfa': wfa['data'],
+        'hfa': hfa['data'],
+        'wfhl': wfhl['data'],
+        'wfa_total': wfa['total'],
+        'hfa_total': hfa['total'],
+        'wfhl_total': wfhl['total'],
+
+        # socioeconomic
+        'average_families': socioeconomic['average_families']
     }
 
     return render(request, 'core/nutritionist_index.html', context)
@@ -218,8 +227,8 @@ def dashboard(request):
 
     data = {
         'micro': Metric.get_micronutrient_dashboard(),
-        'maternal': Metric.get_maternal_dashboard(),
-        'child_care': Metric.get_child_care_dashboard(),
+        'maternal': maternal.maternal_dashboard(),
+        'child_care': child_care.child_care_dashboard(),
         'socioeconomic': socioeconomic
     }
 

@@ -1,8 +1,16 @@
 from datetime import datetime
+
+from django.db.models import Sum
+
 from datainput.models import *
 from computations.weights import month_now, year_now
 from datainput.models import MaternalCare
+from friends import datapoints
 from friends.datamining import correlations as c
+
+
+# returns maternal over the years. was used in correlation
+from friends.datapreprocessing.consolidators import get_field
 
 
 def get_maternal_care(field):
@@ -26,3 +34,19 @@ def get_maternal_care(field):
         start_year = start_year + 1
 
     return values
+
+
+def maternal_dashboard():
+    maternal_fields = datapoints.maternal
+    fields = [maternal_fields[0], maternal_fields[4], maternal_fields[5]]
+
+    values = []
+    for f in fields:
+        point = get_field(MaternalCare, f).strip()
+        value = float(MaternalCare.objects.filter(fhsis__date__year=year_now).aggregate(sum=Sum(point))['sum'])
+        values.append(value)
+
+    return {
+        'fields': fields,
+        'values': values
+    }

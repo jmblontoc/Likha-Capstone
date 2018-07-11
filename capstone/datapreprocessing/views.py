@@ -338,7 +338,7 @@ def add_metric_ajax(request):
     is_bad = request.POST['is_bad']
     threshold = request.POST['threshold']
 
-    if is_bad == 1:
+    if is_bad == "1":
         bad = True
     else: bad = False
 
