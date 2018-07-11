@@ -13,6 +13,7 @@ from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.db.models import Count
+from decimal import *
 
 from core.forms import RejectForm
 from datainput.forms import FamilyProfileForm, PatientForm, MonthlyReweighingForm, HealthCareWasteManagementForm, \
@@ -1139,8 +1140,11 @@ def complete_fields(request):
 
     my_dict = dict(request.POST)
     print(my_dict)
+    print('asdasfwrg')
     workbook = xlrd.open_workbook(my_dict.get('path')[0])
+    print(workbook)
     sheet = workbook.sheet_by_index(0)
+    print(sheet)
 
     profile = Profile.objects.get(user=request.user)
     fhsis = FHSIS(barangay=profile.barangay, uploaded_by=profile)
@@ -1148,11 +1152,21 @@ def complete_fields(request):
     maternal_fields = misc.get_fields(MaternalCare)[1:10]
 
 
+
     mc = MaternalCare(fhsis=fhsis)
 
     counter_mc = 0
     for x in range(4, 13):
-        setattr(mc, maternal_fields[counter_mc], sheet.cell_value(x, 1) or 0)
+        if sheet.cell_value(x, 1) != '':
+            setattr(mc, maternal_fields[counter_mc], sheet.cell_value(x, 1) or 0)
+        else:
+            inlist = list(my_dict)
+            inlist = inlist[2:]
+            for tests in inlist:
+                test = my_dict.get(tests)[0]
+                test1 = tests.split("-")
+                if int(test1[0]) == x:
+                    setattr(mc, maternal_fields[counter_mc], Decimal(test))
         counter_mc = counter_mc + 1
 
     mc.save()
@@ -1163,8 +1177,19 @@ def complete_fields(request):
 
     counter_sti = 0
     for x in range(64, 67):
-        setattr(sti, sti_fields[counter_sti], sheet.cell_value(x, 1) or 0)
+        if sheet.cell_value(x, 1) != '':
+            setattr(sti, sti_fields[counter_sti], sheet.cell_value(x, 1) or 0)
+        else:
+            inlist = list(my_dict)
+            inlist = inlist[2:]
+            for tests in inlist:
+                test = my_dict.get(tests)[0]
+                test1 = tests.split("-")
+                if int(test1[0]) == x:
+                    setattr(sti, sti_fields[counter_sti], Decimal(test))
+
         counter_sti = counter_sti + 1
+
     sti.save()
 
     # immunization
@@ -1174,16 +1199,52 @@ def complete_fields(request):
 
     counter_immune = 0
     for x in range(18, 21):
-        # male
-        setattr(immunization_male, immunization_fields[counter_immune], sheet.cell_value(x, 1) or 0)
-        # female
-        setattr(immunization_female, immunization_fields[counter_immune], sheet.cell_value(x, 2) or 0)
+        if sheet.cell_value(x, 1) != '':
+            setattr(immunization_male, immunization_fields[counter_immune], sheet.cell_value(x, 1) or 0)
+        else:
+            inlist = list(my_dict)
+            inlist = inlist[2:]
+            for tests in inlist:
+                test = my_dict.get(tests)[0]
+                test1 = tests.split("-")
+                if int(test1[0]) == x:
+                    setattr(immunization_male, immunization_fields[counter_immune], Decimal(test))
+
+        if sheet.cell_value(x, 2) != '':
+            setattr(immunization_female, immunization_fields[counter_immune], sheet.cell_value(x, 2) or 0)
+        else:
+            inlist = list(my_dict)
+            inlist = inlist[2:]
+            for tests in inlist:
+                test = my_dict.get(tests)[0]
+                test1 = tests.split("-")
+                if int(test1[0]) == x:
+                    setattr(immunization_female, immunization_fields[counter_immune], Decimal(test))
 
         counter_immune = counter_immune + 1
 
     for x in range(70, 77):
-        setattr(immunization_male, immunization_fields[counter_immune], sheet.cell_value(x, 1) or 0)
-        setattr(immunization_female, immunization_fields[counter_immune], sheet.cell_value(x, 2) or 0)
+        if sheet.cell_value(x, 1) != '':
+            setattr(immunization_male, immunization_fields[counter_immune], sheet.cell_value(x, 1) or 0)
+        else:
+            inlist = list(my_dict)
+            inlist = inlist[2:]
+            for tests in inlist:
+                test = my_dict.get(tests)[0]
+                test1 = tests.split("-")
+                if int(test1[0]) == x:
+                    setattr(immunization_male, immunization_fields[counter_immune], Decimal(test))
+
+        if sheet.cell_value(x, 2) != '':
+            setattr(immunization_female, immunization_fields[counter_immune], sheet.cell_value(x, 2) or 0)
+        else:
+            inlist = list(my_dict)
+            inlist = inlist[2:]
+            for tests in inlist:
+                test = my_dict.get(tests)[0]
+                test1 = tests.split("-")
+                if int(test1[0]) == x:
+                    setattr(immunization_female, immunization_fields[counter_immune], Decimal(test))
 
         counter_immune = counter_immune + 1
 
@@ -1197,8 +1258,27 @@ def complete_fields(request):
     counter_malaria = 0
 
     for x in range(23, 28):
-        setattr(malaria_male, malaria_fields[counter_malaria], sheet.cell_value(x, 1) or 0)
-        setattr(malaria_female, malaria_fields[counter_malaria], sheet.cell_value(x, 2) or 0)
+        if sheet.cell_value(x, 1) != '':
+            setattr(malaria_male, malaria_fields[counter_malaria], sheet.cell_value(x, 1) or 0)
+        else:
+            inlist = list(my_dict)
+            inlist = inlist[2:]
+            for tests in inlist:
+                test = my_dict.get(tests)[0]
+                test1 = tests.split("-")
+                if int(test1[0]) == x:
+                    setattr(malaria_male, malaria_fields[counter_malaria], Decimal(test))
+
+        if sheet.cell_value(x, 2) != '':
+            setattr(malaria_female, malaria_fields[counter_malaria], sheet.cell_value(x, 2) or 0)
+        else:
+            inlist = list(my_dict)
+            inlist = inlist[2:]
+            for tests in inlist:
+                test = my_dict.get(tests)[0]
+                test1 = tests.split("-")
+                if int(test1[0]) == x:
+                    setattr(malaria_female, malaria_fields[counter_malaria], Decimal(test))
         counter_malaria = counter_malaria + 1
 
     malaria_male.save()
@@ -1212,8 +1292,27 @@ def complete_fields(request):
     counter_tb = 0
 
     for x in range(30, 34):
-        setattr(tb_male, tb_fields[counter_tb], sheet.cell_value(x, 1) or 0)
-        setattr(tb_female, tb_fields[counter_tb], sheet.cell_value(x, 2) or 0)
+        if sheet.cell_value(x, 1) != '':
+            setattr(tb_male, tb_fields[counter_tb], sheet.cell_value(x, 1) or 0)
+        else:
+            inlist = list(my_dict)
+            inlist = inlist[2:]
+            for tests in inlist:
+                test = my_dict.get(tests)[0]
+                test1 = tests.split("-")
+                if int(test1[0]) == x:
+                    setattr(tb_male, tb_fields[counter_tb], Decimal(test))
+
+        if sheet.cell_value(x, 2) != '':
+            setattr(tb_female, tb_fields[counter_tb], sheet.cell_value(x, 2) or 0)
+        else:
+            inlist = list(my_dict)
+            inlist = inlist[2:]
+            for tests in inlist:
+                test = my_dict.get(tests)[0]
+                test1 = tests.split("-")
+                if int(test1[0]) == x:
+                    setattr(tb_female, tb_fields[counter_tb], Decimal(test))
         counter_tb = counter_tb + 1
 
     tb_male.save()
@@ -1226,8 +1325,27 @@ def complete_fields(request):
     sc_counter = 0
 
     for x in range(36, 38):
-        setattr(schisto_male, schisto_fields[sc_counter], sheet.cell_value(x, 1) or 0)
-        setattr(schisto_female, schisto_fields[sc_counter], sheet.cell_value(x, 2) or 0)
+        if sheet.cell_value(x, 1) != '':
+            setattr(schisto_male, schisto_fields[sc_counter], sheet.cell_value(x, 1) or 0)
+        else:
+            inlist = list(my_dict)
+            inlist = inlist[2:]
+            for tests in inlist:
+                test = my_dict.get(tests)[0]
+                test1 = tests.split("-")
+                if int(test1[0]) == x:
+                    setattr(schisto_male, schisto_fields[sc_counter], Decimal(test))
+
+        if sheet.cell_value(x, 2) != '':
+            setattr(schisto_female, schisto_fields[sc_counter], sheet.cell_value(x, 2) or 0)
+        else:
+            inlist = list(my_dict)
+            inlist = inlist[2:]
+            for tests in inlist:
+                test = my_dict.get(tests)[0]
+                test1 = tests.split("-")
+                if int(test1[0]) == x:
+                    setattr(schisto_female, schisto_fields[sc_counter], Decimal(test))
         sc_counter = sc_counter + 1
 
     schisto_male.save()
@@ -1241,8 +1359,27 @@ def complete_fields(request):
     flariasis_counter = 0
 
     for x in range(40, 43):
-        setattr(flariasis_male, flariasis_fields[flariasis_counter], sheet.cell_value(x, 1) or 0)
-        setattr(flariasis_female, flariasis_fields[flariasis_counter], sheet.cell_value(x, 2) or 0)
+        if sheet.cell_value(x, 1) != '':
+            setattr(flariasis_male, flariasis_fields[flariasis_counter], sheet.cell_value(x, 1) or 0)
+        else:
+            inlist = list(my_dict)
+            inlist = inlist[2:]
+            for tests in inlist:
+                test = my_dict.get(tests)[0]
+                test1 = tests.split("-")
+                if int(test1[0]) == x:
+                    setattr(flariasis_male, flariasis_fields[flariasis_counter], Decimal(test))
+
+        if sheet.cell_value(x, 2) != '':
+            setattr(flariasis_female, flariasis_fields[flariasis_counter], sheet.cell_value(x, 2) or 0)
+        else:
+            inlist = list(my_dict)
+            inlist = inlist[2:]
+            for tests in inlist:
+                test = my_dict.get(tests)[0]
+                test1 = tests.split("-")
+                if int(test1[0]) == x:
+                    setattr(flariasis_female, flariasis_fields[flariasis_counter], Decimal(test))
         flariasis_counter = flariasis_counter + 1
 
     flariasis_male.save()
@@ -1255,9 +1392,28 @@ def complete_fields(request):
     leprosy_female = Leprosy(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
     leprosy_counter = 0
 
-    for x in range(45, 47):
-        setattr(leprosy_male, leprosy_fields[leprosy_counter], sheet.cell_value(x, 1) or 0)
-        setattr(leprosy_female, leprosy_fields[leprosy_counter], sheet.cell_value(x, 2) or 0)
+    for x in range(49, 61):
+        if sheet.cell_value(x, 1) != '':
+            setattr(leprosy_male, leprosy_fields[leprosy_counter], sheet.cell_value(x, 1) or 0)
+        else:
+            inlist = list(my_dict)
+            inlist = inlist[2:]
+            for tests in inlist:
+                test = my_dict.get(tests)[0]
+                test1 = tests.split("-")
+                if int(test1[0]) == x:
+                    setattr(leprosy_male, leprosy_fields[leprosy_counter], Decimal(test))
+
+        if sheet.cell_value(x, 2) != '':
+            setattr(leprosy_female, leprosy_fields[leprosy_counter], sheet.cell_value(x, 2) or 0)
+        else:
+            inlist = list(my_dict)
+            inlist = inlist[2:]
+            for tests in inlist:
+                test = my_dict.get(tests)[0]
+                test1 = tests.split("-")
+                if int(test1[0]) == x:
+                    setattr(leprosy_female, leprosy_fields[leprosy_counter], Decimal(test))
         leprosy_counter = leprosy_counter + 1
 
     leprosy_male.save()
@@ -1270,8 +1426,28 @@ def complete_fields(request):
     child_care_counter = 0
 
     for x in range(49, 61):
-        setattr(child_care_male, child_care_fields[child_care_counter], sheet.cell_value(x, 1) or 0)
-        setattr(child_care_female, child_care_fields[child_care_counter], sheet.cell_value(x, 2) or 0)
+        if sheet.cell_value(x, 1) != '':
+            setattr(child_care_male, child_care_fields[child_care_counter], sheet.cell_value(x, 1) or 0)
+        else:
+            inlist = list(my_dict)
+            inlist = inlist[2:]
+            for tests in inlist:
+                test = my_dict.get(tests)[0]
+                test1 = tests.split("-")
+                if int(test1[0]) == x:
+                    setattr(child_care_male, child_care_fields[child_care_counter], Decimal(test))
+
+        if sheet.cell_value(x, 2) != '':
+            setattr(child_care_female, child_care_fields[child_care_counter], sheet.cell_value(x, 2) or 0)
+        else:
+            inlist = list(my_dict)
+            inlist = inlist[2:]
+            for tests in inlist:
+                test = my_dict.get(tests)[0]
+                test1 = tests.split("-")
+                if int(test1[0]) == x:
+                    setattr(child_care_female, child_care_fields[child_care_counter], Decimal(test))
+
         child_care_counter = child_care_counter + 1
 
     child_care_male.save()
