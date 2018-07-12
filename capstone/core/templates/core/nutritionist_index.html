@@ -31,132 +31,6 @@
                         <div class="card-header p-0">
                             <h3 class="card-title p-3">DASHBOARD</h3>
                         </div>
-{#                        <div class="card-body container-fluid">#}
-{#                            <div class="row">#}
-{#                                <div class="col-4">#}
-{#                                    <h4>City Nutritional Status</h4>#}
-{#                                    <table border="1">#}
-{#                                        <h5>Weight for Age</h5>#}
-{#                                        <tr>#}
-{#                                        {% for x in wfa %}#}
-{#                                            <td>{{ x.status }}</td>#}
-{#                                        {% endfor %}#}
-{#                                        </tr>#}
-{##}
-{#                                        <tr>#}
-{#                                        {% for x in wfa %}#}
-{#                                            <td>{{ x.sum }}</td>#}
-{#                                        {% endfor %}#}
-{#                                        </tr>#}
-{##}
-{#                                        <tr>#}
-{#                                        {% for x in wfa %}#}
-{#                                            <td>{{ x.prevalence }}</td>#}
-{#                                        {% endfor %}#}
-{#                                        </tr>#}
-{##}
-{#                                        <tr>#}
-{#                                        {% for x in wfa %}#}
-{#                                            <td>{{ x.total }}</td>#}
-{#                                        {% endfor %}#}
-{#                                        </tr>#}
-{#                                    </table>#}
-{##}
-{#                                <table border="1">#}
-{#                                        <h5>Height for Age</h5>#}
-{#                                        <tr>#}
-{#                                        {% for x in hfa %}#}
-{#                                            <td>{{ x.status }}</td>#}
-{#                                        {% endfor %}#}
-{#                                        </tr>#}
-{##}
-{#                                        <tr>#}
-{#                                        {% for x in hfa %}#}
-{#                                            <td>{{ x.sum }}</td>#}
-{#                                        {% endfor %}#}
-{#                                        </tr>#}
-{##}
-{#                                        <tr>#}
-{#                                        {% for x in hfa %}#}
-{#                                            <td>{{ x.prevalence }}</td>#}
-{#                                        {% endfor %}#}
-{#                                        </tr>#}
-{##}
-{#                                        <tr>#}
-{#                                        {% for x in hfa %}#}
-{#                                            <td>{{ x.total }}</td>#}
-{#                                        {% endfor %}#}
-{#                                        </tr>#}
-{#                                    </table>#}
-{##}
-{#                                <table border="1">#}
-{#                                        <h5>Weight for Length/Height</h5>#}
-{#                                        <tr>#}
-{#                                        {% for x in wfh %}#}
-{#                                            <td>{{ x.status }}</td>#}
-{#                                        {% endfor %}#}
-{#                                        </tr>#}
-{##}
-{#                                        <tr>#}
-{#                                        {% for x in wfh %}#}
-{#                                            <td>{{ x.sum }}</td>#}
-{#                                        {% endfor %}#}
-{#                                        </tr>#}
-{##}
-{#                                        <tr>#}
-{#                                        {% for x in wfh %}#}
-{#                                            <td>{{ x.prevalence }}</td>#}
-{#                                        {% endfor %}#}
-{#                                        </tr>#}
-{##}
-{#                                        <tr>#}
-{#                                        {% for x in wfh %}#}
-{#                                            <td>{{ x.total }}</td>#}
-{#                                        {% endfor %}#}
-{#                                        </tr>#}
-{#                                    </table>#}
-{#                                </div>#}
-{#                                <div class="col-4">#}
-{#                                    <h4>City Micronutrient Supplementation</h4>#}
-{#                                    <div id="micro-dashboard">#}
-{##}
-{#                                    </div>#}
-{#                                </div>#}
-{#                                <div class="col-4">#}
-
-{#                                </div>#}
-{#                            </div>#}
-{#                            <div class="row">#}
-{#                                <div class="col-4">#}
-{#                                    <h4>City Maternal Care </h4>#}
-{#                                    <div id="maternal-dash">#}
-{##}
-{#                                    </div>#}
-{#                                </div>#}
-{#                                <div class="col-4">#}
-{#                                    <h4>City Children Care</h4>#}
-{#                                    <div id="childcare-dash">#}
-{##}
-{#                                    </div>#}
-{#                                </div>#}
-{#                                <div class="col-4">#}
-{#                                    <h4>Socioeconomic Status</h4>#}
-{#                                    <div id="socio-dash" class="container-fluid">#}
-{#                                        <div class="row">#}
-{#                                            <div class="col-4 container-fluid" id="family">#}
-{##}
-{#                                            </div>#}
-{#                                            <div class="col-4" id="salt">#}
-{##}
-{#                                            </div>#}
-{#                                            <div class="col-4" id="ebf">#}
-{##}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        </div>#}
                         <div class="card-body container-fluid">
                             <!-- PAAYOS LAYOUT NG DASHBOARD -->
                             <div class="row">
@@ -239,24 +113,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-4">
-
-                                </div>
-                                <div class="col-4">
-
-                                </div>
-                                <div class="col-4 text-center">
-                                    <b style="font-size: 7rem;" class="text-success">{{ average_families }}</b>
-                                    <p style="font-size: 2rem;">Average Number of Members per Family in the City</p>
-                                </div>
-                            </div>
                         </div>
                     </div>
-                    </div>
+                </div>
             </div>
 
-<div class="row">
+    <div class="row">
 
 
 
@@ -265,9 +127,14 @@
 <div class="col-12 p-0">
 <div class="card">
 <div class="card-body">
-<div id="maternal-dash">
-
-</div>
+    <div id="maternal-dash">
+        <h3>Maternal - paayos na lang ng design</h3>
+        {% for dict in maternal %}
+            {% for k, v in dict.items %}
+                <p><b>{{ v }}</b> {{ k }}</p>
+            {% endfor %}
+        {% endfor %}
+    </div>
 </div>
 </div>
 </div>
@@ -284,27 +151,42 @@
 
 </div>
 <div class="col-4">
+    <div class="col-12 p-0">
+        <div class="card">
+            <div class="card-body">
+                <div id="socio-dash">
 
-<div class="col-12 p-0">
-<div class="card">
-<div class="card-body">
-<div id="ebf">
-
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-</div>
-</div>
-</div>
-
-<div class="col-12 p-0">
-<div class="card">
-<div class="card-body">
-<div id="salt">
-
-</div>
-</div>
-</div>
-</div>
-
+<div class="col-4">
+    <div class="col-12 p-0">
+        <div class="card">
+            <div class="card-body">
+                <h4>Alarming Metrics</h4>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Value</th>
+                        <th>Type</th>
+                        <th>Threshold</th>
+                    </tr>
+                    {% for m in alarming_metrics %}
+                        <tr>
+                            <td>{{ m.metric }}</td>
+                            <td>{{ m.get_total_value }}</td>
+                            <td>{{ m.get_type }}</td>
+                            <td>{{ m.threshold }}</td>
+                        </tr>
+                    {% endfor %}
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="col-4">
 

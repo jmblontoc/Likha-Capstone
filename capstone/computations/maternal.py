@@ -36,9 +36,22 @@ def get_maternal_care(field):
     return values
 
 
-def maternal_dashboard():
+def maternal_dashboard(view):
     maternal_fields = datapoints.maternal
-    fields = [maternal_fields[0], maternal_fields[4], maternal_fields[5]]
+    fields = [maternal_fields[0], maternal_fields[2], maternal_fields[4], maternal_fields[5]]
+
+    # for view
+    if view is not None:
+        values = []
+        for f in fields:
+            point = get_field(MaternalCare, f).strip()
+            value = float(MaternalCare.objects.filter(fhsis__date__year=year_now).aggregate(sum=Sum(point))['sum'] or 0)
+
+            values.append({
+                f: value
+            })
+
+        return values
 
     values = []
     for f in fields:

@@ -1,4 +1,6 @@
 from django.db.models import Sum
+
+from computations.weights import year_now
 from friends import datapoints
 from computations import weights
 from datainput.models import FamilyProfileLine
@@ -134,6 +136,23 @@ def get_water_source(source):
         start_year = start_year + 1
 
     return values
+
+
+def get_breastfeeding():
+
+    records = FamilyProfileLine.objects.filter(family_profile__date__year=year_now)
+    total = float(records.count())
+
+    ebf = float(records.filter(is_ebf=True).count()) / total
+    ebf = round(ebf, 2) * 100
+
+    return [
+        {'name': 'Exclusive Breastfeeding', 'y': ebf, 'sliced': 'true'},
+        {'name': 'Bottled Feeding', 'y': 100 - ebf}
+    ]
+
+
+
 
 
 

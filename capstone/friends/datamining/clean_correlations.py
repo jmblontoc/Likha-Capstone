@@ -189,7 +189,7 @@ def display_child_care(scores):
         scores.append(
             {
                 'category': 'Weight for Age - Underweight and Severely Underweight',
-                'source': 'Child Care',
+                'source': 'Immunization',
                 'field': f.verbose_name,
                 'score': score,
                 'report': 'City Children Care',
@@ -206,7 +206,7 @@ def display_child_care(scores):
         scores.append(
             {
                 'category': 'Height for Age - Stunted and Severely Stunted',
-                'source': 'Child Care',
+                'source': 'Immunization',
                 'field': f.verbose_name,
                 'score': score,
                 'report': 'City Children Care',
@@ -223,7 +223,7 @@ def display_child_care(scores):
         scores.append(
             {
                 'category': 'Weight for Height/Length - Wasted and Severely Wasted',
-                'source': 'Child Care',
+                'source': 'Immunization',
                 'field': f.verbose_name,
                 'score': score,
                 'report': 'City Children Care',
@@ -241,7 +241,7 @@ def display_child_care(scores):
         scores.append(
             {
                 'category': 'Weight for Age - Underweight and Severely Underweight',
-                'source': 'Child Care',
+                'source': 'Malaria',
                 'field': f.verbose_name,
                 'score': score,
                 'report': 'City Children Care',
@@ -258,7 +258,7 @@ def display_child_care(scores):
         scores.append(
             {
                 'category': 'Height for Age - Stunted and Severely Stunted',
-                'source': 'Child Care',
+                'source': 'Malaria',
                 'field': f.verbose_name,
                 'score': score,
                 'report': 'City Children Care',
@@ -275,7 +275,7 @@ def display_child_care(scores):
         scores.append(
             {
                 'category': 'Weight for Height/Length - Wasted and Severely Wasted',
-                'source': 'Child Care',
+                'source': 'Malaria',
                 'field': f.verbose_name,
                 'score': score,
                 'report': 'City Children Care',
@@ -293,7 +293,7 @@ def display_child_care(scores):
         scores.append(
             {
                 'category': 'Weight for Age - Underweight and Severely Underweight',
-                'source': 'Child Care',
+                'source': 'Tuberculosis',
                 'field': f.verbose_name,
                 'score': score,
                 'report': 'City Children Care',
@@ -310,7 +310,7 @@ def display_child_care(scores):
         scores.append(
             {
                 'category': 'Height for Age - Stunted and Severely Stunted',
-                'source': 'Child Care',
+                'source': 'Tuberculosis',
                 'field': f.verbose_name,
                 'score': score,
                 'report': 'City Children Care',
@@ -327,7 +327,7 @@ def display_child_care(scores):
         scores.append(
             {
                 'category': 'Weight for Height/Length - Wasted and Severely Wasted',
-                'source': 'Child Care',
+                'source': 'Tuberculosis',
                 'field': f.verbose_name,
                 'score': score,
                 'report': 'City Children Care',

@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
-from computations import weights, maternal, child_care
+from computations import weights, maternal, child_care, socioeconomic as sc
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.views import View
@@ -179,8 +179,15 @@ def nutritionist(request):
         'wfhl_total': wfhl['total'],
 
         # socioeconomic
-        'average_families': socioeconomic['average_families']
+        'average_families': socioeconomic['average_families'],
+
+        # maternal
+        'maternal': maternal.maternal_dashboard(1),
+
+        # alarming metrics
+        'alarming_metrics': [m for m in Metric.objects.all() if m.is_alarming]
     }
+
 
     return render(request, 'core/nutritionist_index.html', context)
 
@@ -222,12 +229,13 @@ def dashboard(request):
     socioeconomic = {
         'average_families': getters.get_average_family_members(),
         'is_using_salt': round(using_salt / total * 100, 2),
-        'is_ebf': round(ebf / total * 100, 2)
+        'is_ebf': round(ebf / total * 100, 2),
+        'feeding': sc.get_breastfeeding()
     }
 
     data = {
         'micro': Metric.get_micronutrient_dashboard(),
-        'maternal': maternal.maternal_dashboard(),
+        'maternal': maternal.maternal_dashboard(1),
         'child_care': child_care.child_care_dashboard(),
         'socioeconomic': socioeconomic
     }

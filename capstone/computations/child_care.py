@@ -51,6 +51,19 @@ def child_care_dashboard():
         value = float(ChildCare.objects.filter(fhsis__date__year=year_now).aggregate(sum=Sum(point))['sum'] or 0)
         values.append(value)
 
+    tb = datapoints.tuberculosis[0]
+    malaria = datapoints.malaria[0]
+
+    malaria_point = get_field(Malaria, malaria).strip()
+    value = float(Malaria.objects.filter(fhsis__date__year=year_now).aggregate(sum=Sum(malaria_point))['sum'])
+    values.append(value)
+    fields.append(malaria)
+
+    tb_point = get_field(Tuberculosis, tb).strip()
+    value = float(Tuberculosis.objects.filter(fhsis__date__year=year_now).aggregate(sum=Sum(tb_point))['sum'])
+    values.append(value)
+    fields.append(tb)
+
     return {
         'fields': fields,
         'values': values
