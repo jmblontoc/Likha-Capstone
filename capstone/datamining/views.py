@@ -67,7 +67,7 @@ def get_variables(request):
                 return JsonResponse(data, safe=False)
 
 
-    elif source == 'Child Care':
+    elif source == 'Child Care' or source == 'Malaria' or source == 'Immunization' or source == 'Tuberculosis':
 
         for m in request.session['child_care'] + request.session['micronutrient']:
             if m['category'] == category and m['source'] == source and m['field'] == field:

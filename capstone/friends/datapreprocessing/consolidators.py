@@ -100,6 +100,12 @@ def get_model(metric):
             return 'OPTValues'
         elif 'Child Care' in first:
             return 'ChildCare'
+        elif 'Malaria' in first:
+            return 'Malaria'
+        elif 'Tuberculosis' in first:
+            return 'Tuberculosis'
+        elif 'Immunization' in first:
+            return 'Immunization'
 
     elif len(phrase) == 1:
 

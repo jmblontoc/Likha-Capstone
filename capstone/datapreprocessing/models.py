@@ -5,7 +5,7 @@ from datetime import datetime
 from django.db.models import Sum
 
 from computations import weights
-from datainput.models import ChildCare, FamilyProfileLine, MaternalCare
+from datainput.models import ChildCare, FamilyProfileLine, MaternalCare, Malaria, Immunization, Tuberculosis
 from friends import datapoints, general
 from friends.datapreprocessing import consolidators
 from django.db import models
@@ -289,4 +289,53 @@ class Metric(models.Model):
                 start_month = start_month + 1
 
             return json.dumps(data)
+
+        elif self.get_source.strip() == 'Malaria':
+
+            field = consolidators.get_field(Malaria, self.get_data_point.strip())
+            start_month = [d.month for d in
+                           Malaria.objects.filter(fhsis__date__year=weights.year_now).dates('fhsis__date',
+                                                                                                 'month')][0]
+
+            data = {}
+            while start_month <= weights.month_now:
+                data[general.month_converter(start_month)] = float(Malaria.objects.filter(fhsis__date__year=weights.year_now,
+                                                                      fhsis__date__month=start_month).aggregate(
+                    sum=Sum(field))['sum'])
+                start_month = start_month + 1
+
+            return json.dumps(data)
+
+        elif self.get_source.strip() == 'Immunization':
+
+            field = consolidators.get_field(Immunization, self.get_data_point.strip())
+            start_month = [d.month for d in
+                           Immunization.objects.filter(fhsis__date__year=weights.year_now).dates('fhsis__date',
+                                                                                                 'month')][0]
+
+            data = {}
+            while start_month <= weights.month_now:
+                data[general.month_converter(start_month)] = float(Immunization.objects.filter(fhsis__date__year=weights.year_now,
+                                                                      fhsis__date__month=start_month).aggregate(
+                    sum=Sum(field))['sum'])
+                start_month = start_month + 1
+
+            return json.dumps(data)
+
+        elif self.get_source.strip() == 'Tuberculosis':
+
+            field = consolidators.get_field(Tuberculosis, self.get_data_point.strip())
+            start_month = [d.month for d in
+                           Tuberculosis.objects.filter(fhsis__date__year=weights.year_now).dates('fhsis__date',
+                                                                                                 'month')][0]
+
+            data = {}
+            while start_month <= weights.month_now:
+                data[general.month_converter(start_month)] = float(Tuberculosis.objects.filter(fhsis__date__year=weights.year_now,
+                                                                      fhsis__date__month=start_month).aggregate(
+                    sum=Sum(field))['sum'])
+                start_month = start_month + 1
+
+            return json.dumps(data)
+
 
