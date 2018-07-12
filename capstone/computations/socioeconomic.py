@@ -1,3 +1,5 @@
+from django.db.models import Sum
+from friends import datapoints
 from computations import weights
 from datainput.models import FamilyProfileLine
 
@@ -10,9 +12,12 @@ fields = [
     'Is Using Iron Fortification',
 ]
 
+number_of_members = [
+    'Total Members'
+]
+
 def get_socioeconomic(field):
 
-    records = FamilyProfileLine.objects.all()
     start_year = FamilyProfileLine.objects.dates('family_profile__date', 'year')[0].year
     year_now = weights.year_now
 
@@ -40,6 +45,98 @@ def get_field_via_verbose(field):
     for f in FamilyProfileLine._meta.get_fields():
         if f.verbose_name == field:
             return str(f).strip().split(".")[2]
+
+
+def get_members_data():
+    start_year = FamilyProfileLine.objects.dates('family_profile__date', 'year')[0].year
+    year_now = weights.year_now
+
+    values = {}
+
+    while start_year <= year_now:
+
+        records = FamilyProfileLine.objects.filter(
+            family_profile__date__year=start_year).aggregate(sum=Sum('no_members'))['sum']
+
+        values[start_year] = float(records)
+        start_year = start_year + 1
+
+    return values
+
+
+def get_educational_attainment(education):
+
+    start_year = FamilyProfileLine.objects.dates('family_profile__date', 'year')[0].year
+    year_now = weights.year_now
+
+    values = {}
+
+
+    while start_year <= year_now:
+
+        records = FamilyProfileLine.objects.filter(
+            family_profile__date__year=start_year,
+            educational_attainment=education).count()
+
+        values[start_year] = float(records)
+        start_year = start_year + 1
+
+    return values
+
+
+def get_toilet_type(toilet):
+
+    start_year = FamilyProfileLine.objects.dates('family_profile__date', 'year')[0].year
+    year_now = weights.year_now
+
+    values = {}
+
+    while start_year <= year_now:
+        records = FamilyProfileLine.objects.filter(
+            family_profile__date__year=start_year,
+            toilet_type=toilet).count()
+
+        values[start_year] = float(records)
+        start_year = start_year + 1
+
+    return values
+
+
+def get_food_production(way):
+    start_year = FamilyProfileLine.objects.dates('family_profile__date', 'year')[0].year
+    year_now = weights.year_now
+
+    values = {}
+
+    while start_year <= year_now:
+        records = FamilyProfileLine.objects.filter(
+            family_profile__date__year=start_year,
+            food_production_activity=way).count()
+
+        values[start_year] = float(records)
+        start_year = start_year + 1
+
+    return values
+
+
+def get_water_source(source):
+    start_year = FamilyProfileLine.objects.dates('family_profile__date', 'year')[0].year
+    year_now = weights.year_now
+
+    values = {}
+
+    while start_year <= year_now:
+        records = FamilyProfileLine.objects.filter(
+            family_profile__date__year=start_year,
+            water_sources=source).count()
+
+        values[start_year] = float(records)
+        start_year = start_year + 1
+
+    return values
+
+
+
 
 
 

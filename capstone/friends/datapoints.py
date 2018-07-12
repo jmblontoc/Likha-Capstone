@@ -13,6 +13,13 @@ educational_attainment = [
     'Others'
 ]
 
+educational_attainment_for_r = [
+    'Elementary Undergraduate',
+    'Highschool Undergraduate',
+    'College Undergraduate',
+    'Vocational',
+]
+
 toilet_type = [
     'Water Sealed',
     'Open Pit',
@@ -59,6 +66,7 @@ micronutrient = [
 maternal = [
     'Pregnant women with 4 or more prenatal visits',
     'Pregnant women given 2 doses of Tetanus Toxoid',
+    'Postpartum women with at least 2 postpartum visits',
     'Pregnant women given TT2 plus',
     'Pregnant women given complete iron with folic acid supplementation',
     'Postpartum women with given complete iron supplementation',
@@ -67,13 +75,33 @@ maternal = [
 
 child_care = [
     'Given complimentary food',
-    'Sick children', # 1
+    'Sick children',
     'Children given deworming',
-    'Anemic children', # 3
+    'Anemic children',
     'Anemic children receiving full dose iron',
-    'Diarrhea cases', # 5
-    'Pneumonia cases' # 6
+    'Diarrhea cases',
+    'Pneumonia cases'
 
+]
+
+immunizations = [
+    'Given BCG',
+    'Given HEPA',
+    'Given PENTA',
+    'Given OPV',
+    'Given MCV',
+    'Given ROTA',
+    'Given PCV',
+]
+
+malaria = [
+    'Malaria Cases',
+    'Malaria Deaths',
+    'Malaria Immunization Given'
+]
+
+tuberculosis = [
+    'Tuberculosis Identified'
 ]
 
 socioeconomic = [
@@ -83,14 +111,18 @@ socioeconomic = [
     'Is Practicing Bottled Feeding',
     'Is Using Iodized Salt',
     'Is Using Iron Fortification',
+
+
     'Fishpond',
     'Poultry/Livestock',
     'Vegetable Garden',
+
     'Pipe',
     'Well',
     'Spring',
     'Water Sealed',
     'Open Pit',
+
     'Elementary Undergraduate',
     'Elementary Graduate',
     'Highschool Undergraduate',

@@ -132,7 +132,7 @@ class FamilyProfileLine(models.Model):
 
     family_profile = models.ForeignKey(FamilyProfile, on_delete=models.CASCADE)
     household_no = models.CharField(max_length=20, unique=True)
-    no_members = models.DecimalField(max_digits=5, decimal_places=0)
+    no_members = models.DecimalField(max_digits=5, decimal_places=0, verbose_name='Total Members')
     count_05 = models.DecimalField(default=0, max_digits=5, decimal_places=0, verbose_name='Number of Children 0 - 5 months old')
     count_623 = models.DecimalField(default=0, max_digits=5, decimal_places=0, verbose_name='Number of Children 6 - 23 months old')
     count_2459 = models.DecimalField(default=0, max_digits=5, decimal_places=0, verbose_name='Number of Children 24 - 59 months old')
@@ -304,13 +304,13 @@ class Immunization(models.Model):
     fully_immunized_child = models.DecimalField(decimal_places=2, max_digits=5)
     child_protected_at_birth = models.DecimalField(decimal_places=2, max_digits=5)
 
-    given_bcg = models.IntegerField()
-    given_hepa = models.IntegerField()
-    given_penta = models.IntegerField()
-    given_opv = models.IntegerField()
-    given_mcv = models.IntegerField()
-    given_rota = models.IntegerField()
-    given_pcv = models.IntegerField()
+    given_bcg = models.IntegerField(verbose_name='Given BCG')
+    given_hepa = models.IntegerField(verbose_name='Given HEPA')
+    given_penta = models.IntegerField(verbose_name='Given PENTA')
+    given_opv = models.IntegerField(verbose_name='Given OPV')
+    given_mcv = models.IntegerField(verbose_name='Given MCV')
+    given_rota = models.IntegerField(verbose_name='Given ROTA')
+    given_pcv = models.IntegerField(verbose_name='Given PCV')
 
     fhsis = models.ForeignKey(FHSIS, on_delete=models.CASCADE)
     sex = models.ForeignKey(Sex, on_delete=models.CASCADE)
@@ -319,9 +319,9 @@ class Immunization(models.Model):
 class Malaria(models.Model):
 
     population_at_risk = models.DecimalField(decimal_places=2, max_digits=5)
-    malaria_cases = models.DecimalField(decimal_places=2, max_digits=5)
-    deaths = models.DecimalField(decimal_places=2, max_digits=5)
-    immunization_given = models.DecimalField(decimal_places=2, max_digits=5)
+    malaria_cases = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Malaria Cases')
+    deaths = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Malaria Deaths')
+    immunization_given = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Malaria Immunization Given')
     llin_given = models.DecimalField(decimal_places=2, max_digits=5)
 
     fhsis = models.ForeignKey(FHSIS, on_delete=models.CASCADE)
@@ -333,7 +333,7 @@ class Tuberculosis(models.Model):
     underwent_ddsm = models.DecimalField(decimal_places=2, max_digits=5)
     smear_positive = models.DecimalField(decimal_places=2, max_digits=5)
     cases_cured = models.DecimalField(decimal_places=2, max_digits=5)
-    identified = models.DecimalField(decimal_places=2, max_digits=5)
+    identified = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Tuberculosis Identified')
 
     fhsis = models.ForeignKey(FHSIS, on_delete=models.CASCADE)
     sex = models.ForeignKey(Sex, on_delete=models.CASCADE)
