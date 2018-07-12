@@ -194,7 +194,7 @@ class Metric(models.Model):
 
             for m in latest_months:
                 value = ChildCare.objects.filter(fhsis__date__month=m,
-                                                     fhsis__date__year=year).aggregate(sum=Sum(f))['sum']
+                                                     fhsis__date__year=year).aggregate(sum=Sum(f))['sum'] or 0
                 data.append({
                     'month': m,
                     'field': fields[i],

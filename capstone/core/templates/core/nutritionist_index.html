@@ -161,7 +161,77 @@
                             <!-- PAAYOS LAYOUT NG DASHBOARD -->
                             <div class="row">
                                 <div class="col-4 text-center">
-                                    <b class="text-info">Under construction nutritional status dashboard </b>
+{#                                    <b class="text-info">Under construction nutritional status dashboard </b>#}
+                                    <h5>Weight for Age</h5>
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>Category</th>
+                                            <th>Count</th>
+                                            <th>Prevalence Rate</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for x in wfa %}
+                                            <tr>
+                                                {% for value in x %}
+                                                    <td>{{ value }}</td>
+                                                {% endfor %}
+                                            </tr>
+                                        {% endfor %}
+                                        <tr>
+                                            <th>Total</th>
+                                            <th colspan="2">{{ wfa_total|floatformat }}</th>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <h5>Height for Age</h5>
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>Category</th>
+                                            <th>Count</th>
+                                            <th>Prevalence Rate</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for x in hfa %}
+                                            <tr>
+                                                {% for value in x %}
+                                                    <td>{{ value }}</td>
+                                                {% endfor %}
+                                            </tr>
+
+                                        {% endfor %}
+                                        <tr>
+                                            <th>Total</th>
+                                            <th colspan="2">{{ hfa_total|floatformat }}</th>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <h5>Weight for Height/Length</h5>
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>Category</th>
+                                            <th>Count</th>
+                                            <th>Prevalence Rate</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for x in wfhl %}
+                                            <tr>
+                                                {% for value in x %}
+                                                    <td>{{ value }}</td>
+                                                {% endfor %}
+                                            </tr>
+                                        {% endfor %}
+                                        <tr>
+                                            <th>Total</th>
+                                            <th colspan="2">{{ wfhl_total|floatformat }}</th>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <div class="col-4">
                                     <div id="micro-dashboard">

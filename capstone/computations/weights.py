@@ -18,7 +18,7 @@ def get_weights_per_year_per_status(status, year):
         sum=Sum('values')
     )['sum']
 
-    return float(total)
+    return float(total or 0)
 
 
 def weights_per_year_to_dict():
@@ -70,14 +70,17 @@ def get_totals_per_year():
 def get_computations_per_category(category):
 
     fields = [status for status in NutritionalStatus.objects.all() if category == status.name.split("-")[0].strip()]
-    total = sum([get_weights_per_year_per_status(status, year_now) for status in fields])
+    total = sum([get_weights_per_year_per_status(status, year_now) for status in fields]) or 1
 
     data = []
     for f in fields:
-        sub_data = {}
+        sub_data = []
         sub_total = get_weights_per_year_per_status(f, year_now)
-        sub_data[f.name] = sub_total
-        sub_data['prevalence_rate'] = round(sub_total / total, 3) * 100
+        prevalence_rate = round(sub_total / total, 2) * 100
+
+        sub_data.append(f.name)
+        sub_data.append(sub_total)
+        sub_data.append(str(prevalence_rate) +'%')
         data.append(sub_data)
 
     return {
