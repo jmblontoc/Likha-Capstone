@@ -154,7 +154,7 @@ def nutritionist(request):
 
     # socioeconomic
 
-    total = FamilyProfileLine.objects.filter(family_profile__date__year=datetime.now().year).count()
+    total = FamilyProfileLine.objects.filter(family_profile__date__year=datetime.now().year).count() or 1
     using_salt = FamilyProfileLine.objects.filter(family_profile__date__year=datetime.now().year,
                                                   is_using_iodized_salt=True).count()
     ebf = FamilyProfileLine.objects.filter(family_profile__date__year=datetime.now().year, is_ebf=True).count()
@@ -215,7 +215,7 @@ def dashboard(request):
 
     # socioeconomic
 
-    total = FamilyProfileLine.objects.filter(family_profile__date__year=datetime.now().year).count()
+    total = FamilyProfileLine.objects.filter(family_profile__date__year=datetime.now().year).count() or 1
     using_salt = FamilyProfileLine.objects.filter(family_profile__date__year=datetime.now().year, is_using_iodized_salt=True).count()
     ebf = FamilyProfileLine.objects.filter(family_profile__date__year=datetime.now().year, is_ebf=True).count()
 

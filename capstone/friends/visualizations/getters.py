@@ -72,4 +72,4 @@ def get_child_care(date_range):
 def get_average_family_members():
 
     return FamilyProfileLine.objects.filter(family_profile__date__year=datetime.now().year).aggregate(average=
-                                                                                               Avg('no_members'))['average']
+                                                                                               Avg('no_members'))['average'] or 0

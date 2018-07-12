@@ -43,7 +43,7 @@ def maternal_dashboard():
     values = []
     for f in fields:
         point = get_field(MaternalCare, f).strip()
-        value = float(MaternalCare.objects.filter(fhsis__date__year=year_now).aggregate(sum=Sum(point))['sum'])
+        value = float(MaternalCare.objects.filter(fhsis__date__year=year_now).aggregate(sum=Sum(point))['sum'] or 0)
         values.append(value)
 
     return {

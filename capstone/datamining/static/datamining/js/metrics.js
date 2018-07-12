@@ -8,6 +8,9 @@ $(function() {
         const category = button.parent().siblings(".category").html();
         const source = button.parent().siblings(".source").html();
         const field = button.parent().siblings(".field").html();
+        const remarks = button.parent().siblings(".remark").html();
+
+        $(".for-remark").html(remarks);
 
 
         $.ajax({
