@@ -2,6 +2,9 @@ $(function() {
 
     const display = $("tr.display");
 
+    console.log('asd');
+    $('html, body').animate({ scrollTop: $(document).height()}, 1000);
+
     display.click(function() {
 
         const data = $(this).attr("data-value");
@@ -68,14 +71,15 @@ $(function() {
         const table = $("#table");
         table.empty();
 
-        var header = '<h4>' + field + " " + time + '</h4>';
-        var tb = '<table class="table table-bordered" id="data-here">' +
+        var header = '<div class="card-header no-border" style="text-align: center;"><h3 class="card-title">' + field + " " + time + '</h3></div>';
+        var tb = '<div class="card-body"><table class="table table-bordered" id="data-here">' +
             '<thead>' +
             '<tr>' +
             '<th>Time</th><th>Value</th>' +
             '</tr>' +
             '</thead>' +
-            '</table>';
+            '</table>' +
+            '</div>';
 
         table.append(header);
         table.append(tb);

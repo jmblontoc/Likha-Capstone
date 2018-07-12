@@ -23,18 +23,32 @@
     </div>
     <section class="content">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-6" id="graph">
 
-                            </div>
-                            <div class="col-6" id="table">
+<div class="row">
 
-                            </div>
-                        </div>
-                    </div>
+<div class="col-6">
+
+<div class="card" style="height: 450px;">
+<div class="card-body p-2">
+<div id="graph">
+
+    <h5 style="text-align: center; padding-top: 200px;">Please select a metric below.</h5>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="col-6">
+<div class="card" style="height: 450px;">
+<div id="table">
+    <h5 style="text-align: center; padding-top: 200px;">Please select a metric below.</h5>
+</div>
+
+</div>
+</div>
+
+</div>
 {#                    <div class="card card-primary">#}
 {#                        <div class="card-header d-flex p-0" style="cursor: move;">#}
 {#                            <h3 class="card-title p-3">Default Metrics</h3>#}
@@ -101,6 +115,9 @@
 {#                            </tbody>#}
 {#                        </table>#}
 {#                    </div>#}
+
+            <div class="row">
+                <div class="col-12">
                     <div class="card card-primary">
                         <div class="card-header d-flex p-0" style="cursor: move;">
                             <h3 class="card-title p-3">Metrics and Thresholds as of {{ date }}</h3>
@@ -135,6 +152,7 @@
                                             </tr>
                                         {% endfor %}
                                     {% endif %}
+
                                 </tbody>
                             </table>
                             <script>
@@ -146,6 +164,10 @@
                                         "autoWidth": false
                                     });
                                 });
+
+
+
+
                             </script>
                         </div>
                     </div>
