@@ -73,12 +73,15 @@ def return_incomplete_fhsis(sheet):
     rows = []
 
     for a in range(4, 13):
+        print(sheet.cell_value(a, 1))
         if sheet.cell_value(a, 1) == '':
             field = sheet.cell_value(a, 0)
+
             rows.append({
                 'field': field,
                 'row': a,
-                'column': 0
+                'column': 1,
+                'value': sheet.cell_value(a, 1)
             })
 
     exceptions = [21, 22, 28, 29, 34, 35, 38, 39, 43, 44, 47, 48]
@@ -89,21 +92,22 @@ def return_incomplete_fhsis(sheet):
             continue
 
         if sheet.cell_value(b, 1) == '' or sheet.cell_value(b, 2) == '':
-
             field = sheet.cell_value(b, 0)
 
             if sheet.cell_value(b, 1) == '':
                 rows.append({
                     'field': field,
                     'row': b,
-                    'column': 1
+                    'column': 1,
+                    'value': sheet.cell_value(b, 1)
                 })
 
             if sheet.cell_value(b, 2) == '':
                 rows.append({
                     'field': field,
                     'row': b,
-                    'column': 2
+                    'column': 2,
+                    'value': sheet.cell_value(b, 2)
                 })
 
     for c in range(64, 67):
@@ -113,7 +117,8 @@ def return_incomplete_fhsis(sheet):
             rows.append({
                 'field': field,
                 'row': c,
-                'column': 1
+                'column': 1,
+                'value': sheet.cell_value(c, 1)
             })
 
     for d in range(70, 77):
@@ -126,14 +131,16 @@ def return_incomplete_fhsis(sheet):
                 rows.append({
                     'field': field,
                     'row': d,
-                    'column': 1
+                    'column': 1,
+                    'value': sheet.cell_value(d, 1)
                 })
 
             if sheet.cell_value(d, 2) == '':
                 rows.append({
                     'field': field,
                     'row': d,
-                    'column': 2
+                    'column': 2,
+                    'value': sheet.cell_value(d, 2)
                 })
 
     return rows

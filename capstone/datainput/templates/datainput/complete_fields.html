@@ -1,42 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Complete Fields</title>
-</head>
-<body>
-    {% include 'core/helpers/messages.html' %}
-    <h1>Complete Fields</h1>
-    <p>The following fields were incomplete during the excel upload</p>
+{% extends 'core/bns-layout.html' %}
+{% block content %}
+
+<div class="content-wrapper" style="height: auto; margin-top: 57px;">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Barangay Nutrition Scholar Upload Facility</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{% url 'core:bns-index' %}">BNS Upload Facility</a></li>
+                        <li class="breadcrumb-item active">Complete Fields</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        {% include 'core/helpers/messages.html' %}
+        <div class="alert alert-error alert-dismissible" style="width: 65.6%; margin-left: 7.5px; margin-right: 7.5px; margin-top: 15px; margin-bottom: 0;">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h5 style="text-transform: capitalize;"><i class="icon fa fa-ban"></i>Incomplete</h5>
+            The following fields were incomplete during the excel upload
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-8">
+                    <div class="card card-primary">
+                        <div class="card-header p-0">
+                            <h3 class="card-title p-3">Complete Fields</h3>
+                        </div>
+                        <div class="card-body table-responsive">
+
+
+    <p></p>
 
     <form method="POST" action="{% url 'datainput:complete_fields' %}">
         {% csrf_token %}
 
 
         <input type="hidden" name="path" value="{{ file }}">
-        <table>
+        <table class="col-12 table table-bordered">
             <thead>
-            <tr>
-                <th>Field</th>
-                <th>Row</th>
-                <th>Column</th>
-                <th>Input</th>
-            </tr>
+                <tr>
+                    <th>Field</th>
+                    <th>Row</th>
+                    <th>Column</th>
+                    <th>Input</th>
+                </tr>
             </thead>
             <tbody>
             {% for row in rows %}
                 <tr>
-                    <td>{{ row.field }}</td>
-                    <td>{{ row.row }}</td>
-                    <td>{{ row.column }}</td>
+                    <td style="vertical-align: middle;">{{ row.field }}</td>
+                    <td style="vertical-align: middle;">{{ row.row }}</td>
+                    <td style="vertical-align: middle;">{{ row.column }}</td>
                     <td>
-                        <input type="number" name="{{ row.row }}-{{ row.column }}">
+                        <input class="form-control" type="number" name="{{ row.row }}-{{ row.column }}">
                     </td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
-        <input type="submit">
+        <input class="btn btn-primary col-2 float-right" type="submit">
     </form>
-</body>
-</html>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
