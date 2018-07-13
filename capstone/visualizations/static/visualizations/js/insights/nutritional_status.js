@@ -7,7 +7,7 @@ $(function() {
             type: 'column'
         },
         title: {
-            text: 'Barangays with Highest Number of Malnourished Children'
+            text: 'Barangays with the Highest Number of Malnourished Children'
         },
         xAxis: {
             categories: ['Barangay Poblacion', 'Barangay Ibaba', 'Barangay Addition Hills', 'Burol', 'Daang Bakal']

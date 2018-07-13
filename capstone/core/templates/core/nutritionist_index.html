@@ -115,7 +115,8 @@
                     </a>
                 </div>
                 <div class="col-6">
-                    <div class="card card-primary">
+                    <a href="{% url 'visualizations:city_micronutrient' %}">
+                        <div class="card card-primary">
                         <div class="card-header p-0">
                             <h3 class="card-title p-3">City Micronutrient Supplementation</h3>
                         </div>
@@ -125,6 +126,7 @@
                             </div>
                         </div>
                     </div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -136,28 +138,32 @@
 <div class="col-4">
 
 <div class="col-12 p-0">
-<div class="card">
-<div class="card-body">
-    <div id="maternal-dash">
-        <h3>Maternal - paayos na lang ng design</h3>
-        {% for dict in maternal %}
-            {% for k, v in dict.items %}
-                <p><b>{{ v }}</b> {{ k }}</p>
-            {% endfor %}
-        {% endfor %}
-    </div>
-</div>
-</div>
+    <a href="{% url 'visualizations:city_maternal' %}">
+        <div class="card">
+            <div class="card-body">
+                <div id="maternal-dash">
+                    <h3>Maternal - paayos na lang ng design</h3>
+                    {% for dict in maternal %}
+                        {% for k, v in dict.items %}
+                            <p><b>{{ v }}</b> {{ k }}</p>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </a>
 </div>
 
 <div class="col-12 p-0">
-<div class="card">
-<div class="card-body">
-<div id="childcare-dash">
+    <a href="{% url 'visualizations:children_care' %}">
+        <div class="card">
+            <div class="card-body">
+                <div id="childcare-dash">
 
-</div>
-</div>
-</div>
+                </div>
+            </div>
+        </div>
+    </a>
 </div>
 
 </div>
