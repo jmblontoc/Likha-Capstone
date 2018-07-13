@@ -21,9 +21,9 @@ from friends.datainput import validations
 @login_required
 def index(request):
 
-    if len(validations.todo_list()) > 0:
-        messages.error(request, 'Data is not yet up to date')
-        return redirect('core:nutritionist')
+    # if len(validations.todo_list()) > 0:
+    #     messages.error(request, 'Data is not yet up to date')
+    #     return redirect('core:nutritionist')
 
     metrics = Metric.objects.filter(is_completed=False)
 

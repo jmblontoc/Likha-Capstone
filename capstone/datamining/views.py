@@ -18,36 +18,36 @@ from friends import datapoints
 @login_required
 def index(request):
 
-    if validations.todo_list().__len__() == 0:
+    # if validations.todo_list().__len__() == 0:
 
-        nutritional_statuses = NutritionalStatus.objects.all()
+    nutritional_statuses = NutritionalStatus.objects.all()
 
 
-        profile = Profile.objects.get(user=request.user)
-        clean_correlations.create_correlation_session(request)
+    profile = Profile.objects.get(user=request.user)
+    clean_correlations.create_correlation_session(request)
 
-        micro = request.session['micronutrient']
-        maternal = request.session['maternal']
-        child_care = request.session['child_care']
-        socio = request.session['socioeconomic']
+    micro = request.session['micronutrient']
+    maternal = request.session['maternal']
+    child_care = request.session['child_care']
+    socio = request.session['socioeconomic']
 
-        scores = [micro, maternal, child_care, socio]
+    scores = [micro, maternal, child_care, socio]
 
-        context = {
-            'profile': profile,
-            'active': 'ct',
-            'statuses': nutritional_statuses,
-            'micro': micro,
-            'maternal': maternal,
-            'child_care': child_care,
-            'socio': socio
+    context = {
+        'profile': profile,
+        'active': 'ct',
+        'statuses': nutritional_statuses,
+        'micro': micro,
+        'maternal': maternal,
+        'child_care': child_care,
+        'socio': socio
 
-        }
+    }
 
-        return render(request, 'datamining/index.html', context)
+    return render(request, 'datamining/index.html', context)
 
-    messages.error(request, 'Data is not up to date')
-    return redirect('core:nutritionist')
+    # messages.error(request, 'Data is not up to date')
+    # return redirect('core:nutritionist')
 
 
 @login_required
