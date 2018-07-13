@@ -211,19 +211,16 @@
                 <thead>
                 <tr>
                     <th>Metric</th>
-                    <th>Value</th>
-                    <th>Type</th>
-                    <th>Threshold</th>
+                    <th style="width: 25%;">Value</th>
                 </tr>
+                </thead>
                 {% for m in alarming_metrics %}
                     <tr>
-                        <td>{{ m.metric }}</td>
-                        <td>{{ m.get_total_value }}</td>
-                        <td>{{ m.get_type }}</td>
-                        <td>{{ m.threshold }}</td>
+                        <td>{{ m.get_data_point }}</td>
+                        <td>{% if m.get_type == 'is greater than' %}<i class="fa fa-arrow-up"></i>{% else %}<i class="fa fa-arrow-down"></i>{% endif %} {{ m.get_total_value }}</td>
                     </tr>
                 {% endfor %}
-                </thead>
+
             </table>
         </div>
     </div>
