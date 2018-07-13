@@ -26,25 +26,46 @@
     </div>
     <section class="content">
         <div class="container-fluid">
+
             <div class="row">
                 <div class="col-12">
                     <div class="card card-primary">
                         <div class="card-header d-flex p-0">
                             <h3 class="card-title p-3">Correlations and Forecasts</h3>
+                            <ul class="nav nav-pills ml-auto p-2">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle target" data-toggle="dropdown" href="#" aria-expanded="false">
+                                        Select Category <span class="caret"></span>
+                                    </a>
+                                    <div class="dropdown-menu white" x-placement="bottom-start" style="position: absolute; transform: translate3d(-33px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                        <a class="dropdown-item test-click" href="#tab_1" data-toggle="tab" style="color: #000;">Micronutrient Supplementation</a>
+                                        <a class="dropdown-item test-click" href="#tab_2" data-toggle="tab" style="color: #000;">City Maternal Care</a>
+                                        <a class="dropdown-item test-click" href="#tab_3" data-toggle="tab" style="color: #000;">City Child Care</a>
+                                        <a class="dropdown-item test-click" href="#tab_4" data-toggle="tab" style="color: #000;">Socioeconomic</a>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
                         <div class="card-body">
+                            <div class="tab-content">
+                                <div class="tab-pane active show" id="initial">
+                                    <p style="text-align: center; margin: 30px;">Please Select a Category</p>
+                                </div>
+                                <div class="tab-pane" id="tab_1">
 
-                            <h3>Micronutrient Supplementation</h3>
                             <h5>Weight for Age</h5>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered dataTables">
+                                <thead>
                                 <tr>
-                                    <th>Category</th>
-                                    <th>Source</th>
-                                    <th>Field</th>
-                                    <th>Score</th>
-                                    <th>Remarks</th>
-                                    <th>Action</th>
+                                    <th style="width: 30%;">Category</th>
+                                    <th style="width: 15%;">Source</th>
+                                    <th style="width: 25%;">Field</th>
+                                    <th style="width: 10%;">Score</th>
+                                    <th style="width: 10%;">Remarks</th>
+                                    <th style="width: 10%;">Action</th>
                                 </tr>
+                                </thead>
+                                <tbody>
                                 {% for mi in micro %}
                                     {% if mi.category == 'Weight for Age - Underweight and Severely Underweight' %}
                                         <tr>
@@ -54,25 +75,29 @@
                                             <td>{{ mi.score }}</td>
                                             <td class="remark">{{ mi.remark }}</td>
                                             <td>
-                                                <button class="btn btn-primary" data-toggle="modal" data-target="#viewCorrelationGraph">
+                                                <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">
                                                     View
                                                 </button>
                                             </td>
                                         </tr>
                                     {% endif %}
                                 {% endfor %}
+                                </tbody>
                             </table>
 
                             <h5>Height for Age</h5>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered dataTables">
+                                <thead>
                                 <tr>
-                                    <th>Category</th>
-                                    <th>Source</th>
-                                    <th>Field</th>
-                                    <th>Score</th>
-                                    <th>Remarks</th>
-                                    <th>Action</th>
+                                    <th style="width: 30%;">Category</th>
+                                    <th style="width: 15%;">Source</th>
+                                    <th style="width: 25%;">Field</th>
+                                    <th style="width: 10%;">Score</th>
+                                    <th style="width: 10%;">Remarks</th>
+                                    <th style="width: 10%;">Action</th>
                                 </tr>
+                                </thead>
+                                <tbody>
                                 {% for mi in micro %}
                                     {% if mi.category == 'Height for Age - Stunted and Severely Stunted' %}
                                         <tr>
@@ -82,25 +107,29 @@
                                             <td>{{ mi.score }}</td>
                                             <td class="remark">{{ mi.remark }}</td>
                                             <td>
-                                                <button class="btn btn-primary" data-toggle="modal" data-target="#viewCorrelationGraph">
+                                                <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">
                                                     View
                                                 </button>
                                             </td>
                                         </tr>
                                     {% endif %}
                                 {% endfor %}
+                                </tbody>
                             </table>
 
                             <h5>Weight for Height/Length</h5>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered dataTables">
+                                <thead>
                                 <tr>
-                                    <th>Category</th>
-                                    <th>Source</th>
-                                    <th>Field</th>
-                                    <th>Score</th>
-                                    <th>Remarks</th>
-                                    <th>Action</th>
+                                    <th style="width: 30%;">Category</th>
+                                    <th style="width: 15%;">Source</th>
+                                    <th style="width: 25%;">Field</th>
+                                    <th style="width: 10%;">Score</th>
+                                    <th style="width: 10%;">Remarks</th>
+                                    <th style="width: 10%;">Action</th>
                                 </tr>
+                                </thead>
+                                <tbody>
                                 {% for mi in micro %}
                                     {% if mi.category == 'Weight for Height/Length - Wasted and Severely Wasted' %}
                                         <tr>
@@ -110,26 +139,31 @@
                                             <td>{{ mi.score }}</td>
                                             <td class="remark">{{ mi.remark }}</td>
                                             <td>
-                                                <button class="btn btn-primary" data-toggle="modal" data-target="#viewCorrelationGraph">
+                                                <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">
                                                     View
                                                 </button>
                                             </td>
                                         </tr>
                                     {% endif %}
                                 {% endfor %}
+                                </tbody>
                             </table>
+                                </div>
+                                <div class="tab-pane" id="tab_2">
 
-                            <h3>City Maternal Care</h3>
                             <h5>Weight for Age</h5>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered dataTables">
+                                <thead>
                                 <tr>
-                                    <th>Category</th>
-                                    <th>Source</th>
-                                    <th>Field</th>
-                                    <th>Score</th>
-                                    <th>Remarks</th>
-                                    <th>Action</th>
+                                    <th style="width: 30%;">Category</th>
+                                    <th style="width: 15%;">Source</th>
+                                    <th style="width: 25%;">Field</th>
+                                    <th style="width: 10%;">Score</th>
+                                    <th style="width: 10%;">Remarks</th>
+                                    <th style="width: 10%;">Action</th>
                                 </tr>
+                                </thead>
+                                <tbody>
                                 {% for mi in maternal %}
                                     {% if mi.category == 'Weight for Age - Underweight and Severely Underweight' %}
                                         <tr>
@@ -139,25 +173,29 @@
                                             <td>{{ mi.score }}</td>
                                             <td class="remark">{{ mi.remark }}</td>
                                             <td>
-                                                <button class="btn btn-primary" data-toggle="modal" data-target="#viewCorrelationGraph">
+                                                <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">
                                                     View
                                                 </button>
                                             </td>
                                         </tr>
                                     {% endif %}
                                 {% endfor %}
+                                </tbody>
                             </table>
 
                             <h5>Height for Age</h5>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered dataTables">
+                                <thead>
                                 <tr>
-                                    <th>Category</th>
-                                    <th>Source</th>
-                                    <th>Field</th>
-                                    <th>Score</th>
-                                    <th>Remarks</th>
-                                    <th>Action</th>
+                                    <th style="width: 30%;">Category</th>
+                                    <th style="width: 15%;">Source</th>
+                                    <th style="width: 25%;">Field</th>
+                                    <th style="width: 10%;">Score</th>
+                                    <th style="width: 10%;">Remarks</th>
+                                    <th style="width: 10%;">Action</th>
                                 </tr>
+                                </thead>
+                                <tbody>
                                 {% for mi in maternal %}
                                     {% if mi.category == 'Height for Age - Stunted and Severely Stunted' %}
                                         <tr>
@@ -167,25 +205,29 @@
                                             <td>{{ mi.score }}</td>
                                             <td class="remark">{{ mi.remark }}</td>
                                             <td>
-                                                <button class="btn btn-primary" data-toggle="modal" data-target="#viewCorrelationGraph">
+                                                <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">
                                                     View
                                                 </button>
                                             </td>
                                         </tr>
                                     {% endif %}
                                 {% endfor %}
+                                </tbody>
                             </table>
 
                             <h5>Weight for Height/Length</h5>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered dataTables">
+                                <thead>
                                 <tr>
-                                    <th>Category</th>
-                                    <th>Source</th>
-                                    <th>Field</th>
-                                    <th>Score</th>
-                                    <th>Remarks</th>
-                                    <th>Action</th>
+                                    <th style="width: 30%;">Category</th>
+                                    <th style="width: 15%;">Source</th>
+                                    <th style="width: 25%;">Field</th>
+                                    <th style="width: 10%;">Score</th>
+                                    <th style="width: 10%;">Remarks</th>
+                                    <th style="width: 10%;">Action</th>
                                 </tr>
+                                </thead>
+                                <tbody>
                                 {% for mi in maternal %}
                                     {% if mi.category == 'Weight for Height/Length - Wasted and Severely Wasted' %}
                                         <tr>
@@ -195,26 +237,31 @@
                                             <td>{{ mi.score }}</td>
                                             <td class="remark">{{ mi.remark }}</td>
                                             <td>
-                                                <button class="btn btn-primary" data-toggle="modal" data-target="#viewCorrelationGraph">
+                                                <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">
                                                     View
                                                 </button>
                                             </td>
                                         </tr>
                                     {% endif %}
                                 {% endfor %}
+                                </tbody>
                             </table>
+                                    </div>
+                                <div class="tab-pane" id="tab_3">
 
-                            <h3>City Child Care</h3>
                             <h5>Weight for Age</h5>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered dataTables">
+                                <thead>
                                 <tr>
-                                    <th>Category</th>
-                                    <th>Source</th>
-                                    <th>Field</th>
-                                    <th>Score</th>
-                                    <th>Remarks</th>
-                                    <th>Action</th>
+                                    <th style="width: 30%;">Category</th>
+                                    <th style="width: 15%;">Source</th>
+                                    <th style="width: 25%;">Field</th>
+                                    <th style="width: 10%;">Score</th>
+                                    <th style="width: 10%;">Remarks</th>
+                                    <th style="width: 10%;">Action</th>
                                 </tr>
+                                </thead>
+                                <tbody>
                                 {% for mi in child_care %}
                                     {% if mi.category == 'Weight for Age - Underweight and Severely Underweight' %}
                                         <tr>
@@ -224,25 +271,29 @@
                                             <td>{{ mi.score }}</td>
                                             <td class="remark">{{ mi.remark }}</td>
                                             <td>
-                                                <button class="btn btn-primary" data-toggle="modal" data-target="#viewCorrelationGraph">
+                                                <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">
                                                     View
                                                 </button>
                                             </td>
                                         </tr>
                                     {% endif %}
                                 {% endfor %}
+                                </tbody>
                             </table>
 
                             <h5>Height for Age</h5>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered dataTables">
+                                <thead>
                                 <tr>
-                                    <th>Category</th>
-                                    <th>Source</th>
-                                    <th>Field</th>
-                                    <th>Score</th>
-                                    <th>Remarks</th>
-                                    <th>Action</th>
+                                    <th style="width: 30%;">Category</th>
+                                    <th style="width: 15%;">Source</th>
+                                    <th style="width: 25%;">Field</th>
+                                    <th style="width: 10%;">Score</th>
+                                    <th style="width: 10%;">Remarks</th>
+                                    <th style="width: 10%;">Action</th>
                                 </tr>
+                                </thead>
+                                <tbody>
                                 {% for mi in child_care %}
                                     {% if mi.category == 'Height for Age - Stunted and Severely Stunted' %}
                                         <tr>
@@ -252,25 +303,29 @@
                                             <td>{{ mi.score }}</td>
                                             <td class="remark">{{ mi.remark }}</td>
                                             <td>
-                                                <button class="btn btn-primary" data-toggle="modal" data-target="#viewCorrelationGraph">
+                                                <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">
                                                     View
                                                 </button>
                                             </td>
                                         </tr>
                                     {% endif %}
                                 {% endfor %}
+                                </tbody>
                             </table>
 
                             <h5>Weight for Height/Length</h5>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered dataTables">
+                                <thead>
                                 <tr>
-                                    <th>Category</th>
-                                    <th>Source</th>
-                                    <th>Field</th>
-                                    <th>Score</th>
-                                    <th>Remarks</th>
-                                    <th>Action</th>
+                                    <th style="width: 30%;">Category</th>
+                                    <th style="width: 15%;">Source</th>
+                                    <th style="width: 25%;">Field</th>
+                                    <th style="width: 10%;">Score</th>
+                                    <th style="width: 10%;">Remarks</th>
+                                    <th style="width: 10%;">Action</th>
                                 </tr>
+                                </thead>
+                                <tbody>
                                 {% for mi in child_care %}
                                     {% if mi.category == 'Weight for Height/Length - Wasted and Severely Wasted' %}
                                         <tr>
@@ -280,26 +335,31 @@
                                             <td>{{ mi.score }}</td>
                                             <td class="remark">{{ mi.remark }}</td>
                                             <td>
-                                                <button class="btn btn-primary" data-toggle="modal" data-target="#viewCorrelationGraph">
+                                                <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">
                                                     View
                                                 </button>
                                             </td>
                                         </tr>
                                     {% endif %}
                                 {% endfor %}
+                                </tbody>
                             </table>
+                                    </div>
+                                <div class="tab-pane" id="tab_4">
 
-                            <h3>Socioeconomic</h3>
                             <h5>Weight for Age</h5>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered dataTables">
+                                <thead>
                                 <tr>
-                                    <th>Category</th>
-                                    <th>Source</th>
-                                    <th>Field</th>
-                                    <th>Score</th>
-                                    <th>Remarks</th>
-                                    <th>Action</th>
+                                    <th style="width: 30%;">Category</th>
+                                    <th style="width: 15%;">Source</th>
+                                    <th style="width: 25%;">Field</th>
+                                    <th style="width: 10%;">Score</th>
+                                    <th style="width: 10%;">Remarks</th>
+                                    <th style="width: 10%;">Action</th>
                                 </tr>
+                                </thead>
+                                <tbody>
                                 {% for mi in socio %}
                                     {% if mi.category == 'Weight for Age - Underweight and Severely Underweight' %}
                                         <tr>
@@ -309,25 +369,29 @@
                                             <td>{{ mi.score }}</td>
                                             <td class="remark">{{ mi.remark }}</td>
                                             <td>
-                                                <button class="btn btn-primary" data-toggle="modal" data-target="#viewCorrelationGraph">
+                                                <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">
                                                     View
                                                 </button>
                                             </td>
                                         </tr>
                                     {% endif %}
                                 {% endfor %}
+                                </tbody>
                             </table>
 
                             <h5>Height for Age</h5>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered dataTables">
+                                <thead>
                                 <tr>
-                                    <th>Category</th>
-                                    <th>Source</th>
-                                    <th>Field</th>
-                                    <th>Score</th>
-                                    <th>Remarks</th>
-                                    <th>Action</th>
+                                    <th style="width: 30%;">Category</th>
+                                    <th style="width: 15%;">Source</th>
+                                    <th style="width: 25%;">Field</th>
+                                    <th style="width: 10%;">Score</th>
+                                    <th style="width: 10%;">Remarks</th>
+                                    <th style="width: 10%;">Action</th>
                                 </tr>
+                                </thead>
+                                <tbody>
                                 {% for mi in socio %}
                                     {% if mi.category == 'Height for Age - Stunted and Severely Stunted' %}
                                         <tr>
@@ -337,25 +401,29 @@
                                             <td>{{ mi.score }}</td>
                                             <td class="remark">{{ mi.remark }}</td>
                                             <td>
-                                                <button class="btn btn-primary" data-toggle="modal" data-target="#viewCorrelationGraph">
+                                                <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">
                                                     View
                                                 </button>
                                             </td>
                                         </tr>
                                     {% endif %}
                                 {% endfor %}
+                                </tbody>
                             </table>
 
                             <h5>Weight for Height/Length</h5>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered dataTables">
+                                <thead>
                                 <tr>
-                                    <th>Category</th>
-                                    <th>Source</th>
-                                    <th>Field</th>
-                                    <th>Score</th>
-                                    <th>Remarks</th>
-                                    <th>Action</th>
+                                    <th style="width: 30%;">Category</th>
+                                    <th style="width: 15%;">Source</th>
+                                    <th style="width: 25%;">Field</th>
+                                    <th style="width: 10%;">Score</th>
+                                    <th style="width: 10%;">Remarks</th>
+                                    <th style="width: 10%;">Action</th>
                                 </tr>
+                                </thead>
+                                <tbody>
                                 {% for mi in socio %}
                                     {% if mi.category == 'Weight for Height/Length - Wasted and Severely Wasted' %}
                                         <tr>
@@ -365,65 +433,44 @@
                                             <td>{{ mi.score }}</td>
                                             <td class="remark">{{ mi.remark }}</td>
                                             <td>
-                                                <button class="btn btn-primary" data-toggle="modal" data-target="#viewCorrelationGraph">
+                                                <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">
                                                     View
                                                 </button>
                                             </td>
                                         </tr>
                                     {% endif %}
                                 {% endfor %}
+                                </tbody>
                             </table>
-
-
-                            <script>
-                                $(document).ready(function() {
-
-                                    var table = $("#correlation_overview");
-                                    var dt;
-
-                                    dt = table.DataTable({
-                                        "paging": true,
-                                        "lengthChange": true,
-                                        "ordering": true,
-                                        "autoWidth": false
-                                    });
-
-                                    $("#positive").click(function() {
-
-                                        dt.destroy();
-
-                                        dt = table.DataTable({
-                                        "paging": false,
-                                        "lengthChange": true,
-                                        "ordering": true,
-                                        "autoWidth": false
-                                        });
-
-                                        $('tr.correlation-row').each(function(){
-
-                                        var score = parseFloat($(this).children('td.score').html());
-
-                                        if (score <= 0)
-                                            $(this).hide();
-
-                                        });
-
-                                        dt.destroy();
-
-                                        dt = table.DataTable({
-                                        "paging": true,
-                                        "lengthChange": true,
-                                        "ordering": true,
-                                        "autoWidth": false
-                                        });
-
-                                    });
-                                });
-                            </script>
+                                    </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                    $('.dataTables').DataTable({
+                                        "paging": true,
+                                        "lengthChange": false,
+                                        "lengthMenu": [5],
+                                        "ordering": false,
+                                        "autoWidth": false,
+                                        "searching": false
+                                    });
+                                });
+                            </script>
+            <style>
+                h5 {
+                    padding-left: 20px;
+                    padding-top: 20px;
+                }
+                body {
+                    padding-right: 0px !important;
+                }
+            </style>
+
         </div>
     </section>
 </div>
