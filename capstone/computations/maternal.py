@@ -38,7 +38,7 @@ def get_maternal_care(field):
 
 def maternal_dashboard(view):
     maternal_fields = datapoints.maternal
-    fields = [maternal_fields[0], maternal_fields[2], maternal_fields[4], maternal_fields[5]]
+    fields = [maternal_fields[0], maternal_fields[2]]
 
     # for view
     if view is not None:

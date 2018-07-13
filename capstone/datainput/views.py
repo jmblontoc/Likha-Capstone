@@ -1981,9 +1981,8 @@ def notify(request, barangay_name, report):
 
     barangay = Barangay.objects.get(name=barangay_name)
 
-
-    message = 'Please upload your %s report as soon as possible' % report
     sender = Profile.objects.get(user=request.user)
+    message = 'Please upload your %s report as soon as possible. Flagged by %s' % (report, sender.user.username)
 
     for p in Profile.objects.filter(barangay=barangay):
         Notification.objects.create(

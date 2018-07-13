@@ -158,19 +158,22 @@
                     </div>
                     </a>
                     <a href="{% url 'visualizations:city_maternal' %}">
-        <div class="card">
-            <div class="card-body">
-                <div id="maternal-dash">
-                    <h3>Maternal</h3>
-                    {% for dict in maternal %}
-                        {% for k, v in dict.items %}
-                            <p><b>{{ v }}</b> {{ k }}</p>
-                        {% endfor %}
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </a>
+                        <div class="card">
+                            <div class="card-body">
+                                <div id="maternal-dash">
+                                    <h3 class="text-center">City Maternal Care</h3>
+                                    {% for dict in maternal %}
+                                        {% for k, v in dict.items %}
+                                            <div class="card">
+                                                <p class="text-center"><b style="font-size: 1.8rem;" class="text-success">{{ v|floatformat }}</b></p>
+                                                <p class="text-center"> {{ k }}</p>
+                                            </div>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </a>
                 </div>
 
                 <div class="col-4">
