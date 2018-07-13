@@ -1,0 +1,106 @@
+{% extends 'core/nutritionist-layout.html' %}
+{% block content %}
+
+{% load static %}
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="{% static 'visualizations/js/insights/nutritional_status.js' %}"></script>
+
+    <style>
+        .contents div{
+            padding: 20px;
+        }
+
+    </style>
+
+    <div class="content-wrapper" style="height: auto; margin-top: 57px;">
+        <div class="content">
+            <div class="container-fluid">
+                <h1>City Nutritional Status </h1>
+                <div class="row">
+                    <div class="col-4 text-center contents" style="height: 150px;">
+                        <div class="card">
+                           <p style="font-size: 1.3rem;">Total # of Underweight and Severely Underweight Children</p>
+                            <h1 class="display-4">14</h1>
+                        </div>
+                    </div>
+                    <div class="col-4 text-center contents" style="height: 150px;">
+                        <div class="card">
+                           <p style="font-size: 1.3rem;">Total # of Stunted and Severely Stunted Children</p>
+                            <h1 class="display-4">2</h1>
+                        </div>
+                    </div>
+                    <div class="col-4 text-center contents" style="height: 150px;">
+                        <div class="card">
+                           <p style="font-size: 1.3rem;">Total # of Wasted and Severely Wasted Children</p>
+                            <h1 class="display-4">1</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-4 text-center contents">
+                        <div class="card">
+                            <p style="font-size: 1.3rem;">Where are the highest cases of malnutrition?</p>
+                            <div class="row">
+                                <div class="col-4 contents">
+                                    <p style="font-size: 1rem;">Underweight and Severely Underweight</p>
+                                    <h4>Barangay Poblacion</h4>
+                                </div>
+                                <div class="col-4 contents">
+                                    <p style="font-size: 1rem;">Stunted and Severely Stunted</p>
+                                    <h4>Barangay Ibaba</h4>
+                                </div>
+                                <div class="col-4 contents">
+                                    <p style="font-size: 1rem;">Wasted and Severely Wasted</p>
+                                    <h4>Barangay Addition Hills</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="card p-4">
+                            <table class="table table-bordered">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th>Barangay</th>
+                                    <th>Underweight + Severely Underweight</th>
+                                    <th>Stunted + Severely Stunted</th>
+                                    <th>Wasted + Severely Wasted</th>
+                                </tr>
+                                <tr>
+                                    <td>Barangay Poblacion</td>
+                                    <td>3</td>
+                                    <td>2</td>
+                                    <td>8</td>
+                                </tr>
+                                <tr>
+                                    <td>Barangay Addition Hills</td>
+                                    <td>3</td>
+                                    <td>2</td>
+                                    <td>8</td>
+                                </tr>
+                                <tr>
+                                    <td>Barangay Ibaba</td>
+                                    <td>3</td>
+                                    <td>2</td>
+                                    <td>8</td>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div id="totals">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -8,6 +8,27 @@ urlpatterns = [
     # index
     path('', views.index, name='index'),
 
+    # insights city nut status
+    path('city_nutritional_status', views.city_nutritional_status, name='city_nutritional_status'),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     # nutritional status
     path('nutritional_status', views.nutritional_status_report, name='nutritional_status'),
 

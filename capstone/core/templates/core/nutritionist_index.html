@@ -26,15 +26,17 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-12">
-                    <div class="card card-primary">
+
+                <div class="col-6" style="cursor:pointer;">
+                    <a href="{% url 'visualizations:city_nutritional_status' %}">
+                        <div class="card card-primary">
                         <div class="card-header p-0">
-                            <h3 class="card-title p-3">DASHBOARD</h3>
+                            <h3 class="card-title p-3">City Nutritional Status</h3>
                         </div>
                         <div class="card-body container-fluid">
                             <!-- PAAYOS LAYOUT NG DASHBOARD -->
                             <div class="row">
-                                <div class="col-4 text-center">
+                                <div class="text-center">
 {#                                    <b class="text-info">Under construction nutritional status dashboard </b>#}
                                     <h5>Weight for Age</h5>
                                     <table class="table">
@@ -107,16 +109,25 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="col-4">
-                                    <div id="micro-dashboard">
+                            </div>
+                        </div>
+                    </div>
+                    </a>
+                </div>
+                <div class="col-6">
+                    <div class="card card-primary">
+                        <div class="card-header p-0">
+                            <h3 class="card-title p-3">City Micronutrient Supplementation</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="micro-dashboard">
 
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
     <div class="row">
 

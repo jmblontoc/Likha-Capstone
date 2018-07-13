@@ -31,6 +31,38 @@ def index(request):
 
 
 @login_required
+def city_nutritional_status(request):
+
+    context = {
+
+    }
+
+    return render(request, 'visualizations/insights/nutritional_status.html', context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# # # # # # # # # # # # # # #
+
+@login_required
 def display_report(request):
 
     start_date = request.POST.get('date1')

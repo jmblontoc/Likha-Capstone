@@ -136,6 +136,11 @@ def get_field(model, verbose):
     return None
 
 
+def get_field_fp(field):
+
+    pass
+
+
 def get_total_hcwm(field):
 
     count = 0
