@@ -245,7 +245,66 @@ class Metric(models.Model):
 
     def get_value_over_time(self):
 
+        point = self.get_data_point.strip()
+
         if self.get_source.strip() == 'Family Profile':
+
+            if point in datapoints.water_sources:
+                start_year = [d.year for d in FamilyProfileLine.objects.dates('family_profile__date', 'year')][0]
+
+                data = {}
+                while start_year <= weights.year_now:
+
+                    count = FamilyProfileLine.objects.filter(family_profile__date__year=start_year, water_sources=point).count()
+
+
+                    data[start_year] = count
+                    start_year = start_year + 1
+
+                return json.dumps(data)
+
+            if point in datapoints.food_production:
+                start_year = [d.year for d in FamilyProfileLine.objects.dates('family_profile__date', 'year')][0]
+
+                data = {}
+                while start_year <= weights.year_now:
+
+                    count = FamilyProfileLine.objects.filter(family_profile__date__year=start_year, food_production_activity=point).count()
+
+
+                    data[start_year] = count
+                    start_year = start_year + 1
+
+                return json.dumps(data)
+
+            if point in datapoints.educational_attainment_for_r:
+                start_year = [d.year for d in FamilyProfileLine.objects.dates('family_profile__date', 'year')][0]
+
+                data = {}
+                while start_year <= weights.year_now:
+
+                    count = FamilyProfileLine.objects.filter(family_profile__date__year=start_year, educational_attainment=point).count()
+
+
+                    data[start_year] = count
+                    start_year = start_year + 1
+
+                return json.dumps(data)
+
+            if point in datapoints.toilet_type:
+                start_year = [d.year for d in FamilyProfileLine.objects.dates('family_profile__date', 'year')][0]
+
+                data = {}
+                while start_year <= weights.year_now:
+
+                    count = FamilyProfileLine.objects.filter(family_profile__date__year=start_year, toilet_type=point).count()
+
+
+                    data[start_year] = count
+                    start_year = start_year + 1
+
+                return json.dumps(data)
+
             field = consolidators.get_field(FamilyProfileLine, self.get_data_point.strip())
             start_year = [d.year for d in FamilyProfileLine.objects.dates('family_profile__date', 'year')][0]
 

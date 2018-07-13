@@ -31,6 +31,66 @@ def index(request):
 
 
 @login_required
+def city_nutritional_status(request):
+
+    context = {
+
+    }
+
+    return render(request, 'visualizations/insights/nutritional_status.html', context)
+
+
+@login_required
+def city_micronutrient(request):
+
+    context = {
+
+    }
+
+    return render(request, 'visualizations/insights/micronutrient.html', context)
+
+
+@login_required
+def city_maternal(request):
+
+    context = {
+
+    }
+
+    return render(request, 'visualizations/insights/maternal.html', context)
+
+
+@login_required
+def city_children_care(request):
+
+    context = {
+
+    }
+
+    return render(request, 'visualizations/insights/children_care.html', context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# # # # # # # # # # # # # # #
+
+@login_required
 def display_report(request):
 
     start_date = request.POST.get('date1')

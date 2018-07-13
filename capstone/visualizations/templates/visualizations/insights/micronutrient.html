@@ -1,0 +1,142 @@
+{% extends 'core/nutritionist-layout.html' %}
+{% block content %}
+
+{% load static %}
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="{% static 'visualizations/js/insights/micronutrient.js' %}"></script>
+
+    <style>
+        .contents div{
+            padding: 20px;
+        }
+
+    </style>
+
+    <div class="content-wrapper" style="height: auto; margin-top: 57px;">
+        <div class="content">
+            <div class="container-fluid">
+                <h1>City Micronutrient Supplementation </h1>
+                <div class="row">
+                    <div class="col-4 text-center contents" style="height: 150px;">
+                        <div class="card">
+                           <p style="font-size: 1.3rem;">Total # of Vitamin A Given</p>
+                            <h1 class="display-4">45</h1>
+                        </div>
+                    </div>
+                    <div class="col-4 text-center contents" style="height: 150px;">
+                        <div class="card">
+                           <p style="font-size: 1.3rem;">Total # of Iron Given</p>
+                            <h1 class="display-4">63</h1>
+                        </div>
+                    </div>
+                    <div class="col-4 text-center contents" style="height: 150px;">
+                        <div class="card">
+                           <p style="font-size: 1.3rem;">Total # of Micronutrient Powder Given</p>
+                            <h1 class="display-4">85</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-6 text-center contents">
+                        <div class="card">
+                            <p style="font-size: 1.3rem;">Where is the barangay given the <b class="text-success">highest </b> per supplementation?</p>
+                            <div class="row">
+                                <div class="col-4 contents">
+                                    <p style="font-size: 1rem;">Vitamin A</p>
+                                    <h4>Barangay Poblacion</h4>
+                                    <h3 class="text-success">43</h3>
+                                </div>
+                                <div class="col-4 contents">
+                                    <p style="font-size: 1rem;">Iron</p>
+                                    <h4>Barangay Ibaba</h4>
+                                    <h3 class="text-success">56</h3>
+                                </div>
+                                <div class="col-4 contents">
+                                    <p style="font-size: 1rem;">Micronutrient Powder</p>
+                                    <h4>Barangay Addition Hills</h4>
+                                    <h3 class="text-success">54</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 text-center contents">
+                        <div class="card">
+                            <p style="font-size: 1.3rem;">Where is the barangay given the <b class="text-danger">lowest</b> per supplementation?</p>
+                            <div class="row">
+                                <div class="col-4 contents">
+                                    <p style="font-size: 1rem;">Vitamin A</p>
+                                    <h4>Barangay Poblacion</h4>
+                                    <h3 class="text-danger">43</h3>
+                                </div>
+                                <div class="col-4 contents">
+                                    <p style="font-size: 1rem;">Iron</p>
+                                    <h4>Barangay Ibaba</h4>
+                                    <h3 class="text-danger">56</h3>
+                                </div>
+                                <div class="col-4 contents">
+                                    <p style="font-size: 1rem;">Micronutrient Powder</p>
+                                    <h4>Barangay Addition Hills</h4>
+                                    <h3 class="text-danger">54</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card p-4">
+                            <h4 class="text-center">Micronutrient Supplementation Per Barangay</h4>
+                            <table class="table table-bordered">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th>Barangay</th>
+                                    <th>Vitamin A</th>
+                                    <th>Iron</th>
+                                    <th>Micronutrient Powder</th>
+                                </tr>
+                                <tr>
+                                    <td>Barangay Poblacion</td>
+                                    <td>31</td>
+                                    <td>22</td>
+                                    <td>48</td>
+                                </tr>
+                                <tr>
+                                    <td>Barangay Addition Hills</td>
+                                    <td>13</td>
+                                    <td>42</td>
+                                    <td>28</td>
+                                </tr>
+                                <tr>
+                                    <td>Barangay Ibaba</td>
+                                    <td>43</td>
+                                    <td>42</td>
+                                    <td>48</td>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="card">
+                            <div id="totals">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card">
+                            <div id="totals-lowest">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

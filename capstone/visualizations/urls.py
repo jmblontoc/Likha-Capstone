@@ -8,6 +8,36 @@ urlpatterns = [
     # index
     path('', views.index, name='index'),
 
+    # insights city nut status
+    path('city_nutritional_status', views.city_nutritional_status, name='city_nutritional_status'),
+
+    # micronutrient
+    path('city_micronutrient', views.city_micronutrient, name='city_micronutrient'),
+
+    # maternal
+    path('city_maternal', views.city_maternal, name='city_maternal'),
+
+    # child care
+    path('city_children', views.city_children_care, name='children_care'),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     # nutritional status
     path('nutritional_status', views.nutritional_status_report, name='nutritional_status'),
 
