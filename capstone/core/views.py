@@ -185,7 +185,8 @@ def nutritionist(request):
         'maternal': maternal.maternal_dashboard(1),
 
         # alarming metrics
-        'alarming_metrics': [m for m in Metric.objects.all() if m.is_alarming]
+        'supplement_metrics': Metric.get_critical_supplements(),
+        'non_supplement_metrics': Metric.get_critical_non_supplements()
     }
 
 

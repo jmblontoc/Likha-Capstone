@@ -206,27 +206,48 @@
             <div class="col-3">
 
                 <div class="card">
-<div class="card-header no-border" style="text-align: center;">
-<h3 class="card-title">Alarming Metrics</h3>
-</div>
-<div class="card-body p-2">
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>Metric</th>
-                    <th style="width: 25%;">Value</th>
-                </tr>
-                </thead>
-                {% for m in alarming_metrics %}
-                    <tr>
-                        <td>{{ m.get_data_point }}</td>
-                        <td>{% if m.get_type == 'is greater than' %}<i class="fa fa-arrow-up"></i>{% else %}<i class="fa fa-arrow-down"></i>{% endif %} {{ m.get_total_value }}</td>
-                    </tr>
-                {% endfor %}
+                    <div class="card-header no-border" style="text-align: center;">
+                        <h3 class="card-title">Critical Metrics (Non Supplement)</h3>
+                    </div>
+                    <div class="card-body p-2">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th style="width: 25%;">Value</th>
+                            </tr>
+                            </thead>
+                            {% for m in non_supplement_metrics %}
+                                <tr>
+                                    <td>{{ m.get_data_point }}</td>
+                                    <td>{% if m.get_type == 'is greater than' %}<i class="fa fa-arrow-up"></i>{% else %}<i class="fa fa-arrow-down"></i>{% endif %} {{ m.get_total_value|floatformat }}</td>
+                                </tr>
+                            {% endfor %}
 
-            </table>
-        </div>
-    </div>
+                        </table>
+                    </div>
+
+                    <div class="card-header no-border" style="text-align: center;">
+                        <h3 class="card-title">Critical Metrics (Supplement)</h3>
+                    </div>
+                    <div class="card-body p-2">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th style="width: 25%;">Value</th>
+                            </tr>
+                            </thead>
+                            {% for m in supplement_metrics %}
+                                <tr>
+                                    <td>{{ m.get_data_point }}</td>
+                                    <td>{% if m.get_type == 'is greater than' %}<i class="fa fa-arrow-up"></i>{% else %}<i class="fa fa-arrow-down"></i>{% endif %} {{ m.get_total_value|floatformat }}</td>
+                                </tr>
+                            {% endfor %}
+
+                        </table>
+                    </div>
+                </div>
 
                 <div class="card">
 <div class="card-header no-border" style="text-align: center;">
