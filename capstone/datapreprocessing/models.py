@@ -46,6 +46,30 @@ class Metric(models.Model):
 
         return float(self.get_total_value) < float(self.threshold)
 
+    @property
+    def is_supplement(self):
+
+        supplements = [
+            'Given complimentary food',
+            'Children given deworming',
+            'Anemic children receiving full dose iron',
+            'Infants who received vitamin A',
+            'Infants who received iron',
+            'Infants who received MNP',
+            'Pregnant women given 2 doses of Tetanus Toxoid',
+            'Pregnant women given TT2 plus',
+            'Pregnant women given complete iron with folic acid supplementation',
+            'Postpartum women given complete iron supplementation',
+            'Postpartum women given Vitamin A supplementation'
+
+        ]
+
+        return self.get_data_point.strip() in supplements
+
+    @staticmethod
+    def get_supplement_metrics():
+
+        return [metric for metric in Metric.objects.all() if metric.is_supplement]
 
     @property
     def get_total_value(self):
@@ -79,7 +103,6 @@ class Metric(models.Model):
     def get_alarming():
 
         return [x for x in Metric.objects.all() if x.is_alarming]
-
 
     def to_dict(self):
         return {
@@ -151,7 +174,6 @@ class Metric(models.Model):
                     total = total + m.get_total_value
 
         return float(total)
-
 
     @staticmethod
     def get_computations_nutritional_status(status):
