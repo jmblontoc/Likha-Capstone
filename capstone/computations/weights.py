@@ -76,11 +76,12 @@ def get_computations_per_category(category):
     for f in fields:
         sub_data = []
         sub_total = get_weights_per_year_per_status(f, year_now)
-        prevalence_rate = round(sub_total / total, 2) * 100
+        prevalence_rate = round(sub_total / total, 4) * 100
+        prevalence_rate = format(prevalence_rate, '.2f')
 
         sub_data.append(f.name)
         sub_data.append(sub_total)
-        sub_data.append(str(prevalence_rate) +'%')
+        sub_data.append(str(prevalence_rate) + '%')
         data.append(sub_data)
 
     return {

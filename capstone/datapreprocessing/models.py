@@ -59,9 +59,15 @@ class Metric(models.Model):
             'Pregnant women given 2 doses of Tetanus Toxoid',
             'Pregnant women given TT2 plus',
             'Pregnant women given complete iron with folic acid supplementation',
-            'Postpartum women given complete iron supplementation',
-            'Postpartum women given Vitamin A supplementation'
-
+            'Postpartum women with given complete iron supplementation',
+            'Postpartum women given Vitamin A supplementation',
+            'Given BCG',
+            'Given HEPA',
+            'Given PENTA',
+            'Given OPV',
+            'Given MCV',
+            'Given ROTA',
+            'Given PCV',
         ]
 
         return self.get_data_point.strip() in supplements
@@ -103,6 +109,16 @@ class Metric(models.Model):
     def get_alarming():
 
         return [x for x in Metric.objects.all() if x.is_alarming]
+
+    @staticmethod
+    def get_critical_non_supplements():
+
+        return [metric for metric in Metric.get_alarming() if not metric.is_supplement]
+
+    @staticmethod
+    def get_critical_supplements():
+
+        return [metric for metric in Metric.get_alarming() if metric.is_supplement]
 
     def to_dict(self):
         return {
