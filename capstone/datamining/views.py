@@ -1,3 +1,4 @@
+import json
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -22,7 +23,6 @@ def index(request):
 
     nutritional_statuses = NutritionalStatus.objects.all()
 
-
     profile = Profile.objects.get(user=request.user)
     clean_correlations.create_correlation_session(request)
 
@@ -30,8 +30,6 @@ def index(request):
     maternal = request.session['maternal']
     child_care = request.session['child_care']
     socio = request.session['socioeconomic']
-
-    scores = [micro, maternal, child_care, socio]
 
     context = {
         'profile': profile,
@@ -44,7 +42,7 @@ def index(request):
 
     }
 
-    return render(request, 'datamining/index.html', context)
+    return render(request, 'datamining/revised_index.html', context)
 
     # messages.error(request, 'Data is not up to date')
     # return redirect('core:nutritionist')
@@ -82,6 +80,40 @@ def get_variables(request):
                 return JsonResponse({
                     'variables': m['variables']
                 })
+
+
+@login_required
+def get_variables_v2(request):
+    source = request.POST['source']
+    field = request.POST['field']
+
+    if source == 'Maternal Care':
+        data = []
+        for m in request.session['maternal']:
+            if m['source'] == source and m['field'] == field:
+                data = [variables for variables in m['data']]
+
+        return JsonResponse({'variables': data, 'source': source})
+
+    elif source == 'Child Care' or source == 'Malaria' or source == 'Immunization' or source == 'Tuberculosis':
+        data = []
+        for m in request.session['child_care'] + request.session['micronutrient']:
+            if m['source'] == source and m['field'] == field:
+                data = [variables for variables in m['data']]
+
+        return JsonResponse({'variables': data, 'source': source})
+
+    elif source == 'Family Profile':
+        data = []
+        for m in request.session['socioeconomic']:
+            if m['source'] == source and m['field'] == field:
+                data = [variables for variables in m['data']]
+
+        return JsonResponse({'variables': data, 'source': source})
+
+
+
+
 
 @login_required
 def get_positive(request):

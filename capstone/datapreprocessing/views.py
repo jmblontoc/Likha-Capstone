@@ -337,6 +337,7 @@ def add_metric_ajax(request):
     metric = request.POST['metric']
     is_bad = request.POST['is_bad']
     threshold = request.POST['threshold']
+    json_data = request.POST['jsonData']
 
     if is_bad == "1":
         bad = True
@@ -347,7 +348,8 @@ def add_metric_ajax(request):
         threshold=threshold,
         threshold_bad=bad,
         is_default=False,
-        unit='Total'
+        unit='Total',
+        json_data=json_data
     )
 
     return redirect('datapreprocessing:index')

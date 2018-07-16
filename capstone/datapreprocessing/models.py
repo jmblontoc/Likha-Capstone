@@ -27,6 +27,7 @@ class Metric(models.Model):
     is_completed = models.BooleanField(default=False)
     is_default = models.BooleanField(default=True)
     threshold_bad = models.BooleanField(default=True, verbose_name='Is Value Reaching Threshold Bad')
+    json_data = models.TextField(default='')
 
     def __str__(self):
         return self.metric

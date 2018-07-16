@@ -1,0 +1,159 @@
+{% extends 'core/nutritionist-layout.html' %}
+{% block content %}
+
+
+{% load static %}
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+<script src="{% static 'datamining/js/revised_metrics.js' %}"></script>
+
+<div class="content-wrapper" style="height: auto; margin-top: 57px;">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">City Nutritionist Correlations and Forecasts</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item active">Correlations and Forecasts</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+{% include 'core/helpers/messages.html' %}
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+
+            <h2>Micronutrient</h2>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th style="width: 30%;">Field</th>
+                    <th style="width: 25%;">Category</th>
+                    <th style="width: 10%;">Score</th>
+                    <th style="width: 10%;">Remarks</th>
+                    <th style="width: 10%;">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for m in micro %}
+                    {% for category in m.data %}
+                        <tr data-vars="{{ category.variables }}">
+                            {% if forloop.counter0 == 0 %}
+                                <td class="field" rowspan="{{ m.data|length }}" style="vertical-align: middle">{{ m.field }}</td>
+                            {% endif %}
+                            {% if forloop.counter0 == 0 %}
+                                <td class="source" rowspan="{{ m.data|length }}" style="vertical-align: middle; display: none;">{{ m.source }}</td>
+                            {% endif %}
+                            <td>{{ category.category }}</td>
+                            <td class="text-right">{{ category.score }}</td>
+                            <td>{{ category.remark }}</td>
+                            {% if forloop.counter0 == 0 %}
+                                 <td rowspan="{{ m.data|length }}" style="vertical-align: middle">
+                                    <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">
+                                        View
+                                    </button>
+                                 </td>
+                            {% endif %}
+
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <script>
+                                $(document).ready(function() {
+                                    $('.dataTables').DataTable({
+                                        "paging": true,
+                                        "lengthChange": false,
+                                        "lengthMenu": [5],
+                                        "ordering": false,
+                                        "autoWidth": false,
+                                        "searching": false
+                                    });
+                                });
+                            </script>
+            <style>
+                h5 {
+                    padding-left: 20px;
+                    padding-top: 20px;
+                }
+                body {
+                    padding-right: 0px !important;
+                }
+
+                @media (min-width: 768px) {
+                  .modal-xl {
+                    width: 90%;
+                   max-width:1900px;
+                  }
+                }
+            </style>
+
+        </div>
+    </section>
+</div>
+
+<!-- CORRELATION GRAPH MODAL -->
+<div class="modal fade" id="viewCorrelationGraph" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Correlation Graph <span class="for-remark text-danger font-italic"></span></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid" id="scatterGraph">
+            <div class="row">
+
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#setThreshold" id="btnThreshold">Set Threshold</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SET THRESHOLD MODAL -->
+<div class="modal fade bd-example-modal-lg" id="setThreshold" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Set Threshold</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="averageValues">
+
+        </div>
+
+        <div class="text-center">
+            <p><b id="field"></b>
+                <select id="high">
+                    <option value="1">is greater than</option>
+                    <option value="2">is less than</option>
+                </select>
+                <input type="number" id="threshold">
+
+                set to <b class="text-danger">CRITICAL</b>
+            </p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="addMetric">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
