@@ -52,3 +52,33 @@ def get_standard_deviation(numbers, n):
 
     sv = (sum / (len(numbers) - 1)) ** 0.5
     return sv
+
+# # # # # # # # # # # # # # # # # # WEIGHTED MOVING AVERAGE # # # # # # # # # # # # # # # #
+
+def get_weights(n):
+
+    weights = []
+
+    # get the denominator
+    sum = 0
+    for x in range(1, n + 1):
+        sum = float(sum) + x
+
+    for x in range(1, n + 1):
+        weights.append(round(x / sum, 2))
+
+    return weights
+
+
+# data must be a list
+def get_weighted_moving_average(data):
+
+    length = len(data)
+    weights = get_weights(length)
+
+    sum = 0
+    for x in range(0, length):
+        sum = sum + (data[x] * weights[x])
+
+    return round(sum, 2)
+
