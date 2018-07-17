@@ -1,235 +1,244 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Add Root Cause</title>
+{% extends 'core/nutritionist-layout.html' %}
+{% block content %}
 
-    {% load static %}
 
-    <link rel="stylesheet" href="{% static 'core/plugins/bootstrap/css/bootstrap.css' %}">
-    <script
-      src="https://code.jquery.com/jquery-3.3.1.js"
-      integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-      crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-</head>
-<body>
-    <h1>Add Root Cause</h1>
+{% load static %}
 
-    <button id="add" data-toggle="modal" data-target="#rootCauseForm">Add</button>
-    <table border="1">
-        <thead>
-        <tr>
-            <th>Metric</th>
-            <th>Value</th>
-            <th>Threshold</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for metric in metrics %}
-            <tr>
-                <td class="metricName">{{ metric.metric }}</td>
-                <td class="metricValue">{{ metric.get_total_value }}</td>
-                <td class="metricThreshold">{{ metric.threshold }}</td>
-                <td><input type="checkbox" class="choice"></td>
-            </tr>
-        {% endfor %}
-        {% for correlation in correlations %}
-            <tr>
-                <td class="metricName">{{ correlation.category }} - {{ correlation.sex }} vs {{ correlation.source }} - {{ correlation.field }}</td>
-                <td class="metricValue">{{ correlation.score }}</td>
-                {% if correlation.score < 0 %}
-                    <td class="metricThreshold">-0.5</td>
-                {% else %}
-                    <td class="metricThreshold">0.5</td>
-                {% endif %}
-                <td><input type="checkbox" class="choice"></td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <div class="modal fade bd-example-modal-lg" id="rootCauseForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add Root Cause</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body form-body">
-              <p class="empty" style="display: none">Please choose from the metrics below</p>
-              <div class="form-group form-head">
-                  <label>
-                      Root Cause Name
-                  </label>
-                  <input class="form-control" placeholder="Enter root cause name" id="root-cause-name">
-
-                  <div class="added-choices">
-                      <table class="table">
-                          <thead>
-                          <tr>
-                              <th>Metric/s</th>
-                              <th>Value</th>
-                              <th>Threshold</th>
-                          </tr>
-                          </thead>
-                          <tbody>
-
-                          </tbody>
-                      </table>
-                  </div>
-              </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" id="submitRC">Submit</button>
-          </div>
+<div class="content-wrapper" style="height: auto; margin-top: 57px;">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Add Root Causes</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item active">Root Causes/ Add Root Causes</li>
+                    </ol>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
+    {% include 'core/helpers/messages.html' %}
+    <section class="content">
+        <div class="container-fluid">
+            <button id="add" data-toggle="modal" data-target="#rootCauseForm" class="btn btn-primary">Add</button>
+            <table class="table table-bordered table-hover mt-4">
+                <thead>
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                    <th>Threshold</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for metric in metrics %}
+                    <tr>
+                        <td class="metricName">{{ metric.metric }}</td>
+                        <td class="metricValue">{{ metric.get_total_value|floatformat }}</td>
+                        <td class="metricThreshold">{{ metric.threshold|floatformat }}</td>
+                        <td><input type="checkbox" class="choice"></td>
+                    </tr>
+                {% endfor %}
+                {% for correlation in correlations %}
+                    <tr>
+                        <td class="metricName">{{ correlation.category }} - {{ correlation.sex }} vs {{ correlation.source }} - {{ correlation.field }}</td>
+                        <td class="metricValue">{{ correlation.score }}</td>
+                        {% if correlation.score < 0 %}
+                            <td class="metricThreshold">-0.5</td>
+                        {% else %}
+                            <td class="metricThreshold">0.5</td>
+                        {% endif %}
+                        <td><input type="checkbox" class="choice"></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
 
-    <script>
-        $(document).ready(function() {
+            <div class="modal fade bd-example-modal-lg" id="rootCauseForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Root Cause</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body form-body">
+                      <p class="empty" style="display: none">Please choose from the metrics below</p>
+                      <div class="form-group form-head">
+                          <label>
+                              Root Cause Name
+                          </label>
+                          <input class="form-control" placeholder="Enter root cause name" id="root-cause-name">
 
-            var buttonAdd = $("button#add");
-            var modal = $("div#rootCauseForm");
-            var formHead = $(".form-head");
-            var msg = $(".empty");
-            var selected;
-            var body = $(".added-choices").children('table').children('tbody');
-            var submit = $("#submitRC");
+                          <div class="added-choices">
+                              <table class="table">
+                                  <thead>
+                                  <tr>
+                                      <th>Metric/s</th>
+                                      <th>Value</th>
+                                      <th>Threshold</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody>
 
-            modal.on('shown.bs.modal', function() {
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="submitRC">Submit</button>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-                selected = [];
+            <script>
+                $(document).ready(function() {
 
-                $("input.choice:checked").each(function() {
+                    var buttonAdd = $("button#add");
+                    var modal = $("div#rootCauseForm");
+                    var formHead = $(".form-head");
+                    var msg = $(".empty");
+                    var selected;
+                    var body = $(".added-choices").children('table').children('tbody');
+                    var submit = $("#submitRC");
 
-                    const box = $(this);
+                    modal.on('shown.bs.modal', function() {
 
-                    var metric = box.parent().siblings('.metricName').html();
-                    var threshold = box.parent().siblings('.metricThreshold').html();
-                    var value = box.parent().siblings('.metricValue').html();
+                        selected = [];
+
+                        $("input.choice:checked").each(function() {
+
+                            const box = $(this);
+
+                            var metric = box.parent().siblings('.metricName').html();
+                            var threshold = box.parent().siblings('.metricThreshold').html();
+                            var value = box.parent().siblings('.metricValue').html();
 
 
-                    selected.push({
-                        'name': metric,
-                        'threshold': threshold,
-                        'value': value
-                    });
-
-
-                });
-
-                if (selected.length === 0) {
-
-                    formHead.children().hide();
-                    submit.hide();
-                    msg.show();
-                }
-
-                else {
-
-                    formHead.children().show();
-                    msg.hide();
-                    submit.show();
-
-                    for (choice in selected) {
-
-                        var x = selected[choice];
-
-                        var html= '<tr>' +
-                            '<td>' + x.name + '</td>' +
-                            '<td>' + x.value + '</td>' +
-                            '<td>' + x.threshold + '</td>' +
-                            '</tr>';
-
-                        body.append(html);
-                    }
-                }
-            });
-
-            modal.on('hidden.bs.modal', function() {
-                body.children().empty();
-            });
-
-            submit.click(function() {
-
-                if (selected.length !== 0) {
-
-                    $.ajax({
-                        url: "{% url 'causalmodel:ajax_add_root_cause' %}",
-                        type: "post",
-                        data: {
-                            'name': $("#root-cause-name").val(),
-                            'metrics': JSON.stringify(selected)
-                        },
-                        dataType: "json",
-                        success: function(data) {
-
-                            $("#root-cause-name").val('');
-                            body.empty();
-                            selected = [];
-
-                            $('input.choice').each(function() {
-                                $(this).prop('checked', false);
+                            selected.push({
+                                'name': metric,
+                                'threshold': threshold,
+                                'value': value
                             });
 
-                            modal.modal('hide');
-                        },
-                        error: function(e) {
-                            console.log(e.responseText);
-                            console.log(JSON.parse(JSON.stringify(selected)));
+
+                        });
+
+                        if (selected.length === 0) {
+
+                            formHead.children().hide();
+                            submit.hide();
+                            msg.show();
+                        }
+
+                        else {
+
+                            formHead.children().show();
+                            msg.hide();
+                            submit.show();
+
+                            for (choice in selected) {
+
+                                var x = selected[choice];
+
+                                var html= '<tr>' +
+                                    '<td>' + x.name + '</td>' +
+                                    '<td>' + x.value + '</td>' +
+                                    '<td>' + x.threshold + '</td>' +
+                                    '</tr>';
+
+                                body.append(html);
+                            }
                         }
                     });
+
+                    modal.on('hidden.bs.modal', function() {
+                        body.children().empty();
+                    });
+
+                    submit.click(function() {
+
+                        if (selected.length !== 0) {
+
+                            $.ajax({
+                                url: "{% url 'causalmodel:ajax_add_root_cause' %}",
+                                type: "post",
+                                data: {
+                                    'name': $("#root-cause-name").val(),
+                                    'metrics': JSON.stringify(selected)
+                                },
+                                dataType: "json",
+                                success: function() {
+
+                                    alert("Root cause successfully added");
+
+                                    $("#root-cause-name").val('');
+                                    body.empty();
+                                    selected = [];
+
+                                    $('input.choice').each(function() {
+                                        $(this).prop('checked', false);
+                                    });
+
+                                    modal.modal('hide');
+                                },
+                                error: function(e) {
+                                    console.log(e.responseText);
+                                    console.log(JSON.parse(JSON.stringify(selected)));
+                                }
+                            });
+                        }
+                    });
+                });
+
+
+
+
+
+
+
+                /* JUST TO PREVENT CSRF ERROR */
+                function getCookie(name) {
+
+                var cookieValue = null;
+
+                if (document.cookie && document.cookie != '') {
+
+                    var cookies = document.cookie.split(';');
+
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = jQuery.trim(cookies[i]);
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
                 }
-            });
-        });
-
-
-
-
-
-
-
-        /* JUST TO PREVENT CSRF ERROR */
-        function getCookie(name) {
-
-        var cookieValue = null;
-
-        if (document.cookie && document.cookie != '') {
-
-            var cookies = document.cookie.split(';');
-
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = jQuery.trim(cookies[i]);
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
+                return cookieValue;
             }
-        }
-        return cookieValue;
-    }
 
-        var csrftoken = getCookie('csrftoken');
+                var csrftoken = getCookie('csrftoken');
 
-        function csrfSafeMethod(method) {
-            // these HTTP methods do not require CSRF protection
-            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-        }
-
-        $.ajaxSetup({
-            beforeSend: function(xhr, settings) {
-                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                function csrfSafeMethod(method) {
+                    // these HTTP methods do not require CSRF protection
+                    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
                 }
-            }
-        });
-    </script>
-</body>
-</html>
+
+                $.ajaxSetup({
+                    beforeSend: function(xhr, settings) {
+                        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                        }
+                    }
+                });
+            </script>
+        </div>
+    </section>
+</div>
+{% endblock %}

@@ -90,5 +90,6 @@ class CausalModel(models.Model):
 
     date = models.DateTimeField(default=datetime.now)
     is_approved = models.BooleanField(default=False)
+    comments = models.TextField()
 
 
