@@ -13,38 +13,27 @@
 
         <h1>Root Causes</h1>
         <a href="{% url 'causalmodel:add_root_cause' %}"><button class="btn btn-primary">Add Root Cause</button></a>
-        <table class="table mt-3">
-            <thead>
+        <table class="table mt-3 table-bordered">
+            <thead class="thead-dark">
             <tr>
                 <th>Name</th>
-                <th colspan="3" class="text-center">Details</th>
+                <th>Metric</th>
+                <th class="text-right">Value</th>
+                <th>Source</th>
             </tr>
             </thead>
             <tbody>
             {% for cause in root_causes %}
-                <tr>
-                    <td>{{ cause.name }}</td>
-                    <td>
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>Metric/s</th>
-                                <th>Value</th>
-                                <th>Threshold</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for data in cause.datamap_set.all %}
-                                <tr>
-                                    <td>{{ data.metric }}</td>
-                                    <td>{{ data.value }}</td>
-                                    <td>{{ data.threshold }}</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
+                {% for metric in cause.datamap_set.all %}
+                    <tr>
+                        {% if forloop.counter0 == 0 %}
+                            <th class="text-center" rowspan="{{ cause.datamap_set.count }}" style="vertical-align: middle">{{ cause.name }}</th>
+                        {% endif %}
+                        <td>{{ metric.get_metric.get_data_point }}</td>
+                        <td class="text-right">{{ metric.get_metric.get_total_value|floatformat }}</td>
+                        <td>{{ metric.get_metric.get_document }}</td>
+                    </tr>
+                {% endfor %}
             {% endfor %}
             </tbody>
         </table>
