@@ -106,6 +106,50 @@ class Metric(models.Model):
         except IndexError:
             return 'N/A'
 
+    @property
+    def get_document(self):
+
+        phrase = self.metric.strip().split("|")
+        model = 'default'
+        first = phrase[0]
+
+        if len(phrase) == 2:
+
+            if 'Maternal Care' in first:
+                return 'FHSIS'
+            elif 'STI Surveillance' in first:
+                model = 'STISurveillance'
+            elif 'Family Profile' in first:
+                model = 'Family Profile'
+            elif 'Health Care Waste Management' in first:
+                model = 'HealthCareWasteManagement'
+            elif 'Informal Settlers' in first:
+                model = 'InformalSettlers'
+            elif 'Nutritional Status' in first:
+                return 'OPTValues'
+            elif 'Child Care' in first:
+                return 'FHSIS'
+            elif 'Malaria' in first:
+                return 'FHSIS'
+            elif 'Tuberculosis' in first:
+                return 'FHSIS'
+            elif 'Immunization' in first:
+                return 'FHSIS'
+
+        elif len(phrase) == 1:
+
+            if 'Unemployment Rate' in first:
+                model = 'UnemploymentRate'
+
+        elif len(phrase) == 3:
+
+            if 'Nutritional Status' in first:
+                return 'OPTValues'
+            else:
+                return first.replace(' ', '')
+
+        return model
+
     @staticmethod
     def get_alarming():
 

@@ -66,6 +66,123 @@
                 </tbody>
             </table>
 
+            <h2>Maternal Care</h2>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th style="width: 30%;">Field</th>
+                    <th style="width: 25%;">Category</th>
+                    <th style="width: 10%;">Score</th>
+                    <th style="width: 10%;">Remarks</th>
+                    <th style="width: 10%;">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for m in maternal %}
+                    {% for category in m.data %}
+                        <tr data-vars="{{ category.variables }}">
+                            {% if forloop.counter0 == 0 %}
+                                <td class="field" rowspan="{{ m.data|length }}" style="vertical-align: middle">{{ m.field }}</td>
+                            {% endif %}
+                            {% if forloop.counter0 == 0 %}
+                                <td class="source" rowspan="{{ m.data|length }}" style="vertical-align: middle; display: none;">{{ m.source }}</td>
+                            {% endif %}
+                            <td>{{ category.category }}</td>
+                            <td class="text-right">{{ category.score }}</td>
+                            <td>{{ category.remark }}</td>
+                            {% if forloop.counter0 == 0 %}
+                                 <td rowspan="{{ m.data|length }}" style="vertical-align: middle">
+                                    <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">
+                                        View
+                                    </button>
+                                 </td>
+                            {% endif %}
+
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <h2>Children Care</h2>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th style="width: 30%;">Field</th>
+                    <th style="width: 25%;">Category</th>
+                    <th style="width: 10%;">Score</th>
+                    <th style="width: 10%;">Remarks</th>
+                    <th style="width: 10%;">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for m in child_care %}
+                    {% for category in m.data %}
+                        <tr data-vars="{{ category.variables }}">
+                            {% if forloop.counter0 == 0 %}
+                                <td class="field" rowspan="{{ m.data|length }}" style="vertical-align: middle">{{ m.field }}</td>
+                            {% endif %}
+                            {% if forloop.counter0 == 0 %}
+                                <td class="source" rowspan="{{ m.data|length }}" style="vertical-align: middle; display: none;">{{ m.source }}</td>
+                            {% endif %}
+                            <td>{{ category.category }}</td>
+                            <td class="text-right">{{ category.score }}</td>
+                            <td>{{ category.remark }}</td>
+                            {% if forloop.counter0 == 0 %}
+                                 <td rowspan="{{ m.data|length }}" style="vertical-align: middle">
+                                    <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">
+                                        View
+                                    </button>
+                                 </td>
+                            {% endif %}
+
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <h2>Socioeconomic</h2>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th style="width: 30%;">Field</th>
+                    <th style="width: 25%;">Category</th>
+                    <th style="width: 10%;">Score</th>
+                    <th style="width: 10%;">Remarks</th>
+                    <th style="width: 10%;">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for m in socio %}
+                    {% for category in m.data %}
+                        <tr data-vars="{{ category.variables }}">
+                            {% if forloop.counter0 == 0 %}
+                                <td class="field" rowspan="{{ m.data|length }}" style="vertical-align: middle">{{ m.field }}</td>
+                            {% endif %}
+                            {% if forloop.counter0 == 0 %}
+                                <td class="source" rowspan="{{ m.data|length }}" style="vertical-align: middle; display: none;">{{ m.source }}</td>
+                            {% endif %}
+                            <td>{{ category.category }}</td>
+                            <td class="text-right">{{ category.score }}</td>
+                            <td>{{ category.remark }}</td>
+                            {% if forloop.counter0 == 0 %}
+                                 <td rowspan="{{ m.data|length }}" style="vertical-align: middle">
+                                    <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">
+                                        View
+                                    </button>
+                                 </td>
+                            {% endif %}
+
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+                </tbody>
+            </table>
+
             <script>
                                 $(document).ready(function() {
                                     $('.dataTables').DataTable({
