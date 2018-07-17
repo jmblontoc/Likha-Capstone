@@ -3,6 +3,7 @@ from datetime import datetime
 from django.db import models
 
 # Create your models here.
+from datapreprocessing.models import Metric
 
 
 class RootCause(models.Model):
@@ -26,13 +27,16 @@ class DataMap(models.Model):
     def is_correlation(self):
         return " vs " in self.metric
 
+    def get_metric(self):
+        return Metric.objects.get(metric__contains=self.metric)
+
     @property
     def display(self):
 
         if self.is_correlation():
             return "Correlation(%s) | Score - (%s)" % (self.metric, self.value)
 
-        return '%s - %s' % (self.metric, self.value)
+        return '%s | %s - %s' % (self.get_metric().get_document, self.metric, self.value)
 
 
 class Block(models.Model):
