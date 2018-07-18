@@ -2,8 +2,9 @@
 {% block content %}
 
 {% load static %}
-<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="{% static 'core/js/highcharts.js' %}"></script>
 <script src="{% static 'datapreprocessing/js/default_metrics.js' %}"></script>
+<script src="{% static 'datamining/js/revised_metrics.js' %}"></script>
 <script src="{% static 'datapreprocessing/js/display_graph.js' %}"></script>
 <div class="content-wrapper" style="min-height: 620px; height: auto; margin-top: 57px;">
     <div class="content-header">
@@ -43,6 +44,7 @@
 <div class="card" style="height: 450px;">
 <div id="table">
     <h5 style="text-align: center; padding-top: 200px;">Please select a metric below.</h5>
+
 </div>
 
 </div>
@@ -142,13 +144,13 @@
                                     </tr>
                                     {% else %}
                                         {% for x in metrics %}
-                                            <tr class="display" style="cursor: pointer;" data-value="{{ x.get_value_over_time }}">
+                                            <tr class="display" style="cursor: pointer;" data-value="{{ x.get_value_over_time }}" data-variables="{{ x.json_data }}">
                                                 <td class="source">{{ x.get_source }}</td>
                                                 <td class="point">{{ x.get_data_point }}</td>
-                                                <td>{{ x.get_total_value }}</td>
+                                                <td>{{ x.get_total_value|floatformat }}</td>
                                                 <td>{{ x.get_type }}</td>
                                                 <td>{{ x.threshold }}</td>
-                                                <td>{{ x.is_alarming|yesno:"Alarming,Not Alarming" }}</td>
+                                                <td>{{ x.is_alarming|yesno:"Critical,Not Critical" }}</td>
                                             </tr>
                                         {% endfor %}
                                     {% endif %}

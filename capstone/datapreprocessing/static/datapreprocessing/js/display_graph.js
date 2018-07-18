@@ -8,6 +8,7 @@ $(function() {
     display.click(function() {
 
         const data = $(this).attr("data-value");
+        var json_data = $(this).attr("data-variables");
         const parsed = JSON.parse(data);
 
         const field = $(this).children(".point").html();
@@ -28,6 +29,14 @@ $(function() {
             values.push(parsed[x]);
         }
 
+        console.log(values);
+
+        var withForecast = values.slice();
+
+        const wma = parseFloat(get_weighted_moving_average(values));
+        withForecast.push({'y': wma, 'color': '#daffc4'});
+        console.log(withForecast);
+
         $("#graph").empty();
         Highcharts.chart('graph', {
 
@@ -38,14 +47,23 @@ $(function() {
                 text: field + " " + time
             },
             xAxis: {
-                categories: categories,
+                categories: cheatYears(values.length),
                 crosshair: true
             },
             yAxis: {
                 min: 0,
                 title: {
                     text: 'Population'
-                }
+                },
+                plotLines: [{
+                    value: getAverage(values),
+                    color: 'green',
+                    width: 2,
+                    label: {
+                        text: 'Average = ' + getAverage(values)
+                    },
+                    zIndex: 4
+                }]
             },
             tooltip: {
                 headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
@@ -63,19 +81,21 @@ $(function() {
             },
             series: [{
                 name: field,
-                data: values
+                data: withForecast
 
             }]
         });
 
+        var json_variables = JSON.parse(json_data);
+        json_variables = json_variables.variables;
         const table = $("#table");
         table.empty();
 
-        var header = '<div class="card-header no-border" style="text-align: center;"><h3 class="card-title">' + field + " " + time + '</h3></div>';
+        var header = '<div class="card-header no-border" style="text-align: center;"><h3 class="card-title">' + field  + '</h3></div>';
         var tb = '<div class="card-body"><table class="table table-bordered" id="data-here">' +
             '<thead>' +
             '<tr>' +
-            '<th>Time</th><th>Value</th>' +
+            '<th>Category</th><th>Score</th><th>Remark</th>' +
             '</tr>' +
             '</thead>' +
             '</table>' +
@@ -86,8 +106,9 @@ $(function() {
 
         var row = "";
 
-        for (var x in categories) {
-            row += '<tr><td>' + categories[x] + '</td><td>' + values[x] + '</td>/tr>';
+        for (var x in json_variables) {
+            row += '<tr><td>' + json_variables[x].category + '</td><td>' + json_variables[x].score + '</td>' +
+                '<td>'+ json_variables[x].remark +'</td></tr>';
         }
 
         $("#data-here").append(row);
