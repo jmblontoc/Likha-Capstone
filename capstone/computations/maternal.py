@@ -59,6 +59,30 @@ def get_maternal_care_average(field):
     return values
 
 
+def get_maternal_care_average_monthly(field):
+
+    start_month = c.get_starting_month(FHSIS)
+    values = {}
+    base = MaternalCare.objects.all()
+
+    while start_month <= month_now:
+
+        count = 0
+        records_count = base.filter(fhsis__date__month=start_month).count()
+        records = base.filter(fhsis__date__month=start_month)
+
+        for record in records:
+            try:
+                count = count + getattr(record, field)
+            except TypeError:
+                pass
+
+        values[start_month] = round(float(count / records_count), 2) or 0
+        start_month = start_month + 1
+
+    return values
+
+
 def maternal_dashboard(view):
     maternal_fields = datapoints.maternal
     fields = [maternal_fields[0], maternal_fields[2]]

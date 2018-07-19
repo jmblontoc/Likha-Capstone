@@ -95,12 +95,7 @@ def get_weight_values_per_month(status, sex):
 # get starting month of the current year for FHSIS records ONLY
 def get_starting_month(model):
 
-    months = []
-    records = model.objects.all().filter(fhsis__date__year=datetime.now().year)
-    for record in records:
-        months.append(record.fhsis.date.month)
-
-    return min(months)
+    return model.objects.filter(date__year=datetime.now().year).dates('date', 'month')[0].month
 
 
 # similar but year

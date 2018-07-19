@@ -2,8 +2,8 @@ import decimal
 import json
 from datetime import datetime
 
-from django.db.models import Sum
-
+from django.db.models import Sum, Avg
+from friends.datamining import forecast
 from computations import weights
 from datainput.models import ChildCare, FamilyProfileLine, MaternalCare, Malaria, Immunization, Tuberculosis
 from friends import datapoints, general
@@ -43,9 +43,9 @@ class Metric(models.Model):
     def is_alarming(self):
 
         if self.threshold_bad:
-            return float(self.get_total_value) > float(self.threshold)
+            return float(self.get_total_average) > float(self.threshold)
 
-        return float(self.get_total_value) < float(self.threshold)
+        return float(self.get_total_average) < float(self.threshold)
 
     @property
     def is_supplement(self):
@@ -81,6 +81,79 @@ class Metric(models.Model):
     @property
     def get_total_value(self):
         return consolidators.get_value(self.metric)
+
+    @property
+    def get_total_average(self):
+
+        point = self.get_data_point.strip()
+        year_now = datetime.now().year
+
+        if self.get_source.strip() == 'Family Profile':
+
+            if point in datapoints.water_sources:
+
+                return FamilyProfileLine.objects.filter(family_profile__date__year=year_now,
+                                                             water_sources=point).count()
+
+            if point in datapoints.food_production:
+
+                return FamilyProfileLine.objects.filter(family_profile__date__year=year_now,
+                                                        food_production_activity=point).count()
+
+
+            if point in datapoints.educational_attainment_for_r:
+
+                return FamilyProfileLine.objects.filter(family_profile__date__year=year_now,
+                                                             educational_attainment=point).count()
+
+            if point in datapoints.toilet_type:
+
+                return FamilyProfileLine.objects.filter(family_profile__date__year=year_now,
+                                                             toilet_type=point).count()
+
+
+            # for booleans
+
+            field = consolidators.get_field(FamilyProfileLine, self.get_data_point.strip())
+            count = 0
+            for f in FamilyProfileLine.objects.filter(family_profile__date__year=year_now):
+                if getattr(f, field):
+                    count = count + 1
+
+            return count
+
+        elif self.get_source.strip() == 'Maternal Care':
+
+            field = consolidators.get_field(MaternalCare, self.get_data_point.strip())
+            return float(MaternalCare.objects.filter(fhsis__date__year=weights.year_now).aggregate(avg=Avg(field))['avg'])
+
+        elif self.get_source.strip() == 'Child Care':
+
+            field = consolidators.get_field(ChildCare, self.get_data_point.strip())
+            return float(ChildCare.objects.filter(fhsis__date__year=weights.year_now).aggregate(
+                        avg=Avg(field))['avg'])
+
+        elif self.get_source.strip() == 'Malaria':
+
+            field = consolidators.get_field(Malaria, self.get_data_point.strip())
+            return float(
+                    Malaria.objects.filter(fhsis__date__year=weights.year_now).aggregate(
+                        avg=Avg(field))['avg'])
+
+        elif self.get_source.strip() == 'Immunization':
+
+            field = consolidators.get_field(Immunization, self.get_data_point.strip())
+            return float(
+                    Immunization.objects.filter(fhsis__date__year=weights.year_now).aggregate(
+                        avg=Avg(field))['avg'])
+
+        elif self.get_source.strip() == 'Tuberculosis':
+
+            field = consolidators.get_field(Tuberculosis, self.get_data_point.strip())
+            return float(
+                    Tuberculosis.objects.filter(fhsis__date__year=weights.year_now).aggregate(
+                        avg=Avg(field))['avg'])
+
 
     @property
     def get_source(self):
@@ -173,6 +246,186 @@ class Metric(models.Model):
             'is_alarming': self.get_total_value >= self.threshold
 
         }
+
+    @property
+    def is_predicted_critical(self):
+
+        dict = self.get_average_over_time
+        data = [round(value, 2) for key, value in dict.items()]
+
+        weighted_average = forecast.get_weighted_moving_average(data)
+        print(weighted_average)
+
+        if self.threshold_bad:
+            return float(weighted_average) > float(self.threshold)
+
+        return float(weighted_average) < float(self.threshold)
+
+    @property
+    def predicted_value(self): # for next time period
+        dict = self.get_average_over_time
+        data = [round(value, 2) for key, value in dict.items()]
+
+        return forecast.get_weighted_moving_average(data)
+
+    @property
+    def get_average_over_time(self):
+
+        point = self.get_data_point.strip()
+
+        if self.get_source.strip() == 'Family Profile':
+
+            if point in datapoints.water_sources:
+                start_year = [d.year for d in FamilyProfileLine.objects.dates('family_profile__date', 'year')][0]
+
+                data = {}
+                while start_year <= weights.year_now:
+                    count = FamilyProfileLine.objects.filter(family_profile__date__year=start_year,
+                                                             water_sources=point).count()
+
+                    data[start_year] = count
+                    start_year = start_year + 1
+
+                return data
+
+            if point in datapoints.food_production:
+                start_year = [d.year for d in FamilyProfileLine.objects.dates('family_profile__date', 'year')][0]
+
+                data = {}
+                while start_year <= weights.year_now:
+                    count = FamilyProfileLine.objects.filter(family_profile__date__year=start_year,
+                                                             food_production_activity=point).count()
+
+                    data[start_year] = count
+                    start_year = start_year + 1
+
+                return data
+
+            if point in datapoints.educational_attainment_for_r:
+                start_year = [d.year for d in FamilyProfileLine.objects.dates('family_profile__date', 'year')][0]
+
+                data = {}
+                while start_year <= weights.year_now:
+                    count = FamilyProfileLine.objects.filter(family_profile__date__year=start_year,
+                                                             educational_attainment=point).count()
+
+                    data[start_year] = count
+                    start_year = start_year + 1
+
+                return data
+
+            if point in datapoints.toilet_type:
+                start_year = [d.year for d in FamilyProfileLine.objects.dates('family_profile__date', 'year')][0]
+
+                data = {}
+                while start_year <= weights.year_now:
+                    count = FamilyProfileLine.objects.filter(family_profile__date__year=start_year,
+                                                             toilet_type=point).count()
+
+                    data[start_year] = count
+                    start_year = start_year + 1
+
+                return data
+
+            field = consolidators.get_field(FamilyProfileLine, self.get_data_point.strip())
+            start_year = [d.year for d in FamilyProfileLine.objects.dates('family_profile__date', 'year')][0]
+
+            data = {}
+            while start_year <= weights.year_now:
+
+                count = 0
+                for f in FamilyProfileLine.objects.filter(family_profile__date__year=start_year):
+                    if getattr(f, field):
+                        count = count + 1
+
+                data[start_year] = count
+                start_year = start_year + 1
+
+            return data
+
+        elif self.get_source.strip() == 'Maternal Care':
+
+            field = consolidators.get_field(MaternalCare, self.get_data_point.strip())
+            start_month = [d.month for d in
+                           MaternalCare.objects.filter(fhsis__date__year=weights.year_now).dates('fhsis__date',
+                                                                                                 'month')][0]
+
+            data = {}
+            while start_month <= weights.month_now:
+                data[general.month_converter(start_month)] = float(
+                    MaternalCare.objects.filter(fhsis__date__year=weights.year_now,
+                                                fhsis__date__month=start_month).aggregate(avg=Avg(field))['avg'])
+                start_month = start_month + 1
+
+            return data
+
+        elif self.get_source.strip() == 'Child Care':
+
+            field = consolidators.get_field(ChildCare, self.get_data_point.strip())
+            start_month = [d.month for d in
+                           ChildCare.objects.filter(fhsis__date__year=weights.year_now).dates('fhsis__date',
+                                                                                              'month')][0]
+
+            data = {}
+            while start_month <= weights.month_now:
+                data[general.month_converter(start_month)] = float(
+                    ChildCare.objects.filter(fhsis__date__year=weights.year_now,
+                                             fhsis__date__month=start_month).aggregate(
+                        avg=Avg(field))['avg'])
+                start_month = start_month + 1
+
+            return data
+
+        elif self.get_source.strip() == 'Malaria':
+
+            field = consolidators.get_field(Malaria, self.get_data_point.strip())
+            start_month = [d.month for d in
+                           Malaria.objects.filter(fhsis__date__year=weights.year_now).dates('fhsis__date',
+                                                                                            'month')][0]
+
+            data = {}
+            while start_month <= weights.month_now:
+                data[general.month_converter(start_month)] = float(
+                    Malaria.objects.filter(fhsis__date__year=weights.year_now,
+                                           fhsis__date__month=start_month).aggregate(
+                        avg=Avg(field))['avg'])
+                start_month = start_month + 1
+
+            return data
+
+        elif self.get_source.strip() == 'Immunization':
+
+            field = consolidators.get_field(Immunization, self.get_data_point.strip())
+            start_month = [d.month for d in
+                           Immunization.objects.filter(fhsis__date__year=weights.year_now).dates('fhsis__date',
+                                                                                                 'month')][0]
+
+            data = {}
+            while start_month <= weights.month_now:
+                data[general.month_converter(start_month)] = float(
+                    Immunization.objects.filter(fhsis__date__year=weights.year_now,
+                                                fhsis__date__month=start_month).aggregate(
+                        avg=Avg(field))['avg'])
+                start_month = start_month + 1
+
+            return data
+
+        elif self.get_source.strip() == 'Tuberculosis':
+
+            field = consolidators.get_field(Tuberculosis, self.get_data_point.strip())
+            start_month = [d.month for d in
+                           Tuberculosis.objects.filter(fhsis__date__year=weights.year_now).dates('fhsis__date',
+                                                                                                 'month')][0]
+
+            data = {}
+            while start_month <= weights.month_now:
+                data[general.month_converter(start_month)] = float(
+                    Tuberculosis.objects.filter(fhsis__date__year=weights.year_now,
+                                                fhsis__date__month=start_month).aggregate(
+                        avg=Avg(field))['avg'])
+                start_month = start_month + 1
+
+            return data
 
     @staticmethod
     def get_nutritional_status_by_category(category):

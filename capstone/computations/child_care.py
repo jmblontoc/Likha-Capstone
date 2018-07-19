@@ -1,7 +1,7 @@
 # FHSIS
 from django.db.models import Sum
 
-from computations.weights import year_now
+from computations.weights import year_now, month_now
 from friends.datamining import correlations
 from datainput.models import *
 from friends import  datapoints
@@ -67,6 +67,30 @@ def get_fhsis_average(model, field, sex):
 
         values[start_year] = float(count / records_count) or 0
         start_year = start_year + 1
+
+    return values
+
+
+def get_fhsis_average_monthly(model, field):
+
+    start_month = correlations.get_starting_month(FHSIS)
+    values = {}
+    base = model.objects.all()
+
+    while start_month <= month_now:
+
+        count = 0
+        records_count = base.filter(fhsis__date__month=start_month).count()
+        records = base.filter(fhsis__date__month=start_month)
+
+        for record in records:
+            try:
+                count = count + getattr(record, field)
+            except TypeError:
+                pass
+
+        values[start_month] = round(float(count / records_count), 2) or 0
+        start_month = start_month + 1
 
     return values
 

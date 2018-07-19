@@ -223,7 +223,7 @@
                             {% for m in non_supplement_metrics %}
                                 <tr>
                                     <td>{{ m.get_data_point }}</td>
-                                    <td>{% if m.get_type == 'is greater than' %}<i class="fa fa-arrow-up"></i>{% else %}<i class="fa fa-arrow-down"></i>{% endif %} {{ m.get_total_value|floatformat }}</td>
+                                    <td>{% if m.get_type == 'is greater than' %}<i class="fa fa-arrow-up"></i>{% else %}<i class="fa fa-arrow-down"></i>{% endif %} {{ m.get_total_average|floatformat:"-2" }}</td>
                                 </tr>
                             {% endfor %}
 
@@ -248,7 +248,7 @@
                             {% for m in supplement_metrics %}
                                 <tr>
                                     <td>{{ m.get_data_point }}</td>
-                                    <td>{% if m.get_type == 'is greater than' %}<i class="fa fa-arrow-up"></i>{% else %}<i class="fa fa-arrow-down"></i>{% endif %} {{ m.get_total_value|floatformat }}</td>
+                                    <td>{% if m.get_type == 'is greater than' %}<i class="fa fa-arrow-up"></i>{% else %}<i class="fa fa-arrow-down"></i>{% endif %} {{ m.get_total_average|floatformat:"-2" }}</td>
                                 </tr>
                             {% endfor %}
 
