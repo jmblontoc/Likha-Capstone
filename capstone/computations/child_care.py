@@ -41,6 +41,36 @@ def get_fhsis(model, field, sex):
     return values
 
 
+def get_fhsis_average(model, field, sex):
+    start_year = correlations.get_starting_year(FHSIS)
+
+    if sex is None:
+        base = model.objects.all()
+    else:
+        base = model.objects.all()
+
+    values = {
+
+    }
+
+    while start_year <= year_now:
+
+        count = 0
+        records_count = base.filter(fhsis__date__year=start_year).count()
+        records = base.filter(fhsis__date__year=start_year)
+
+        for record in records:
+            try:
+                count = count + getattr(record, field)
+            except TypeError:
+                pass
+
+        values[start_year] = float(count / records_count) or 0
+        start_year = start_year + 1
+
+    return values
+
+
 def child_care_dashboard():
     cc_fields = datapoints.child_care
     fields = [cc_fields[1], cc_fields[3], cc_fields[5], cc_fields[6]]

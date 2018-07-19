@@ -18,6 +18,7 @@ number_of_members = [
     'Total Members'
 ]
 
+
 def get_socioeconomic(field):
 
     start_year = FamilyProfileLine.objects.dates('family_profile__date', 'year')[0].year
@@ -42,6 +43,30 @@ def get_socioeconomic(field):
     return values
 
 
+def get_socioeconomic_average(field):
+
+    start_year = FamilyProfileLine.objects.dates('family_profile__date', 'year')[0].year
+    year_now = weights.year_now
+
+    values = {}
+
+    f = get_field_via_verbose(field)
+
+    while start_year <= year_now:
+
+        records = FamilyProfileLine.objects.filter(family_profile__date__year=start_year)
+
+        count = 0
+        for r in records:
+            if getattr(r, f):
+                count = count + 1
+
+        values[start_year] = count / records.count()
+        start_year = start_year + 1
+
+    return values
+
+
 def get_field_via_verbose(field):
 
     for f in FamilyProfileLine._meta.get_fields():
@@ -61,6 +86,23 @@ def get_members_data():
             family_profile__date__year=start_year).aggregate(sum=Sum('no_members'))['sum']
 
         values[start_year] = float(records)
+        start_year = start_year + 1
+
+    return values
+
+
+def get_members_data_average():
+    start_year = FamilyProfileLine.objects.dates('family_profile__date', 'year')[0].year
+    year_now = weights.year_now
+
+    values = {}
+
+    while start_year <= year_now:
+
+        records = FamilyProfileLine.objects.filter(
+            family_profile__date__year=start_year).aggregate(sum=Sum('no_members'))['sum']
+
+        values[start_year] = float(records/ FamilyProfileLine.objects.filter(family_profile__date__year=start_year).count())
         start_year = start_year + 1
 
     return values

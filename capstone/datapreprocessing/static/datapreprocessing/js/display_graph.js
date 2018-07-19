@@ -3,9 +3,10 @@ $(function() {
     const display = $("tr.display");
 
     console.log('asd');
-    $('html, body').animate({ scrollTop: $(document).height()}, 1000);
-
     display.click(function() {
+
+        $('html, body').animate({ scrollTop: $(document).height()}, 1000);
+
 
         const data = $(this).attr("data-value");
         var json_data = $(this).attr("data-variables");

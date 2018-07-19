@@ -36,6 +36,29 @@ def get_maternal_care(field):
     return values
 
 
+def get_maternal_care_average(field):
+
+    start_year = c.get_starting_year(FHSIS)
+    base = MaternalCare.objects.all()
+
+    values = {
+
+    }
+
+    while start_year <= year_now:
+
+        count = 0
+        records = base.filter(fhsis__date__year=start_year)
+
+        for record in records:
+            count = count + getattr(record, field)
+
+        values[start_year] = float(count / records.count())
+        start_year = start_year + 1
+
+    return values
+
+
 def maternal_dashboard(view):
     maternal_fields = datapoints.maternal
     fields = [maternal_fields[0], maternal_fields[2]]
