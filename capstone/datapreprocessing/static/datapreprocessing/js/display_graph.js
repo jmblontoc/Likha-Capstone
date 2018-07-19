@@ -14,14 +14,7 @@ $(function() {
         const field = $(this).children(".point").html();
         const source = $(this).children(".source").html();
 
-        var time;
-        if (source === 'Maternal Care' || source === 'Child Care') {
-            time = "Monthly";
-        }
-        else {
-            time = "Yearly";
-        }
-
+        var time = 'Yearly';
         var categories = [];
         var values = [];
         for (var x in parsed) {

@@ -149,7 +149,7 @@
                                                 <td class="point">{{ x.get_data_point }}</td>
                                                 <td>{{ x.get_total_value|floatformat }}</td>
                                                 <td>{{ x.get_type }}</td>
-                                                <td>{{ x.threshold }}</td>
+                                                <td>{{ x.threshold|floatformat }}</td>
                                                 <td>{{ x.is_alarming|yesno:"Critical,Not Critical" }}</td>
                                             </tr>
                                         {% endfor %}

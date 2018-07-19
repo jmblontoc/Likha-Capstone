@@ -91,5 +91,6 @@ class CausalModel(models.Model):
     date = models.DateTimeField(default=datetime.now)
     is_approved = models.BooleanField(default=False)
     comments = models.TextField()
+    uploaded_by = models.ForeignKey('core.Profile', on_delete=models.CASCADE)
 
 
