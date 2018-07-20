@@ -38,3 +38,10 @@ def today(request):
     return {
         'today': datetime.now()
     }
+
+
+def year_now(request):
+
+    return {
+        'year_now': datetime.now().year
+    }

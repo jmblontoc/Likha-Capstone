@@ -11,7 +11,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Causal Model</h1>
+                    <h1 class="m-0 text-dark">Causal Modeling Facility</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -25,26 +25,30 @@
     <section class="content">
         <div class="container-fluid">
 
-            <a href="{% url 'causalmodel:create_causal_model' %}" class="btn btn-primary mb-2">Create Causal Model</a>
-
-            <table class="table table-bordered table-hover">
-                <thead class="thead-dark">
-                <tr>
-                    <th>Date</th>
-                    <th>Uploaded By</th>
-                    <th>Action</th>
-                </tr>
-                {% for c in causals %}
-                    <td>{{ c.date|date:"F d, Y" }}</td>
-                    <td>{{ c.uploaded_by.get_name }}</td>
-                    <td>
-                        <a href="{% url 'causalmodel:details' c.id %}">
-                            <button class="btn btn-primary">View</button>
-                        </a>
-                    </td>
-                {% endfor %}
-                </thead>
-            </table>
+            <div class="card p-3 container-fluid">
+                <div class="row">
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label>Select year</label>
+                            <select class="form-control" name="cm-year">
+                                <option>2018</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    {% if not causals %}
+                        <div class="col-12 text-center">
+                            <p>There are no causal models for {{ year_get }} yet</p>
+                            <a href="{% url 'causalmodel:create_causal_model' %}">
+                                <button class="btn btn-primary">+ Create Causal Model</button>
+                            </a>
+                        </div>
+                    {% else %}
+                    {% endif %}
+                </div>
+            </div>
 
         </div>
     </section>

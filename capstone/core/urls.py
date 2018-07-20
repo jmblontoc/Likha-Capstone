@@ -15,6 +15,9 @@ urlpatterns = [
     # Nutritionist index
     path('nutritionist/', views.nutritionist, name='nutritionist'),
 
+    # Program Coordinator Index
+    path('program_coordinator/', views.program_coordinator, name='program_coordinator'),
+
     # mark notification as read
     path('notification/mark_read/<int:id>', views.mark_as_read, name='mark_as_read'),
 

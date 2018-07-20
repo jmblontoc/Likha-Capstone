@@ -24,32 +24,70 @@
     {% include 'core/helpers/messages.html' %}
     <section class="content">
         <div class="container-fluid">
-            <a href="{% url 'causalmodel:add_root_cause' %}"><button class="btn btn-primary">Add Root Cause</button></a>
-            <table class="table mt-3 table-bordered">
-                <thead class="thead-dark">
-                <tr>
-                    <th>Name</th>
-                    <th>Metric</th>
-                    <th class="text-right">Value</th>
-                    <th>Source</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for cause in root_causes %}
-                    {% for metric in cause.datamap_set.all %}
+            <div class="card p-3 container-fluid">
+                <div class="row">
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label>Select year</label>
+                            <select class="form-control" name="cm-year">
+                                <option>2018</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                {% if not current_tree %}
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <p>No causal model approved yet for this year.</p>
+                            <a href="{% url 'causalmodel:create_causal_model' %}">
+                                <button class="btn btn-primary">+ Create Causal Model</button>
+                            </a>
+                        </div>
+                    </div>
+                {% else %}
+                {% endif %}
+            </div>
+            <div class="card p-3">
+                {% if root_causes %}
+                    <a href="{% url 'causalmodel:add_root_cause' %}" style="float:right;"><button class="btn btn-primary">Add Root Cause</button></a>
+                    <table class="table mt-3 table-bordered">
+                        <thead class="thead-dark">
                         <tr>
-                            {% if forloop.counter0 == 0 %}
-                                <th class="text-center" rowspan="{{ cause.datamap_set.count }}" style="vertical-align: middle">{{ cause.name }}</th>
-                            {% endif %}
-                            <td>{{ metric.get_metric.get_data_point }}</td>
-                            <td class="text-right">{{ metric.get_metric.get_total_value|floatformat }}</td>
-                            <td>{{ metric.get_metric.get_document }}</td>
+                            <th>Name</th>
+                            <th>Metric</th>
+                            <th class="text-right">Value/Average</th>
+                            <th>Source</th>
+                            <th>Action</th>
                         </tr>
-                    {% endfor %}
-                {% endfor %}
-                </tbody>
-            </table>
-
+                        </thead>
+                        <tbody>
+                        {% for cause in root_causes %}
+                            {% for metric in cause.datamap_set.all %}
+                                <tr>
+                                    {% if forloop.counter0 == 0 %}
+                                        <th class="text-center" rowspan="{{ cause.datamap_set.count }}" style="vertical-align: middle">{{ cause.name }}</th>
+                                    {% endif %}
+                                    <td>{{ metric.get_metric.get_data_point }}</td>
+                                    <td class="text-right">{{ metric.get_metric.get_total_value|floatformat }}</td>
+                                    <td>{{ metric.get_metric.get_document }}</td>
+                                    <td>
+                                        <a>
+                                            <button class="btn btn-sm btn-primary">View Summary</button>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="text-center">
+                        <p>There are no root causes for the current year yet. Click
+                        <a href="{% url 'causalmodel:add_root_cause' %}">here</a> to add</p>
+                    </div>
+                {% endif %}
+            </div>
         </div>
     </section>
 </div>

@@ -14,6 +14,6 @@ def redirect_to(user):
     elif profile.user_type == 'Nutritionist':
         return redirect('core:nutritionist')
     elif profile.user_type == 'Nutrition Program Coordinator':
-        pass
+        return redirect('core:program_coordinator')
     else:
         pass

@@ -9,19 +9,21 @@ from friends.causalmodel import helper
 # Create your views here.
 from datapreprocessing.models import Metric
 from causalmodel.models import RootCause, DataMap, Block, Child, CausalModel
-from friends.datamining.correlations import create_session
+from friends.datamining.correlations import create_session, year_now
 from friends.datapreprocessing import checkers
 from friends.datamining import correlations
 from friends.datainput import validations
 
 
 @login_required
-def index(request):
+def index(request, year):
 
-    models = CausalModel.objects.all()
+    models = CausalModel.objects.filter(date__year=year)
+
 
     context = {
-        'causals': models
+        'causals': models,
+        'year_get': year
     }
 
     return render(request, 'causalmodel/index.html', context)
@@ -45,9 +47,11 @@ def root_causes(request):
     if validations.todo_list().__len__() == 0:
 
         causes = RootCause.objects.all()
+        current_tree = CausalModel.objects.filter(date__year=year_now, is_approved=True)
 
         context = {
-            'root_causes': causes
+            'root_causes': causes,
+            'current_tree': current_tree
         }
 
         return render(request, 'causalmodel/root_causes.html', context)
@@ -69,7 +73,11 @@ def add_root_cause(request):
 @login_required
 def create_causal_model(request):
 
-    root_causes = RootCause.objects.all()
+    root_causes = RootCause.objects.filter(date__year=year_now)
+
+    if not root_causes:
+        messages.error(request, 'Please add root causes first.')
+        return redirect('causalmodel:rc_index')
 
     context = {
         'root_causes': root_causes
