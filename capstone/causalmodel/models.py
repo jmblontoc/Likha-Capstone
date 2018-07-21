@@ -9,6 +9,7 @@ from datapreprocessing.models import Metric
 class RootCause(models.Model):
 
     name = models.CharField(max_length=128)
+    date = models.DateTimeField(default=datetime.now)
 
     def __str__(self):
         return self.name
@@ -90,7 +91,14 @@ class CausalModel(models.Model):
 
     date = models.DateTimeField(default=datetime.now)
     is_approved = models.BooleanField(default=False)
-    comments = models.TextField()
     uploaded_by = models.ForeignKey('core.Profile', on_delete=models.CASCADE)
+
+
+class CausalModelComments(models.Model):
+
+    causal_model = models.ForeignKey(CausalModel, on_delete=models.CASCADE)
+    profile = models.ForeignKey('core.Profile', on_delete=models.CASCADE)
+    comment = models.TextField()
+
 
 

@@ -15,6 +15,7 @@ from django.urls import reverse
 from django.db.models import Count
 from decimal import *
 
+from capstone.decorators import is_bns, is_nutritionist
 from core.forms import RejectForm
 from datainput.forms import FamilyProfileForm, PatientForm, MonthlyReweighingForm, HealthCareWasteManagementForm, \
     InformalSettlersForm, UnemploymentRateForm
@@ -27,6 +28,7 @@ from datainput.models import OperationTimbang, NutritionalStatus, AgeGroup, OPTV
 
 
 @login_required
+@is_bns
 def handle_opt_file(request):
 
     # error checking
@@ -254,6 +256,7 @@ def monthly_reweighing_list(request):
 
 
 @login_required
+@is_bns
 def add_family_profile(request):
 
     profile = Profile.objects.get(user=request.user)
@@ -346,6 +349,7 @@ def monthly_reweighing_index(request):
 
     return render(request, 'datainput/monthly_reweighing_index.html', context)
 
+
 @login_required
 def latest_monthly_reweighing_index(request):
 
@@ -372,7 +376,9 @@ def latest_monthly_reweighing_index(request):
 
     return render(request, 'datainput/monthly_reweighing_index.html', context)
 
+
 @login_required
+@is_bns
 def add_patient(request):
 
     barangay = Profile.objects.get(user=request.user).barangay
@@ -427,6 +433,7 @@ def patient_overview(request, id):
 
 
 @login_required
+@is_bns
 def reweigh(request, id):
 
     patient = Patient.objects.get(id=id)
@@ -460,6 +467,7 @@ def reweigh(request, id):
 
 
 @login_required
+@is_nutritionist
 def nutritionist_upload(request):
 
     has_health_care = validations.has_health_care()
@@ -480,6 +488,7 @@ def nutritionist_upload(request):
 
 
 @login_required
+@is_nutritionist
 def health_care_waste_management_index(request):
 
     hcwm = HealthCareWasteManagement.objects.all()
@@ -496,6 +505,7 @@ def health_care_waste_management_index(request):
 
 
 @login_required
+@is_nutritionist
 def add_hcwm(request):
 
     if validations.has_health_care():
@@ -599,6 +609,7 @@ def unemployment_rate_index(request):
 
 # data status index
 @login_required
+@is_nutritionist
 def data_status_index(request):
 
     barangays = Barangay.objects.all()
@@ -909,6 +920,7 @@ def reject_family_profiles(request, id):
 
 
 @login_required
+@is_bns
 def handle_fhsis_file(request):
 
     # error checking
@@ -1706,6 +1718,7 @@ def barangay_archives(request):
 
     return render(request, 'datainput/nutritionist_barangay_archives.html', context)
 
+
 @login_required
 def latest_opt(request):
 
@@ -1847,6 +1860,7 @@ def latest_opt(request):
 
     return render(request, 'datainput/display_opt.html', context)
 
+
 @login_required
 def latest_fhsis(request):
 
@@ -1932,7 +1946,7 @@ def select_report_nutritionist(request):
         return render(request, 'datainput/archives_nutritionist/family_records.html', context)
 
 
-@login_required()
+@login_required
 def populate_eopt(request):
     path = "/Users/kamillegamboa/Documents/GitHub/Likha-Capstone/capstone/files/OPTValuesExcelVer2.xls"
     workbook = xlrd.open_workbook(path)
@@ -1961,6 +1975,7 @@ def populate_eopt(request):
     # profile = Profile.objects.get(user=request.user)
     # for b in barangays:
     #     OperationTimbang.objects.create(date=date1, barangay=b, uploaded_by=profile)
+
 
 @login_required
 def notify_bns(request):

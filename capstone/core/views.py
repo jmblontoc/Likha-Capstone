@@ -2,6 +2,8 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
+
+from capstone.decorators import is_bns, is_nutritionist, is_program_coordinator
 from computations import weights, maternal, child_care, socioeconomic as sc
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
@@ -59,6 +61,7 @@ def logout_view(request):
 
 
 @login_required
+@is_bns
 def bns_index(request):
 
     profile = Profile.objects.get(user=request.user)
@@ -142,6 +145,7 @@ def bns_index(request):
 
 
 @login_required
+@is_nutritionist
 def nutritionist(request):
     profile = Profile.objects.get(user=request.user)
 
@@ -189,8 +193,59 @@ def nutritionist(request):
         'non_supplement_metrics': Metric.get_critical_non_supplements()
     }
 
-
     return render(request, 'core/nutritionist_index.html', context)
+
+
+@login_required
+@is_program_coordinator
+def program_coordinator(request):
+    profile = Profile.objects.get(user=request.user)
+
+    # # Nutritional Status
+    wfa = weights.get_computations_per_category('Weight for Age')
+    hfa = weights.get_computations_per_category('Height for Age')
+    wfhl = weights.get_computations_per_category('Weight for Height/Length')
+
+    todo_list = validations.todo_list()
+
+    # socioeconomic
+
+    total = FamilyProfileLine.objects.filter(family_profile__date__year=datetime.now().year).count() or 1
+    using_salt = FamilyProfileLine.objects.filter(family_profile__date__year=datetime.now().year,
+                                                  is_using_iodized_salt=True).count()
+    ebf = FamilyProfileLine.objects.filter(family_profile__date__year=datetime.now().year, is_ebf=True).count()
+
+    socioeconomic = {
+        'average_families': round(getters.get_average_family_members()),
+        'is_using_salt': round(using_salt / total * 100, 2),
+        'is_ebf': round(ebf / total * 100, 2)
+    }
+
+    context = {
+        'profile': profile,
+        'active': 'db',
+        'todo_list': todo_list,
+
+        # nutritional statuses
+        'wfa': wfa['data'],
+        'hfa': hfa['data'],
+        'wfhl': wfhl['data'],
+        'wfa_total': wfa['total'],
+        'hfa_total': hfa['total'],
+        'wfhl_total': wfhl['total'],
+
+        # socioeconomic
+        'average_families': socioeconomic['average_families'],
+
+        # maternal
+        'maternal': maternal.maternal_dashboard(1),
+
+        # alarming metrics
+        'supplement_metrics': Metric.get_critical_supplements(),
+        'non_supplement_metrics': Metric.get_critical_non_supplements()
+    }
+
+    return render(request, 'core/pc_index.html', context=context)
 
 
 @login_required

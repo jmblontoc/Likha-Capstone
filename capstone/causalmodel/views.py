@@ -5,29 +5,35 @@ from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
+
+from capstone.decorators import not_bns
 from friends.causalmodel import helper
 # Create your views here.
 from datapreprocessing.models import Metric
 from causalmodel.models import RootCause, DataMap, Block, Child, CausalModel
-from friends.datamining.correlations import create_session
+from friends.datamining.correlations import create_session, year_now
 from friends.datapreprocessing import checkers
 from friends.datamining import correlations
 from friends.datainput import validations
 
 
 @login_required
-def index(request):
+@not_bns
+def index(request, year):
 
-    models = CausalModel.objects.all()
+    models = CausalModel.objects.filter(date__year=year)
+
 
     context = {
-        'causals': models
+        'causals': models,
+        'year_get': year
     }
 
     return render(request, 'causalmodel/index.html', context)
 
 
 @login_required
+@not_bns
 def details(request, id):
 
     causal = CausalModel.objects.get(id=id)
@@ -40,14 +46,17 @@ def details(request, id):
 
 
 @login_required
+@not_bns
 def root_causes(request):
 
     if validations.todo_list().__len__() == 0:
 
         causes = RootCause.objects.all()
+        current_tree = CausalModel.objects.filter(date__year=year_now, is_approved=True)
 
         context = {
-            'root_causes': causes
+            'root_causes': causes,
+            'current_tree': current_tree
         }
 
         return render(request, 'causalmodel/root_causes.html', context)
@@ -57,6 +66,7 @@ def root_causes(request):
 
 
 @login_required
+@not_bns
 def add_root_cause(request):
 
     context = {
@@ -67,9 +77,14 @@ def add_root_cause(request):
 
 
 @login_required
+@not_bns
 def create_causal_model(request):
 
-    root_causes = RootCause.objects.all()
+    root_causes = RootCause.objects.filter(date__year=year_now)
+
+    if not root_causes:
+        messages.error(request, 'Please add root causes first.')
+        return redirect('causalmodel:rc_index')
 
     context = {
         'root_causes': root_causes

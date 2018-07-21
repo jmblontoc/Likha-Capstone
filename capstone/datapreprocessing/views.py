@@ -7,6 +7,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.views import View
 
+from capstone.decorators import is_nutritionist, is_program_coordinator, not_bns
 from friends.datapreprocessing import checkers
 from core.models import Profile, Notification
 from datainput.models import HealthCareWasteManagement, FamilyProfileLine, InformalSettlers, MaternalCare, Immunization, \
@@ -19,6 +20,7 @@ from friends.datainput import validations
 
 
 @login_required
+@not_bns
 def index(request):
 
     # if len(validations.todo_list()) > 0:
@@ -45,6 +47,7 @@ def index(request):
 
 
 @login_required
+@is_nutritionist
 def add_metric(request):
 
     form = MetricForm(request.POST or None)

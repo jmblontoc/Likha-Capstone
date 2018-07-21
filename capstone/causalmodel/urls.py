@@ -5,7 +5,7 @@ from causalmodel import views
 app_name = 'causalmodel'
 
 urlpatterns= [
-    path('', views.index, name='index'),
+    path('<int:year>/', views.index, name='index'),
 
     # details
     path('<int:id>/', views.details, name='details'),

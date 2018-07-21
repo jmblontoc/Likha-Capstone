@@ -3,6 +3,18 @@ from datetime import datetime
 from core.models import Notification, Profile
 
 
+def get_user_type(request):
+
+    if request.user.is_anonymous:
+        return {
+            'user_type': None
+        }
+
+    return {
+        'user_type': Profile.objects.get(user=request.user).user_type
+    }
+
+
 def get_notifications(request):
 
     if not request.user.is_anonymous:
@@ -37,4 +49,11 @@ def today(request):
 
     return {
         'today': datetime.now()
+    }
+
+
+def year_now(request):
+
+    return {
+        'year_now': datetime.now().year
     }

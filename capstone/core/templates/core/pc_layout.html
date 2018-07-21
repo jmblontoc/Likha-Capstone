@@ -66,7 +66,7 @@
                                     <img src="{% static 'core/images/nnc.png' %}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
                                     <div class="media-body">
                                         <h3 class="dropdown-item-title">{{ profile.user.first_name }} {{ profile.user.last_name }}</h3>
-                                        <p class="text-sm">City Nutritionist</p>
+                                        <p class="text-sm">City Program Coordinator</p>
                                     </div>
                                 </div>
                             </div>
@@ -95,11 +95,11 @@
                     </div>
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                            <li class="nav-header">CITY NUTRITIONIST</li>
+                            <li class="nav-header">CITY PROGRAM COORDINATOR</li>
                             <li class="nav-item">
                                 <a href="{% url 'core:nutritionist' %}" class="nav-link {% if active == 'db' %}active{% endif %}">
                                     <i class="nav-icon fa fa-th"></i>
-                                    <p>Nutritionist Dashboard</p>
+                                    <p>Dashboard</p>
                                 </a>
                                 </li>
                             <li class="nav-item">
@@ -108,12 +108,7 @@
                                     <p>Metrics and Thresholds</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="{% url 'datainput:nutritionist_upload' %}" class="nav-link {% if active == 'du' %}active{% endif %}">
-                                    <i class="nav-icon fa fa-upload"></i>
-                                    <p>Data Upload</p>
-                                </a>
-                                </li>
+
 {#                            <li class="nav-item">#}
 {#                                <a href="{% url 'datainput:data_status_index' %}" class="nav-link {% if active == 'ds' %}active{% endif %}">#}
 {#                                    <i class="nav-icon fa fa-file"></i>#}

@@ -70,7 +70,9 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'core.context_processors.get_notifications',
                 'core.context_processors.get_unread_notifications',
-                'core.context_processors.today'
+                'core.context_processors.today',
+                'core.context_processors.year_now',
+                'core.context_processors.get_user_type'
             ],
         },
     },
