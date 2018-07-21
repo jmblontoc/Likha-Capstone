@@ -219,6 +219,8 @@ def family_profiles(request):
 
     active = 'fp'
 
+    request.session['active'] = 'fp'
+
     context = {
         'active': active,
         'profile': profile,
@@ -305,7 +307,8 @@ def show_profiles(request, id):
         'barangay': barangay.id,
         'profiles': profiles,
         'id': id,
-        'form': form
+        'form': form,
+        'active': request.session['active']
     }
 
     return render(request, 'datainput/families_list.html', context)
@@ -1405,9 +1408,10 @@ def complete_fields(request):
     leprosy_female = Leprosy(fhsis=fhsis, sex=Sex.objects.get(name='Female'))
     leprosy_counter = 0
 
-    for x in range(49, 61):
+    for x in range(45, 47):
         if sheet.cell_value(x, 1) != '':
             setattr(leprosy_male, leprosy_fields[leprosy_counter], sheet.cell_value(x, 1) or 0)
+
         else:
             inlist = list(my_dict)
             inlist = inlist[2:]
@@ -1419,6 +1423,7 @@ def complete_fields(request):
 
         if sheet.cell_value(x, 2) != '':
             setattr(leprosy_female, leprosy_fields[leprosy_counter], sheet.cell_value(x, 2) or 0)
+
         else:
             inlist = list(my_dict)
             inlist = inlist[2:]

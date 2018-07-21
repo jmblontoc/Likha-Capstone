@@ -35,11 +35,15 @@
                     <div class="card card-primary">
                         <div class="card-header d-flex p-0">
                             <h3 class="card-title p-3">List of Families</h3>
+
+                            {% if active == 'uf' %}
                             <ul class="nav nav-pills ml-auto p-2">
                                 <li class="nav-item">
                                     <a class="nav-link btn-default" style="text-align: center; color: #004876; cursor: pointer;" data-toggle="modal" data-target="#addFamily">Add Family</a>
                                 </li>
                             </ul>
+                            {% endif %}
+
                         </div>
 
                         <div class="card-body">
