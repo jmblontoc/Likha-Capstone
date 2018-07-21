@@ -2,6 +2,8 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
+
+from capstone.decorators import is_bns, is_nutritionist, is_program_coordinator
 from computations import weights, maternal, child_care, socioeconomic as sc
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
@@ -59,6 +61,7 @@ def logout_view(request):
 
 
 @login_required
+@is_bns
 def bns_index(request):
 
     profile = Profile.objects.get(user=request.user)
@@ -142,6 +145,7 @@ def bns_index(request):
 
 
 @login_required
+@is_nutritionist
 def nutritionist(request):
     profile = Profile.objects.get(user=request.user)
 
@@ -193,6 +197,7 @@ def nutritionist(request):
 
 
 @login_required
+@is_program_coordinator
 def program_coordinator(request):
     profile = Profile.objects.get(user=request.user)
 

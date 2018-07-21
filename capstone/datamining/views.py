@@ -2,6 +2,8 @@ import json
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+
+from capstone.decorators import is_bns, is_nutritionist, is_program_coordinator, not_bns
 from friends.datainput import validations
 from friends import datapoints
 from django.http import HttpResponse, JsonResponse
@@ -17,6 +19,7 @@ from friends import datapoints
 # Create your views here.
 
 @login_required
+@not_bns
 def index(request):
 
     # if validations.todo_list().__len__() == 0:

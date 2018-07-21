@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
+
+from capstone.decorators import not_bns
 from friends.causalmodel import helper
 # Create your views here.
 from datapreprocessing.models import Metric
@@ -16,6 +18,7 @@ from friends.datainput import validations
 
 
 @login_required
+@not_bns
 def index(request, year):
 
     models = CausalModel.objects.filter(date__year=year)
@@ -30,6 +33,7 @@ def index(request, year):
 
 
 @login_required
+@not_bns
 def details(request, id):
 
     causal = CausalModel.objects.get(id=id)
@@ -42,6 +46,7 @@ def details(request, id):
 
 
 @login_required
+@not_bns
 def root_causes(request):
 
     if validations.todo_list().__len__() == 0:
@@ -61,6 +66,7 @@ def root_causes(request):
 
 
 @login_required
+@not_bns
 def add_root_cause(request):
 
     context = {
@@ -71,6 +77,7 @@ def add_root_cause(request):
 
 
 @login_required
+@not_bns
 def create_causal_model(request):
 
     root_causes = RootCause.objects.filter(date__year=year_now)
