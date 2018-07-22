@@ -22,12 +22,13 @@ from friends.datainput import validations
 @not_bns
 def index(request, year):
 
-    models = CausalModel.objects.filter(date__year=year)
-
+    models = CausalModel.objects.filter(date__year=year).order_by('-date')
+    current_tree = CausalModel.objects.filter(date__year=year_now, is_approved=True)
 
     context = {
         'causals': models,
-        'year_get': year
+        'year_get': year,
+        'current': current_tree
     }
 
     return render(request, 'causalmodel/index.html', context)
@@ -181,5 +182,20 @@ def insert_comment(request):
     )
 
     return JsonResponse(CausalModelComment.objects.latest('id').to_dict())
+
+
+def approve_model(request):
+
+    id = request.POST['id']
+
+    causal_model = CausalModel.objects.get(id=id)
+    causal_model.is_approved = True
+    causal_model.save()
+
+    return JsonResponse({
+        'Success': 'Hello'
+    })
+
+
 
 

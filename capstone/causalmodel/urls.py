@@ -28,5 +28,8 @@ urlpatterns= [
     path('details', views.get_blocks, name='details_ajax'),
 
     # add comment
-    path('insert_comment', views.insert_comment, name='insert_comment')
+    path('insert_comment', views.insert_comment, name='insert_comment'),
+
+    # approve causal model
+    path('approve', views.approve_model, name='approve_causal_model')
 ]

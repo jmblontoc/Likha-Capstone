@@ -76,21 +76,20 @@
                 <div class="card p-3 container-fluid">
                     <div class="row">
                         <div class="col-8">
-                            <div id="tree" style="height: 600px; width: 1300px;" class="card">
+                            <div id="tree-holder">
+                                <div>
 
+                                </div>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="card" style="height: 40%">
                                 <div class="text-right p-3">
-                                    {% if user_type == 'Nutrition Program Coordinator' %}
-                                        <button class="btn btn-success cm-commands" style="display: none;">Approve Causal Model</button>
+                                    {% if user_type == 'Nutrition Program Coordinator' and not current %}
+                                        <button class="btn btn-success cm-commands approve-cm" style="display: none;">Approve Causal Model</button>
                                     {% endif %}
                                 </div>
                                 <div class="comment-holder" style="overflow-y: scroll;">
-                                    <div class="no-comments text-center" style="display: none;">
-                                        <p>There are no comments for this causal model yet</p>
-                                    </div>
                                 </div>
                             </div>
                             <div class="submit-comment-holder card p-3 cm-commands" style="display: none;">

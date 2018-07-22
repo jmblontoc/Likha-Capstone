@@ -1,90 +1,105 @@
 $(function() {
 
     const button = $("button.diagram_btn");
-    const id = button.attr("data-id");
     const submitComment = $("#submit_comment");
+    const treeHolder = $("#tree-holder");
+    const commentHolder = $(".comment-holder");
+    const approveCM = $(".approve-cm");
 
-    button.click(function() {
+    function getID() {
 
+        var cm = $(this).attr("data-id");
+        console.log(cm);
+
+        submitComment.attr('data-id', cm);
+        approveCM.attr('data-id', cm);
 
         // show commands
         $(".cm-commands").show();
 
         $.ajax({
-        url: "/causal-models/details",
-        type: "post",
-        data: { 'id': id },
-        dataType: "json",
-        success: function(data) {
+            url: "/causal-models/details",
+            type: "post",
+            data: { 'id': cm },
+            dataType: "json",
+            success: function(data) {
 
-            console.log(data);
+                treeHolder.empty();
+                commentHolder.empty();
 
-            // comments
-            if (data.comments.length === 0) {
-                $(".no-comments").show();
-            }
-            else {
+                var html = "<div id='tree' style='height: 600px; width: 1300px;' class='card'></div>";
+                treeHolder.append(html);
+                console.log(data);
 
-                const commentHolder = $(".comment-holder");
+                // comments
+                if (data.comments.length === 0) {
+                    var a = '<div class="no-comments text-center">' +
+                        '                                        <p>There are no comments for this causal model yet</p>' +
+                        '                                    </div>';
 
-                for (var x = 0; x < data.comments.length; x++) {
-
-                    var template = "<div class='card m-2 p-2'>" +
-                    "<div><span class='sender text-bold'>"+data.comments[x].profile+"</span> <span class='user_type font-italic'>"+data.comments[x].user_type+"</span></div>" +
-                    "<div class='commentMain'>\""+data.comments[x].comment+"\"</div>" +
-                    "<div class='timeWhen font-italic'>"+data.comments[x].date+"</div>" +
-                    "</div>";
-
-                    commentHolder.append(template);
+                        commentHolder.append(a);
                 }
-            }
+                else {
+
+                    const commentHolder = $(".comment-holder");
+
+                    for (var x = 0; x < data.comments.length; x++) {
+
+                        var template = "<div class='card m-2 p-2'>" +
+                        "<div><span class='sender text-bold'>"+data.comments[x].profile+"</span> <span class='user_type font-italic'>"+data.comments[x].user_type+"</span></div>" +
+                        "<div class='commentMain'>\""+data.comments[x].comment+"\"</div>" +
+                        "<div class='timeWhen font-italic'>"+data.comments[x].date+"</div>" +
+                        "</div>";
+
+                        commentHolder.append(template);
+                    }
+                }
 
 
+                // tree
 
+                var GO = go.GraphObject.make;
 
+                var diagram = GO(go.Diagram, "tree", { layout: GO(go.TreeLayout, { angle: 90, layerSpacing: 35 }) });
+                var myModel = GO(go.TreeModel);
 
-
-
-
-
-            // tree
-
-            var GO = go.GraphObject.make;
-
-            var diagram = GO(go.Diagram, "tree", { layout: GO(go.TreeLayout, { angle: 90, layerSpacing: 35 }) });
-            var myModel = GO(go.TreeModel);
-
-            diagram.nodeTemplate =
-               GO(go.Node, "Vertical",
-                   GO(go.Panel, "Vertical", { background: "#f4f5f7", padding: 10 },
-                       GO(go.TextBlock, new go.Binding("text", "name"), { font: "bold 12pt Arial" }),
-                       GO(go.Panel, "Vertical", new go.Binding("itemArray", "quantifiable_data"),
-                           {
-                               itemTemplate:
-                                   GO(go.Panel, "Auto",
-                                    { margin: 2 },
-                                   GO(go.TextBlock, new go.Binding("text", ""),
-                                    { margin: 2, font: "italic bold 10pt Arial", stroke: "red" })
-                                )
-
-                           }
-                       )
-                   )
-               );
 
                 myModel.nodeDataArray = data.data;
 
                 diagram.model = myModel;
-            },
+
+                diagram.nodeTemplate =
+                   GO(go.Node, "Vertical",
+                       GO(go.Panel, "Vertical", { background: "#f4f5f7", padding: 10 },
+                           GO(go.TextBlock, new go.Binding("text", "name"), { font: "bold 12pt Arial" }),
+                           GO(go.Panel, "Vertical", new go.Binding("itemArray", "quantifiable_data"),
+                               {
+                                   itemTemplate:
+                                       GO(go.Panel, "Auto",
+                                        { margin: 2 },
+                                       GO(go.TextBlock, new go.Binding("text", ""),
+                                        { margin: 2, font: "italic bold 10pt Arial", stroke: "red" })
+                                    )
+
+                               }
+                           )
+                       )
+                   );
+
+                },
             error: function(data) {
                 console.log(data.responseText);
             }
         });
-    });
+
+        return cm;
+    }
+
+    button.click(getID);
 
     submitComment.click(function() {
         const comment = $("#comment-main").val();
-
+        const id = $(this).attr('data-id');
         // call ajax
         $.ajax({
             url: "/causal-models/insert_comment",
@@ -97,9 +112,6 @@ $(function() {
 
                 console.log(data);
 
-                const commentHolder = $(".comment-holder");
-
-
                 var template = "<div class='card m-2 p-2'>" +
                 "<div><span class='sender text-bold'>"+data.profile+"</span> <span class='user_type font-italic'>"+data.user_type+"</span></div>" +
                 "<div class='commentMain'>\""+data.comment+"\"</div>" +
@@ -108,6 +120,26 @@ $(function() {
 
                 commentHolder.prepend(template);
                 $("#comment-main").val('');
+            },
+            error: function(e) {
+                console.log(e.responseText);
+            }
+        });
+    });
+
+    approveCM.click(function() {
+
+        const id = $(this).attr('data-id');
+
+        $.ajax({
+            url : "/causal-models/approve",
+            type: "post",
+            data: {
+                'id': id
+            },
+            success: function(e) {
+                alert("Causal model approved");
+                location.reload();
             },
             error: function(e) {
                 console.log(e.responseText);
