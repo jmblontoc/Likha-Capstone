@@ -7,10 +7,11 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 from capstone.decorators import not_bns
+from core.models import Profile, Notification
 from friends.causalmodel import helper
 # Create your views here.
 from datapreprocessing.models import Metric
-from causalmodel.models import RootCause, DataMap, Block, Child, CausalModel
+from causalmodel.models import RootCause, DataMap, Block, Child, CausalModel, CausalModelComment
 from friends.datamining.correlations import create_session, year_now
 from friends.datapreprocessing import checkers
 from friends.datamining import correlations
@@ -113,7 +114,7 @@ def insert_blocks(request):
 
     blocks = json.loads(request.POST['blocks'])
 
-    causal_model = CausalModel()
+    causal_model = CausalModel(uploaded_by=Profile.objects.get(user=request.user))
     causal_model.save()
 
     for block in blocks:
@@ -138,6 +139,15 @@ def insert_blocks(request):
                 c.save()
 
     child_dict = [x.to_tree_dict() for x in Child.objects.all()]
+
+    # send notification to program coordinator
+    message = '%s has submitted a causal model' % Profile.objects.get(user=request.user).get_name
+    Notification.objects.create(
+        message=message,
+        profile_to=Profile.objects.filter(user_type__contains='Program Coordinator')[0],
+        profile_from=Profile.objects.get(user=request.user)
+    )
+
     return JsonResponse(child_dict, safe=False)
 
 
@@ -148,5 +158,28 @@ def get_blocks(request):
 
     q1 = Child.objects.filter(block__causal_model=causal)
 
+    # get comments
+    comments = [c.to_dict() for c in CausalModelComment.objects.filter(causal_model=causal).order_by('-date')]
+
     child_dict = [x.to_tree_dict() for x in q1]
-    return JsonResponse(child_dict, safe=False)
+    data = {
+        'data': child_dict,
+        'comments': comments
+    }
+    return JsonResponse(data)
+
+
+def insert_comment(request):
+
+    comment = request.POST['comment']
+    id = request.POST['id']
+
+    CausalModelComment.objects.create(
+        comment=comment,
+        causal_model_id=id,
+        profile=Profile.objects.get(user=request.user)
+    )
+
+    return JsonResponse(CausalModelComment.objects.latest('id').to_dict())
+
+

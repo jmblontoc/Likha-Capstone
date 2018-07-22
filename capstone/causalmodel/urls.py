@@ -25,5 +25,8 @@ urlpatterns= [
     path('create_tree', views.insert_blocks, name='create_tree'),
 
     # details ajax
-    path('details', views.get_blocks, name='details_ajax')
+    path('details', views.get_blocks, name='details_ajax'),
+
+    # add comment
+    path('insert_comment', views.insert_comment, name='insert_comment')
 ]

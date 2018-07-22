@@ -94,11 +94,22 @@ class CausalModel(models.Model):
     uploaded_by = models.ForeignKey('core.Profile', on_delete=models.CASCADE)
 
 
-class CausalModelComments(models.Model):
+class CausalModelComment(models.Model):
 
     causal_model = models.ForeignKey(CausalModel, on_delete=models.CASCADE)
     profile = models.ForeignKey('core.Profile', on_delete=models.CASCADE)
     comment = models.TextField()
+    date = models.DateTimeField(default=datetime.now)
+
+    def to_dict(self):
+
+        return {
+            "id": self.causal_model.id,
+            "profile": self.profile.get_name,
+            "comment": self.comment,
+            "date": self.date.strftime('%B %d, %Y'),
+            "user_type": self.profile.user_type
+        }
 
 
 

@@ -36,7 +36,7 @@
                 {% for metric in metrics %}
                     <tr>
                         <td class="metricName">{{ metric.metric }}</td>
-                        <td class="metricValue">{{ metric.get_total_value|floatformat }}</td>
+                        <td class="metricValue">{{ metric.get_total_average|floatformat }}</td>
                         <td class="metricThreshold">{{ metric.threshold|floatformat }}</td>
                         <td><input type="checkbox" class="choice"></td>
                     </tr>
