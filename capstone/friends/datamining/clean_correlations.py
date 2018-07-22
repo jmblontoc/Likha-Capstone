@@ -16,7 +16,7 @@ def get_micronutrient_revised():
 
     for field in fields:
         point = str(field).strip().split(".")[2]
-        data_point = child_care.get_fhsis_average(ChildCare, point, None)
+        data_point = child_care.get_fhsis(ChildCare, point, None)
 
         wfa_score =  float(c.get_correlation_score(c.make_variables(records[0], data_point)))
         hfa_score = float(c.get_correlation_score(c.make_variables(records[1], data_point)))
@@ -53,7 +53,7 @@ def get_maternal_revised():
 
     for field in fields:
         point = str(field).strip().split(".")[2]
-        data_point = maternal.get_maternal_care_average(point)
+        data_point = maternal.get_maternal_care(point)
 
         wfa_score = float(c.get_correlation_score(c.make_variables(records[0], data_point)))
         hfa_score = float(c.get_correlation_score(c.make_variables(records[1], data_point)))
@@ -94,7 +94,7 @@ def get_child_care_revised():
 
     for field in fields:
         point = str(field).strip().split(".")[2]
-        data_point = child_care.get_fhsis_average(ChildCare, point, None)
+        data_point = child_care.get_fhsis(ChildCare, point, None)
 
         wfa_score = float(c.get_correlation_score(c.make_variables(records[0], data_point)))
         hfa_score = float(c.get_correlation_score(c.make_variables(records[1], data_point)))
@@ -124,7 +124,7 @@ def get_child_care_revised():
 
     for field in immunization_fields:
         point = str(field).strip().split(".")[2]
-        data_point = child_care.get_fhsis_average(Immunization, point, None)
+        data_point = child_care.get_fhsis(Immunization, point, None)
 
         wfa_score = float(c.get_correlation_score(c.make_variables(records[0], data_point)))
         hfa_score = float(c.get_correlation_score(c.make_variables(records[1], data_point)))
@@ -154,7 +154,7 @@ def get_child_care_revised():
 
     for field in malaria_fields:
         point = str(field).strip().split(".")[2]
-        data_point = child_care.get_fhsis_average(Malaria, point, None)
+        data_point = child_care.get_fhsis(Malaria, point, None)
 
         wfa_score = float(c.get_correlation_score(c.make_variables(records[0], data_point)))
         hfa_score = float(c.get_correlation_score(c.make_variables(records[1], data_point)))
@@ -184,7 +184,7 @@ def get_child_care_revised():
 
     for field in tb_fields:
         point = str(field).strip().split(".")[2]
-        data_point = child_care.get_fhsis_average(Tuberculosis, point, None)
+        data_point = child_care.get_fhsis(Tuberculosis, point, None)
 
         wfa_score = float(c.get_correlation_score(c.make_variables(records[0], data_point)))
         hfa_score = float(c.get_correlation_score(c.make_variables(records[1], data_point)))
