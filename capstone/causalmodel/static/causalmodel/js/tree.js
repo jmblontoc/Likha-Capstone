@@ -13,7 +13,6 @@ $(function() {
     var rcModalArr;
 
     var blocks = [];
-
     var defaultRootCauses = $("input.blocks");
 
     var GO = go.GraphObject.make;
@@ -130,10 +129,10 @@ $(function() {
             );
         }
 
+
         blocks.push(
             new Block(null, blockName.val(), rcModalArr, false, kids)
         );
-
 
         $('input.blocks').each(function(){
             $(this).prop('checked', false);
@@ -153,8 +152,6 @@ $(function() {
 
         otherBlocksBody.append(html);
 
-        console.log(blocks);
-
         // blocks.push(
         //     new Block(null, "end", [], false,
         //         [blocks[blocks.length - 1]])
@@ -168,39 +165,29 @@ $(function() {
 
                 if (b1.child != null) {
                     for (c in b1.child) {
+
                         sons.push({
                             "key": b1.child[c].name,
                             "name": b1.child[c].name,
                             "parent": b1.name
                         });
+
+                        console.log("i added default " + sons[sons.length - 1].name);
                     }
+                }
+                else {
+                    console.log("it went here");
+
                 }
             }
         }
-
-        console.log(sons);
-
-        myModel.nodeDataArray = sons;
+        console.log('kids end', sons);
+        console.log('end', blocks);
+        myModel.nodeDataArray = addDummy(sons);
 
         diagram.model = myModel;
 
     });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     $("#createTree").click(function() {
 
@@ -232,39 +219,59 @@ $(function() {
         });
     });
 
-    // var GO = go.GraphObject.make;
-    //
-    //     var diagram = GO(go.Diagram, "tree", { layout: GO(go.TreeLayout, { angle: 90, layerSpacing: 35 }) });
-    //     var myModel = GO(go.TreeModel);
-    //
-    //     diagram.nodeTemplate =
-    //
-    //        GO(go.Node, "Vertical",
-    //            GO(go.Panel, "Vertical", { background: "white", padding: 10 },
-    //                GO(go.TextBlock, new go.Binding("text", "name"), { font: "bold 12pt Arial" }),
-    //                GO(go.Panel, "Vertical", new go.Binding("itemArray", "food"),
-    //                    {
-    //                        itemTemplate:
-    //                            GO(go.Panel, "Auto",
-    //                             { margin: 2 },
-    //                            GO(go.TextBlock, new go.Binding("text", ""),
-    //                             { margin: 2, font: "italic bold 10pt Arial", stroke: "red" })
-    //                         )
-    //
-    //                    }
-    //                )
-    //            )
-    //        );
-    //
-    //
-    //
-    //
-    //             myModel.nodeDataArray = [
-    //                 { key: "1", name: "JM", food: ["fries", "pizza", "pasta"], parent: "3"},
-    //                 { key: "2", name: "Gab", food: ["spag", "adobo", "chicken"], parent: "3"}
-    //             ];
-    //
-    //             diagram.model = myModel;
+    function getParents(sons) {
+
+        // get unique instances of parents
+        var parents = [];
+        for (var s in sons) {
+            if (!parents.includes(sons[s].parent)) {
+                parents.push(sons[s].parent);
+            }
+        }
+
+        return parents;
+    }
+
+    function getKeys(sons) {
+        var keys = [];
+
+        for (var s in sons) {
+            keys.push(sons[s].key);
+        }
+
+        return keys;
+    }
+
+    function addDummy(sons) {
+
+        var dummy = [];
+        var parents = getParents(sons);
+
+        for (var parent in parents) {
+            if (!getKeys(sons).includes(parents[parent])) {
+                dummy.push(parents[parent]);
+            }
+        }
+
+        for (var d in dummy) {
+            sons.push({
+                "key": dummy[d],
+                "name": dummy[d],
+                "parent": ""
+            });
+        }
+
+        return sons;
+    }
+
+    function removeUndefinedSons(sons) {
+
+        for (var x = sons.length - 1; x >= 0; x--) {
+            if (typeof(sons[x].parent) === 'undefined') {
+                sons.splice(x, 1);
+            }
+        }
+    }
 
     function has_undefined(arr) {
 
