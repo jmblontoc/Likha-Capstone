@@ -2,7 +2,11 @@ $(function() {
 
     console.log("wew");
 
-    Highcharts.chart('totals', {
+    $.ajax({
+        url: "/visualizations/ajax_highest",
+        success: function(e) {
+
+            Highcharts.chart('totals', {
         chart: {
             type: 'column'
         },
@@ -10,7 +14,7 @@ $(function() {
             text: 'Barangays with the Highest Number of Malnourished Children'
         },
         xAxis: {
-            categories: ['Barangay Poblacion', 'Barangay Ibaba', 'Barangay Addition Hills', 'Burol', 'Daang Bakal']
+            categories: e.barangays
         },
         yAxis: {
             min: 0,
@@ -51,13 +55,18 @@ $(function() {
         },
         series: [{
             name: 'UW + SUW',
-            data: [5, 3, 4, 1, 4]
+            data: e.first
         }, {
             name: 'S + SS',
-            data: [2, 2, 3, 3, 8]
+            data: e.second
         }, {
             name: 'W + SW',
-            data: [3, 4, 4, 7, 2]
+            data: e.third
         }]
+    });
+        },
+        error: function(e) {
+            console.log(e.responseText);
+        }
     });
 });

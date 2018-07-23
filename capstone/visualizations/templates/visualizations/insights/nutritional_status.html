@@ -21,19 +21,19 @@
                     <div class="col-4 text-center contents" style="height: 150px;">
                         <div class="card">
                            <p style="font-size: 1.3rem;">Total # of Underweight and Severely Underweight Children</p>
-                            <h1 class="display-4">14</h1>
+                            <h1 class="display-4">{{ total_per_category.0 }}</h1>
                         </div>
                     </div>
                     <div class="col-4 text-center contents" style="height: 150px;">
                         <div class="card">
                            <p style="font-size: 1.3rem;">Total # of Stunted and Severely Stunted Children</p>
-                            <h1 class="display-4">2</h1>
+                            <h1 class="display-4">{{ total_per_category.1 }}</h1>
                         </div>
                     </div>
                     <div class="col-4 text-center contents" style="height: 150px;">
                         <div class="card">
                            <p style="font-size: 1.3rem;">Total # of Wasted and Severely Wasted Children</p>
-                            <h1 class="display-4">1</h1>
+                            <h1 class="display-4">{{ total_per_category.2 }}</h1>
                         </div>
                     </div>
                 </div>
@@ -44,15 +44,15 @@
                             <div class="row">
                                 <div class="col-4 contents">
                                     <p style="font-size: 1rem;">Underweight and Severely Underweight</p>
-                                    <h4>Barangay Poblacion</h4>
+                                    <h4>{{ highest_per_category.0 }}</h4>
                                 </div>
                                 <div class="col-4 contents">
                                     <p style="font-size: 1rem;">Stunted and Severely Stunted</p>
-                                    <h4>Barangay Ibaba</h4>
+                                    <h4>{{ highest_per_category.1 }}</h4>
                                 </div>
                                 <div class="col-4 contents">
                                     <p style="font-size: 1rem;">Wasted and Severely Wasted</p>
-                                    <h4>Barangay Addition Hills</h4>
+                                    <h4>{{ highest_per_category.2 }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -68,25 +68,16 @@
                                     <th>Stunted + Severely Stunted</th>
                                     <th>Wasted + Severely Wasted</th>
                                 </tr>
-                                <tr>
-                                    <td>Barangay Poblacion</td>
-                                    <td>3</td>
-                                    <td>2</td>
-                                    <td>8</td>
-                                </tr>
-                                <tr>
-                                    <td>Barangay Addition Hills</td>
-                                    <td>3</td>
-                                    <td>2</td>
-                                    <td>8</td>
-                                </tr>
-                                <tr>
-                                    <td>Barangay Ibaba</td>
-                                    <td>3</td>
-                                    <td>2</td>
-                                    <td>8</td>
-                                </tr>
                                 </thead>
+                                <tbody>
+                                {% for val in count_per_barangay %}
+                                    <tr>
+                                        {% for a in val %}
+                                            <td>{{ a }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
                             </table>
                         </div>
                     </div>

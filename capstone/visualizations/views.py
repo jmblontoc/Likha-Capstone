@@ -13,6 +13,7 @@ from django.shortcuts import render, redirect
 from friends.datamining import correlations
 from core.models import Profile, Notification
 from friends.datapreprocessing import consolidators
+from computations import weights
 # Create your views here.
 from datainput.models import NutritionalStatus, Sex, MaternalCare, ChildCare, FHSIS
 from friends.datamining.correlations import get_weight_values_per_month
@@ -34,7 +35,9 @@ def index(request):
 def city_nutritional_status(request):
 
     context = {
-
+        'total_per_category': weights.totals_per_category(),
+        'highest_per_category': weights.highest_barangay_per_category(),
+        'count_per_barangay': weights.count_per_barangay_per_category()
     }
 
     return render(request, 'visualizations/insights/nutritional_status.html', context)
@@ -288,4 +291,8 @@ def get_child_care(request):
 
     return JsonResponse(data)
 
+
+def get_highest_barangay(request):
+
+    return JsonResponse(weights.highest_barangay_per_category_json())
 

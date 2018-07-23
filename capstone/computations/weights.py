@@ -1,6 +1,8 @@
+import operator
 from datetime import datetime
+from random import random
 
-from django.db.models import Sum
+from django.db.models import Sum, Q
 
 from datainput.models import *
 
@@ -96,3 +98,185 @@ def get_computations_per_category(category):
         'data': data,
         'total': total
     }
+
+
+# # # # # # # # for insights # # # # # # # # # #
+
+# totals
+def totals_per_category():
+
+    # SUW and UW
+    uw = NutritionalStatus.objects.get(name__contains='Weight for Age - Underweight')
+    suw = NutritionalStatus.objects.get(name__contains='Weight for Age - Severely Underweight')
+    first = OPTValues.objects.filter(Q(nutritional_status=uw) | Q(nutritional_status=suw)).filter(opt__date__year=year_now).aggregate(sum=Sum('values'))['sum']
+
+    # S and SS
+    uw = NutritionalStatus.objects.get(name__contains='Height for Age - Stunted')
+    suw = NutritionalStatus.objects.get(name__contains='Height for Age - Severely Stunted')
+    second = OPTValues.objects.filter(Q(nutritional_status=uw) | Q(nutritional_status=suw)).filter(
+        opt__date__year=year_now).aggregate(sum=Sum('values'))['sum']
+
+    # W and SW
+    uw = NutritionalStatus.objects.get(name__contains='Weight for Height/Length - Wasted')
+    suw = NutritionalStatus.objects.get(name__contains='Weight for Height/Length - Severely Wasted')
+    third = OPTValues.objects.filter(Q(nutritional_status=uw) | Q(nutritional_status=suw)).filter(
+        opt__date__year=year_now).aggregate(sum=Sum('values'))['sum']
+
+    return [int(first), int(second), int(third)]
+
+
+# barangay - highest per category
+def highest_barangay_per_category():
+
+    barangays = Barangay.objects.all()
+
+    uw = NutritionalStatus.objects.get(name__contains='Weight for Age - Underweight')
+    suw = NutritionalStatus.objects.get(name__contains='Weight for Age - Severely Underweight')
+
+    tops = []
+    data = {}
+
+    for b in barangays:
+        total = OPTValues.objects.filter(Q(nutritional_status=uw) | Q(nutritional_status=suw)).filter(
+        opt__date__year=year_now).filter(opt__barangay=b).aggregate(sum=Sum('values'))['sum']
+        data[b.name] = int(total)
+
+    a = max(data.items(), key=operator.itemgetter(1))[0]
+    tops.append(a)
+
+    # S and SS
+    uw = NutritionalStatus.objects.get(name__contains='Height for Age - Stunted')
+    suw = NutritionalStatus.objects.get(name__contains='Height for Age - Severely Stunted')
+
+    data = {}
+
+    for b in barangays:
+        total = OPTValues.objects.filter(Q(nutritional_status=uw) | Q(nutritional_status=suw)).filter(
+            opt__date__year=year_now).filter(opt__barangay=b).aggregate(sum=Sum('values'))['sum']
+        data[b.name] = int(total)
+
+    a = max(data.items(), key=operator.itemgetter(1))[0]
+    tops.append(a)
+
+    # W and SW
+    uw = NutritionalStatus.objects.get(name__contains='Weight for Height/Length - Wasted')
+    suw = NutritionalStatus.objects.get(name__contains='Weight for Height/Length - Severely Wasted')
+
+    data = {}
+
+    for b in barangays:
+        total = OPTValues.objects.filter(Q(nutritional_status=uw) | Q(nutritional_status=suw)).filter(
+            opt__date__year=year_now).filter(opt__barangay=b).aggregate(sum=Sum('values'))['sum']
+        data[b.name] = int(total)
+
+    a = max(data.items(), key=operator.itemgetter(1))[0]
+    tops.append(a)
+
+    return tops
+
+
+# count per barangay per category
+def count_per_barangay_per_category():
+
+    data = []
+    for b in Barangay.objects.all():
+        sub_data = []
+        sub_data.append(b.name)
+
+        uw = NutritionalStatus.objects.get(name__contains='Weight for Age - Underweight')
+        suw = NutritionalStatus.objects.get(name__contains='Weight for Age - Severely Underweight')
+
+        total = OPTValues.objects.filter(Q(nutritional_status=uw) | Q(nutritional_status=suw)).filter(
+            opt__date__year=year_now).filter(opt__barangay=b).aggregate(sum=Sum('values'))['sum']
+        sub_data.append(total)
+
+        uw = NutritionalStatus.objects.get(name__contains='Height for Age - Stunted')
+        suw = NutritionalStatus.objects.get(name__contains='Height for Age - Severely Stunted')
+
+        total = OPTValues.objects.filter(Q(nutritional_status=uw) | Q(nutritional_status=suw)).filter(
+            opt__date__year=year_now).filter(opt__barangay=b).aggregate(sum=Sum('values'))['sum']
+        sub_data.append(total)
+
+        uw = NutritionalStatus.objects.get(name__contains='Weight for Height/Length - Wasted')
+        suw = NutritionalStatus.objects.get(name__contains='Weight for Height/Length - Severely Wasted')
+
+        total = OPTValues.objects.filter(Q(nutritional_status=uw) | Q(nutritional_status=suw)).filter(
+            opt__date__year=year_now).filter(opt__barangay=b).aggregate(sum=Sum('values'))['sum']
+        sub_data.append(total)
+
+        data.append(sub_data)
+
+    return data
+
+
+# highcharts highest 3
+
+def highest_barangay_per_category_json():
+
+    barangays = Barangay.objects.all()
+
+    data = {}
+
+    uw = NutritionalStatus.objects.get(name__contains='Weight for Age - Underweight')
+    suw = NutritionalStatus.objects.get(name__contains='Weight for Age - Severely Underweight')
+
+    # S and SS
+    s = NutritionalStatus.objects.get(name__contains='Height for Age - Stunted')
+    ss = NutritionalStatus.objects.get(name__contains='Height for Age - Severely Stunted')
+
+    # W and SW
+    ws = NutritionalStatus.objects.get(name__contains='Weight for Height/Length - Wasted')
+    sws = NutritionalStatus.objects.get(name__contains='Weight for Height/Length - Severely Wasted')
+
+    for b in barangays:
+        total = OPTValues.objects.filter(Q(nutritional_status=uw) | Q(nutritional_status=suw) |
+                                         Q(nutritional_status=s) | Q(nutritional_status=ss) |
+                                         Q(nutritional_status=ws) | Q(nutritional_status=sws)).filter(
+            opt__date__year=year_now).filter(opt__barangay=b).aggregate(sum=Sum('values'))['sum']
+        data[b.name] = int(total)
+
+    barangay_names = sorted(data, key=data.get, reverse=True)[:3]
+
+    json_data = {
+        'barangays': [b.name for b in barangays]
+    }
+
+    # return /list/ of values
+
+    # UW and SUW
+    first_list = []
+    for b in barangay_names:
+        bar = Barangay.objects.get(name=b)
+        total = OPTValues.objects.filter(opt__barangay=bar, opt__date__year=year_now).filter(
+            Q(nutritional_status=uw) | Q(nutritional_status=suw)
+        ).aggregate(sum=Sum('values'))['sum']
+
+        first_list.append(int(total))
+
+    second_list = []
+    for b in barangay_names:
+        bar = Barangay.objects.get(name=b)
+        total = OPTValues.objects.filter(opt__barangay=bar, opt__date__year=year_now).filter(
+            Q(nutritional_status=s) | Q(nutritional_status=ss)
+        ).aggregate(sum=Sum('values'))['sum']
+
+        second_list.append(int(total))
+
+    third_list = []
+    for b in barangay_names:
+        bar = Barangay.objects.get(name=b)
+        total = OPTValues.objects.filter(opt__barangay=bar, opt__date__year=year_now).filter(
+            Q(nutritional_status=ws) | Q(nutritional_status=sws)
+        ).aggregate(sum=Sum('values'))['sum']
+
+        third_list.append(int(total))
+
+    json_data['first'] = first_list
+    json_data['second'] = second_list
+    json_data['third'] = third_list
+
+    return json_data
+
+
+
+
