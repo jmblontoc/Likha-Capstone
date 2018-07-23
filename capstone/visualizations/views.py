@@ -13,7 +13,7 @@ from django.shortcuts import render, redirect
 from friends.datamining import correlations
 from core.models import Profile, Notification
 from friends.datapreprocessing import consolidators
-from computations import weights
+from computations import weights, child_care as cc
 # Create your views here.
 from datainput.models import NutritionalStatus, Sex, MaternalCare, ChildCare, FHSIS
 from friends.datamining.correlations import get_weight_values_per_month
@@ -47,7 +47,9 @@ def city_nutritional_status(request):
 def city_micronutrient(request):
 
     context = {
-
+        'totals': cc.given_totals(),
+        'highest': cc.highest(0),
+        'lowest': cc.highest(123)
     }
 
     return render(request, 'visualizations/insights/micronutrient.html', context)

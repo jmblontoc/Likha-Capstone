@@ -1,4 +1,6 @@
 # FHSIS
+import operator
+
 from django.db.models import Sum
 
 from computations.weights import year_now, month_now
@@ -122,3 +124,39 @@ def child_care_dashboard():
         'fields': fields,
         'values': values
     }
+
+# # # # # MICRONUTRIENT # # # # #
+
+
+def given_totals():
+
+    data = []
+    for vitamin in datapoints.micronutrient:
+
+        field = get_field(ChildCare, vitamin)
+        total = ChildCare.objects.filter(fhsis__date__year=year_now).aggregate(sum=Sum(field))['sum']
+        data.append(int(total))
+
+    return data
+
+
+def highest(order):
+
+    main_data = []
+    for vitamin in datapoints.micronutrient:
+        field = get_field(ChildCare, vitamin)
+
+        data = {}
+        for b in Barangay.objects.all():
+            total = ChildCare.objects.filter(fhsis__date__year=year_now, fhsis__barangay=b).aggregate(sum=Sum(field))['sum']
+            data[b.name] = int(total)
+
+        maximum = max(data, key=data.get)
+        minimum = min(data, key=data.get)
+
+        if order == 0:
+            main_data.append((maximum, data[maximum]))
+        else:
+            main_data.append((minimum, data[minimum]))
+
+    return main_data
