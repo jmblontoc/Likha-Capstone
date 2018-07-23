@@ -79,7 +79,15 @@ def get_computations_per_category(category):
         prevalence_rate = round(sub_total / total, 4) * 100
         prevalence_rate = format(prevalence_rate, '.2f')
 
-        sub_data.append(f.name)
+        # tinanggal na yung mga weight for age ek ek
+        normalize = f.name.strip().split(" ")[4:]
+
+        foo = ''
+        for a in normalize:
+            foo += ' %s' % a
+        # # # # # #
+
+        sub_data.append(foo)
         sub_data.append(sub_total)
         sub_data.append(str(prevalence_rate) + '%')
         data.append(sub_data)

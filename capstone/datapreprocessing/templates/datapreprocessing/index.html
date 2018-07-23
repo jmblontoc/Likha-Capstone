@@ -135,8 +135,8 @@
                                         <th>Type</th>
                                         <th>Threshold</th>
                                         <th>Status</th>
-                                        <th>Predicted Value Next Month/Year</th>
-                                        <th>Prediction Status</th>
+{#                                        <th>Predicted Value Next Month/Year</th>#}
+{#                                        <th>Prediction Status</th>#}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -149,12 +149,12 @@
                                             <tr class="display" style="cursor: pointer;" data-value="{{ x.get_value_over_time }}" data-variables="{{ x.json_data }}">
                                                 <td class="source">{{ x.get_source }}</td>
                                                 <td class="point">{{ x.get_data_point }}</td>
-                                                <td>{{ x.get_total_average|floatformat:"-2" }}</td>
+                                                <td>{{ x.get_total_value|floatformat:"-2" }}</td>
                                                 <td>{{ x.get_type }}</td>
                                                 <td>{{ x.threshold|floatformat }}</td>
                                                 <td>{{ x.is_alarming|yesno:"Critical,Not Critical" }}</td>
-                                                <td>{{ x.predicted_value|floatformat:"-2" }}</td>
-                                                <td>{{ x.is_predicted_critical|yesno:"Predicted Critical,Not Predicted Critical" }}</td>
+{#                                                <td>{{ x.predicted_value|floatformat:"-2" }}</td>#}
+{#                                                <td>{{ x.is_predicted_critical|yesno:"Predicted Critical,Not Predicted Critical" }}</td>#}
                                             </tr>
                                         {% endfor %}
                                     {% endif %}
