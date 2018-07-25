@@ -20,6 +20,9 @@ urlpatterns = [
     # child care
     path('city_children', views.city_children_care, name='children_care'),
 
+    # # # # # # # REPORTS # # # # # # #
+    path('reports/nutritional_status', views.report1, name='report1'),
+
     # # # # # # AJAX # # # # # # #
 
     path('ajax_highest', views.get_highest_barangay, name='get_highest_barangay'),

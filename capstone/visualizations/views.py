@@ -2,6 +2,8 @@ import decimal
 import json
 
 from django.contrib import messages
+from django.db.models import Q, Sum
+
 from friends import datapoints
 from capstone import settings
 from datapreprocessing.models import Metric
@@ -15,8 +17,9 @@ from core.models import Profile, Notification
 from friends.datapreprocessing import consolidators
 from computations import weights, child_care as cc
 # Create your views here.
-from datainput.models import NutritionalStatus, Sex, MaternalCare, ChildCare, FHSIS
-from friends.datamining.correlations import get_weight_values_per_month
+from datainput.models import NutritionalStatus, Sex, MaternalCare, ChildCare, FHSIS, Barangay, FamilyProfileLine, \
+    OPTValues
+from friends.datamining.correlations import get_weight_values_per_month, year_now
 
 
 @login_required
@@ -309,3 +312,24 @@ def top3_barangay_mns(request):
         'highest': highest,
         'lowest': lowest
     })
+
+
+# # # # # # # # # # # # # # # # REPORTS # # # # # # # # # # # # # # # # #
+
+def report1(request): # nutritional status
+
+    total_opt = OPTValues.objects.filter(opt__date__year=year_now)
+
+    context = {
+        'barangays': Barangay.objects.all().order_by('name'),
+        'families': FamilyProfileLine.objects.filter(family_profile__date__year=year_now).count(),
+        'total_weighted': total_opt.aggregate(sum=Sum('values'))['sum'],
+        'count011': total_opt.filter(Q(age_group__code='05') | Q(age_group__code='611')).aggregate(sum=Sum('values'))['sum'],
+        'count1271': total_opt.aggregate(sum=Sum('values'))['sum'] - total_opt.filter(Q(age_group__code='05') | Q(age_group__code='611')).aggregate(sum=Sum('values'))['sum'],
+
+        'wfa': weights.report_table()[0],
+        'hfa': weights.report_table()[1],
+        'wfh': weights.report_table()[2]
+    }
+
+    return render(request, 'visualizations/reports/nutritional_status.html', context)

@@ -1041,7 +1041,6 @@ def create_correlation_session(request):
 
 def get_correlation_remark(score):
 
-
     if 1 >= abs(score) >= 0.7:
         return "Strong"
 

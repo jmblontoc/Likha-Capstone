@@ -278,5 +278,205 @@ def highest_barangay_per_category_json():
     return json_data
 
 
+# # # # # # # # # REPORT # # # # # # # # # #
+
+def report_table():
+
+    grand_data = []
+    data = []
+    male = Sex.objects.get(name='Male')
+    female = Sex.objects.get(name='Female')
+
+    barangays = Barangay.objects.all().order_by('name')
+
+    # Weight for Age
+    wfa_normal = NutritionalStatus.objects.get(name='Weight for Age - Normal')
+    wfa_uw = NutritionalStatus.objects.get(name='Weight for Age - Underweight')
+    wfa_suw = NutritionalStatus.objects.get(name='Weight for Age - Severely Underweight')
+    wfa_ow = NutritionalStatus.objects.get(name='Weight for Age - Overweight')
+
+    for b in barangays:
+
+        query = OPTValues.objects.filter(opt__date__year=year_now, opt__barangay=b)
+        sub_data = [b.name]
+
+        # get the normal
+        nboys = query.filter(age_group__sex=male, nutritional_status=wfa_normal).aggregate(sum=Sum('values'))['sum']
+        ngirls = query.filter(age_group__sex=female, nutritional_status=wfa_normal).aggregate(sum=Sum('values'))['sum']
+        ntotal = nboys + ngirls
+
+        sub_data.append(nboys)
+        sub_data.append(ngirls)
+        sub_data.append(ntotal)
+
+        # get the underweight
+        nboys = query.filter(age_group__sex=male, nutritional_status=wfa_uw).aggregate(sum=Sum('values'))['sum']
+        ngirls = query.filter(age_group__sex=female, nutritional_status=wfa_uw).aggregate(sum=Sum('values'))['sum']
+        ntotal = nboys + ngirls
+
+        sub_data.append(nboys)
+        sub_data.append(ngirls)
+        sub_data.append(ntotal)
+
+        # get the suw
+        nboys = query.filter(age_group__sex=male, nutritional_status=wfa_suw).aggregate(sum=Sum('values'))['sum']
+        ngirls = query.filter(age_group__sex=female, nutritional_status=wfa_suw).aggregate(sum=Sum('values'))['sum']
+        ntotal = nboys + ngirls
+
+        sub_data.append(nboys)
+        sub_data.append(ngirls)
+        sub_data.append(ntotal)
+
+        # get the ow
+        nboys = query.filter(age_group__sex=male, nutritional_status=wfa_ow).aggregate(sum=Sum('values'))['sum']
+        ngirls = query.filter(age_group__sex=female, nutritional_status=wfa_ow).aggregate(sum=Sum('values'))['sum']
+        ntotal = nboys + ngirls
+
+        sub_data.append(nboys)
+        sub_data.append(ngirls)
+        sub_data.append(ntotal)
+
+        # total per barangay
+        barangay_total = query.aggregate(sum=Sum('values'))['sum']
+        sub_data.append(barangay_total)
+
+        uw_suw = query.filter(Q(nutritional_status=wfa_uw) | Q(nutritional_status=wfa_suw)).aggregate(sum=Sum('values'))['sum']
+        sub_data.append(uw_suw)
+        sub_data.append(round(uw_suw / barangay_total, 2))
+
+        data.append(sub_data)
+    grand_data.append(data)
+
+    data = []
+    # Height for Age
+    hfa_normal = NutritionalStatus.objects.get(name='Height for Age - Normal')
+    hfa_s = NutritionalStatus.objects.get(name='Height for Age - Stunted')
+    hfa_ss = NutritionalStatus.objects.get(name='Height for Age - Severely Stunted')
+    hfa_t = NutritionalStatus.objects.get(name='Height for Age - Tall')
+
+    for b in barangays:
+
+        query = OPTValues.objects.filter(opt__date__year=year_now, opt__barangay=b)
+        sub_data = [b.name]
+
+        # get the normal
+        nboys = query.filter(age_group__sex=male, nutritional_status=hfa_normal).aggregate(sum=Sum('values'))['sum']
+        ngirls = query.filter(age_group__sex=female, nutritional_status=hfa_normal).aggregate(sum=Sum('values'))['sum']
+        ntotal = nboys + ngirls
+
+        sub_data.append(nboys)
+        sub_data.append(ngirls)
+        sub_data.append(ntotal)
+
+        # get the stunted
+        nboys = query.filter(age_group__sex=male, nutritional_status=hfa_s).aggregate(sum=Sum('values'))['sum']
+        ngirls = query.filter(age_group__sex=female, nutritional_status=hfa_s).aggregate(sum=Sum('values'))['sum']
+        ntotal = nboys + ngirls
+
+        sub_data.append(nboys)
+        sub_data.append(ngirls)
+        sub_data.append(ntotal)
+
+        # get the severely stunted
+        nboys = query.filter(age_group__sex=male, nutritional_status=hfa_ss).aggregate(sum=Sum('values'))['sum']
+        ngirls = query.filter(age_group__sex=female, nutritional_status=hfa_ss).aggregate(sum=Sum('values'))['sum']
+        ntotal = nboys + ngirls
+
+        sub_data.append(nboys)
+        sub_data.append(ngirls)
+        sub_data.append(ntotal)
+
+        # get the tall
+        nboys = query.filter(age_group__sex=male, nutritional_status=hfa_t).aggregate(sum=Sum('values'))['sum']
+        ngirls = query.filter(age_group__sex=female, nutritional_status=hfa_t).aggregate(sum=Sum('values'))['sum']
+        ntotal = nboys + ngirls
+
+        sub_data.append(nboys)
+        sub_data.append(ngirls)
+        sub_data.append(ntotal)
+
+        # total per barangay
+        barangay_total = query.aggregate(sum=Sum('values'))['sum']
+        sub_data.append(barangay_total)
+
+        uw_suw = query.filter(Q(nutritional_status=hfa_s) | Q(nutritional_status=hfa_ss)).aggregate(sum=Sum('values'))['sum']
+        sub_data.append(uw_suw)
+        sub_data.append(round(uw_suw / barangay_total, 2))
+
+        data.append(sub_data)
+    grand_data.append(data)
+
+    data = []
+    # Weight for Height / Length
+    wfh_normal = NutritionalStatus.objects.get(name='Weight for Height/Length - Normal')
+    wfh_wasted = NutritionalStatus.objects.get(name='Weight for Height/Length - Wasted')
+    wfh_sw = NutritionalStatus.objects.get(name='Weight for Height/Length - Severely Wasted')
+    wfh_obese = NutritionalStatus.objects.get(name='Weight for Height/Length - Obese')
+    wfh_ow = NutritionalStatus.objects.get(name='Weight for Height/Length - Overweight')
+
+    for b in barangays:
+
+        query = OPTValues.objects.filter(opt__date__year=year_now, opt__barangay=b)
+        sub_data = [b.name]
+
+        # get the normal
+        nboys = query.filter(age_group__sex=male, nutritional_status=wfh_normal).aggregate(sum=Sum('values'))['sum']
+        ngirls = query.filter(age_group__sex=female, nutritional_status=wfh_normal).aggregate(sum=Sum('values'))['sum']
+        ntotal = nboys + ngirls
+
+        sub_data.append(nboys)
+        sub_data.append(ngirls)
+        sub_data.append(ntotal)
+
+        # get the wasted
+        nboys = query.filter(age_group__sex=male, nutritional_status=wfh_wasted).aggregate(sum=Sum('values'))['sum']
+        ngirls = query.filter(age_group__sex=female, nutritional_status=wfh_wasted).aggregate(sum=Sum('values'))['sum']
+        ntotal = nboys + ngirls
+
+        sub_data.append(nboys)
+        sub_data.append(ngirls)
+        sub_data.append(ntotal)
+
+        # get the sw
+        nboys = query.filter(age_group__sex=male, nutritional_status=wfh_sw).aggregate(sum=Sum('values'))['sum']
+        ngirls = query.filter(age_group__sex=female, nutritional_status=wfh_sw).aggregate(sum=Sum('values'))['sum']
+        ntotal = nboys + ngirls
+
+        sub_data.append(nboys)
+        sub_data.append(ngirls)
+        sub_data.append(ntotal)
+
+        # get the ow
+        nboys = query.filter(age_group__sex=male, nutritional_status=wfh_ow).aggregate(sum=Sum('values'))['sum']
+        ngirls = query.filter(age_group__sex=female, nutritional_status=wfh_ow).aggregate(sum=Sum('values'))['sum']
+        ntotal = nboys + ngirls
+
+        sub_data.append(nboys)
+        sub_data.append(ngirls)
+        sub_data.append(ntotal)
+
+        # get the obese
+        nboys = query.filter(age_group__sex=male, nutritional_status=wfh_obese).aggregate(sum=Sum('values'))['sum']
+        ngirls = query.filter(age_group__sex=female, nutritional_status=wfh_obese).aggregate(sum=Sum('values'))['sum']
+        ntotal = nboys + ngirls
+
+        sub_data.append(nboys)
+        sub_data.append(ngirls)
+        sub_data.append(ntotal)
+
+        # total per barangay
+        barangay_total = query.aggregate(sum=Sum('values'))['sum']
+        sub_data.append(barangay_total)
+
+        uw_suw = query.filter(Q(nutritional_status=wfh_wasted) | Q(nutritional_status=wfh_sw)).aggregate(sum=Sum('values'))['sum']
+        sub_data.append(uw_suw)
+        sub_data.append(round(uw_suw / barangay_total, 2))
+
+        data.append(sub_data)
+    grand_data.append(data)
+
+    return grand_data
+
+
 
 
