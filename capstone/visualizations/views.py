@@ -15,7 +15,7 @@ from django.shortcuts import render, redirect
 from friends.datamining import correlations
 from core.models import Profile, Notification
 from friends.datapreprocessing import consolidators
-from computations import weights, child_care as cc
+from computations import weights, child_care as cc, socioeconomic as soc
 # Create your views here.
 from datainput.models import NutritionalStatus, Sex, MaternalCare, ChildCare, FHSIS, Barangay, FamilyProfileLine, \
     OPTValues
@@ -333,3 +333,13 @@ def report1(request): # nutritional status
     }
 
     return render(request, 'visualizations/reports/nutritional_status.html', context)
+
+
+# socioeconomic
+def report2(request):
+
+    context = {
+        'data': soc.report_table()
+    }
+
+    return render(request, 'visualizations/reports/socioeconomic.html', context)

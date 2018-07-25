@@ -1,0 +1,32 @@
+<h1>Socioeconomic Report</h1>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th rowspan="2">Barangay</th>
+            <th rowspan="2">Average Household Size</th>
+            <th colspan="5">Most Common</th>
+            <th rowspan="2">Proportion of Households with Water-Sealed Toilets</th>
+        </tr>
+        <tr>
+            <th>Educational Attainment</th>
+            <th>Occupation</th>
+            <th>Water Source</th>
+            <th>Most Common Food Production</th>
+            <th>Toilet Type</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for f in data %}
+        <tr>
+            {% for a in f %}
+                {% if forloop.counter0 == 1 or forloop.counter0 == 7 %}
+                    <td align="right">{{ a }}</td>
+                {% else %}
+                    <td>{{ a }}</td>
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
