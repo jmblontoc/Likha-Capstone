@@ -96,25 +96,16 @@
                                     <th>Iron</th>
                                     <th>Micronutrient Powder</th>
                                 </tr>
-                                <tr>
-                                    <td>Barangay Poblacion</td>
-                                    <td>31</td>
-                                    <td>22</td>
-                                    <td>48</td>
-                                </tr>
-                                <tr>
-                                    <td>Barangay Addition Hills</td>
-                                    <td>13</td>
-                                    <td>42</td>
-                                    <td>28</td>
-                                </tr>
-                                <tr>
-                                    <td>Barangay Ibaba</td>
-                                    <td>43</td>
-                                    <td>42</td>
-                                    <td>48</td>
-                                </tr>
                                 </thead>
+                                <tbody>
+                                {% for b in micro_per_barangay %}
+                                    <tr>
+                                        {% for a in b %}
+                                            <td>{{ a }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
                             </table>
                         </div>
                     </div>

@@ -49,7 +49,8 @@ def city_micronutrient(request):
     context = {
         'totals': cc.given_totals(),
         'highest': cc.highest(0),
-        'lowest': cc.highest(123)
+        'lowest': cc.highest(123),
+        'micro_per_barangay': cc.micro_per_barangay()
     }
 
     return render(request, 'visualizations/insights/micronutrient.html', context)
@@ -298,3 +299,13 @@ def get_highest_barangay(request):
 
     return JsonResponse(weights.highest_barangay_per_category_json())
 
+
+def top3_barangay_mns(request):
+
+    highest = cc.top3_barangays(1)
+    lowest = cc.top3_barangays(0)
+
+    return JsonResponse({
+        'highest': highest,
+        'lowest': lowest
+    })

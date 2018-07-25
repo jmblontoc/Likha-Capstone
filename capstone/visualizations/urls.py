@@ -23,6 +23,7 @@ urlpatterns = [
     # # # # # # AJAX # # # # # # #
 
     path('ajax_highest', views.get_highest_barangay, name='get_highest_barangay'),
+    path('ajax_top3_mns', views.top3_barangay_mns, name='top3_mns'),
 
 
 

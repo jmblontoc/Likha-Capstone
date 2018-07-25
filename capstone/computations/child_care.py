@@ -2,6 +2,7 @@
 import operator
 
 from django.db.models import Sum
+from django.http import JsonResponse
 
 from computations.weights import year_now, month_now
 from friends.datamining import correlations
@@ -160,3 +161,64 @@ def highest(order):
             main_data.append((minimum, data[minimum]))
 
     return main_data
+
+
+def micro_per_barangay():
+
+    data = []
+
+    for b in Barangay.objects.all():
+
+        sub_data = [b.name]
+
+        for vitamin in datapoints.micronutrient:
+            field = get_field(ChildCare, vitamin)
+            total = ChildCare.objects.filter(fhsis__date__year=year_now, fhsis__barangay=b).aggregate(sum=Sum(field))['sum']
+            sub_data.append(int(total))
+
+        data.append(sub_data)
+
+    return data
+
+
+def top3_barangays(order):
+
+    barangays = Barangay.objects.all()
+
+    data = []
+
+    for b in barangays:
+
+        sub_data = {'barangay': b.name}
+        values = {}
+        total_vitamin = 0
+        for vitamin in datapoints.micronutrient:
+            field = get_field(ChildCare, vitamin)
+            sub_total = ChildCare.objects.filter(fhsis__date__year=year_now, fhsis__barangay=b).aggregate(
+                sum=Sum(field)
+            )['sum']
+
+            values[vitamin] = int(sub_total)
+            total_vitamin += int(sub_total)
+            sub_data['values'] = values
+            sub_data['total'] = total_vitamin
+
+        data.append(sub_data)
+
+    if order == 0:
+        new_list = sorted(data, key=operator.itemgetter('total'))[:3]
+
+    else:
+        new_list = sorted(data, key=operator.itemgetter('total'), reverse=True)[:3]
+
+    bars = [b['barangay'] for b in new_list]
+    vit_a = [b['values'][list(b['values'].keys())[0]] for b in new_list]
+    iron = [b['values'][list(b['values'].keys())[1]] for b in new_list]
+    mnp = [b['values'][list(b['values'].keys())[2]] for b in new_list]
+
+    return {
+        'barangays': bars,
+        'vitaminA': vit_a,
+        'iron': iron,
+        'mnp': mnp
+    }
