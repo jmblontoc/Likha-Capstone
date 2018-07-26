@@ -1049,13 +1049,19 @@ def create_correlation_session(request):
 
 def get_correlation_remark(score):
 
-    if 1 >= abs(score) >= 0.7:
+    if 1 >= abs(score) >= 0.8:
         return "Strong"
 
-    elif 0.7 > abs(score) >= 0.5:
+    elif 0.8 > abs(score) >= 0.6:
+        return "Moderately Strong"
+
+    elif 0.6 > abs(score) >= 0.4:
+        return "Moderate"
+
+    elif 0.4 > abs(score) >= 0.2:
         return "Mild"
 
-    elif 0.5 > abs(score) > 0:
+    elif 0.2 > abs(score) > 0:
         return "Weak"
 
     return "No Correlation"
@@ -1068,8 +1074,8 @@ def trim_correlations(scores):
 
         for data in s['data']:
             if data['score'] <= 0:
-                data['score'] = 'N/A'
-                data['remark'] = 'N/A'
+                data['score'] = '-'
+                data['remark'] = '-'
 
     return scores
 
@@ -1100,9 +1106,8 @@ def restrict_correlations(approved, scores):
         for s in scores:
             for foo in s['data']:
                 if x == s['mark'] and y == foo['mark']:
-                    foo['score'] = 'N/As'
-                    foo['remark'] = 'N/As'
-
+                    foo['score'] = '-'
+                    foo['remark'] = '-'
 
     return scores
 
