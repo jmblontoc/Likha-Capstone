@@ -167,7 +167,7 @@ def micro_per_barangay():
 
     data = []
 
-    for b in Barangay.objects.all():
+    for b in Barangay.objects.all().order_by('name'):
 
         sub_data = [b.name]
 
@@ -249,7 +249,7 @@ def report_table_child_care():
 
 def get_data_child_care(fields, model):
 
-    barangays = Barangay.objects.all()
+    barangays = Barangay.objects.all().order_by('name')
     data = []
 
     for b in barangays:

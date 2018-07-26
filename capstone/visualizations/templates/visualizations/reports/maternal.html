@@ -1,0 +1,26 @@
+<h1>Maternal Care Report</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Barangay</th>
+        {% for f in fields %}
+            <th>{{ f }}</th>
+        {% endfor %}
+    </tr>
+    </thead>
+    <tbody>
+    {% for a in data %}
+        <tr>
+            {% for x in a %}
+
+                {% if forloop.counter0 == 0 %}
+                <td>{{ x }}</td>
+                {% else %}
+                <td align="right">{{ x }}</td>
+                {% endif     %}
+            {% endfor %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

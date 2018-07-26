@@ -110,3 +110,25 @@ def maternal_dashboard(view):
         'fields': fields,
         'values': values
     }
+
+
+def maternal_report():
+
+    barangays = Barangay.objects.all().order_by('name')
+
+    data = []
+    for b in barangays:
+
+        sub_data = [b.name]
+        for f in datapoints.maternal:
+            field = get_field(MaternalCare, f)
+
+            total = MaternalCare.objects.filter(fhsis__date__year=year_now, fhsis__barangay=b).aggregate(
+                sum=Sum(field)
+            )['sum']
+
+            sub_data.append(int(total))
+
+        data.append(sub_data)
+
+    return data

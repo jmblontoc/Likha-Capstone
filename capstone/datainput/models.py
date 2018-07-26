@@ -62,7 +62,6 @@ class Barangay(models.Model):
 
         return True
 
-
     def __str__(self):
         return str(self.id) + " " + self.name
 
@@ -286,13 +285,13 @@ class MaternalCare(models.Model):
     tt2_plus = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Pregnant women given TT2 plus')
     complete_iron = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Pregnant women given complete iron with folic acid supplementation')
     complete_iron_post = models.DecimalField(max_digits=5, decimal_places=2,
-                                        verbose_name='Postpartum women with given complete iron supplementation')
+                                             verbose_name='Postpartum women with given complete iron supplementation')
     postpartum_visits = models.DecimalField(max_digits=5, decimal_places=2,
-                                        verbose_name='Postpartum women with at least 2 postpartum visits')
+                                            verbose_name='Postpartum women with at least 2 postpartum visits')
     vitamin_a = models.DecimalField(max_digits=5, decimal_places=2,
-                                        verbose_name='Postpartum women given Vitamin A supplementation')
+                                    verbose_name='Postpartum women given Vitamin A supplementation')
     breastfed = models.DecimalField(max_digits=5, decimal_places=2,
-                                        verbose_name='Postpartum women initiated breastfeeding within 1 hour after delivery')
+                                    verbose_name='Postpartum women initiated breastfeeding within 1 hour after delivery')
     deliveries = models.DecimalField(max_digits=5, decimal_places=2)
 
     fhsis = models.ForeignKey(FHSIS, on_delete=models.CASCADE)
