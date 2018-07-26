@@ -2,6 +2,7 @@ from datetime import datetime
 from django.db import models
 import datetime as dt
 
+
 class Sex(models.Model):
 
     name = models.CharField(max_length=10)
@@ -78,7 +79,7 @@ class OperationTimbang(models.Model):
     uploaded_by = models.ForeignKey('core.Profile', on_delete=models.DO_NOTHING)
 
     def __str__(self):
-        return str(self.id) + " at " + self.barangay.name
+        return '%s - %s' % (str(self.date.year), self.barangay.name)
 
 
 class OPTValues(models.Model):
@@ -199,8 +200,9 @@ class Patient(models.Model):
 
     @property
     def get_age(self):
-        months =  (dt.datetime.now().date() - self.date_of_birth)
-        age_months = months.days / 12
+        months = dt.datetime.now().date() - self.date_of_birth
+        print('days', months.days, self.name)
+        age_months = months.days * 0.0328767
         return int(age_months)
 
     @property

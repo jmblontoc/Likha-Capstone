@@ -1,6 +1,51 @@
+import datetime
+import os
 import xlrd
 
-from datainput.models import AgeGroup, OPTValues, NutritionalStatus
+from capstone import settings
+from datainput.models import AgeGroup, OPTValues, NutritionalStatus, Sex, Patient
+
+
+def upload_patient_data(sheet, book, barangay):
+
+    x = 6
+    while True:
+
+        try:
+
+            name = sheet.cell_value(x, 3)
+            sex = sheet.cell_value(x, 5)
+            birth = sheet.cell_value(x, 6)
+            print(name, sex, birth)
+
+            dt = datetime.datetime(*xlrd.xldate_as_tuple(birth, book.datemode))
+
+            if birth == 'M':
+                sex = Sex.objects.get(name='Male')
+            else:
+                sex = Sex.objects.get(name='Female')
+
+            Patient.objects.create(
+                name=name,
+                sex=sex,
+                date_of_birth=dt,
+                barangay=barangay
+            )
+
+            x += 1
+        except IndexError:
+            break
+
+
+def dummy():
+
+    temp_path = os.path.join(settings.MEDIA_ROOT, 'eopt')
+    renamed = os.path.join(temp_path, "34.xlsx")
+
+    workbook = xlrd.open_workbook(renamed)
+    sheet = workbook.sheet_by_index(2)
+
+    return sheet.cell(19, 2)
 
 
 def upload_eopt(age_group, ns_list, column, opt, sheet):

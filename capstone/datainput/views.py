@@ -80,8 +80,6 @@ def handle_opt_file(request):
         messages.error(request, 'There are unfilled cells in the sheet. Please fill them up')
         return redirect('core:bns-index')
 
-    print('goes here')
-
     # store values in the DB
 
     ns_list = [
@@ -111,8 +109,15 @@ def handle_opt_file(request):
     # remove file after data has been uploaded
     # os.remove(file.name)
 
-    opt.status = 'Pending'
     opt.save()
+
+    # # # # ADD PATIENTS HERE # # # # #
+
+    patient_sheet = workbook.sheet_by_index(1)
+
+    # do validations
+
+    excel_uploads.upload_patient_data(patient_sheet, workbook, opt.barangay)
 
     messages.success(request, 'eOPT successfully uploaded!')
     return redirect('core:bns-index')
