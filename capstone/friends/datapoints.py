@@ -81,7 +81,6 @@ child_care = [
     'Anemic children receiving full dose iron',
     'Diarrhea cases',
     'Pneumonia cases'
-
 ]
 
 immunizations = [
@@ -135,6 +134,7 @@ socioeconomic = [
 # # # # # # # # #
 
 # # # # # # DEPRECATED!!! # # # # #
+
 
 # Child Care
 def get_child_care_fields():

@@ -236,3 +236,30 @@ def report_table_micro():
 
     return existing_table
 
+
+def report_table_child_care():
+    
+    return {
+        'child_care': get_data_child_care(datapoints.child_care, ChildCare),
+        'immunizations': get_data_child_care(datapoints.immunizations, Immunization),
+        'malaria': get_data_child_care(datapoints.malaria, Malaria),
+        'tb': get_data_child_care(datapoints.tuberculosis, Tuberculosis)
+    }
+
+
+def get_data_child_care(fields, model):
+
+    barangays = Barangay.objects.all()
+    data = []
+
+    for b in barangays:
+        sub_data = [b.name]
+
+        for f in fields:
+            point = get_field(model, f)
+            total = model.objects.filter(fhsis__date__year=year_now, fhsis__barangay=b).aggregate(sum=Sum(point))['sum']
+            sub_data.append(int(total))
+        data.append(sub_data)
+
+    return data
+

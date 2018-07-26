@@ -24,6 +24,7 @@ urlpatterns = [
     path('reports/nutritional_status', views.report1, name='report1'),
     path('reports/socioeconomic', views.report2, name='report2'),   
     path('reports/micronutrient', views.report3, name='report3'),
+    path('reports/child_care', views.report4, name='report4'),
 
     # # # # # # AJAX # # # # # # #
 

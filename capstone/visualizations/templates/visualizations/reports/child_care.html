@@ -1,0 +1,90 @@
+<h1>Child Care Report</h1>
+
+<h1>Child Care</h1>
+
+<table border=1>
+    <thead>
+        <tr>
+            <th>Barangay</th>
+            {% for field in cc_fields %}
+                <th>{{ field }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for d in data %}
+            <tr>
+                {% for a in d %}
+                    <td>{{ a }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h1>Immunizations</h1>
+
+<table border=1>
+    <thead>
+        <tr>
+            <th>Barangay</th>
+            {% for field in imm_fields %}
+                <th>{{ field }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for d in immunization %}
+            <tr>
+                {% for a in d %}
+                    <td>{{ a }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h1>Malaria</h1>
+
+<table border=1>
+    <thead>
+        <tr>
+            <th>Barangay</th>
+            {% for field in malaria_fields %}
+                <th>{{ field }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for d in malaria %}
+            <tr>
+                {% for a in d %}
+                    <td>{{ a }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h1>Tuberculosis</h1>
+
+<table border=1>
+    <thead>
+        <tr>
+            <th>Barangay</th>
+            {% for field in tb_fields %}
+                <th>{{ field }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for d in tuberculosis %}
+            <tr>
+                {% for a in d %}
+                    <td>{{ a }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+

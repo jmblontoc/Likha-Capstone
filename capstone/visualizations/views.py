@@ -353,3 +353,21 @@ def report3(request):
     }
 
     return render(request, 'visualizations/reports/micronutrient.html', context)
+
+
+# child care
+def report4(request):
+
+    context = {
+        'data': cc.report_table_child_care()['child_care'],
+        'immunization': cc.report_table_child_care()['immunizations'],
+        'malaria': cc.report_table_child_care()['malaria'],
+        'tuberculosis': cc.report_table_child_care()['tb'],
+
+        'cc_fields': datapoints.child_care,
+        'imm_fields': datapoints.immunizations,
+        'malaria_fields': datapoints.malaria,
+        'tb_fields': datapoints.tuberculosis
+    }
+
+    return render(request, 'visualizations/reports/child_care.html', context)
