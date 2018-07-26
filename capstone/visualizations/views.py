@@ -343,3 +343,13 @@ def report2(request):
     }
 
     return render(request, 'visualizations/reports/socioeconomic.html', context)
+
+
+# micronutrient
+def report3(request):
+
+    context = {
+        'data': cc.report_table_micro
+    }
+
+    return render(request, 'visualizations/reports/micronutrient.html', context)

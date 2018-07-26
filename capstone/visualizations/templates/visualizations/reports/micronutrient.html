@@ -1,2 +1,28 @@
-<h1>Micronutrient SUpplementation Report</h1>
+<h1>Micronutrient Supplementation Report</h1>
+
+<table border=1>
+    <thead>
+        <tr>
+            <th>Barangay</th>
+            <th>Vitamin A</th>
+            <th>Iron</th>
+            <th>Micronutrient Powder</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for d in data %}
+            <tr>
+                {% for a in d %}
+                    {% if forloop.counter0 == 0 %}
+                        <td>{{ a }}</td>
+                    {% else %}
+                        <td align="right">{{ a }}</td>
+                    {% endif %}
+                {% endfor %}
+        
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 

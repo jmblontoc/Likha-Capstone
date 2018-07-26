@@ -222,3 +222,17 @@ def top3_barangays(order):
         'iron': iron,
         'mnp': mnp
     }
+
+
+# # # # # REPORT MICRO # # # # # 
+
+def report_table_micro():
+
+    existing_table = micro_per_barangay()
+
+    for data in existing_table:
+        total = sum(data[1:])
+        data.append(total)
+
+    return existing_table
+
