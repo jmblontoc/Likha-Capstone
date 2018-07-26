@@ -17,6 +17,7 @@ $(function() {
 
         var time = 'Yearly';
         var categories = [];
+        console.log(parsed);
         var values = [];
         for (var x in parsed) {
             categories.push(x);

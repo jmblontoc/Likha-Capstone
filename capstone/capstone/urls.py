@@ -23,5 +23,6 @@ urlpatterns = [
     path('data-pre_processing/', include('datapreprocessing.urls')),
     path('data-mining/', include('datamining.urls')),
     path('visualizations/', include('visualizations.urls')),
-    path('causal-models/', include('causalmodel.urls'))
+    path('causal-models/', include('causalmodel.urls')),
+    path('conf/', include('configurations.urls'))
 ]

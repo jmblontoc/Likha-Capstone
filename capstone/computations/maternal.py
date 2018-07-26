@@ -22,7 +22,7 @@ def get_maternal_care(field):
 
     }
 
-    while start_year <= year_now:
+    while start_year < year_now:
 
         count = 0
         records = base.filter(fhsis__date__year=start_year)

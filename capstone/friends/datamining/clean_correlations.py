@@ -1,4 +1,7 @@
+import json
+
 from computations import weights, child_care, maternal, socioeconomic
+from configurations.models import CorrelationConf
 from datainput.models import *
 from friends.datamining import correlations as c
 from friends import datapoints
@@ -1033,10 +1036,15 @@ def display_socioeconomic(scores):
 
 def create_correlation_session(request):
 
-    request.session['micronutrient'] = trim_correlations(get_micronutrient_revised())
-    request.session['maternal'] = trim_correlations(get_maternal_revised())
-    request.session['socioeconomic'] = trim_correlations(get_socioeconomic_revised())
-    request.session['child_care'] = trim_correlations(get_child_care_revised())
+    approved_micro = CorrelationConf.objects.filter(report='micro').latest('id').script
+    approved_maternal = CorrelationConf.objects.filter(report='maternal').latest('id').script
+    approved_childcare = CorrelationConf.objects.filter(report='child_care').latest('id').script
+    approved_socio = CorrelationConf.objects.filter(report='socio').latest('id').script
+
+    request.session['micronutrient'] = restrict_correlations(approved_micro, trim_correlations(get_micronutrient_revised()))
+    request.session['maternal'] = restrict_correlations(approved_maternal, trim_correlations(get_maternal_revised()))
+    request.session['socioeconomic'] = restrict_correlations(approved_socio, trim_correlations(get_socioeconomic_revised()))
+    request.session['child_care'] = restrict_correlations(approved_childcare, trim_correlations(get_child_care_revised()))
 
 
 def get_correlation_remark(score):
@@ -1058,11 +1066,44 @@ def trim_correlations(scores):
 
     for s in scores:
 
-        new_data = []
         for data in s['data']:
-            if data['score'] > 0:
-                new_data.append(data)
-
-        s['data'] = new_data
+            if data['score'] <= 0:
+                data['score'] = 'N/A'
+                data['remark'] = 'N/A'
 
     return scores
+
+
+def put_marks(scores):
+
+    for index, s in enumerate(scores):
+        s['mark'] = index
+        for i, data in enumerate(s['data']):
+            data['mark'] = i
+
+    return scores
+
+
+def restrict_correlations(approved, scores):
+
+    scores = put_marks(scores)
+    approved = json.loads(approved)
+
+    print(approved)
+    for q in approved:
+
+        data = str(q)
+        report = data.split("-")[0]
+        x = int(data.split("-")[1].split("=")[0])
+        y = int(data.split("-")[1].split("=")[1])
+
+        for s in scores:
+            for foo in s['data']:
+                if x == s['mark'] and y == foo['mark']:
+                    foo['score'] = 'N/As'
+                    foo['remark'] = 'N/As'
+
+
+    return scores
+
+

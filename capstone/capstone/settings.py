@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'datapreprocessing',
     'datamining',
     'visualizations',
-    'causalmodel'
+    'causalmodel',
+    'configurations'
 ]
 
 MIDDLEWARE = [

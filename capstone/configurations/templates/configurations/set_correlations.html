@@ -1,0 +1,123 @@
+<form method="POST">
+    {% csrf_token %}
+    <h1>Micronutrient</h1>
+    <table class="table table-bordered" border="1">
+        <thead>
+        <tr>
+            <th>Field</th>
+            <th>Weight for Age</th>
+            <th>Height for Age</th>
+            <th>Weight for Height/Length</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for m in micro %}
+            <tr data-variables="{{ m.variables }}">
+                <td class="field">{{ m.field }}</td>
+                <td class="source" style="vertical-align: middle; display: none;">{{ m.source }}</td>
+                {% for a in m.data %}
+                    <td>
+                        <input value="{{ m.source }}-{{ m.mark }}={{ a.mark }}" type="checkbox" name="approved">
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <input type="hidden" name="report" value="micro">
+    <input type="submit">
+</form>
+
+<form method="POST">
+    {% csrf_token %}
+    <h1>Maternal Care</h1>
+    <table class="table table-bordered" border="1">
+        <thead>
+        <tr>
+            <th>Field</th>
+            <th>Weight for Age</th>
+            <th>Height for Age</th>
+            <th>Weight for Height/Length</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for m in maternal %}
+            <tr data-variables="{{ m.variables }}">
+                <td class="field">{{ m.field }}</td>
+                <td class="source" style="vertical-align: middle; display: none;">{{ m.source }}</td>
+                {% for a in m.data %}
+                    <td>
+                        <input value="{{ m.source }}-{{ m.mark }}={{ a.mark }}" type="checkbox" name="approved">
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <input type="hidden" name="report" value="maternal">
+    <input type="submit">
+</form>
+
+<form method="POST">
+    {% csrf_token %}
+    <h1>Child Care</h1>
+    <table class="table table-bordered" border="1">
+        <thead>
+        <tr>
+            <th>Field</th>
+            <th>Weight for Age</th>
+            <th>Height for Age</th>
+            <th>Weight for Height/Length</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for m in child_care %}
+            <tr data-variables="{{ m.variables }}">
+                <td class="field">{{ m.field }}</td>
+                <td class="source" style="vertical-align: middle; display: none;">{{ m.source }}</td>
+                {% for a in m.data %}
+                    <td>
+                        <input value="{{ m.source }}-{{ m.mark }}={{ a.mark }}" type="checkbox" name="approved">
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <input type="hidden" name="report" value="child_care">
+    <input type="submit">
+</form>
+
+<form method="POST">
+    {% csrf_token %}
+    <h1>Socioeconomic</h1>
+    <table class="table table-bordered" border="1">
+        <thead>
+        <tr>
+            <th>Field</th>
+            <th>Weight for Age</th>
+            <th>Height for Age</th>
+            <th>Weight for Height/Length</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for m in socio %}
+            <tr data-variables="{{ m.variables }}">
+                <td class="field">{{ m.field }}</td>
+                <td class="source" style="vertical-align: middle; display: none;">{{ m.source }}</td>
+                {% for a in m.data %}
+                    <td>
+                        <input value="{{ m.source }}-{{ m.mark }}={{ a.mark }}" type="checkbox" name="approved">
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <input type="hidden" name="report" value="socio">
+    <input type="submit">
+</form>

@@ -28,7 +28,7 @@ def get_socioeconomic(field):
 
     f = get_field_via_verbose(field)
 
-    while start_year <= year_now:
+    while start_year < year_now:
 
         records = FamilyProfileLine.objects.filter(family_profile__date__year=start_year)
 
@@ -80,7 +80,7 @@ def get_members_data():
 
     values = {}
 
-    while start_year <= year_now:
+    while start_year < year_now:
 
         records = FamilyProfileLine.objects.filter(
             family_profile__date__year=start_year).aggregate(sum=Sum('no_members'))['sum']
@@ -116,7 +116,7 @@ def get_educational_attainment(education):
     values = {}
 
 
-    while start_year <= year_now:
+    while start_year < year_now:
 
         records = FamilyProfileLine.objects.filter(
             family_profile__date__year=start_year,
@@ -135,7 +135,7 @@ def get_toilet_type(toilet):
 
     values = {}
 
-    while start_year <= year_now:
+    while start_year < year_now:
         records = FamilyProfileLine.objects.filter(
             family_profile__date__year=start_year,
             toilet_type=toilet).count()
@@ -152,7 +152,7 @@ def get_food_production(way):
 
     values = {}
 
-    while start_year <= year_now:
+    while start_year < year_now:
         records = FamilyProfileLine.objects.filter(
             family_profile__date__year=start_year,
             food_production_activity=way).count()
@@ -169,7 +169,7 @@ def get_water_source(source):
 
     values = {}
 
-    while start_year <= year_now:
+    while start_year < year_now:
         records = FamilyProfileLine.objects.filter(
             family_profile__date__year=start_year,
             water_sources=source).count()

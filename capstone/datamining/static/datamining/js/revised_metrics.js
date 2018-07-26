@@ -18,6 +18,8 @@ $(function() {
 
                 console.log(d);
 
+                $(".holder").remove();
+
                 const callbackLength = d.variables.length;
                 var division;
                 const div = $("#scatterGraph").children(".row");
@@ -237,7 +239,7 @@ $(function() {
 
 function cheatYears(length) {
 
-    var yearNow = moment().year();
+    var yearNow = moment().year() - 1;
     var years = [yearNow];
 
     for (var x = 0; x < length - 1; x++) {
@@ -245,7 +247,8 @@ function cheatYears(length) {
         years.push(yearNow);
     }
 
-    years.push(moment().year() + 1);
+    years.push(moment().year());
+    console.log(years.sort());
     return years.sort();
 }
 
@@ -273,9 +276,11 @@ function get_weights(n) {
     }
 
     for (var i = 1; i <= n; i++) {
-        weights.push((x / sum).toFixed(2));
+        console.log(i / sum);
+        weights.push(i / sum);
     }
 
+    console.log(weights);
     return weights;
 }
 

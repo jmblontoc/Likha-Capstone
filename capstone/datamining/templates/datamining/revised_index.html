@@ -57,36 +57,50 @@
                 <thead>
                 <tr>
                     <th style="width: 30%;">Field</th>
-                    <th style="width: 25%;">Category</th>
-                    <th style="width: 10%;">Score</th>
-                    <th style="width: 10%;">Remarks</th>
+                    <th style="width: 25%;" class="text-center">Weight for Age</th>
+                    <th style="width: 10%;" class="text-center">Height for Age</th>
+                    <th style="width: 10%;" class="text-center">Weight for Height/Length</th>
                     <th style="width: 10%;">Action</th>
                 </tr>
                 </thead>
                 <tbody>
 
                 {% for m in micro %}
-                    {% for category in m.data %}
-                        <tr data-vars="{{ category.variables }}">
-                            {% if forloop.counter0 == 0 %}
-                                <td class="field" rowspan="{{ m.data|length }}" style="vertical-align: middle">{{ m.field }}</td>
-                            {% endif %}
-                            {% if forloop.counter0 == 0 %}
-                                <td class="source" rowspan="{{ m.data|length }}" style="vertical-align: middle; display: none;">{{ m.source }}</td>
-                            {% endif %}
-                            <td>{{ category.category }}</td>
-                            <td class="text-right">{{ category.score }}</td>
-                            <td>{{ category.remark }}</td>
-                            {% if forloop.counter0 == 0 %}
-                                 <td rowspan="{{ m.data|length }}" style="vertical-align: middle">
-                                    <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">
-                                        View
-                                    </button>
-                                 </td>
-                            {% endif %}
+{#                    {% for category in m.data %}#}
+{#                        <tr data-vars="{{ category.variables }}">#}
+{#                            {% if forloop.counter0 == 0 %}#}
+{#                                <td class="field" rowspan="{{ m.data|length }}" style="vertical-align: middle">{{ m.field }}</td>#}
+{#                            {% endif %}#}
+{#                            {% if forloop.counter0 == 0 %}#}
+{#                                <td class="source" rowspan="{{ m.data|length }}" style="vertical-align: middle; display: none;">{{ m.source }}</td>#}
+{#                            {% endif %}#}
+{#                            <td>{{ category.category }}</td>#}
+{#                            <td class="text-right">{{ category.score }}</td>#}
+{#                            <td>{{ category.remark }}</td>#}
+{#                            {% if forloop.counter0 == 0 %}#}
+{#                                 <td rowspan="{{ m.data|length }}" style="vertical-align: middle">#}
+{#                                    <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">#}
+{#                                        View#}
+{#                                    </button>#}
+{#                                 </td>#}
+{#                            {% endif %}#}
+{##}
+{#                        </tr>#}
+{#                    {% endfor %}#}
 
-                        </tr>
-                    {% endfor %}
+                     <tr data-variables="{{ m.variables }}">
+                        <td class="field">{{ m.field }}</td>
+                        <td class="source" style="vertical-align: middle; display: none;">{{ m.source }}</td>
+                        {% for a in m.data %}
+                            <td class="text-center"><p>{{ a.remark }}</p><p>({{ a.score }})</p>
+                            <p>{{ m.mark }} - {{ a.mark }}</p></td>
+                        {% endfor %}
+                        <td>
+                             <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">
+                                View
+                            </button>
+                        </td>
+                    </tr>
                 {% endfor %}
                 </tbody>
             </table>
@@ -97,36 +111,48 @@
                 <thead>
                 <tr>
                     <th style="width: 30%;">Field</th>
-                    <th style="width: 25%;">Category</th>
-                    <th style="width: 10%;">Score</th>
-                    <th style="width: 10%;">Remarks</th>
+                    <th style="width: 25%;" class="text-center">Weight for Age</th>
+                    <th style="width: 10%;" class="text-center">Height for Age</th>
+                    <th style="width: 10%;" class="text-center">Weight for Height/Length</th>
                     <th style="width: 10%;">Action</th>
                 </tr>
                 </thead>
                 <tbody>
 
                 {% for m in maternal %}
-                    {% for category in m.data %}
-                        <tr data-vars="{{ category.variables }}">
-                            {% if forloop.counter0 == 0 %}
-                                <td class="field" rowspan="{{ m.data|length }}" style="vertical-align: middle">{{ m.field }}</td>
-                            {% endif %}
-                            {% if forloop.counter0 == 0 %}
-                                <td class="source" rowspan="{{ m.data|length }}" style="vertical-align: middle; display: none;">{{ m.source }}</td>
-                            {% endif %}
-                            <td>{{ category.category }}</td>
-                            <td class="text-right">{{ category.score }}</td>
-                            <td>{{ category.remark }}</td>
-                            {% if forloop.counter0 == 0 %}
-                                 <td rowspan="{{ m.data|length }}" style="vertical-align: middle">
-                                    <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">
-                                        View
-                                    </button>
-                                 </td>
-                            {% endif %}
-
-                        </tr>
-                    {% endfor %}
+{#                    {% for category in m.data %}#}
+{#                        <tr data-vars="{{ category.variables }}">#}
+{#                            {% if forloop.counter0 == 0 %}#}
+{#                                <td class="field" rowspan="{{ m.data|length }}" style="vertical-align: middle">{{ m.field }}</td>#}
+{#                            {% endif %}#}
+{#                            {% if forloop.counter0 == 0 %}#}
+{#                                <td class="source" rowspan="{{ m.data|length }}" style="vertical-align: middle; display: none;">{{ m.source }}</td>#}
+{#                            {% endif %}#}
+{#                            <td>{{ category.category }}</td>#}
+{#                            <td class="text-right">{{ category.score }}</td>#}
+{#                            <td>{{ category.remark }}</td>#}
+{#                            {% if forloop.counter0 == 0 %}#}
+{#                                 <td rowspan="{{ m.data|length }}" style="vertical-align: middle">#}
+{#                                    <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">#}
+{#                                        View#}
+{#                                    </button>#}
+{#                                 </td>#}
+{#                            {% endif %}#}
+{##}
+{#                        </tr>#}
+{#                    {% endfor %}#}
+                    <tr data-variables="{{ m.variables }}">
+                        <td class="field">{{ m.field }}</td>
+                        <td class="source" style="vertical-align: middle; display: none;">{{ m.source }}</td>
+                        {% for a in m.data %}
+                            <td class="text-center"><p>{{ a.remark }}</p><p>({{ a.score }})</p></td>
+                        {% endfor %}
+                        <td>
+                             <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">
+                                View
+                            </button>
+                        </td>
+                    </tr>
                 {% endfor %}
                 </tbody>
             </table>
@@ -137,36 +163,48 @@
                 <thead>
                 <tr>
                     <th style="width: 30%;">Field</th>
-                    <th style="width: 25%;">Category</th>
-                    <th style="width: 10%;">Score</th>
-                    <th style="width: 10%;">Remarks</th>
+                     <th style="width: 25%;" class="text-center">Weight for Age</th>
+                    <th style="width: 10%;" class="text-center">Height for Age</th>
+                    <th style="width: 10%;" class="text-center">Weight for Height/Length</th>
                     <th style="width: 10%;">Action</th>
                 </tr>
                 </thead>
                 <tbody>
 
                 {% for m in child_care %}
-                    {% for category in m.data %}
-                        <tr data-vars="{{ category.variables }}">
-                            {% if forloop.counter0 == 0 %}
-                                <td class="field" rowspan="{{ m.data|length }}" style="vertical-align: middle">{{ m.field }}</td>
-                            {% endif %}
-                            {% if forloop.counter0 == 0 %}
-                                <td class="source" rowspan="{{ m.data|length }}" style="vertical-align: middle; display: none;">{{ m.source }}</td>
-                            {% endif %}
-                            <td>{{ category.category }}</td>
-                            <td class="text-right">{{ category.score }}</td>
-                            <td>{{ category.remark }}</td>
-                            {% if forloop.counter0 == 0 %}
-                                 <td rowspan="{{ m.data|length }}" style="vertical-align: middle">
-                                    <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">
-                                        View
-                                    </button>
-                                 </td>
-                            {% endif %}
-
-                        </tr>
-                    {% endfor %}
+{#                    {% for category in m.data %}#}
+{#                        <tr data-vars="{{ category.variables }}">#}
+{#                            {% if forloop.counter0 == 0 %}#}
+{#                                <td class="field" rowspan="{{ m.data|length }}" style="vertical-align: middle">{{ m.field }}</td>#}
+{#                            {% endif %}#}
+{#                            {% if forloop.counter0 == 0 %}#}
+{#                                <td class="source" rowspan="{{ m.data|length }}" style="vertical-align: middle; display: none;">{{ m.source }}</td>#}
+{#                            {% endif %}#}
+{#                            <td>{{ category.category }}</td>#}
+{#                            <td class="text-right">{{ category.score }}</td>#}
+{#                            <td>{{ category.remark }}</td>#}
+{#                            {% if forloop.counter0 == 0 %}#}
+{#                                 <td rowspan="{{ m.data|length }}" style="vertical-align: middle">#}
+{#                                    <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">#}
+{#                                        View#}
+{#                                    </button>#}
+{#                                 </td>#}
+{#                            {% endif %}#}
+{##}
+{#                        </tr>#}
+{#                    {% endfor %}#}
+                    <tr data-variables="{{ m.variables }}">
+                        <td class="field">{{ m.field }}</td>
+                        <td class="source" style="vertical-align: middle; display: none;">{{ m.source }}</td>
+                        {% for a in m.data %}
+                            <td class="text-center"><p>{{ a.remark }}</p><p>({{ a.score }})</p></td>
+                        {% endfor %}
+                        <td>
+                             <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">
+                                View
+                            </button>
+                        </td>
+                    </tr>
                 {% endfor %}
                 </tbody>
             </table>
@@ -177,36 +215,48 @@
                 <thead>
                 <tr>
                     <th style="width: 30%;">Field</th>
-                    <th style="width: 25%;">Category</th>
-                    <th style="width: 10%;">Score</th>
-                    <th style="width: 10%;">Remarks</th>
+                     <th style="width: 25%;" class="text-center">Weight for Age</th>
+                    <th style="width: 10%;" class="text-center">Height for Age</th>
+                    <th style="width: 10%;" class="text-center">Weight for Height/Length</th>
                     <th style="width: 10%;">Action</th>
                 </tr>
                 </thead>
                 <tbody>
 
                 {% for m in socio %}
-                    {% for category in m.data %}
-                        <tr data-vars="{{ category.variables }}">
-                            {% if forloop.counter0 == 0 %}
-                                <td class="field" rowspan="{{ m.data|length }}" style="vertical-align: middle">{{ m.field }}</td>
-                            {% endif %}
-                            {% if forloop.counter0 == 0 %}
-                                <td class="source" rowspan="{{ m.data|length }}" style="vertical-align: middle; display: none;">{{ m.source }}</td>
-                            {% endif %}
-                            <td>{{ category.category }}</td>
-                            <td class="text-right">{{ category.score }}</td>
-                            <td>{{ category.remark }}</td>
-                            {% if forloop.counter0 == 0 %}
-                                 <td rowspan="{{ m.data|length }}" style="vertical-align: middle">
-                                    <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">
-                                        View
-                                    </button>
-                                 </td>
-                            {% endif %}
-
-                        </tr>
-                    {% endfor %}
+{#                    {% for category in m.data %}#}
+{#                        <tr data-vars="{{ category.variables }}">#}
+{#                            {% if forloop.counter0 == 0 %}#}
+{#                                <td class="field" rowspan="{{ m.data|length }}" style="vertical-align: middle">{{ m.field }}</td>#}
+{#                            {% endif %}#}
+{#                            {% if forloop.counter0 == 0 %}#}
+{#                                <td class="source" rowspan="{{ m.data|length }}" style="vertical-align: middle; display: none;">{{ m.source }}</td>#}
+{#                            {% endif %}#}
+{#                            <td>{{ category.category }}</td>#}
+{#                            <td class="text-right">{{ category.score }}</td>#}
+{#                            <td>{{ category.remark }}</td>#}
+{#                            {% if forloop.counter0 == 0 %}#}
+{#                                 <td rowspan="{{ m.data|length }}" style="vertical-align: middle">#}
+{#                                    <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">#}
+{#                                        View#}
+{#                                    </button>#}
+{#                                 </td>#}
+{#                            {% endif %}#}
+{##}
+{#                        </tr>#}
+{#                    {% endfor %}#}
+                    <tr data-variables="{{ m.variables }}">
+                        <td class="field">{{ m.field }}</td>
+                        <td class="source" style="vertical-align: middle; display: none;">{{ m.source }}</td>
+                        {% for a in m.data %}
+                            <td class="text-center"><p>{{ a.remark }}</p><p>({{ a.score }})</p></td>
+                        {% endfor %}
+                        <td>
+                             <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">
+                                View
+                            </button>
+                        </td>
+                    </tr>
                 {% endfor %}
                 </tbody>
             </table>

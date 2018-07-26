@@ -25,7 +25,7 @@ def get_weights_per_year_per_status(status, year):
 
 def weights_per_year_to_dict():
 
-    years = [x.year for x in OperationTimbang.objects.dates('date', 'year')]
+    years = [x.year for x in OperationTimbang.objects.dates('date', 'year')][:-1]
 
     uw = NutritionalStatus.objects.get(code='WU')
     suw = NutritionalStatus.objects.get(code='WSU')
