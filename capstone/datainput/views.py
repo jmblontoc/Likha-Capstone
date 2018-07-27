@@ -501,6 +501,7 @@ def health_care_waste_management_index(request):
     profile = Profile.objects.get(user=request.user)
 
     context = {
+        'has_health_care': validations.has_health_care(),
         'profile': profile,
         'active': 'du',
         'hcwm': hcwm,
@@ -1989,7 +1990,7 @@ def notify_bns(request):
     sender = Profile.objects.get(user=request.user)
 
     message = 'Please upload the reports as soon as possible.'
-
+    users = []
     for user in Barangay.objects.get(id=barangay.id).profile_set.all():
 
         Notification.objects.create(
@@ -1998,7 +1999,10 @@ def notify_bns(request):
             profile_from=sender
         )
 
-    messages.success(request, 'Users successfully notified')
+        users.append(user.get_name)
+
+    for user in users:
+        messages.success(request, '%s successfully notified' % user)
 
 
 @login_required

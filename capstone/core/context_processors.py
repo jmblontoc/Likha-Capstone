@@ -57,3 +57,15 @@ def year_now(request):
     return {
         'year_now': datetime.now().year
     }
+
+
+def profile(request):
+
+    if request.user.is_anonymous:
+        return {
+            'profile': None
+        }
+
+    return {
+        'profile': Profile.objects.get(user=request.user)
+    }

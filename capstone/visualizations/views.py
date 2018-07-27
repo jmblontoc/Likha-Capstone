@@ -1,9 +1,11 @@
 import decimal
 import json
 
+import django
 from django.contrib import messages
 from django.db.models import Q, Sum
-
+from decimal import Decimal
+from core.context_processors import profile
 from friends import datapoints
 from capstone import settings
 from datapreprocessing.models import Metric
@@ -20,6 +22,7 @@ from computations import weights, child_care as cc, socioeconomic as soc, matern
 from datainput.models import NutritionalStatus, Sex, MaternalCare, ChildCare, FHSIS, Barangay, FamilyProfileLine, \
     OPTValues
 from friends.datamining.correlations import get_weight_values_per_month, year_now
+from visualizations.models import Report
 
 
 @login_required
@@ -78,26 +81,8 @@ def city_children_care(request):
 
     return render(request, 'visualizations/insights/children_care.html', context)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # # # # # # # # # # # # # # #
+
 
 @login_required
 def display_report(request):
@@ -316,7 +301,7 @@ def top3_barangay_mns(request):
 
 # # # # # # # # # # # # # # # # REPORTS # # # # # # # # # # # # # # # # #
 
-def report1(request): # nutritional status
+def report1(request):  # nutritional status
 
     total_opt = OPTValues.objects.filter(opt__date__year=year_now)
 
@@ -324,15 +309,35 @@ def report1(request): # nutritional status
         'barangays': Barangay.objects.all().order_by('name'),
         'families': FamilyProfileLine.objects.filter(family_profile__date__year=year_now).count(),
         'total_weighted': total_opt.aggregate(sum=Sum('values'))['sum'],
-        'count011': total_opt.filter(Q(age_group__code='05') | Q(age_group__code='611')).aggregate(sum=Sum('values'))['sum'],
-        'count1271': total_opt.aggregate(sum=Sum('values'))['sum'] - total_opt.filter(Q(age_group__code='05') | Q(age_group__code='611')).aggregate(sum=Sum('values'))['sum'],
+        'count011': total_opt.filter(Q(age_group__code='05') | Q(age_group__code='611')).aggregate(sum=Sum('values'))[
+            'sum'],
+        'count1271': total_opt.aggregate(sum=Sum('values'))['sum'] -
+                    total_opt.filter(Q(age_group__code='05') | Q(age_group__code='611')).aggregate(sum=Sum('values'))[
+                         'sum'],
 
         'wfa': weights.report_table()[0],
         'hfa': weights.report_table()[1],
         'wfh': weights.report_table()[2]
     }
 
-    return render(request, 'visualizations/reports/nutritional_status.html', context)
+    if request.method == 'GET':
+
+        return render(request, 'visualizations/reports/nutritional_status.html', context)
+
+    if request.method == 'POST':
+
+        comment = request.POST['comment']
+        json_data = str(serialize(context))
+
+        Report.objects.create(
+            name='City Nutritional Status Report',
+            comments=comment,
+            generated_by=profile(request)['profile'],
+            json_data=json_data
+        )
+
+        messages.success(request, 'City Nutritional Status Report saved')
+        return redirect('visualizations:reports_facility')
 
 
 # socioeconomic
@@ -382,3 +387,52 @@ def report5(request):
     }
 
     return render(request, 'visualizations/reports/maternal.html', context)
+
+
+# REPORTS FACILITY
+
+def reports_facility(request):
+
+    context = {
+
+    }
+
+    return render(request, 'visualizations/reports_facility.html', context)
+
+
+def serialize(context):
+
+    for key, value in context.items():
+        if type(value) is django.db.models.query.QuerySet:
+            context[key] = serializers.serialize('json', value)
+
+    return context
+
+
+# REPORTS LIBRARY
+def reports_library(request):
+
+    context = {
+        'report1': Report.objects.filter(name__contains='City Nutritional Status')
+    }
+
+    return render(request, 'visualizations/reports_library.html', context)
+
+
+# SAVED
+def saved_report1(request, year):
+
+    report = Report.objects.get(name__contains='City Nutritional Status', date__year=year)
+    json_data = eval(report.json_data)
+
+    barangay_data = json.loads(json_data['barangays'])
+
+    context = {
+        'barangays_count': len(barangay_data),
+        'data': json_data,
+        'report': report
+    }
+
+    print(type(json_data))
+
+    return render(request, 'visualizations/saved/nutritional_status.html', context)

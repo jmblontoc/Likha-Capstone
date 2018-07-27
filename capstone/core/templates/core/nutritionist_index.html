@@ -1,10 +1,9 @@
 {% extends 'core/nutritionist-layout.html' %}
 {% block content %}
-
 {% load static %}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="{% static 'core/js/highcharts.js' %}"></script>
 <script src="{% static 'core/js/dashboard.js' %}"></script>
 
 <div class="content-wrapper" style="height: auto; margin-top: 57px;">
@@ -21,195 +20,170 @@
                 </div>
             </div>
         </div>
-{% include 'core/helpers/messages.html' %}
     </div>
+    {% include 'core/helpers/messages.html' %}
     <section class="content">
         <div class="container-fluid">
-
             <div class="row">
+                <div class="col-9">
+                    <div class="row">
+                        <div class="col-12">
+                            <a href="{% url 'visualizations:city_nutritional_status' %}">
+                                <div class="card">
+                                    <div class="card-header no-border d-flex p-0 ui-sortable-handle">
+                                        <h3 class="card-title p-3">
+                                          Nutritional Statuses
+                                        </h3>
+                                        <ul class="nav nav-pills ml-auto p-2">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" href="#wtag" data-toggle="tab">Weight for Age</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#htag" data-toggle="tab">Height for Age</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#wtht" data-toggle="tab">Weight for Height</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <div class="tab-content p-0">
+                                            <div class="chart tab-pane active" id="wtag" style="position: relative;">
+                                                <table class="table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Category</th>
+                                                        <th>Count</th>
+                                                        <th>Prevalence Rate</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for x in wfa %}
+                                                        <tr>
+                                                            {% for value in x %}
+                                                                <td>{{ value }}</td>
+                                                            {% endfor %}
+                                                        </tr>
+                                                    {% endfor %}
+                                                    <tr>
+                                                        <th>Total</th>
+                                                        <th colspan="2">{{ wfa_total|floatformat }}</th>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="chart tab-pane" id="htag" style="position: relative;">
+                                                <table class="table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Category</th>
+                                                        <th>Count</th>
+                                                        <th>Prevalence Rate</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for x in hfa %}
+                                                        <tr>
+                                                            {% for value in x %}
+                                                                <td>{{ value }}</td>
+                                                            {% endfor %}
+                                                        </tr>
 
-            <div class="col-9">
-
-            <div class="row">
-
-                <div class="col-12">
-
-                    <a href="{% url 'visualizations:city_nutritional_status' %}">
-                <div class="card">
-
-                    <div class="card-header no-border d-flex p-0 ui-sortable-handle" >
-                <h3 class="card-title p-3">
-                  Nutritional Statuses
-                </h3>
-                <ul class="nav nav-pills ml-auto p-2">
-                  <li class="nav-item">
-                    <a class="nav-link active" href="#wtag" data-toggle="tab">Weight for Age</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#htag" data-toggle="tab">Height for Age</a>
-                  </li>
-                    <li class="nav-item">
-                    <a class="nav-link" href="#wtht" data-toggle="tab">Weight for Height</a>
-                  </li>
-                </ul>
-              </div>
-
-
-                   <div class="card-body p-0">
-                <div class="tab-content p-0">
-                  <!-- Morris chart - Sales -->
-                  <div class="chart tab-pane active" id="wtag" style="position: relative;">
-
-                      <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Category</th>
-                        <th>Count</th>
-                        <th>Prevalence Rate</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for x in wfa %}
-                        <tr>
-                            {% for value in x %}
-                                <td>{{ value }}</td>
-                            {% endfor %}
-                        </tr>
-                    {% endfor %}
-                    <tr>
-                        <th>Total</th>
-                        <th colspan="2">{{ wfa_total|floatformat }}</th>
-                    </tr>
-                    </tbody>
-                </table>
-
-                  </div>
-                  <div class="chart tab-pane" id="htag" style="position: relative;">
-
-                      <table class="table">
-                        <thead>
-                        <tr>
-                            <th>Category</th>
-                            <th>Count</th>
-                            <th>Prevalence Rate</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for x in hfa %}
-                            <tr>
-                                {% for value in x %}
-                                    <td>{{ value }}</td>
-                                {% endfor %}
-                            </tr>
-
-                        {% endfor %}
-                        <tr>
-                            <th>Total</th>
-                            <th colspan="2">{{ hfa_total|floatformat }}</th>
-                        </tr>
-                        </tbody>
-                    </table>
-
-                  </div>
-                    <div class="chart tab-pane" id="wtht" style="position: relative;">
-
-                        <table class="table">
-        <thead>
-        <tr>
-            <th>Category</th>
-            <th>Count</th>
-            <th>Prevalence Rate</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for x in wfhl %}
-            <tr>
-                {% for value in x %}
-                    <td>{{ value }}</td>
-                {% endfor %}
-            </tr>
-        {% endfor %}
-        <tr>
-            <th>Total</th>
-            <th colspan="2">{{ wfhl_total|floatformat }}</th>
-        </tr>
-        </tbody>
-    </table>
-
-                    </div>
-                </div>
-              </div>
-
-</div>
-                </a>
-
-                </div>
-            </div>
-            <div class="row">
-
-                <div class="col-4">
-                    <a href="{% url 'visualizations:city_micronutrient' %}">
-                        <div class="card">
-                        <div class="card-body">
-                            <div id="micro-dashboard">
-
-                            </div>
+                                                    {% endfor %}
+                                                    <tr>
+                                                        <th>Total</th>
+                                                        <th colspan="2">{{ hfa_total|floatformat }}</th>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="chart tab-pane" id="wtht" style="position: relative;">
+                                                <table class="table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Category</th>
+                                                        <th>Count</th>
+                                                        <th>Prevalence Rate</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for x in wfhl %}
+                                                        <tr>
+                                                            {% for value in x %}
+                                                                <td>{{ value }}</td>
+                                                            {% endfor %}
+                                                        </tr>
+                                                    {% endfor %}
+                                                    <tr>
+                                                        <th>Total</th>
+                                                        <th colspan="2">{{ wfhl_total|floatformat }}</th>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
                     </div>
-                    </a>
-                    <a href="{% url 'visualizations:city_maternal' %}">
-                        <div class="card">
-                            <div class="card-body">
-                                <div id="maternal-dash">
-                                    <h3 class="text-center">City Maternal Care</h3>
-                                    {% for dict in maternal %}
-                                        {% for k, v in dict.items %}
-                                            <div class="card">
-                                                <p class="text-center"><b style="font-size: 1.8rem;" class="text-success">{{ v|floatformat }}</b></p>
-                                                <p class="text-center"> {{ k }}</p>
-                                            </div>
-                                        {% endfor %}
-                                    {% endfor %}
+                    <div class="row">
+                        <div class="col-4">
+                            <a href="{% url 'visualizations:city_micronutrient' %}">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div id="micro-dashboard">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="{% url 'visualizations:city_maternal' %}">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div id="maternal-dash">
+                                            <h3 class="text-center">City Maternal Care</h3>
+                                            {% for dict in maternal %}
+                                                {% for k, v in dict.items %}
+                                                    <div class="card">
+                                                        <p class="text-center"><b style="font-size: 1.8rem;" class="text-success">{{ v|floatformat }}</b></p>
+                                                        <p class="text-center"> {{ k }}</p>
+                                                    </div>
+                                                {% endfor %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div id="socio-dash">
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </a>
-                </div>
+                        <div class="col-4">
+                            <a href="{% url 'visualizations:children_care' %}">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div id="childcare-dash">
 
-                <div class="col-4">
-
-                    <div class="card">
-            <div class="card-body">
-                <div id="socio-dash">
-
-                </div>
-            </div>
-        </div>
-                </div>
-
-                <div class="col-4">
-                    <a href="{% url 'visualizations:children_care' %}">
-        <div class="card">
-            <div class="card-body">
-                <div id="childcare-dash">
-
-                </div>
-            </div>
-        </div>
-    </a>
-                </div>
-
-
-            </div>
-            </div>
-
-            <div class="col-3">
-
-                <div class="card">
-                    <div class="card-header no-border" style="text-align: center;">
-                        <h3 class="card-title">Critical Metrics (Non Supplement)</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
                     </div>
-                    <div class="card-body p-2">
+                </div>
+                <div class="col-3">
+                    <div class="card">
+                        <div class="card-header no-border" style="text-align: center;">
+                            <h3 class="card-title">Critical Metrics (Non Supplement)</h3>
+                        </div>
+                        <div class="card-body p-2">
                         {% if not non_supplement_metrics %}
                             <p class="text-center text-info">There are no critical metrics as of now.</p>
                         {% else %}
@@ -231,95 +205,77 @@
                         {% endif %}
                     </div>
 
-                    <div class="card-header no-border" style="text-align: center;">
-                        <h3 class="card-title">Critical Metrics (Supplement)</h3>
-                    </div>
-                    <div class="card-body p-2">
-                        {% if not supplement_metrics %}
-                            <p class="text-center text-info">There are no critical metrics as of now.</p>
-                        {% else %}
-                        <table class="table table-bordered">
-                            <thead>
-                            <tr>
-                                <th>Metric</th>
-                                <th style="width: 25%;">Value</th>
-                            </tr>
-                            </thead>
-                            {% for m in supplement_metrics %}
+                        <div class="card-header no-border" style="text-align: center;">
+                            <h3 class="card-title">Critical Metrics (Supplement)</h3>
+                        </div>
+                        <div class="card-body p-2">
+                            {% if not supplement_metrics %}
+                                <p class="text-center text-info">There are no critical metrics as of now.</p>
+                            {% else %}
+                            <table class="table table-bordered">
+                                <thead>
                                 <tr>
-                                    <td>{{ m.get_data_point }}</td>
-                                    <td>{% if m.get_type == 'is greater than' %}<i class="fa fa-arrow-up"></i>{% else %}<i class="fa fa-arrow-down"></i>{% endif %} {{ m.get_total_value|floatformat:"-2" }}</td>
+                                    <th>Metric</th>
+                                    <th style="width: 25%;">Value</th>
                                 </tr>
-                            {% endfor %}
+                                </thead>
+                                {% for m in supplement_metrics %}
+                                    <tr>
+                                        <td>{{ m.get_data_point }}</td>
+                                        <td>{% if m.get_type == 'is greater than' %}<i class="fa fa-arrow-up"></i>{% else %}<i class="fa fa-arrow-down"></i>{% endif %} {{ m.get_total_value|floatformat:"-2" }}</td>
+                                    </tr>
+                                {% endfor %}
 
-                        </table>
-                        {% endif %}
+                            </table>
+                            {% endif %}
+                        </div>
+                        <div class="p-3 text-center">
+                            <a href="{% url 'causalmodel:rc_index' %}">
+                                <button class="btn btn-primary">Go to Root Causes</button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header no-border" style="text-align: center;">
+                            <h3 class="card-title">Incomplete Reports</h3>
+                        </div>
+                        <div class="card-body p-2">
+                            <table id="familyprofile_overview" class="table table-bordered dataTable">
+                                <thead>
+                                <tr>
+                                    <th>Barangay</th>
+                                    <th>Report </th>
+                                    <th>Due Date</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for x in todo_list %}
+                                <tr>
+                                    <td>{{ x.barangay }}</td>
+                                    <td>{{ x.report_name }}</td>
+                                    <td>{{ x.due_date }}</td>
+                                    <td><a href="{% url 'datainput:notify_bns' x.barangay x.report_name %}" class="btn btn-danger" style="color: white">Notify</a></td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-
-                <div class="card">
-<div class="card-header no-border" style="text-align: center;">
-<h3 class="card-title">Incomplete Reports</h3>
-</div>
-<div class="card-body p-2">
-<table id="familyprofile_overview" class="table table-bordered dataTable">
-<thead>
-<tr>
-    <th>Barangay</th>
-    <th>Report </th>
-    <th>Due Date</th>
-    <th>Action</th>
-</tr>
-</thead>
-<tbody>
-{% for x in todo_list %}
-<tr>
-    <td>{{ x.barangay }}</td>
-    <td>{{ x.report_name }}</td>
-    <td>{{ x.due_date }}</td>
-    <td><a href="{% url 'datainput:notify_bns' x.barangay x.report_name %}" class="btn btn-danger" style="color: white">Notify</a></td>
-</tr>
-{% endfor %}
-</tbody>
-</table>
-<script>
-$(document).ready(function() {
-    $('#familyprofile_overview').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "lengthMenu": [10],
-        "ordering": false,
-        "autoWidth": false,
-        "searching": false
+                <script>
+    $(document).ready(function() {
+        $('#familyprofile_overview').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "lengthMenu": [10],
+            "ordering": false,
+            "autoWidth": false,
+            "searching": false
+        });
     });
-});
 </script>
-</div>
-</div>
-
             </div>
-
-            </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         </div>
     </section>
 </div>

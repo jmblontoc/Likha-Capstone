@@ -1,3 +1,4 @@
+import decimal
 import operator
 from datetime import datetime
 from random import random
@@ -476,7 +477,5 @@ def report_table():
     grand_data.append(data)
 
     return grand_data
-
-
 
 

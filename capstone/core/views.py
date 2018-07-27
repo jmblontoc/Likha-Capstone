@@ -77,7 +77,6 @@ def bns_index(request):
         fhsis_date_uploaded = fhsis_current[0].date
         fhsis_status = 'Completed'
 
-
     has_mr = validations.has_monthly_reweighing(profile.barangay, datetime.now().month, datetime.now().year)
 
     if not has_mr:

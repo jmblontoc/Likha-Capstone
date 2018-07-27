@@ -27,6 +27,15 @@ urlpatterns = [
     path('reports/child_care', views.report4, name='report4'),
     path('reports/maternal', views.report5, name='report5'),
 
+    # REPORTS FACILITY
+    path('reports_facility', views.reports_facility, name='reports_facility'),
+
+    # REPORTS LIBRARY
+    path('reports_library', views.reports_library, name='reports_library'),
+
+    # SAVED
+    path('saved/nutritional_status/<int:year>', views.saved_report1, name='saved1'),
+
     # # # # # # AJAX # # # # # # #
 
     path('ajax_highest', views.get_highest_barangay, name='get_highest_barangay'),

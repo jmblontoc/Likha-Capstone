@@ -130,7 +130,6 @@ def insert_blocks(request):
         for cause in causes:
             b.root_causes_content.add(cause)
 
-
         if block['child'] is not None:
 
             for child in block['child']:

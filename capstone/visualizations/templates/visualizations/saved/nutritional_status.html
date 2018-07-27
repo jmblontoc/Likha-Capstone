@@ -1,11 +1,11 @@
 <p>Region: <b>National Captial Region</b></p>
 <p>City/Municipality: <b>Mandaluyong City</b></p>
 <p>Reference Year: <b>{{ year_now }}</b></p>
-<p>Total Number of Barangays: <b>{{ barangays.count }}</b></p>
-<p>Total Number of Households: <b>{{ families }}</b></p>
-<p>Total Weighed: <b>{{ total_weighted }}</b></p>
-<p>Total Number of 0 - 11 months old weighed: <b>{{ count011 }}</b></p>
-<p>Total Number of 12 - 71 months old weighed: <b>{{ count1271 }}</b></p>
+<p>Total Number of Barangays: <b>{{ barangays_count }}</b></p>
+<p>Total Number of Households: <b>{{ data.families }}</b></p>
+<p>Total Weighed: <b>{{ data.total_weighted }}</b></p>
+<p>Total Number of 0 - 11 months old weighed: <b>{{ data.count011 }}</b></p>
+<p>Total Number of 12 - 71 months old weighed: <b>{{ data.count1271 }}</b></p>
 <hr>
 
 <div>
@@ -39,7 +39,7 @@
         </tr>
         </thead>
         <tbody>
-        {% for w in wfa %}
+        {% for w in data.wfa %}
             <tr>
                 {% for foo in w %}
                     {% if forloop.counter0 == 0 %}
@@ -83,7 +83,7 @@
         </tr>
         </thead>
         <tbody>
-        {% for w in hfa %}
+        {% for w in data.hfa %}
             <tr>
                 {% for foo in w %}
                     {% if forloop.counter0 == 0 %}
@@ -131,7 +131,7 @@
         </tr>
         </thead>
         <tbody>
-        {% for w in wfh %}
+        {% for w in data.wfh %}
             <tr>
                 {% for foo in w %}
                     {% if forloop.counter0 == 0 %}
@@ -146,14 +146,10 @@
     </table>
 </div>
 
-<form method="POST">
-    {% csrf_token %}
-
-    <label>Comments/Insights</label>
-    <textarea name="comment"></textarea>
-
-    <input type="submit" value="Save">
-</form>
+<div>
+    <p>Comments/Insights</p>
+    <p>{{ report.comments }}</p>
+</div>
 
 
 

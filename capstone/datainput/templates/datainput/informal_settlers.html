@@ -42,7 +42,7 @@
                                     {% else %}
                                     {% for record in records %}
                                     <tr>
-                                        <td>{{ record.date|date:"M Y"}}</td>
+                                        <td>{{ record.date|date:"F, Y"}}</td>
                                         <td>{{ record.families_count }}</td>
                                     </tr>
                                     {% endfor %}
