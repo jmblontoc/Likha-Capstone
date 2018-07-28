@@ -7,7 +7,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 from capstone.decorators import not_bns
-from core.context_processors import get_user_type
+from core.context_processors import get_user_type, profile
 from core.models import Profile, Notification
 from friends.causalmodel import helper
 # Create your views here.
@@ -23,7 +23,9 @@ from friends.datainput import validations
 @not_bns
 def index(request, year):
 
-    if get_user_type(request) == 'Nutritionist':
+    profile = Profile.objects.get(user=request.user)
+
+    if profile.user_type == 'Nutritionist':
         layout = 'core/nutritionist-layout.html'
     else:
         layout = 'core/pc_layout.html'
@@ -87,7 +89,9 @@ def root_causes(request):
 @not_bns
 def add_root_cause(request):
 
-    if get_user_type(request) == 'Nutritionist':
+    profile = Profile.objects.get(user=request.user)
+
+    if profile.user_type == 'Nutritionist':
         layout = 'core/nutritionist-layout.html'
     else:
         layout = 'core/pc_layout.html'
@@ -106,7 +110,9 @@ def create_causal_model(request):
 
     root_causes = RootCause.objects.filter(date__year=year_now)
 
-    if get_user_type(request) == 'Nutritionist':
+    profile = Profile.objects.get(user=request.user)
+
+    if profile.user_type == 'Nutritionist':
         layout = 'core/nutritionist-layout.html'
     else:
         layout = 'core/pc_layout.html'
