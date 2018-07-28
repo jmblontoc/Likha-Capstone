@@ -70,13 +70,27 @@
                             </thead>
                             <tbody>
                             {% for c in causals %}
+                                {% if not c.is_approved %}
                                 <tr>
-                                    <td>{{ c.date|date:"F d, Y" }}</td>
+                                    <td>
+                                        {{ c.date|date:"F d, Y" }}
+                                    </td>
                                     <td>{{ c.uploaded_by.get_name }}</td>
                                     <td>
                                         <button class="btn btn-primary btn-sm diagram_btn" data-id="{{ c.id }}">View</button>
                                     </td>
                                 </tr>
+                                {% else %}
+                                    <tr style="background-color: #a1d855; color: white;">
+                                        <td>
+                                            {{ c.date|date:"F d, Y" }}
+                                        </td>
+                                        <td>{{ c.uploaded_by.get_name }}</td>
+                                        <td>
+                                            <button class="btn btn-info btn-sm diagram_btn" data-id="{{ c.id }}">View</button>
+                                        </td>
+                                    </tr>
+                                {% endif %}
                             {% endfor %}
                             </tbody>
                         </table>
