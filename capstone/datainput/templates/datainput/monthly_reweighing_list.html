@@ -31,18 +31,20 @@
                                     <table id="monthlyreweighing_list" class="table table-bordered table-hover dataTable">
                                         <thead>
                                         <tr>
-                                            <th>Profile</th>
+                                            <th>Date Uploaded</th>
+                                            <th>Uploaded By</th>
                                             <th style="width: 16%;">Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        {% for family in families %}
+                                        {% for m in mr %}
                                             <tr>
                                                 <td style="vertical-align: middle;">
-                                                    Monthly Reweighing for {{ family.date_created.year }}
+                                                     {{ m.date }}
                                                 </td>
+                                                <td>{{ m.uploaded_by.get_name }}</td>
                                                <td>
-                                                   <a class="btn btn-primary btn-sm col-12" href="{% url 'datainput:display_monthly' family.date_created.year %}">View</a>
+                                                   <a class="btn btn-primary btn-sm col-12" href="{% url 'datainput:display_monthly' year_now %}">View</a>
                                                </td>
                                             </tr>
                                         {% endfor %}

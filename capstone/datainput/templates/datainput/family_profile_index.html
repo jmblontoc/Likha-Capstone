@@ -31,7 +31,8 @@
                                     <table id="familyprofile_list" class="table table-bordered table-hover dataTable">
                                         <thead>
                                         <tr>
-                                            <th>Profile</th>
+                                            <th>Date Uploaded</th>
+                                            <th>Uploaded by</th>
                                             <th style="width: 16%;">Action</th>
                                         </tr>
                                         </thead>
@@ -39,8 +40,9 @@
                                         {% for family in families %}
                                             <tr>
                                                 <td style="vertical-align: middle;">
-                                                    Family Profile for {{ family.date.year }}
+                                                    {{ family.date.year }}
                                                 </td>
+                                                <td>{{ family.uploaded_by.get_name }}</td>
                                                <td>
                                                    <a class="btn btn-primary btn-sm col-12" href="{% url 'datainput:show_profiles' family.id %}">View</a>
                                                </td>
