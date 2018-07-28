@@ -27,7 +27,7 @@ $(function() {
                 treeHolder.empty();
                 commentHolder.empty();
 
-                var html = "<div id='tree' style='height: 600px; width: 1300px;' class='card'></div>";
+                var html = "<div id='tree' style='height: 558px;' class='card'></div>";
                 treeHolder.append(html);
                 console.log(data);
 

@@ -31,8 +31,14 @@ def index(request):
 
     profile = Profile.objects.get(user=request.user)
 
+    if profile.user_type == 'Nutritionist':
+        template_values = 'core/nutritionist-layout.html'
+    else:
+        template_values = 'core/pc_layout.html'
+
     context = {
         'profile': profile,
+        'template_values': template_values,
         'active': 'mt',
         'metrics': metrics,
         'date': datetime.now().date(),

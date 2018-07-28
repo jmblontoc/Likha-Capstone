@@ -17,7 +17,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Causal Model</li>
+                        <li class="breadcrumb-item active">Create Causal Model</li>
                     </ol>
                 </div>
             </div>
@@ -27,8 +27,15 @@
     <section class="content">
         <div class="container-fluid">
 
-            <button data-toggle="modal" data-target="#causalModelForm" class="btn btn-primary mb-3">Add Parent</button>
+            <div class="card card-primary">
+                <div class="card-header p-0">
+                            <h3 class="card-title p-3">Create Causal Model</h3>
+                        </div>
+                        <div class="card-body">
 
+                            <div class="row">
+            <div class="col-6">
+                <h5>Root Causes</h5>
             <table class="table table-bordered">
                 <thead class="thead-dark">
                 <tr>
@@ -45,7 +52,8 @@
                 {% endfor %}
                 </tbody>
             </table>
-            <hr>
+
+                </div><div class="col-6">
             <h5>Added Blocks</h5>
             <table class="added-blocks-table table table-bordered" style="display: none;">
                 <thead class="thead-dark">
@@ -58,7 +66,10 @@
 
                 </tbody>
             </table>
-            <button id="createTree" class="btn btn-primary mb-3">Save</button>
+
+                            </div></div>
+<button data-toggle="modal" data-target="#causalModelForm" class="btn btn-primary mb-3 col-1">Add Parent</button>
+<button id="createTree" class="btn btn-primary mb-3 col-1">Save</button>
 
             <div id="tree" style="width: 1500px; height: 800px; background-color: #DAE4E4;">
 
@@ -101,8 +112,9 @@
                 </div>
               </div>
             </div>
-
+            </div>
         </div>
+            </div>
     </section>
 </div>
 {% endblock %}

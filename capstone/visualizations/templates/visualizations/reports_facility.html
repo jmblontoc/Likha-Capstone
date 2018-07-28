@@ -1,4 +1,4 @@
-{% extends 'core/pc_layout.html' %}
+{% extends template_values %}
 {% block content %}
 
 {% load static %}
@@ -10,11 +10,23 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Reports Facility</h1>
+                    <h1 class="m-0 text-dark">
+                        {% if profile.user_type == 'Nutritionist' %}
+                        City Nutritionist
+                        {% else %}
+                        City Program Coordinator
+                        {% endif %}
+                        Reports Facility</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item">Reports Facility</li>
+                        <li class="breadcrumb-item">
+                            {% if profile.user_type == 'Nutritionist' %}
+                            Nutritionist
+                            {% else %}
+                            Program Coordinator
+                            {% endif %}
+                            Reports Facility</li>
                     </ol>
                 </div>
             </div>

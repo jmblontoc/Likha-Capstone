@@ -456,8 +456,16 @@ def report5(request):
 
 def reports_facility(request):
 
-    context = {
+    profile = Profile.objects.get(user=request.user)
 
+    if profile.user_type == 'Nutritionist':
+        template_values = 'core/nutritionist-layout.html'
+    else:
+        template_values = 'core/pc_layout.html'
+
+    context = {
+        'active': 'rf',
+        'template_values': template_values,
     }
 
     return render(request, 'visualizations/reports_facility.html', context)
@@ -476,6 +484,7 @@ def serialize(context):
 def reports_library(request):
 
     context = {
+        'active': 'rl',
         'report1': Report.objects.filter(name__contains='City Nutritional Status'),
         'report3': Report.objects.filter(name__contains='City Micronutrient'),
         'report2': Report.objects.filter(name__contains='Socioeconomic'),

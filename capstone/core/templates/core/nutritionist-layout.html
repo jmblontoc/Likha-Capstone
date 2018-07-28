@@ -133,13 +133,13 @@
 {#                                </a>#}
 {#                            </li>#}
                             <li class="nav-item">
-                                <a href="{% url 'causalmodel:index' 2018 %}" class="nav-link">
+                                <a href="{% url 'causalmodel:index' 2018 %}" class="nav-link {% if active == 'cm' %}active{% endif %}">
                                     <i class="nav-icon fa fa-database"></i>
                                     <p>Causal Models</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{% url 'causalmodel:rc_index' %}" class="nav-link">
+                                <a href="{% url 'causalmodel:rc_index' %}" class="nav-link {% if active == 'rc' %}active{% endif %}">
                                     <i class="nav-icon fa fa-database"></i>
                                     <p>Root Causes</p>
                                 </a>

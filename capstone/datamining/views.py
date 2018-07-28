@@ -34,8 +34,14 @@ def index(request):
     child_care = request.session['child_care']
     socio = request.session['socioeconomic']
 
+    if profile.user_type == 'Nutritionist':
+        template_values = 'core/nutritionist-layout.html'
+    else:
+        template_values = 'core/pc_layout.html'
+
     context = {
         'profile': profile,
+        'template_values': template_values,
         'active': 'ct',
         'statuses': nutritional_statuses,
         'micro': micro,
