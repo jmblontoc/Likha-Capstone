@@ -141,12 +141,12 @@
                             <table id="metricsthresholds" class="table table-bordered table-hover dataTable">
                                 <thead>
                                     <tr>
-                                        <th>Source</th>
+                                        <th style="width: 12%;">Source</th>
                                         <th>Data Point</th>
-                                        <th>Average/Total</th>
-                                        <th>Type</th>
-                                        <th>Threshold</th>
-                                        <th>Status</th>
+                                        <th style="width: 12%;">Average/Total</th>
+                                        <th style="width: 12%;">Type</th>
+                                        <th style="width: 12%;">Threshold</th>
+                                        <th style="width: 12%;">Status</th>
 {#                                        <th>Predicted Value Next Month/Year</th>#}
 {#                                        <th>Prediction Status</th>#}
                                     </tr>
@@ -164,7 +164,9 @@
                                                 <td>{{ x.get_total_value|floatformat:"-2" }}</td>
                                                 <td>{{ x.get_type }}</td>
                                                 <td>{{ x.threshold|floatformat }}</td>
-                                                <td>{{ x.is_alarming|yesno:"Critical,Not Critical" }}</td>
+                                                {% if x.is_alarming|yesno:"Critical,Not Critical" == "Critical" %}<td style="vertical-align: middle;" class="text-danger">
+                                                <i class="fa fa-exclamation-circle"></i> Critical
+                                            </td>{% else %}<td>Not Critical</td>{% endif%}
 {#                                                <td>{{ x.predicted_value|floatformat:"-2" }}</td>#}
 {#                                                <td>{{ x.is_predicted_critical|yesno:"Predicted Critical,Not Predicted Critical" }}</td>#}
                                             </tr>

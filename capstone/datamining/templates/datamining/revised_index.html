@@ -19,7 +19,7 @@
                         {% else %}
                         City Program Coordinator
                         {% endif %}
-                        Correlations and Forecasts</h1>
+                        Correlations</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -29,7 +29,7 @@
                             {% else %}
                             Program Coordinator
                             {% endif %}
-                            Correlations and Forecasts</li>
+                            Correlations</li>
                     </ol>
                 </div>
             </div>
@@ -42,7 +42,7 @@
                 <div class="col-12">
                     <div class="card card-primary">
                         <div class="card-header d-flex p-0">
-                            <h3 class="card-title p-3">Correlations and Forecasts</h3>
+                            <h3 class="card-title p-3">Correlations</h3>
                             <ul class="nav nav-pills ml-auto p-2">
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle target" data-toggle="dropdown" href="#" aria-expanded="false">
@@ -68,10 +68,10 @@
             <table class="table table-bordered">
                 <thead>
                 <tr>
-                    <th style="width: 30%;">Field</th>
-                    <th style="width: 25%;" class="text-center">Weight for Age</th>
-                    <th style="width: 10%;" class="text-center">Height for Age</th>
-                    <th style="width: 10%;" class="text-center">Weight for Height/Length</th>
+                    <th>Field</th>
+                    <th style="width: 15%;" class="text-center">Weight for Age</th>
+                    <th style="width: 15%;" class="text-center">Height for Age</th>
+                    <th style="width: 15%;" class="text-center">Weight for Height/Length</th>
                     <th style="width: 10%;">Action</th>
                 </tr>
                 </thead>
@@ -104,8 +104,21 @@
                         <td class="field">{{ m.field }}</td>
                         <td class="source" style="vertical-align: middle; display: none;">{{ m.source }}</td>
                         {% for a in m.data %}
-                            <td class="text-center"><p>{{ a.remark }}</p><p>({{ a.score }})</p>
-                            <p>{{ m.mark }} - {{ a.mark }}</p></td>
+                        <td class="text-center" style="vertical-align: middle;">
+                            {% if a.remark == 'Strong' %}
+                            <p class="text-danger"><i class="fa fa-exclamation"></i> {{ a.remark }}</p>
+                            {% elif a.remark == 'Moderately Strong' %}
+                            <p class="text-danger"><i class="fa fa-exclamation"></i> {{ a.remark }}</p>
+                            {% elif a.remark == 'Moderate' %}
+                            <p class="text-warning"><i class="fa fa-bell-o"></i> {{ a.remark }}</p>
+                            {% elif a.remark == 'Weak' %}
+                            <p class="text-success"><i class="fa fa-check"></i> {{ a.remark }}</p>
+                            {% elif a.remark == 'Very Weak' %}
+                            <p class="text-success"><i class="fa fa-check"></i> {{ a.remark }}</p>
+                            {% else %}
+                            <p>{{ a.remark }}</p>
+                            {% endif %}
+                        <p>({{ a.score }})</p></td>
                         {% endfor %}
                         <td>
                              <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">
@@ -122,10 +135,10 @@
             <table class="table table-bordered">
                 <thead>
                 <tr>
-                    <th style="width: 30%;">Field</th>
-                    <th style="width: 25%;" class="text-center">Weight for Age</th>
-                    <th style="width: 10%;" class="text-center">Height for Age</th>
-                    <th style="width: 10%;" class="text-center">Weight for Height/Length</th>
+                    <th>Field</th>
+                    <th style="width: 15%;" class="text-center">Weight for Age</th>
+                    <th style="width: 15%;" class="text-center">Height for Age</th>
+                    <th style="width: 15%;" class="text-center">Weight for Height/Length</th>
                     <th style="width: 10%;">Action</th>
                 </tr>
                 </thead>
@@ -157,7 +170,22 @@
                         <td class="field">{{ m.field }}</td>
                         <td class="source" style="vertical-align: middle; display: none;">{{ m.source }}</td>
                         {% for a in m.data %}
-                            <td class="text-center"><p>{{ a.remark }}</p><p>({{ a.score }})</p></td>
+                            <td class="text-center">
+                                {% if a.remark == 'Strong' %}
+                            <p class="text-danger"><i class="fa fa-exclamation"></i> {{ a.remark }}</p>
+                            {% elif a.remark == 'Moderately Strong' %}
+                            <p class="text-danger"><i class="fa fa-exclamation"></i> {{ a.remark }}</p>
+                            {% elif a.remark == 'Moderate' %}
+                            <p class="text-warning"><i class="fa fa-bell-o"></i> {{ a.remark }}</p>
+                            {% elif a.remark == 'Weak' %}
+                            <p class="text-success"><i class="fa fa-check"></i> {{ a.remark }}</p>
+                            {% elif a.remark == 'Very Weak' %}
+                            <p class="text-success"><i class="fa fa-check"></i> {{ a.remark }}</p>
+                            {% else %}
+                            <p>{{ a.remark }}</p>
+                            {% endif %}
+
+                                <p>({{ a.score }})</p></td>
                         {% endfor %}
                         <td>
                              <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">
@@ -174,10 +202,10 @@
             <table class="table table-bordered">
                 <thead>
                 <tr>
-                    <th style="width: 30%;">Field</th>
-                     <th style="width: 25%;" class="text-center">Weight for Age</th>
-                    <th style="width: 10%;" class="text-center">Height for Age</th>
-                    <th style="width: 10%;" class="text-center">Weight for Height/Length</th>
+                    <th>Field</th>
+                    <th style="width: 15%;" class="text-center">Weight for Age</th>
+                    <th style="width: 15%;" class="text-center">Height for Age</th>
+                    <th style="width: 15%;" class="text-center">Weight for Height/Length</th>
                     <th style="width: 10%;">Action</th>
                 </tr>
                 </thead>
@@ -209,7 +237,23 @@
                         <td class="field">{{ m.field }}</td>
                         <td class="source" style="vertical-align: middle; display: none;">{{ m.source }}</td>
                         {% for a in m.data %}
-                            <td class="text-center"><p>{{ a.remark }}</p><p>({{ a.score }})</p></td>
+                            <td class="text-center">
+
+                                {% if a.remark == 'Strong' %}
+                            <p class="text-danger"><i class="fa fa-exclamation"></i> {{ a.remark }}</p>
+                            {% elif a.remark == 'Moderately Strong' %}
+                            <p class="text-danger"><i class="fa fa-exclamation"></i> {{ a.remark }}</p>
+                            {% elif a.remark == 'Moderate' %}
+                            <p class="text-warning"><i class="fa fa-bell-o"></i> {{ a.remark }}</p>
+                            {% elif a.remark == 'Weak' %}
+                            <p class="text-success"><i class="fa fa-check"></i> {{ a.remark }}</p>
+                            {% elif a.remark == 'Very Weak' %}
+                            <p class="text-success"><i class="fa fa-check"></i> {{ a.remark }}</p>
+                            {% else %}
+                            <p>{{ a.remark }}</p>
+                            {% endif %}
+
+                                <p>({{ a.score }})</p></td>
                         {% endfor %}
                         <td>
                              <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">
@@ -226,10 +270,10 @@
             <table class="table table-bordered">
                 <thead>
                 <tr>
-                    <th style="width: 30%;">Field</th>
-                     <th style="width: 25%;" class="text-center">Weight for Age</th>
-                    <th style="width: 10%;" class="text-center">Height for Age</th>
-                    <th style="width: 10%;" class="text-center">Weight for Height/Length</th>
+                    <th>Field</th>
+                    <th style="width: 15%;" class="text-center">Weight for Age</th>
+                    <th style="width: 15%;" class="text-center">Height for Age</th>
+                    <th style="width: 15%;" class="text-center">Weight for Height/Length</th>
                     <th style="width: 10%;">Action</th>
                 </tr>
                 </thead>
@@ -261,7 +305,23 @@
                         <td class="field">{{ m.field }}</td>
                         <td class="source" style="vertical-align: middle; display: none;">{{ m.source }}</td>
                         {% for a in m.data %}
-                            <td class="text-center"><p>{{ a.remark }}</p><p>({{ a.score }})</p></td>
+                            <td class="text-center">
+
+                                {% if a.remark == 'Strong' %}
+                            <p class="text-danger"><i class="fa fa-exclamation"></i> {{ a.remark }}</p>
+                            {% elif a.remark == 'Moderately Strong' %}
+                            <p class="text-danger"><i class="fa fa-exclamation"></i> {{ a.remark }}</p>
+                            {% elif a.remark == 'Moderate' %}
+                            <p class="text-warning"><i class="fa fa-bell-o"></i> {{ a.remark }}</p>
+                            {% elif a.remark == 'Weak' %}
+                            <p class="text-success"><i class="fa fa-check"></i> {{ a.remark }}</p>
+                            {% elif a.remark == 'Very Weak' %}
+                            <p class="text-success"><i class="fa fa-check"></i> {{ a.remark }}</p>
+                            {% else %}
+                            <p>{{ a.remark }}</p>
+                            {% endif %}
+
+                                <p>({{ a.score }})</p></td>
                         {% endfor %}
                         <td>
                              <button class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#viewCorrelationGraph">
@@ -367,4 +427,9 @@
     </div>
   </div>
 </div>
+<style>
+    p {
+        margin-bottom: 0;
+    }
+</style>
 {% endblock %}
