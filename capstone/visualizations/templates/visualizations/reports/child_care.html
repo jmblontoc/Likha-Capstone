@@ -1,13 +1,44 @@
-<h1>Child Care Report</h1>
+{% extends 'core/pc_layout.html' %}
+{% block content %}
+
+{% load static %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+
+<div class="content-wrapper" style="height: auto; margin-top: 57px;">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Reports Facility</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">Reports Facility</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+{% include 'core/helpers/messages.html' %}
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-primary">
+                        <div class="card-header p-0">
+                            <h3 class="card-title p-3">Child Care Report</h3>
+                        </div>
+                        <div class="card-body">
 
 <h1>Child Care</h1>
 
-<table border=1>
+<table class="table table-bordered">
     <thead>
         <tr>
             <th>Barangay</th>
             {% for field in cc_fields %}
-                <th>{{ field }}</th>
+                <th style="width: 12.5%;">{{ field }}</th>
             {% endfor %}
         </tr>
     </thead>
@@ -21,15 +52,15 @@
         {% endfor %}
     </tbody>
 </table>
-
+<br>
 <h1>Immunizations</h1>
 
-<table border=1>
+<table class="table table-bordered">
     <thead>
         <tr>
             <th>Barangay</th>
             {% for field in imm_fields %}
-                <th>{{ field }}</th>
+                <th style="width: 12.5%;">{{ field }}</th>
             {% endfor %}
         </tr>
     </thead>
@@ -43,15 +74,15 @@
         {% endfor %}
     </tbody>
 </table>
-
+<br>
 <h1>Malaria</h1>
 
-<table border=1>
+<table class="table table-bordered" style="width: 50%;">
     <thead>
         <tr>
             <th>Barangay</th>
             {% for field in malaria_fields %}
-                <th>{{ field }}</th>
+                <th style="width: 25%;">{{ field }}</th>
             {% endfor %}
         </tr>
     </thead>
@@ -65,15 +96,15 @@
         {% endfor %}
     </tbody>
 </table>
-
+<br>
 <h1>Tuberculosis</h1>
 
-<table border=1>
+<table class="table table-bordered" style="width: 25%;">
     <thead>
         <tr>
             <th>Barangay</th>
             {% for field in tb_fields %}
-                <th>{{ field }}</th>
+                <th style="width: 50%;">{{ field }}</th>
             {% endfor %}
         </tr>
     </thead>
@@ -89,3 +120,12 @@
 </table>
 
 {% include 'visualizations/comment_template.html' %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

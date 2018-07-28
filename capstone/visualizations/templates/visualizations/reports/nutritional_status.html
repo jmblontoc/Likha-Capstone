@@ -1,41 +1,74 @@
-<p>Region: <b>National Captial Region</b></p>
-<p>City/Municipality: <b>Mandaluyong City</b></p>
-<p>Reference Year: <b>{{ year_now }}</b></p>
-<p>Total Number of Barangays: <b>{{ barangays.count }}</b></p>
-<p>Total Number of Households: <b>{{ families }}</b></p>
-<p>Total Weighed: <b>{{ total_weighted }}</b></p>
-<p>Total Number of 0 - 11 months old weighed: <b>{{ count011 }}</b></p>
-<p>Total Number of 12 - 71 months old weighed: <b>{{ count1271 }}</b></p>
+{% extends 'core/pc_layout.html' %}
+{% block content %}
+
+{% load static %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+
+<div class="content-wrapper" style="height: auto; margin-top: 57px;">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Reports Facility</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">Reports Facility</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+{% include 'core/helpers/messages.html' %}
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-primary">
+                        <div class="card-header p-0">
+                            <h3 class="card-title p-3">Nutritional Status</h3>
+                        </div>
+                        <div class="card-body">
+
+<h3>Region: <b>National Captial Region</b></h3>
+<h3>City/Municipality: <b>Mandaluyong City</b></h3>
+<h4>Reference Year: <b>{{ year_now }}</b></h4>
+<h4>Total Number of Barangays: <b>{{ barangays.count }}</b></h4>
+<h4>Total Number of Households: <b>{{ families }}</b></h4>
+<h4>Total Weighed: <b>{{ total_weighted }}</b></h4>
+<h4>Total Number of 0 - 11 months old weighed: <b>{{ count011 }}</b></h4>
+<h4>Total Number of 12 - 71 months old weighed: <b>{{ count1271 }}</b></h4>
 <hr>
 
 <div>
     <h1>Weight for Age</h1>
-    <table border="1">
+    <table class="table table-bordered">
         <thead>
         <tr>
-            <th rowspan="2">Barangay</th>
+            <th style="width: 18%;" rowspan="2">Barangay</th>
             <th colspan="3">Normal</th>
             <th colspan="3">Underweight</th>
             <th colspan="3">Severely Underweight</th>
             <th colspan="3">Overweight</th>
-            <th rowspan="2">Total</th>
-            <th colspan="2">Underweight and Severely Underweight</th>
+            <th style="width: 5%;" rowspan="2">Total</th>
+            <th style="width: 15%;" colspan="2">Underweight and Severely Underweight</th>
         </tr>
         <tr>
-            <th>Boys</th>
-            <th>Girls</th>
-            <th>Total</th>
-            <th>Boys</th>
-            <th>Girls</th>
-            <th>Total</th>
-            <th>Boys</th>
-            <th>Girls</th>
-            <th>Total</th>
-            <th>Boys</th>
-            <th>Girls</th>
-            <th>Total</th>
-            <th>#</th>
-            <th>%</th>
+            <th style="width: 5%;">Boys</th>
+            <th style="width: 5%;">Girls</th>
+            <th style="width: 5%;">Total</th>
+            <th style="width: 5%;">Boys</th>
+            <th style="width: 5%;">Girls</th>
+            <th style="width: 5%;">Total</th>
+            <th style="width: 5%;">Boys</th>
+            <th style="width: 5%;">Girls</th>
+            <th style="width: 5%;">Total</th>
+            <th style="width: 5%;">Boys</th>
+            <th style="width: 5%;">Girls</th>
+            <th style="width: 5%;">Total</th>
+            <th style="width: 7.5%;">#</th>
+            <th style="width: 7.5%;">%</th>
         </tr>
         </thead>
         <tbody>
@@ -54,32 +87,32 @@
     </table>
 
     <h1>Height for Age</h1>
-    <table border="1">
+    <table class="table table-bordered">
         <thead>
         <tr>
-            <th rowspan="2">Barangay</th>
+            <th style="width: 18%;" rowspan="2">Barangay</th>
             <th colspan="3">Normal</th>
             <th colspan="3">Stunted</th>
             <th colspan="3">Severely Stunted</th>
             <th colspan="3">Tall</th>
-            <th rowspan="2">Total</th>
-            <th colspan="2">Stunted and Severely Stunted</th>
+            <th style="width: 5%;" rowspan="2">Total</th>
+            <th style="width: 15%;" colspan="2">Stunted and Severely Stunted</th>
         </tr>
         <tr>
-            <th>Boys</th>
-            <th>Girls</th>
-            <th>Total</th>
-            <th>Boys</th>
-            <th>Girls</th>
-            <th>Total</th>
-            <th>Boys</th>
-            <th>Girls</th>
-            <th>Total</th>
-            <th>Boys</th>
-            <th>Girls</th>
-            <th>Total</th>
-            <th>#</th>
-            <th>%</th>
+            <th style="width: 5%;">Boys</th>
+            <th style="width: 5%;">Girls</th>
+            <th style="width: 5%;">Total</th>
+            <th style="width: 5%;">Boys</th>
+            <th style="width: 5%;">Girls</th>
+            <th style="width: 5%;">Total</th>
+            <th style="width: 5%;">Boys</th>
+            <th style="width: 5%;">Girls</th>
+            <th style="width: 5%;">Total</th>
+            <th style="width: 5%;">Boys</th>
+            <th style="width: 5%;">Girls</th>
+            <th style="width: 5%;">Total</th>
+            <th style="width: 7.5%;">#</th>
+            <th style="width: 7.5%;">%</th>
         </tr>
         </thead>
         <tbody>
@@ -98,36 +131,36 @@
     </table>
 
     <h1>Weight for Height/Length</h1>
-    <table border="1">
+    <table class="table table-bordered">
         <thead>
         <tr>
-            <th rowspan="2">Barangay</th>
+            <th style="width: 18%;" rowspan="2">Barangay</th>
             <th colspan="3">Normal</th>
             <th colspan="3">Wasted</th>
             <th colspan="3">Severely Wasted</th>
             <th colspan="3">Overweight</th>
             <th colspan="3">Obese</th>
-            <th rowspan="2">Total</th>
-            <th colspan="2">Wasted and Severely Wasted</th>
+            <th style="width: 4.1%;" rowspan="2">Total</th>
+            <th style="width: 15%;" colspan="2">Wasted and Severely Wasted</th>
         </tr>
         <tr>
-            <th>Boys</th>
-            <th>Girls</th>
-            <th>Total</th>
-            <th>Boys</th>
-            <th>Girls</th>
-            <th>Total</th>
-            <th>Boys</th>
-            <th>Girls</th>
-            <th>Total</th>
-            <th>Boys</th>
-            <th>Girls</th>
-            <th>Total</th>
-            <th>Boys</th>
-            <th>Girls</th>
-            <th>Total</th>
-            <th>#</th>
-            <th>%</th>
+            <th style="width: 4.1%;">Boys</th>
+            <th style="width: 4.1%;">Girls</th>
+            <th style="width: 4.1%;">Total</th>
+            <th style="width: 4.1%;">Boys</th>
+            <th style="width: 4.1%;">Girls</th>
+            <th style="width: 4.1%;">Total</th>
+            <th style="width: 4.1%;">Boys</th>
+            <th style="width: 4.1%;">Girls</th>
+            <th style="width: 4.1%;">Total</th>
+            <th style="width: 4.1%;">Boys</th>
+            <th style="width: 4.1%;">Girls</th>
+            <th style="width: 4.1%;">Total</th>
+            <th style="width: 4.1%;">Boys</th>
+            <th style="width: 4.1%;">Girls</th>
+            <th style="width: 4.1%;">Total</th>
+            <th style="width: 7.5%;">#</th>
+            <th style="width: 7.5%;">%</th>
         </tr>
         </thead>
         <tbody>
@@ -147,6 +180,15 @@
 </div>
 
 {% include 'visualizations/comment_template.html' %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
 
 
 

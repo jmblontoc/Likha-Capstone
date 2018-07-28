@@ -1,9 +1,11 @@
 
-<form method="POST">
-    {% csrf_token %}
-
-    <label>Comments/Insights</label>
-    <textarea name="comment"></textarea>
-
-    <input type="submit" value="Save">
-</form>
+<div class="card col-6"  style="margin-top: 20px;">
+    <form method="POST">
+        {% csrf_token %}
+    <div class="form-group" style="padding-top: 10px;">
+        <label>Comments/Insights</label>
+        <textarea class="form-control" name="comment"></textarea>
+    </div>
+        <input class="btn btn-primary col-2" type="submit" value="Save">
+    </form>
+</div>
