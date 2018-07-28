@@ -4,13 +4,13 @@
     <thead>
     <tr>
         <th>Barangay</th>
-        {% for f in fields %}
+        {% for f in data.fields %}
             <th>{{ f }}</th>
         {% endfor %}
     </tr>
     </thead>
     <tbody>
-    {% for a in data %}
+    {% for a in data.data %}
         <tr>
             {% for x in a %}
 
@@ -25,4 +25,7 @@
     </tbody>
 </table>
 
-{% include 'visualizations/comment_template.html' %}
+<div>
+    <p>Comments/Insights</p>
+    <p>{{ report.comments }}</p>
+</div>

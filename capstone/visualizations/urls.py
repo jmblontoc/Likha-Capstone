@@ -35,6 +35,10 @@ urlpatterns = [
 
     # SAVED
     path('saved/nutritional_status/<int:year>', views.saved_report1, name='saved1'),
+    path('saved/micronutrient/<int:year>', views.saved_report3, name='saved3'),
+    path('saved/socioeconomic/<int:year>', views.saved_report2, name='saved2'),
+    path('saved/child_care/<int:year>', views.saved_report4, name='saved4'),
+    path('saved/maternal/<int:year>', views.saved_report5, name='saved5'),
 
     # # # # # # AJAX # # # # # # #
 

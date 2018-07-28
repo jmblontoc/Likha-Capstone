@@ -347,17 +347,49 @@ def report2(request):
         'data': soc.report_table()
     }
 
-    return render(request, 'visualizations/reports/socioeconomic.html', context)
+    if request.method == 'GET':
+        return render(request, 'visualizations/reports/socioeconomic.html', context)
+
+    if request.method == 'POST':
+
+        comment = request.POST['comment']
+        json_data = str(serialize(context))
+
+        Report.objects.create(
+            name='Socioeconomic Status Report',
+            comments=comment,
+            generated_by=profile(request)['profile'],
+            json_data=json_data
+        )
+
+        messages.success(request, 'City Socioeconomic Status Report saved')
+        return redirect('visualizations:reports_facility')
 
 
 # micronutrient
 def report3(request):
 
     context = {
-        'data': cc.report_table_micro
+        'data': cc.report_table_micro()
     }
 
-    return render(request, 'visualizations/reports/micronutrient.html', context)
+    if request.method == 'GET':
+        return render(request, 'visualizations/reports/micronutrient.html', context)
+
+    if request.method == 'POST':
+
+        comment = request.POST['comment']
+        json_data = str(context)
+
+        Report.objects.create(
+            name='City Micronutrient Supplementation Report',
+            comments=comment,
+            generated_by=profile(request)['profile'],
+            json_data=json_data
+        )
+
+        messages.success(request, 'City Micronutrient Supplementation Report saved')
+        return redirect('visualizations:reports_facility')
 
 
 # child care
@@ -375,7 +407,23 @@ def report4(request):
         'tb_fields': datapoints.tuberculosis
     }
 
-    return render(request, 'visualizations/reports/child_care.html', context)
+    if request.method == 'GET':
+        return render(request, 'visualizations/reports/child_care.html', context)
+
+    if request.method == 'POST':
+
+        comment = request.POST['comment']
+        json_data = str(context)
+
+        Report.objects.create(
+            name='City Children Care Report',
+            comments=comment,
+            generated_by=profile(request)['profile'],
+            json_data=json_data
+        )
+
+        messages.success(request, 'City Children Care Report saved')
+        return redirect('visualizations:reports_facility')
 
 
 # maternal
@@ -386,7 +434,22 @@ def report5(request):
         'data': mt.maternal_report()
     }
 
-    return render(request, 'visualizations/reports/maternal.html', context)
+    if request.method == 'GET':
+        return render(request, 'visualizations/reports/maternal.html', context)
+
+    if request.method == 'POST':
+        comment = request.POST['comment']
+        json_data = str(context)
+
+        Report.objects.create(
+            name='City Maternal Care Report',
+            comments=comment,
+            generated_by=profile(request)['profile'],
+            json_data=json_data
+        )
+
+        messages.success(request, 'City Maternal Care Report saved')
+        return redirect('visualizations:reports_facility')
 
 
 # REPORTS FACILITY
@@ -413,7 +476,11 @@ def serialize(context):
 def reports_library(request):
 
     context = {
-        'report1': Report.objects.filter(name__contains='City Nutritional Status')
+        'report1': Report.objects.filter(name__contains='City Nutritional Status'),
+        'report3': Report.objects.filter(name__contains='City Micronutrient'),
+        'report2': Report.objects.filter(name__contains='Socioeconomic'),
+        'report4': Report.objects.filter(name__contains='Children Care'),
+        'report5': Report.objects.filter(name__contains='Maternal')
     }
 
     return render(request, 'visualizations/reports_library.html', context)
@@ -433,6 +500,56 @@ def saved_report1(request, year):
         'report': report
     }
 
-    print(type(json_data))
-
     return render(request, 'visualizations/saved/nutritional_status.html', context)
+
+
+def saved_report3(request, year):
+
+    report = Report.objects.get(name__contains='City Micronutrient', date__year=year)
+    json_data = eval(report.json_data)
+
+    context = {
+        'report': report,
+        'data': json_data
+    }
+
+    return render(request, 'visualizations/saved/micronutrient.html', context)
+
+
+def saved_report2(request, year):
+
+    report = Report.objects.get(name__contains='Socioeconomic', date__year=year)
+    json_data = eval(report.json_data)
+
+    context = {
+        'report': report,
+        'data': json_data
+    }
+
+    return render(request, 'visualizations/saved/socioeconomic.html', context)
+
+
+def saved_report4(request, year):
+
+    report = Report.objects.get(name__contains='Children Care', date__year=year)
+    json_data = eval(report.json_data)
+
+    context = {
+        'report': report,
+        'data': json_data
+    }
+
+    return render(request, 'visualizations/saved/child_care.html', context)
+
+
+def saved_report5(request, year):
+
+    report = Report.objects.get(name__contains='Maternal', date__year=year)
+    json_data = eval(report.json_data)
+
+    context = {
+        'report': report,
+        'data': json_data
+    }
+
+    return render(request, 'visualizations/saved/maternal.html', context)

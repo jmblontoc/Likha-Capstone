@@ -17,7 +17,7 @@
         </tr>
     </thead>
     <tbody>
-    {% for f in data %}
+    {% for f in data.data %}
         <tr>
             {% for a in f %}
                 {% if forloop.counter0 == 1 or forloop.counter0 == 7 %}
@@ -31,4 +31,7 @@
     </tbody>
 </table>
 
-{% include 'visualizations/comment_template.html' %}
+<div>
+    <p>Comments/Insights</p>
+    <p>{{ report.comments }}</p>
+</div>

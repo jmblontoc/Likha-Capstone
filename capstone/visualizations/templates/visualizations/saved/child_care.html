@@ -6,13 +6,13 @@
     <thead>
         <tr>
             <th>Barangay</th>
-            {% for field in cc_fields %}
+            {% for field in data.cc_fields %}
                 <th>{{ field }}</th>
             {% endfor %}
         </tr>
     </thead>
     <tbody>
-        {% for d in data %}
+        {% for d in data.data %}
             <tr>
                 {% for a in d %}
                     <td>{{ a }}</td>
@@ -28,13 +28,13 @@
     <thead>
         <tr>
             <th>Barangay</th>
-            {% for field in imm_fields %}
+            {% for field in data.imm_fields %}
                 <th>{{ field }}</th>
             {% endfor %}
         </tr>
     </thead>
     <tbody>
-        {% for d in immunization %}
+        {% for d in data.immunization %}
             <tr>
                 {% for a in d %}
                     <td>{{ a }}</td>
@@ -50,13 +50,13 @@
     <thead>
         <tr>
             <th>Barangay</th>
-            {% for field in malaria_fields %}
+            {% for field in data.malaria_fields %}
                 <th>{{ field }}</th>
             {% endfor %}
         </tr>
     </thead>
     <tbody>
-        {% for d in malaria %}
+        {% for d in data.malaria %}
             <tr>
                 {% for a in d %}
                     <td>{{ a }}</td>
@@ -72,13 +72,13 @@
     <thead>
         <tr>
             <th>Barangay</th>
-            {% for field in tb_fields %}
+            {% for field in data.tb_fields %}
                 <th>{{ field }}</th>
             {% endfor %}
         </tr>
     </thead>
     <tbody>
-        {% for d in tuberculosis %}
+        {% for d in data.tuberculosis %}
             <tr>
                 {% for a in d %}
                     <td>{{ a }}</td>
@@ -88,4 +88,7 @@
     </tbody>
 </table>
 
-{% include 'visualizations/comment_template.html' %}
+<div>
+    <p>Comments/Insights</p>
+    <p>{{ report.comments }}</p>
+</div>
