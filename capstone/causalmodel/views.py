@@ -23,6 +23,11 @@ from friends.datainput import validations
 @not_bns
 def index(request, year):
 
+    if get_user_type(request) == 'Nutritionist':
+        layout = 'core/nutritionist-layout.html'
+    else:
+        layout = 'core/pc_layout.html'
+
     models = CausalModel.objects.filter(date__year=year).order_by('-date')
     current_tree = CausalModel.objects.filter(date__year=year_now, is_approved=True)
 
@@ -30,7 +35,8 @@ def index(request, year):
         'active': 'cm',
         'causals': models,
         'year_get': year,
-        'current': current_tree
+        'current': current_tree,
+        'layout': layout
     }
 
     return render(request, 'causalmodel/index.html', context)
@@ -100,12 +106,18 @@ def create_causal_model(request):
 
     root_causes = RootCause.objects.filter(date__year=year_now)
 
+    if get_user_type(request) == 'Nutritionist':
+        layout = 'core/nutritionist-layout.html'
+    else:
+        layout = 'core/pc_layout.html'
+
     if not root_causes:
         messages.error(request, 'Please add root causes first.')
         return redirect('causalmodel:rc_index')
 
     context = {
-        'root_causes': root_causes
+        'root_causes': root_causes,
+        'layout': layout
     }
 
     return render(request, 'causalmodel/create_causal_model.html', context)
