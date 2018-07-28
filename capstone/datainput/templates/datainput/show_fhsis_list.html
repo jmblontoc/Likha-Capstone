@@ -23,14 +23,15 @@
                 <div class="col-8">
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h3 class="card-title">FHSIS Records of {{ profile.barangay }} </h3>
+                            <h3 class="card-title">FHSIS Records of {{ profile.barangay.name }} </h3>
                         </div>
                         <div class="card-body">
 
     <table id="family_list" class="table table-bordered table-hover dataTable">
                                 <thead>
                                     <tr>
-                                        <th>FHSIS Record</th>
+                                        <th>Date Uploaded</th>
+                                        <th>Uploaded By</th>
                                         <th style="width: 16%;">Action</th>
                                     </tr>
                                 </thead>
@@ -38,8 +39,9 @@
         {% for fhsis in fhsis_records %}
             <tr>
                 <td style="vertical-align: middle;">
-                    FHSIS - {{ fhsis.date.date }}
+                    {{ fhsis.date.date }}
                 </td>
+                <td>{{ fhsis.uploaded_by.get_name }}</td>
                 <td>
                     <a style="text-align: center;" class="btn btn-primary btn-sm col-12" href="{% url 'datainput:display_fhsis' fhsis.id %}">View Report</a>
                 </td>

@@ -30,7 +30,8 @@
     <table id="family_list" class="table table-bordered table-hover dataTable">
                                 <thead>
                                     <tr>
-                                        <th>OPT Record</th>
+                                        <th>Date Uploaded</th>
+                                        <th>Uploaded By</th>
                                         <th style="width: 16%;">Action</th>
                                     </tr>
                                 </thead>
@@ -39,8 +40,9 @@
         {% for opt in opt_records %}
             <tr>
                 <td style="vertical-align: middle;">
-                    eOPT - {{ opt.date.date }}
+                    {{ opt.date.date }}
                 </td>
+                <td>{{ opt.uploaded_by.get_name }}</td>
                 <td>
                     <a href="{% url 'datainput:display_opt' opt.id %}" class="btn btn-primary btn-sm col-12">View Report</a>
                 </td>

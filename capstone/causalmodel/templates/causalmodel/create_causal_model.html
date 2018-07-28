@@ -33,6 +33,7 @@
                         </div>
                         <div class="card-body">
 
+<<<<<<< HEAD
                             <div class="row">
             <div class="col-6">
                 <h5>Root Causes</h5>
@@ -54,6 +55,55 @@
             </table>
 
                 </div><div class="col-6">
+=======
+            <table class="table mt-3 table-bordered">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th>Name</th>
+                            <th>Metric</th>
+                            <th class="text-right">Value</th>
+                            <th>Source</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for cause in root_causes %}
+                            {% for metric in cause.datamap_set.all %}
+                                <tr>
+                                    {% if forloop.counter0 == 0 %}
+                                        <th class="text-center rc-name" rowspan="{{ cause.datamap_set.count }}" style="vertical-align: middle">{{ cause.name }}</th>
+                                    {% endif %}
+                                    <td>{{ metric.get_metric.get_data_point }}</td>
+                                    <td class="text-right">{{ metric.get_metric.get_total_value|floatformat }}</td>
+                                    <td>{{ metric.get_metric.get_document }}</td>
+
+                                    {% if forloop.counter0 == 0 %}
+                                        <td rowspan="{{ cause.datamap_set.count }}" style="vertical-align: middle"><input type="checkbox" class="blocks"></td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+{#            <table class="table table-bordered">#}
+{#                <thead class="thead-dark">#}
+{#                <tr>#}
+{#                    <th>Root Cause</th>#}
+{#                    <th>Action</th>#}
+{#                </tr>#}
+{#                </thead>#}
+{#                <tbody>#}
+{#                {% for rc in root_causes %}#}
+{#                    <tr data-id="{{ rc.id }}">#}
+{#                        <td class="rc-name">{{ rc.name }}</td>#}
+{#                        <td><input type="checkbox" class="blocks"></td>#}
+{#                    </tr>#}
+{#                {% endfor %}#}
+{#                </tbody>#}
+{#            </table>#}
+            <hr>
+>>>>>>> 10483f642d150bda9579cdd468a25e236c91b954
             <h5>Added Blocks</h5>
             <table class="added-blocks-table table table-bordered" style="display: none;">
                 <thead class="thead-dark">

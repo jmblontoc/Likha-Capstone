@@ -127,14 +127,14 @@ def handle_opt_file(request):
 def show_opt_list(request):
 
     barangay = Profile.objects.get(user=request.user).barangay
-    opt_records = OperationTimbang.objects.filter(barangay=barangay)
+    opt_records = OperationTimbang.objects.filter(barangay=barangay).order_by('-date')
 
     profile = Profile.objects.get(user=request.user)
 
     print(request.META.get('HTTP_REFERER'))
 
     context = {
-        'active':'ot',
+        'active': 'ot',
         'profile': profile,
         'opt_records': opt_records
     }
@@ -164,7 +164,7 @@ def show_fhsis_list(request):
     context = {
         'active': 'fh',
         'profile': profile,
-        'fhsis_records': fhsis_records
+        'fhsis_records': fhsis_records.order_by('-date')
     }
 
     return render(request, 'datainput/show_fhsis_list.html', context)
@@ -219,7 +219,7 @@ def handle_family_profile_file(request):
 def family_profiles(request):
 
     barangay = Profile.objects.get(user=request.user).barangay
-    families = FamilyProfile.objects.filter(barangay=barangay)
+    families = FamilyProfile.objects.filter(barangay=barangay).order_by('-date')
     profile = Profile.objects.get(user=request.user)
 
     print(families)
@@ -243,6 +243,7 @@ def monthly_reweighing_list(request):
 
     barangay = Profile.objects.get(user=request.user).barangay
     families = Patient.objects.values('date_created').annotate(dcount=Count('date_created'))
+    mr = MonthlyReweighing.objects.filter(patient__barangay=barangay).order_by('-date')
 
     profile = Profile.objects.get(user=request.user)
 
@@ -254,7 +255,8 @@ def monthly_reweighing_list(request):
         'active': active,
         'profile': profile,
         'barangay': barangay,
-        'families': families
+        'families': families,
+        'mr': mr
     }
 
     return render(request, 'datainput/monthly_reweighing_list.html', context)
@@ -1556,11 +1558,7 @@ def display_monthly(request, id):
 
     patients = Patient.objects.filter(barangay=barangay)
     patients_now = patients.filter(date_created__year=id)
-    print(datetime.now().year)
-    print(patients_now)
-
     request.session['active'] = 'mr'
-    print(barangay)
 
     context = {
         'profile': profile,
