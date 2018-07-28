@@ -7,7 +7,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 from capstone.decorators import not_bns
-from core.context_processors import get_user_type
+from core.context_processors import get_user_type, profile
 from core.models import Profile, Notification
 from friends.causalmodel import helper
 # Create your views here.
@@ -23,6 +23,13 @@ from friends.datainput import validations
 @not_bns
 def index(request, year):
 
+    profile = Profile.objects.get(user=request.user)
+
+    if profile.user_type == 'Nutritionist':
+        layout = 'core/nutritionist-layout.html'
+    else:
+        layout = 'core/pc_layout.html'
+
     models = CausalModel.objects.filter(date__year=year).order_by('-date')
     current_tree = CausalModel.objects.filter(date__year=year_now, is_approved=True)
 
@@ -30,7 +37,8 @@ def index(request, year):
         'active': 'cm',
         'causals': models,
         'year_get': year,
-        'current': current_tree
+        'current': current_tree,
+        'layout': layout
     }
 
     return render(request, 'causalmodel/index.html', context)
@@ -81,7 +89,9 @@ def root_causes(request):
 @not_bns
 def add_root_cause(request):
 
-    if get_user_type(request) == 'Nutritionist':
+    profile = Profile.objects.get(user=request.user)
+
+    if profile.user_type == 'Nutritionist':
         layout = 'core/nutritionist-layout.html'
     else:
         layout = 'core/pc_layout.html'
@@ -100,12 +110,20 @@ def create_causal_model(request):
 
     root_causes = RootCause.objects.filter(date__year=year_now)
 
+    profile = Profile.objects.get(user=request.user)
+
+    if profile.user_type == 'Nutritionist':
+        layout = 'core/nutritionist-layout.html'
+    else:
+        layout = 'core/pc_layout.html'
+
     if not root_causes:
         messages.error(request, 'Please add root causes first.')
         return redirect('causalmodel:rc_index')
 
     context = {
-        'root_causes': root_causes
+        'root_causes': root_causes,
+        'layout': layout
     }
 
     return render(request, 'causalmodel/create_causal_model.html', context)
