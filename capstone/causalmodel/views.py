@@ -7,6 +7,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 from capstone.decorators import not_bns
+from core.context_processors import get_user_type
 from core.models import Profile, Notification
 from friends.causalmodel import helper
 # Create your views here.
@@ -80,8 +81,14 @@ def root_causes(request):
 @not_bns
 def add_root_cause(request):
 
+    if get_user_type(request) == 'Nutritionist':
+        layout = 'core/nutritionist-layout.html'
+    else:
+        layout = 'core/pc_layout.html'
+
     context = {
         'metrics': Metric.get_alarming(),
+        'layout': layout
     }
 
     return render(request, 'causalmodel/add_root_cause.html', context)
