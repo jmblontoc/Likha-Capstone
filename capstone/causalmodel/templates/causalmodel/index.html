@@ -13,11 +13,23 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Causal Modeling Facility</h1>
+                    <h1 class="m-0 text-dark">
+                        {% if profile.user_type == 'Nutritionist' %}
+                        City Nutritionist
+                        {% else %}
+                        City Program Coordinator
+                        {% endif %}
+                        Causal Modeling Facility</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Causal Model</li>
+                        <li class="breadcrumb-item active">
+                            {% if profile.user_type == 'Nutritionist' %}
+                            Nutritionist
+                            {% else %}
+                            Program Coordinator
+                            {% endif %}
+                            Causal Model</li>
                     </ol>
                 </div>
             </div>
@@ -49,7 +61,7 @@
                         </div>
                     {% else %}
                         <table class="table table-bordered">
-                            <thead class="thead-dark">
+                            <thead>
                             <tr>
                                 <th>Date Uploaded</th>
                                 <th>Uploaded By</th>
@@ -75,9 +87,10 @@
             {% if causals %}
                 <div class="card p-3 container-fluid">
                     <div class="row">
-                        <div class="col-8">
+                        <div class="col-8" style="height:573.953">
                             <div id="tree-holder">
                                 <div>
+                                    <div style='height: 558px;' class='card'><p style="text-align: center; margin-top: 22%;">Please select a Causal Model</p></div>
 
                                 </div>
                             </div>
@@ -92,8 +105,8 @@
                                 <div class="comment-holder" style="overflow-y: scroll;">
                                 </div>
                             </div>
-                            <div class="submit-comment-holder card p-3 cm-commands" style="display: none;">
-                                <div class="form-group">
+                            <div class="submit-comment-holder card p-3" style="height: 135px;">
+                                <div class="form-group cm-commands" style="display: none;">
                                     <input class="form-control" id="comment-main" placeholder="Enter comment here">
                                     <button class="btn btn-primary mt-3" id="submit_comment">Submit</button>
                                 </div>

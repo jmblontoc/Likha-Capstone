@@ -26,6 +26,7 @@ def index(request, year):
     current_tree = CausalModel.objects.filter(date__year=year_now, is_approved=True)
 
     context = {
+        'active': 'cm',
         'causals': models,
         'year_get': year,
         'current': current_tree
@@ -55,9 +56,17 @@ def root_causes(request):
 
         causes = RootCause.objects.all()
         current_tree = CausalModel.objects.filter(date__year=year_now, is_approved=True)
+        profile = Profile.objects.get(user=request.user)
+
+        if profile.user_type == 'Nutritionist':
+            template_values = 'core/nutritionist-layout.html'
+        else:
+            template_values = 'core/pc_layout.html'
 
         context = {
+            'active': 'rc',
             'root_causes': causes,
+            'template_values': template_values,
             'current_tree': current_tree
         }
 

@@ -97,7 +97,7 @@
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                             <li class="nav-header">CITY PROGRAM COORDINATOR</li>
                             <li class="nav-item">
-                                <a href="{% url 'core:nutritionist' %}" class="nav-link {% if active == 'db' %}active{% endif %}">
+                                <a href="{% url 'core:program_coordinator' %}" class="nav-link {% if active == 'db' %}active{% endif %}">
                                     <i class="nav-icon fa fa-th"></i>
                                     <p>Dashboard</p>
                                 </a>
@@ -128,13 +128,13 @@
 {#                                </a>#}
 {#                            </li>#}
                             <li class="nav-item">
-                                <a href="{% url 'causalmodel:index' year_now %}" class="nav-link">
+                                <a href="{% url 'causalmodel:index' year_now %}" class="nav-link {% if active == 'cm' %}active{% endif %}">
                                     <i class="nav-icon fa fa-database"></i>
                                     <p>Causal Models</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{% url 'causalmodel:rc_index' %}" class="nav-link">
+                                <a href="{% url 'causalmodel:rc_index' %}" class="nav-link {% if active == 'rc' %}active{% endif %}">
                                     <i class="nav-icon fa fa-database"></i>
                                     <p>Root Causes</p>
                                 </a>
@@ -146,13 +146,13 @@
 {#                                </a>#}
 {#                            </li>#}
                             <li class="nav-item">
-                                <a href="{% url 'visualizations:reports_facility' %}" class="nav-link">
+                                <a href="{% url 'visualizations:reports_facility' %}" class="nav-link {% if active == 'rf' %}active{% endif %}">
                                     <i class="nav-icon fa fa-database"></i>
                                     <p>Reports Facility</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                    <a href="{% url 'visualizations:reports_library' %}" class="nav-link">
+                                    <a href="{% url 'visualizations:reports_library' %}" class="nav-link {% if active == 'rl' %}active{% endif %}">
                                     <i class="nav-icon fa fa-database"></i>
                                     <p>Reports Library</p>
                                 </a>
