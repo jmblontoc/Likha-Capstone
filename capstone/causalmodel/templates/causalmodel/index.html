@@ -65,32 +65,31 @@
                             <tr>
                                 <th>Date Uploaded</th>
                                 <th>Uploaded By</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for c in causals %}
-                                {% if not c.is_approved %}
+
                                 <tr>
                                     <td>
                                         {{ c.date|date:"F d, Y" }}
                                     </td>
                                     <td>{{ c.uploaded_by.get_name }}</td>
+                                    {% if not c.is_approved %}
+                                        <td style="vertical-align: middle;" class="text-danger">
+                                                <i class="fa fa-exclamation-circle"></i> Not Approved
+                                            </td>
+                                    {% else %}
+                                        <td style="vertical-align: middle;" class="text-success">
+                                                <i class="fa fa-check-circle"></i> Approved
+                                            </td>
+                                    {% endif %}
                                     <td>
                                         <button class="btn btn-primary btn-sm diagram_btn" data-id="{{ c.id }}">View</button>
                                     </td>
                                 </tr>
-                                {% else %}
-                                    <tr style="background-color: #a1d855; color: white;">
-                                        <td>
-                                            {{ c.date|date:"F d, Y" }}
-                                        </td>
-                                        <td>{{ c.uploaded_by.get_name }}</td>
-                                        <td>
-                                            <button class="btn btn-info btn-sm diagram_btn" data-id="{{ c.id }}">View</button>
-                                        </td>
-                                    </tr>
-                                {% endif %}
                             {% endfor %}
                             </tbody>
                         </table>
