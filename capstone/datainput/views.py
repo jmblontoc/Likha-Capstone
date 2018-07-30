@@ -1016,6 +1016,9 @@ def handle_fhsis_file(request):
         setattr(mc, maternal_fields[counter_mc], sheet.cell_value(x, 1))
         counter_mc = counter_mc + 1
 
+    mc.practicing_ebf = sheet.cell_value(80, 1)
+    mc.low_birth_weight = sheet.cell_value(79, 1)
+
     mc.save()
 
     # sti surveillance
@@ -1137,9 +1140,16 @@ def handle_fhsis_file(request):
         setattr(child_care_female, child_care_fields[child_care_counter], sheet.cell_value(x, 2))
         child_care_counter = child_care_counter + 1
 
+    child_care_male.dengue = sheet.cell_value(83, 1)
+    child_care_male.hepatitis = sheet.cell_value(84, 1)
+    child_care_male.measles = sheet.cell_value(85, 1)
+
+    child_care_female.dengue = sheet.cell_value(83, 2)
+    child_care_female.hepatitis = sheet.cell_value(84, 2)
+    child_care_female.measles = sheet.cell_value(85, 2)
+
     child_care_male.save()
     child_care_female.save()
-
 
     messages.success(request, 'FHSIS successfully uploaded')
     return redirect('core:bns-index')
