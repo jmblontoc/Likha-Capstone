@@ -282,19 +282,22 @@ class FHSIS(models.Model):
 
 class MaternalCare(models.Model):
 
-    prenatal_visits = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Pregnant women with 4 or more prenatal visits')
-    tetanus_toxoid = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Pregnant women given 2 doses of Tetanus Toxoid')
-    tt2_plus = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Pregnant women given TT2 plus')
-    complete_iron = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Pregnant women given complete iron with folic acid supplementation')
+    prenatal_visits = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Number of Pregnant women with 4 or more prenatal visits')
+    tetanus_toxoid = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Number of Pregnant women given 2 doses of Tetanus Toxoid')
+    tt2_plus = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Number of Pregnant women given TT2 plus')
+    complete_iron = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Number of Pregnant women given complete iron with folic acid supplementation')
     complete_iron_post = models.DecimalField(max_digits=5, decimal_places=2,
-                                             verbose_name='Postpartum women with given complete iron supplementation')
+                                             verbose_name='Number of Postpartum women with given complete iron supplementation')
     postpartum_visits = models.DecimalField(max_digits=5, decimal_places=2,
-                                            verbose_name='Postpartum women with at least 2 postpartum visits')
+                                            verbose_name='Number of Postpartum women with at least 2 postpartum visits')
     vitamin_a = models.DecimalField(max_digits=5, decimal_places=2,
-                                    verbose_name='Postpartum women given Vitamin A supplementation')
+                                    verbose_name='Number of Postpartum women given Vitamin A supplementation')
     breastfed = models.DecimalField(max_digits=5, decimal_places=2,
-                                    verbose_name='Postpartum women initiated breastfeeding within 1 hour after delivery')
+                                    verbose_name='Number of Postpartum women initiated breastfeeding within 1 hour after delivery')
     deliveries = models.DecimalField(max_digits=5, decimal_places=2)
+
+    practicing_ebf = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Number of mothers practicing exclusive breastfeeding')
+    low_birth_weight = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Number of mothers who have children with low birth weight')
 
     fhsis = models.ForeignKey(FHSIS, on_delete=models.CASCADE)
 
@@ -305,13 +308,13 @@ class Immunization(models.Model):
     fully_immunized_child = models.DecimalField(decimal_places=2, max_digits=5)
     child_protected_at_birth = models.DecimalField(decimal_places=2, max_digits=5)
 
-    given_bcg = models.IntegerField(verbose_name='Given BCG')
-    given_hepa = models.IntegerField(verbose_name='Given HEPA')
-    given_penta = models.IntegerField(verbose_name='Given PENTA')
-    given_opv = models.IntegerField(verbose_name='Given OPV')
-    given_mcv = models.IntegerField(verbose_name='Given MCV')
-    given_rota = models.IntegerField(verbose_name='Given ROTA')
-    given_pcv = models.IntegerField(verbose_name='Given PCV')
+    given_bcg = models.IntegerField(verbose_name='Number of Children Given BCG')
+    given_hepa = models.IntegerField(verbose_name='Number of Children Given HEPA')
+    given_penta = models.IntegerField(verbose_name='Number of Children Given PENTA')
+    given_opv = models.IntegerField(verbose_name='Number of Children Given OPV')
+    given_mcv = models.IntegerField(verbose_name='Number of Children Given MCV')
+    given_rota = models.IntegerField(verbose_name='Number of Children Given ROTA')
+    given_pcv = models.IntegerField(verbose_name='Number of Children Given PCV')
 
     fhsis = models.ForeignKey(FHSIS, on_delete=models.CASCADE)
     sex = models.ForeignKey(Sex, on_delete=models.CASCADE)
@@ -320,7 +323,7 @@ class Immunization(models.Model):
 class Malaria(models.Model):
 
     population_at_risk = models.DecimalField(decimal_places=2, max_digits=5)
-    malaria_cases = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Malaria Cases')
+    malaria_cases = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Number of Malaria Cases')
     deaths = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Malaria Deaths')
     immunization_given = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Malaria Immunization Given')
     llin_given = models.DecimalField(decimal_places=2, max_digits=5)
@@ -334,7 +337,7 @@ class Tuberculosis(models.Model):
     underwent_ddsm = models.DecimalField(decimal_places=2, max_digits=5)
     smear_positive = models.DecimalField(decimal_places=2, max_digits=5)
     cases_cured = models.DecimalField(decimal_places=2, max_digits=5)
-    identified = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Tuberculosis Identified')
+    identified = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Number of Tuberculosis Identified')
 
     fhsis = models.ForeignKey(FHSIS, on_delete=models.CASCADE)
     sex = models.ForeignKey(Sex, on_delete=models.CASCADE)
@@ -371,17 +374,21 @@ class Leprosy(models.Model):
 class ChildCare(models.Model):
 
     given_complimentary_food = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Given complimentary food')
-    received_vitamin_A = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Infants who received vitamin A')
-    received_iron = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Infants who received iron')
-    received_MNP = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Infants who received MNP')
-    sick_children = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Sick children')
+    received_vitamin_A = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Number of children who received vitamin A')
+    received_iron = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Number of children who received iron')
+    received_MNP = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Number of children who received MNP')
+    sick_children = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Number of Sick children')
     given_deworming = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Children given deworming')
-    anemic_children = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Anemic children')
-    anemic_children_with_iron = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Anemic children receiving full dose iron')
-    diarrhea_cases = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Diarrhea cases')
+    anemic_children = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Number of Anemic children')
+    anemic_children_with_iron = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Number of Anemic children receiving full dose iron')
+    diarrhea_cases = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Number of Diarrhea cases')
     diarrhea_with_ORS = models.DecimalField(decimal_places=2, max_digits=5)
-    pneumonia_cases = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Pneumonia cases')
+    pneumonia_cases = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Number of Pneumonia cases')
     pneumonia_cases_with_Tx = models.DecimalField(decimal_places=2, max_digits=5)
+
+    dengue = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Number of Dengue Cases', default=2)
+    hepatitis = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Number of Children with Hepatitis', default=2)
+    measles = models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Number of Children with Measles', default=2)
 
     fhsis = models.ForeignKey(FHSIS, on_delete=models.CASCADE)
     sex = models.ForeignKey(Sex, on_delete=models.CASCADE)
