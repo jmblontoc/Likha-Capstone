@@ -7,6 +7,8 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.views import View
 
+from computations.revised.general import get_value
+from friends import revised_datapoints
 from capstone.decorators import is_nutritionist, is_program_coordinator, not_bns
 from friends.datapreprocessing import checkers
 from core.models import Profile, Notification
@@ -50,6 +52,20 @@ def index(request):
     }
 
     return render(request, 'datapreprocessing/index.html', context)
+
+
+@login_required
+@is_nutritionist
+def set_thresholds(request):
+
+    context = {
+        # fields
+        'illnesses': revised_datapoints.ILLNESSES,
+        'socioeconomic': revised_datapoints.SOCIOECONOMIC,
+        'maternal': revised_datapoints.MATERNAL
+    }
+
+    return render(request, 'datapreprocessing/set_thresholds.html', context)
 
 
 @login_required
@@ -364,4 +380,11 @@ def add_metric_ajax(request):
     return redirect('datapreprocessing:index')
 
 
+# AJAX
+def get_value_for_threshold(request):
 
+    field = request.POST['field']
+
+    return JsonResponse(
+        data=get_value(field)
+    )

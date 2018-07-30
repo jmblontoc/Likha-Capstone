@@ -1,0 +1,125 @@
+{% extends 'core/nutritionist-layout.html' %}
+
+{% block content %}
+{% load static %}
+<script src="{% static 'datapreprocessing/js/thresholds.js' %}"></script>
+
+
+    <div class="content-wrapper" style="height: auto; margin-top: 57px;">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">
+                            Threshold Setting</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item active">
+                                {% if profile.user_type == 'Nutritionist' %}
+                                Nutritionist
+                                {% else %}
+                                Program Coordinator
+                                {% endif %}
+                                Causal Model</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% include 'core/helpers/messages.html' %}
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="card p-3">
+                <h4>Illnesses</h4>
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>Metric</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for field in illnesses %}
+                        <tr>
+                            <td class="field-name">{{ field }}</td>
+                            <td>TODO</td>
+                            <td>
+                                <button data-field="{{ field }}" class="btn btn-danger set-threshold" data-target="#thresholdModal" data-toggle="modal">SET!</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="card p-3">
+                <h4>Socioeconomic</h4>
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>Metric</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for field in socioeconomic %}
+                        <tr>
+                            <td class="field-name">{{ field }}</td>
+                            <td>TODO</td>
+                            <td>
+                                <button data-field="{{ field }}" class="btn btn-danger set-threshold" data-target="#thresholdModal" data-toggle="modal">SET!</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="card p-3">
+                <h4>Maternal</h4>
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>Metric</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for field in maternal %}
+                        <tr>
+                            <td class="field-name">{{ field }}</td>
+                            <td>TODO</td>
+                            <td>
+                                <button data-field="{{ field }}" class="btn btn-danger set-threshold" data-target="#thresholdModal" data-toggle="modal">SET!</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div class="modal fade" id="thresholdModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Set Threshold</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

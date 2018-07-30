@@ -16,3 +16,19 @@ ILLNESSES = [
     'Number of Malaria Cases',
 
 ]
+
+SOCIOECONOMIC = [
+
+    # refer index to FamilyProfileLine fields
+    'Number of families using a Well as water source',
+    'Number of families using an Open Pit toilet type',
+    'Number of families who do not have toilets',
+    'Number of Elementary Undergraduate Parents',
+    'Number of families practicing Family Planning',
+    'Number of families using iodized salt'
+]
+
+MATERNAL = [
+    'Number of mothers practicing exclusive breastfeeding',
+    'Number of mothers who have children with low birth weight'
+]

@@ -7,6 +7,13 @@ app_name = 'datapreprocessing'
 urlpatterns = [
     path('', views.index, name='index'),
 
+    # set threshold
+    path('set_thresholds', views.set_thresholds, name='set_thresholds'),
+
+
+
+
+
     # add metric
     path('add_metric', views.add_metric, name='add_metric'),
 
@@ -33,5 +40,7 @@ urlpatterns = [
 
     path('default/ajax', views.view_threshold, name='view_threshold_ajax'),
 
-    path('ajax/add_metric', views.add_metric_ajax, name='add_metric_ajax')
+    path('ajax/add_metric', views.add_metric_ajax, name='add_metric_ajax'),
+
+    path('ajax/get_values', views.get_value_for_threshold, name='ajax_get_values')
 ]
