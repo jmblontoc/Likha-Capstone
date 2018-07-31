@@ -4,7 +4,7 @@
 
 
 {% load static %}
-
+<script src="{% static 'causalmodel/js/add_root_cause.js' %}"></script>
 <div class="content-wrapper" style="height: auto; margin-top: 57px;">
     <div class="content-header">
         <div class="container-fluid">
@@ -23,8 +23,10 @@
     {% include 'core/helpers/messages.html' %}
     <section class="content">
         <div class="container-fluid">
-            <button id="add" data-toggle="modal" data-target="#rootCauseForm" class="btn btn-primary">Add</button>
-            <table class="table table-bordered table-hover mt-4">
+            <div class="row">
+                <div class="col-6 card">
+                    <button id="add" data-toggle="modal" data-target="#rootCauseForm" class="btn btn-primary m-3">Add</button>
+                    <table class="table table-bordered table-hover mt-4">
                 <thead>
                 <tr>
                     <th>Metric</th>
@@ -36,27 +38,34 @@
                 <tbody>
                 {% for metric in metrics %}
                     <tr>
-                        <td class="metricName">{{ metric.metric }}</td>
-                        <td class="metricValue">{{ metric.get_total_value|floatformat }}</td>
-                        <td class="metricThreshold">{{ metric.threshold|floatformat }}</td>
-                        <td><input type="checkbox" class="choice"></td>
-                    </tr>
-                {% endfor %}
-                {% for correlation in correlations %}
-                    <tr>
-                        <td class="metricName">{{ correlation.category }} - {{ correlation.sex }} vs {{ correlation.source }} - {{ correlation.field }}</td>
-                        <td class="metricValue">{{ correlation.score }}</td>
-                        {% if correlation.score < 0 %}
-                            <td class="metricThreshold">-0.5</td>
-                        {% else %}
-                            <td class="metricThreshold">0.5</td>
-                        {% endif %}
+                        <td class="metricName">{{ metric.get_data_point }}</td>
+                        <td class="metricValue text-right">{{ metric.get_total_value|floatformat }}</td>
+                        <td class="metricThreshold text-right">{{ metric.threshold|floatformat }}</td>
                         <td><input type="checkbox" class="choice"></td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
+                </div>
+                <div class="col-6">
+                    <div id="for-rc" class="card">
+                        {% for root in root_causes %}
+                            <div class="ml-3 mt-3">
+                                <h3>{{ root.name }}</h3>
+                                <ul>
+                                    {% for m in root.datamap_set.all %}
+                                        <li>{{ m.get_metric.get_data_point }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% empty %}
+                            <p class="m-3">There are no root causes yet</p>
+                        {% endfor %}
 
+                    </div>
+                </div>
+            </div>
+        </div>
             <div class="modal fade bd-example-modal-lg" id="rootCauseForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
@@ -187,6 +196,8 @@
                                     });
 
                                     modal.modal('hide');
+
+                                    window.location.replace('/causal-models/root_cause/add');
                                 },
                                 error: function(e) {
                                     console.log(e.responseText);
@@ -239,7 +250,6 @@
                     }
                 });
             </script>
-        </div>
     </section>
 </div>
 {% endblock %}

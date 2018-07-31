@@ -98,7 +98,8 @@ def add_root_cause(request):
 
     context = {
         'metrics': Metric.get_alarming(),
-        'layout': layout
+        'layout': layout,
+        'root_causes': RootCause.objects.filter(date__year=year_now)
     }
 
     return render(request, 'causalmodel/add_root_cause.html', context)
@@ -228,7 +229,6 @@ def approve_model(request):
     return JsonResponse({
         'Success': 'Hello'
     })
-
 
 
 
