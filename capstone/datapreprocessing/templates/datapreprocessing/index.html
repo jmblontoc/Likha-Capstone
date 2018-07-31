@@ -158,7 +158,7 @@
                                     </tr>
                                     {% else %}
                                         {% for x in metrics %}
-                                            <tr class="display" style="cursor: pointer;" data-value="{{ x.get_value_over_time }}" data-variables="{{ x.json_data }}">
+                                            <tr class="display" style="cursor: pointer;" data-value="{{ x.get_value_over_time }}" data-variables="{{ x.json_data }}" data-prevalence="{{ x.get_prevalence_rate }}">
                                                 <td class="source">{{ x.get_source }}</td>
                                                 <td class="point">{{ x.get_data_point }}</td>
                                                 <td>{{ x.get_total_value|floatformat:"-2" }}</td>

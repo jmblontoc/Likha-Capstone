@@ -10,6 +10,22 @@ from datainput.models import *
 month_now = datetime.now().month
 year_now = datetime.now().year
 
+
+# sum of the UW, SUW, Normal and Overweight
+def get_total_population(year):
+
+    w1 = NutritionalStatus.objects.all()[0]
+    w2 = NutritionalStatus.objects.all()[1]
+    w3 = NutritionalStatus.objects.all()[2]
+    w4 = NutritionalStatus.objects.all()[3]
+
+    query = OPTValues.objects.filter(
+        Q(nutritional_status=w1) | Q(nutritional_status=w2) | Q(nutritional_status=w3) | Q(nutritional_status=w4)
+    ).aggregate(sum=Sum('values'))['sum']
+
+    return int(query)
+
+
 # # # # # # IMPORTANT! # # # # # # #
 # to get the total weights per time period, Monthly Reweighing must be used, not OPT
 # OPT was used here for the demo, but for deployment, Monthly Reweighing must be implemented

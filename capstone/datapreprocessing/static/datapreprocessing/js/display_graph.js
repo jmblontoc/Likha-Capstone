@@ -11,6 +11,7 @@ $(function() {
         const data = $(this).attr("data-value");
         var json_data = $(this).attr("data-variables");
         const parsed = JSON.parse(data);
+        const prev = $(this).attr("data-prevalence");
 
         const field = $(this).children(".point").html();
         const source = $(this).children(".source").html();
@@ -81,32 +82,10 @@ $(function() {
             }]
         });
 
-        var json_variables = JSON.parse(json_data);
-        json_variables = json_variables.variables;
-        const table = $("#table");
-        table.empty();
+        const div = $("#table");
+        div.empty();
+        div.append("<p class='text-center' style='padding-top: 180px;'>Prevalence Rate for " + moment().year() + "</p><h1 class='display-4 text-center'>" + prev + "%</h1>");
 
-        var header = '<div class="card-header no-border" style="text-align: center;"><h3 class="card-title">' + field  + '</h3></div>';
-        var tb = '<div class="card-body"><table class="table table-bordered" id="data-here">' +
-            '<thead>' +
-            '<tr>' +
-            '<th>Category</th><th>Score</th><th>Remark</th>' +
-            '</tr>' +
-            '</thead>' +
-            '</table>' +
-            '</div>';
-
-        table.append(header);
-        table.append(tb);
-
-        var row = "";
-
-        for (var x in json_variables) {
-            row += '<tr><td>' + json_variables[x].category + '</td><td>' + json_variables[x].score + '</td>' +
-                '<td>'+ json_variables[x].remark +'</td></tr>';
-        }
-
-        $("#data-here").append(row);
 
     });
 });

@@ -3,6 +3,8 @@ import json
 from datetime import datetime
 
 from django.db.models import Sum, Avg
+
+from computations.weights import year_now
 from friends.datamining import forecast
 from computations import weights
 from datainput.models import ChildCare, FamilyProfileLine, MaternalCare, Malaria, Immunization, Tuberculosis
@@ -38,6 +40,12 @@ class Metric(models.Model):
 
         return False
 
+    @property
+    def get_prevalence_rate(self):
+
+        total_population = weights.get_total_population(year_now)
+        return round((self.get_total_value / total_population) * 100, 2)
+
     def __str__(self):
         return self.metric
 
@@ -46,7 +54,6 @@ class Metric(models.Model):
         if self.threshold_bad:
             return "is greater than"
         return "is less than"
-
 
     @property
     def is_alarming(self):
