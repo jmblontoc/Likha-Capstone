@@ -171,8 +171,6 @@ $(function() {
                             "name": b1.child[c].name,
                             "parent": b1.name
                         });
-
-                        console.log("i added default " + sons[sons.length - 1].name);
                     }
                 }
                 else {
@@ -181,7 +179,6 @@ $(function() {
                 }
             }
         }
-        console.log('kids end', sons);
         console.log('end', blocks);
         myModel.nodeDataArray = addDummy(sons);
 
@@ -197,8 +194,8 @@ $(function() {
             addedBlocks.push(blocks[b]);
         }
 
-        // var endBlock = new Block(null, 'end', [] , false, [addedBlocks[addedBlocks.length - 1]]);
-        // addedBlocks.push(endBlock);
+        var endBlock = new Block(null, 'end', [] , false, [addedBlocks[addedBlocks.length - 1]]);
+        addedBlocks.push(endBlock);
 
         var ajaxReady = JSON.stringify(addedBlocks);
         console.log(addedBlocks);
@@ -211,7 +208,8 @@ $(function() {
             dataType: "json",
             success: function(data) {
                 console.log(data);
-                alert("Success");
+                alert("Causal model created successfully");
+                window.location.replace('/causal-models/');
             },
             error: function(x) {
                 console.log(x.responseText);

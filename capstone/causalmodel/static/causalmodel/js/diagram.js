@@ -42,6 +42,7 @@ $(function() {
                 else {
 
                     const commentHolder = $(".comment-holder");
+                    const noComments = $(".no-comments").remove();
 
                     for (var x = 0; x < data.comments.length; x++) {
 

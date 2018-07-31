@@ -237,7 +237,7 @@ def program_coordinator(request):
         'average_families': socioeconomic['average_families'],
 
         # maternal
-        'maternal': maternal.maternal_dashboard(1),
+        # 'maternal': maternal.maternal_dashboard(1),
 
         # alarming metrics
         'supplement_metrics': Metric.get_critical_supplements(),

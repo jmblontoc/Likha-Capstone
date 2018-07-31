@@ -49,7 +49,7 @@
                         <tbody>
                         {% for cause in root_causes %}
                             {% for metric in cause.datamap_set.all %}
-                                <tr>
+                                <tr data-id="{{ cause.id }}">
                                     {% if forloop.counter0 == 0 %}
                                         <th class="text-center rc-name" rowspan="{{ cause.datamap_set.count }}" style="vertical-align: middle">{{ cause.name }}</th>
                                     {% endif %}
