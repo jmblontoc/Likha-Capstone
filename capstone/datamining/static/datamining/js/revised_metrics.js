@@ -202,8 +202,6 @@ $(function() {
 
 
 
-
-
     $("button#addMetric").click(function() {
 
         const core = JSON.parse($(this).attr("data-core"));

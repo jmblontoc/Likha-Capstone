@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from django.db.models import Sum
-
+from friends import revised_datapoints
 from friends import datapoints
 from django.apps import apps
 
@@ -62,20 +62,43 @@ def get_value(metric):
         return get_total_with_sex(model, field, sex=Sex.objects.get(name=phrase[2].strip()))
 
     elif str_model == 'FamilyProfileLine':
-        try:
-            field = get_field(model, phrase[1])
-            if field in datapoints.main_family_profile:
-                return get_population(field)
+        field = get_field(model, phrase[1])
+        if field in datapoints.main_family_profile:
+            return get_population(field)
 
-            if field in datapoints.boolean_fields_fp:
+        elif field in datapoints.boolean_fields_fp:
+            return get_boolean_totals(field)
+
+        else:
+
+            if field == revised_datapoints.SOCIOECONOMIC[0]:
+                field = 'water_sources'
+                choice = "Well"
+
+            elif field == revised_datapoints.SOCIOECONOMIC[1]:
+                field = 'toilet_type'
+                choice = 'Open Pit'
+
+            elif field == revised_datapoints.SOCIOECONOMIC[2]:
+                field = 'toilet_type'
+                choice = 'None'
+
+            elif field == revised_datapoints.SOCIOECONOMIC[3]:
+                field = 'educational_attainment'
+                choice = 'Elementary Undergraduate'
+
+            elif field == revised_datapoints.SOCIOECONOMIC[4]:
+                field = 'is_family_planning'
+
                 return get_boolean_totals(field)
-        except IndexError:
-            field = get_field_choices(phrase[1].strip())
-            return get_choice_count(field, phrase[1].strip())
 
-        return 123123
+            elif field == revised_datapoints.SOCIOECONOMIC[5]:
+                field = 'is_using_iodized_salt'
+                return get_boolean_totals(field)
 
-    return 0
+            return get_choice_count(field, choice)
+
+    return 3212
 
 
 def get_model(metric):
@@ -124,13 +147,36 @@ def get_model(metric):
 
 def get_field(model, verbose):
 
-    if not model is OPTValues:
+    if model is not OPTValues:
+
+        if model is FamilyProfileLine:
+
+            # hard coded based on the latest metrics
+            # if verbose == revised_datapoints.SOCIOECONOMIC[0]:
+            #     return 'water_sources'
+            # elif verbose == revised_datapoints.SOCIOECONOMIC[1] or verbose == revised_datapoints[2]:
+            #     return 'toilet_type'
+            # elif verbose == revised_datapoints.SOCIOECONOMIC[3]:
+            #     return 'educational_attainment'
+            # elif verbose == revised_datapoints.SOCIOECONOMIC[4]:
+            #     return 'is_family_planning'
+            # else:
+            #     return 'is_using_iodized_salt'
+
+            if verbose == revised_datapoints.SOCIOECONOMIC[4]:
+                return 'is_family_planning'
+
+            elif verbose == revised_datapoints.SOCIOECONOMIC[5]:
+                return 'is_using_iodized_salt'
+
+            return verbose
+
         fields = []
         for field in model._meta.get_fields():
             if field.verbose_name.strip() == verbose.strip():
                 fields.append(field)
 
-        str_field =  str(fields[0]).split(".")
+        str_field = str(fields[0]).split(".")
         return str_field[2]
 
     return None
@@ -279,6 +325,7 @@ def get_reweighing_counts_date(status, sex, start_date, end_date):
 
     return count
 
+
 # for family profiles
 def get_field_choices(field):
 
@@ -299,6 +346,7 @@ def get_choice_count(field, choice):
     count = 0
     records = FamilyProfileLine.objects.filter(family_profile__date__year=datetime.now().year)
 
+    print(field, choice)
     for record in records:
         if getattr(record, field) == choice:
             count = count + 1
@@ -309,7 +357,7 @@ def get_choice_count(field, choice):
 # population
 def get_population(field):
 
-    records  = FamilyProfileLine.objects.filter(family_profile__date__year=datetime.now().year)
+    records = FamilyProfileLine.objects.filter(family_profile__date__year=datetime.now().year)
 
     total = 0
     for record in records:
@@ -322,7 +370,7 @@ def get_population(field):
 
 def get_boolean_totals(field):
 
-    records  = FamilyProfileLine.objects.filter(family_profile__date__year=datetime.now().year)
+    records = FamilyProfileLine.objects.filter(family_profile__date__year=datetime.now().year)
 
     total = 0
     for record in records:

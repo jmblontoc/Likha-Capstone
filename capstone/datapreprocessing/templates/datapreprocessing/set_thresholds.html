@@ -2,6 +2,8 @@
 
 {% block content %}
 {% load static %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+<script src="{% static 'core/js/highcharts.js' %}"></script>
 <script src="{% static 'datapreprocessing/js/thresholds.js' %}"></script>
 
 
@@ -44,10 +46,22 @@
                     <tbody>
                     {% for field in illnesses %}
                         <tr>
-                            <td class="field-name">{{ field }}</td>
-                            <td>TODO</td>
+                            <td class="field-name">{{ field.0 }}</td>
                             <td>
-                                <button data-field="{{ field }}" class="btn btn-danger set-threshold" data-target="#thresholdModal" data-toggle="modal">SET!</button>
+                                {% if field.1 %}
+                                    Already set
+                                {% else %}
+                                    Not yet set
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if field.1 %}
+                                    <a href="{% url 'datapreprocessing:index' %}">
+                                        <button class="btn btn-success">VIEW</button>
+                                    </a>
+                                {% else %}
+                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold" data-target="#thresholdModal" data-toggle="modal">SET!</button>
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}
@@ -67,10 +81,22 @@
                     <tbody>
                     {% for field in socioeconomic %}
                         <tr>
-                            <td class="field-name">{{ field }}</td>
-                            <td>TODO</td>
+                            <td class="field-name">{{ field.0 }}</td>
                             <td>
-                                <button data-field="{{ field }}" class="btn btn-danger set-threshold" data-target="#thresholdModal" data-toggle="modal">SET!</button>
+                                {% if field.1 %}
+                                    Already Set
+                                {% else %}
+                                    Not yet set
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if field.1 %}
+                                    <a href="{% url 'datapreprocessing:index' %}">
+                                        <button class="btn btn-success">VIEW</button>
+                                    </a>
+                                {% else %}
+                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold" data-target="#thresholdModal" data-toggle="modal">SET!</button>
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}
@@ -90,10 +116,22 @@
                     <tbody>
                     {% for field in maternal %}
                         <tr>
-                            <td class="field-name">{{ field }}</td>
-                            <td>TODO</td>
+                            <td class="field-name">{{ field.0 }}</td>
                             <td>
-                                <button data-field="{{ field }}" class="btn btn-danger set-threshold" data-target="#thresholdModal" data-toggle="modal">SET!</button>
+                                {% if field.1 %}
+                                    Already Set
+                                {% else %}
+                                    Not yet set
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if field.1 %}
+                                    <a href="{% url 'datapreprocessing:index' %}">
+                                        <button class="btn btn-success">VIEW</button>
+                                    </a>
+                                {% else %}
+                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold" data-target="#thresholdModal" data-toggle="modal">SET!</button>
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}
@@ -105,7 +143,7 @@
 </div>
 
 <div class="modal fade" id="thresholdModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Set Threshold</h5>
@@ -114,10 +152,21 @@
         </button>
       </div>
       <div class="modal-body">
+        <div id="value-body">
 
+        </div>
+
+        <div class="text-center">
+            <p><b id="field"></b>
+                is greater than
+                <input type="number" id="threshold">
+
+                set to <b class="text-danger">CRITICAL</b>
+            </p>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary" id="submitThreshold">Submit</button>
       </div>
     </div>
   </div>

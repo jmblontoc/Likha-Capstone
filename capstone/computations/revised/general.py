@@ -30,7 +30,7 @@ def get_value(field):
 
         model_field = get_field(model, field)
 
-        return get_fhsis(model, model_field, None)
+        return get_fhsis(model, model_field, None), model.__name__
 
     else:
 
@@ -53,7 +53,7 @@ def get_value(field):
 
                 start_year += 1
 
-            return values
+            # return values
 
         elif field == revised_datapoints.SOCIOECONOMIC[1]:  # open pit
 
@@ -68,7 +68,7 @@ def get_value(field):
 
                 start_year += 1
 
-            return values
+            # return values
 
         elif field == revised_datapoints.SOCIOECONOMIC[2]:  # no toilet
 
@@ -83,7 +83,7 @@ def get_value(field):
 
                 start_year += 1
 
-            return values
+            # return values
 
         elif field == revised_datapoints.SOCIOECONOMIC[3]:  # undergraduate parents
 
@@ -98,7 +98,7 @@ def get_value(field):
 
                 start_year += 1
 
-            return values
+            # return values
 
         elif field == revised_datapoints.SOCIOECONOMIC[4]:  # practicing family planning
 
@@ -113,7 +113,7 @@ def get_value(field):
 
                 start_year += 1
 
-            return values
+            # return values
 
         elif field == revised_datapoints.SOCIOECONOMIC[5]:  # iodized salt
 
@@ -128,5 +128,7 @@ def get_value(field):
 
                 start_year += 1
 
-            return values
+            # return values
+
+        return values, 'Family Profile'
 

@@ -6,7 +6,7 @@ from django.db.models import Sum, Avg
 from friends.datamining import forecast
 from computations import weights
 from datainput.models import ChildCare, FamilyProfileLine, MaternalCare, Malaria, Immunization, Tuberculosis
-from friends import datapoints, general
+from friends import datapoints, general, revised_datapoints
 from friends.datapreprocessing import consolidators
 from django.db import models
 
@@ -29,6 +29,15 @@ class Metric(models.Model):
     threshold_bad = models.BooleanField(default=True, verbose_name='Is Value Reaching Threshold Bad')
     json_data = models.TextField(default='')
 
+    @staticmethod
+    def check_if_set(name):
+
+        for metric in Metric.objects.all():
+            if metric.get_data_point == name:
+                return True
+
+        return False
+
     def __str__(self):
         return self.metric
 
@@ -43,9 +52,9 @@ class Metric(models.Model):
     def is_alarming(self):
 
         if self.threshold_bad:
-            return float(self.get_total_average) > float(self.threshold)
+            return float(self.get_total_value) > float(self.threshold)
 
-        return float(self.get_total_average) < float(self.threshold)
+        return float(self.get_total_value) < float(self.threshold)
 
     @property
     def is_supplement(self):
@@ -576,12 +585,18 @@ class Metric(models.Model):
             'values': values
         }
 
-
     # # # # # # # # # # # # # # # # NEW HERE # # # # # # # # # # #
-
     def get_value_over_time(self):
 
         point = self.get_data_point.strip()
+
+        # hard coded
+        if point == revised_datapoints.SOCIOECONOMIC[0]: point = 'Well'
+        elif point == revised_datapoints.SOCIOECONOMIC[1]: point = 'Open Pit'
+        elif point == revised_datapoints.SOCIOECONOMIC[2]: point = 'None'
+        elif point == revised_datapoints.SOCIOECONOMIC[3]: point = 'Elementary Undergraduate'
+        elif point == revised_datapoints.SOCIOECONOMIC[4]: point = 'Number of families practicing family planning'
+        elif point == revised_datapoints.SOCIOECONOMIC[5]: point = 'Number of families using iodized salt'
 
         if self.get_source.strip() == 'Family Profile':
 
@@ -589,7 +604,7 @@ class Metric(models.Model):
                 start_year = [d.year for d in FamilyProfileLine.objects.dates('family_profile__date', 'year')][0]
 
                 data = {}
-                while start_year <= weights.year_now:
+                while start_year < weights.year_now:
 
                     count = FamilyProfileLine.objects.filter(family_profile__date__year=start_year, water_sources=point).count()
 
@@ -603,7 +618,7 @@ class Metric(models.Model):
                 start_year = [d.year for d in FamilyProfileLine.objects.dates('family_profile__date', 'year')][0]
 
                 data = {}
-                while start_year <= weights.year_now:
+                while start_year < weights.year_now:
 
                     count = FamilyProfileLine.objects.filter(family_profile__date__year=start_year, food_production_activity=point).count()
 
@@ -617,10 +632,9 @@ class Metric(models.Model):
                 start_year = [d.year for d in FamilyProfileLine.objects.dates('family_profile__date', 'year')][0]
 
                 data = {}
-                while start_year <= weights.year_now:
+                while start_year < weights.year_now:
 
                     count = FamilyProfileLine.objects.filter(family_profile__date__year=start_year, educational_attainment=point).count()
-
 
                     data[start_year] = count
                     start_year = start_year + 1
@@ -631,10 +645,9 @@ class Metric(models.Model):
                 start_year = [d.year for d in FamilyProfileLine.objects.dates('family_profile__date', 'year')][0]
 
                 data = {}
-                while start_year <= weights.year_now:
+                while start_year < weights.year_now:
 
                     count = FamilyProfileLine.objects.filter(family_profile__date__year=start_year, toilet_type=point).count()
-
 
                     data[start_year] = count
                     start_year = start_year + 1
@@ -645,7 +658,7 @@ class Metric(models.Model):
             start_year = [d.year for d in FamilyProfileLine.objects.dates('family_profile__date', 'year')][0]
 
             data = {}
-            while start_year <= weights.year_now:
+            while start_year < weights.year_now:
 
                 count = 0
                 for f in FamilyProfileLine.objects.filter(family_profile__date__year=start_year):

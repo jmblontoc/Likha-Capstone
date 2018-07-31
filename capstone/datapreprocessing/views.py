@@ -7,6 +7,8 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.views import View
 
+from computations.weights import year_now
+from friends.datamining import forecast
 from computations.revised.general import get_value
 from friends import revised_datapoints
 from capstone.decorators import is_nutritionist, is_program_coordinator, not_bns
@@ -58,11 +60,15 @@ def index(request):
 @is_nutritionist
 def set_thresholds(request):
 
+    illnesses = [(field, Metric.check_if_set(field)) for field in revised_datapoints.ILLNESSES]
+    socioeconomic = [(field, Metric.check_if_set(field)) for field in revised_datapoints.SOCIOECONOMIC]
+    maternal = [(field, Metric.check_if_set(field)) for field in revised_datapoints.MATERNAL]
+
     context = {
         # fields
-        'illnesses': revised_datapoints.ILLNESSES,
-        'socioeconomic': revised_datapoints.SOCIOECONOMIC,
-        'maternal': revised_datapoints.MATERNAL
+        'illnesses': illnesses,
+        'socioeconomic': socioeconomic,
+        'maternal': maternal
     }
 
     return render(request, 'datapreprocessing/set_thresholds.html', context)
@@ -322,8 +328,8 @@ def set_socioeconomic(request):
         return redirect('datapreprocessing:index')
 
 
-
 # # # # # # # # # AJAX # # # # # # # # # #
+
 
 def view_threshold(request):
 
@@ -357,6 +363,24 @@ def view_threshold(request):
         return JsonResponse(data, safe=False)
 
 
+def insert_metric_ajax(request):
+
+    metric = request.POST['metric']
+    threshold = request.POST['threshold']
+    json_data = request.POST['jsonData']
+
+    Metric.objects.create(
+        metric=metric,
+        threshold=threshold,
+        threshold_bad=True,
+        is_default=False,
+        unit='Total',
+        json_data=json_data
+    )
+
+    return redirect('datapreprocessing:index')
+
+
 def add_metric_ajax(request):
 
     metric = request.POST['metric']
@@ -366,7 +390,8 @@ def add_metric_ajax(request):
 
     if is_bad == "1":
         bad = True
-    else: bad = False
+    else:
+        bad = False
 
     Metric.objects.create(
         metric=metric,
@@ -385,6 +410,16 @@ def get_value_for_threshold(request):
 
     field = request.POST['field']
 
-    return JsonResponse(
-        data=get_value(field)
-    )
+    data = get_value(field)[0]
+    source = get_value(field)[1]
+    current = [value for key, value in data.items()]
+
+    data[year_now] = forecast.get_weighted_moving_average(current)
+
+    return JsonResponse({
+        'data': len(data),
+        'average': forecast.get_average(current),
+        'current': current,
+        'forecast': forecast.get_weighted_moving_average(current),
+        'source': source
+    })

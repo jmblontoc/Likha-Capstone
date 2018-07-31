@@ -42,5 +42,7 @@ urlpatterns = [
 
     path('ajax/add_metric', views.add_metric_ajax, name='add_metric_ajax'),
 
-    path('ajax/get_values', views.get_value_for_threshold, name='ajax_get_values')
+    path('ajax/get_values', views.get_value_for_threshold, name='ajax_get_values'),
+
+    path('ajax/insert_metric', views.insert_metric_ajax, name='insert_metric')
 ]
