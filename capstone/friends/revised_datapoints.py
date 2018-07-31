@@ -1,7 +1,7 @@
 # Here are the data points for threshold setting
 
 ILLNESSES = [
-    # in ChildCare model
+    # in ChildCare model 0 - 5
     'Number of Anemic children',
     'Number of Diarrhea cases',
     'Number of Pneumonia cases',
@@ -9,10 +9,10 @@ ILLNESSES = [
     'Number of Children with Hepatitis',
     'Number of Children with Measles',
 
-    # Tuberculosis model
+    # Tuberculosis model 6
     'Number of Tuberculosis Identified',
 
-    # Malaria model
+    # Malaria model 7
     'Number of Malaria Cases',
 
 ]

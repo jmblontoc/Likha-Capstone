@@ -74,7 +74,7 @@
                                     <td class="text-right">{{ metric.get_metric.get_total_value|floatformat }}</td>
                                     <td>{{ metric.get_metric.get_document }}</td>
                                     <td>
-                                        <a>
+                                        <a href="{% url 'causalmodel:view_summary' metric.get_metric.id  %}">
                                             <button class="btn btn-sm btn-primary">View Summary</button>
                                         </a>
                                     </td>

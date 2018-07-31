@@ -4,7 +4,7 @@ from causalmodel import views
 
 app_name = 'causalmodel'
 
-urlpatterns= [
+urlpatterns = [
     path('<int:year>/', views.index, name='index'),
 
     # details
@@ -31,5 +31,8 @@ urlpatterns= [
     path('insert_comment', views.insert_comment, name='insert_comment'),
 
     # approve causal model
-    path('approve', views.approve_model, name='approve_causal_model')
+    path('approve', views.approve_model, name='approve_causal_model'),
+
+    # view summary
+    path('root_cause/view_summary/<int:metric>/', views.view_summary, name='view_summary')
 ]

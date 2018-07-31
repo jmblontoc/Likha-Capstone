@@ -152,12 +152,6 @@ def get_field(model, verbose):
         if model is FamilyProfileLine:
 
             # hard coded based on the latest metrics
-            # if verbose == revised_datapoints.SOCIOECONOMIC[0]:
-            #     return 'water_sources'
-            # elif verbose == revised_datapoints.SOCIOECONOMIC[1] or verbose == revised_datapoints[2]:
-            #     return 'toilet_type'
-            # elif verbose == revised_datapoints.SOCIOECONOMIC[3]:
-            #     return 'educational_attainment'
             # elif verbose == revised_datapoints.SOCIOECONOMIC[4]:
             #     return 'is_family_planning'
             # else:
@@ -168,6 +162,13 @@ def get_field(model, verbose):
 
             elif verbose == revised_datapoints.SOCIOECONOMIC[5]:
                 return 'is_using_iodized_salt'
+
+            elif verbose == revised_datapoints.SOCIOECONOMIC[0]:
+                return 'water_sources'
+            elif verbose == revised_datapoints.SOCIOECONOMIC[1] or verbose == revised_datapoints[2]:
+                return 'toilet_type'
+            elif verbose == revised_datapoints.SOCIOECONOMIC[3]:
+                return 'educational_attainment'
 
             return verbose
 

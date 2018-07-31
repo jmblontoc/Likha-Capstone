@@ -16,7 +16,26 @@ year_now = datetime.now().year
 
 nutritional_statuses = NutritionalStatus.objects.all()
 
+
 # # # # # # # # # # # # # # # # # # # # # # # # # #
+def get_correlation_remark(score):
+
+    if 1 >= abs(score) >= 0.8:
+        return "Strong"
+
+    elif 0.8 > abs(score) >= 0.6:
+        return "Moderately Strong"
+
+    elif 0.6 > abs(score) >= 0.4:
+        return "Moderate"
+
+    elif 0.4 > abs(score) >= 0.2:
+        return "Mild"
+
+    elif 0.2 > abs(score) > 0:
+        return "Weak"
+
+    return "No Correlation"
 
 
 # get opt weights per year

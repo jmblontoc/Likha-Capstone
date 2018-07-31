@@ -58,9 +58,9 @@ boolean_fields_fp = [
 ]
 
 micronutrient = [
-    'Infants who received vitamin A',
-    'Infants who received iron',
-    'Infants who received MNP'
+    'Number of children who received vitamin A',
+    'Number of children who received iron',
+    'Number of children who received MNP'
 ]
 
 maternal = [
@@ -84,13 +84,13 @@ child_care = [
 ]
 
 immunizations = [
-    'Given BCG',
-    'Given HEPA',
-    'Given PENTA',
-    'Given OPV',
-    'Given MCV',
-    'Given ROTA',
-    'Given PCV',
+    'Number of Children Given BCG',
+    'Number of Children Given HEPA',
+    'Number of Children Given PENTA',
+    'Number of Children Given OPV',
+    'Number of Children Given MCV',
+    'Number of Children Given ROTA',
+    'Number of Children Given PCV',
 ]
 
 malaria = [

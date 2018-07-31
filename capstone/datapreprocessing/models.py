@@ -1,18 +1,23 @@
 import decimal
 import json
+import random
+import string
 from datetime import datetime
+from tkinter import N
 
-from django.db.models import Sum, Avg
-
+from friends.datapreprocessing import helper
+from django.apps import apps
+from django.db.models import Sum, Avg, Count
 from computations.weights import year_now
-from friends.datamining import forecast
+from friends.datamining import forecast, correlations
 from computations import weights
-from datainput.models import ChildCare, FamilyProfileLine, MaternalCare, Malaria, Immunization, Tuberculosis
+from datainput.models import ChildCare, FamilyProfileLine, MaternalCare, Malaria, Immunization, Tuberculosis, Barangay
 from friends import datapoints, general, revised_datapoints
 from friends.datapreprocessing import consolidators
 from django.db import models
 
 # Create your models here.
+from friends.datapreprocessing.consolidators import get_field
 
 
 class Metric(models.Model):
@@ -30,6 +35,329 @@ class Metric(models.Model):
     is_default = models.BooleanField(default=True)
     threshold_bad = models.BooleanField(default=True, verbose_name='Is Value Reaching Threshold Bad')
     json_data = models.TextField(default='')
+
+    @staticmethod
+    def to_metric(data):
+        try:
+            metric = Metric.objects.get(metric=data)
+            return metric
+        except Metric.DoesNotExist:
+            return None
+
+    @property
+    def to_highcharts(self):
+
+        values = eval(self.get_value_until_present)
+        years = sorted([key for key, value in values.items()])
+        data = [value for key, value in values.items()]
+
+        return [years, data]
+
+    def get_related_data_points(self):
+
+        # illnesses
+
+        if self.get_data_point == 'Number of Anemic children':
+            brothers = [field for field in revised_datapoints.ILLNESSES if field != self.get_data_point]
+            brothers.append('Number of children who received iron')
+            brothers.append('Number of children who received vitamin A')
+            brothers.append('Number of children who received MNP')
+
+            return brothers
+
+        if self.get_data_point == 'Number of Diarrhea cases':
+            brothers = [field for field in revised_datapoints.ILLNESSES if field != self.get_data_point]
+            brothers.append('Number of Children Given ROTA')
+            brothers.append('Number of children who received vitamin A')
+
+
+            return brothers
+
+        if self.get_data_point == 'Number of Pneumonia cases':
+            brothers = [field for field in revised_datapoints.ILLNESSES if field != self.get_data_point]
+            brothers.append('Number of Children Given PENTA')
+            brothers.append('Number of Children Given PCV')
+
+            return brothers
+
+        if self.get_data_point == 'Number of Dengue Cases':
+            brothers = [field for field in revised_datapoints.ILLNESSES if field != self.get_data_point]
+            brothers.append('Number of families using a Well as water source')
+
+            return brothers
+
+        if self.get_data_point == 'Number of Children with Hepatitis':
+            brothers = [field for field in revised_datapoints.ILLNESSES if field != self.get_data_point]
+            brothers.append('Number of Children Given HEPA')
+
+            return brothers
+
+        if self.get_data_point == 'Number of Children with Measles':
+            brothers = [field for field in revised_datapoints.ILLNESSES if field != self.get_data_point]
+            brothers.append('Number of Children Given MCV')
+
+            return brothers
+
+        if self.get_data_point == 'Number of Tuberculosis Identified':
+            brothers = [field for field in revised_datapoints.ILLNESSES if field != self.get_data_point]
+            brothers.append('Number of Children Given BCG')
+
+            return brothers
+
+        if self.get_data_point == 'Number of Malaria Cases':
+            brothers = [field for field in revised_datapoints.ILLNESSES if field != self.get_data_point]
+            brothers.append('Number of families using a Well as water source')
+
+            return brothers
+
+        # socioeconomic
+        if self.get_data_point == 'Number of families using a Well as water source':
+            return [
+                'Number of Malaria Cases',
+                'Number of Dengue Cases'
+            ]
+
+        if self.get_data_point == 'Number of families using an Open Pit toilet type':
+            return [
+                'Number of Tuberculosis Identified',
+                'Number of Diarrhea cases'
+            ]
+
+        if self.get_data_point == 'Number of families who do not have toilets':
+            return [
+                'Number of Tuberculosis Identified',
+                'Number of Diarrhea cases'
+            ]
+
+        if self.get_data_point == 'Number of Elementary Undergraduate Parents':
+            return [
+                'Number of mothers practicing exclusive breastfeeding'
+            ]
+
+        if self.get_data_point == 'Number of families practicing Family Planning':
+            return [
+                'Number of mothers practicing exclusive breastfeeding'
+            ]
+
+        if self.get_data_point == 'Number of families using iodized salt':
+            return [
+                'Number of Elementary Undergraduate Parents'
+            ]
+
+        # maternal
+        if self.get_data_point == 'Number of mothers practicing exclusive breastfeeding':
+            return [
+                'Number of mothers who have children with low birth weight'
+
+            ]
+
+        if self.get_data_point == 'Number of mothers who have children with low birth weight':
+            return [
+                'Number of mothers practicing exclusive breastfeeding'
+            ]
+
+    def get_correlations(self):
+
+        data = []
+
+        for field in self.get_related_data_points():
+            other = helper.get_value_until_present(helper.get_source(field), field)
+            variables = correlations.make_variables(eval(self.get_value_until_present), eval(other))
+            score = correlations.get_correlation_score(variables)
+            # data.append([field, variables, score])
+            data.append({
+                'field': field,
+                'variables': variables,
+                'score': score,
+                'remark': correlations.get_correlation_remark(score)
+            })
+
+        return data
+
+    def get_insights(self):
+
+        data = []
+        for field in self.get_related_data_points():
+            source = helper.get_source(field)
+            my_dict = helper.get_value_until_present(source, field)
+            data.append({
+                'distribution': helper.get_distribution_per_barangay(source, field),
+                'trend': helper.to_high_charts(my_dict),
+                'field': field,
+                'id': helper.id_generator(6)
+            })
+
+        return data
+
+    @property
+    def get_distribution_per_barangay(self):
+
+        # todo for family profile
+
+        trimmed = self.get_source.replace(' ', '')
+        model = apps.get_model('datainput', trimmed)
+
+        field = get_field(model, self.get_data_point)
+        query = model.objects.all().filter(fhsis__date__year=year_now)
+
+        data = []
+        for barangay in Barangay.objects.all():
+            total = query.filter(fhsis__barangay=barangay).aggregate(sum=Sum(field))['sum']
+            data.append([barangay.name, int(total)])
+
+        return data
+
+    @property
+    def get_value_until_present(self):
+
+        point = self.get_data_point.strip()
+
+        # hard coded
+        if point == revised_datapoints.SOCIOECONOMIC[0]: point = 'Well'
+        elif point == revised_datapoints.SOCIOECONOMIC[1]: point = 'Open Pit'
+        elif point == revised_datapoints.SOCIOECONOMIC[2]: point = 'None'
+        elif point == revised_datapoints.SOCIOECONOMIC[3]: point = 'Elementary Undergraduate'
+        elif point == revised_datapoints.SOCIOECONOMIC[4]: point = 'Number of families practicing family planning'
+        elif point == revised_datapoints.SOCIOECONOMIC[5]: point = 'Number of families using iodized salt'
+
+        if self.get_source.strip() == 'Family Profile':
+
+            if point in datapoints.water_sources:
+                start_year = [d.year for d in FamilyProfileLine.objects.dates('family_profile__date', 'year')][0]
+
+                data = {}
+                while start_year <= weights.year_now:
+
+                    count = FamilyProfileLine.objects.filter(family_profile__date__year=start_year, water_sources=point).count()
+
+                    data[start_year] = count
+                    start_year = start_year + 1
+
+                return json.dumps(data)
+
+            if point in datapoints.food_production:
+                start_year = [d.year for d in FamilyProfileLine.objects.dates('family_profile__date', 'year')][0]
+
+                data = {}
+                while start_year <= weights.year_now:
+
+                    count = FamilyProfileLine.objects.filter(family_profile__date__year=start_year, food_production_activity=point).count()
+
+
+                    data[start_year] = count
+                    start_year = start_year + 1
+
+                return json.dumps(data)
+
+            if point in datapoints.educational_attainment_for_r:
+                start_year = [d.year for d in FamilyProfileLine.objects.dates('family_profile__date', 'year')][0]
+
+                data = {}
+                while start_year <= weights.year_now:
+
+                    count = FamilyProfileLine.objects.filter(family_profile__date__year=start_year, educational_attainment=point).count()
+
+                    data[start_year] = count
+                    start_year = start_year + 1
+
+                return json.dumps(data)
+
+            if point in datapoints.toilet_type:
+                start_year = [d.year for d in FamilyProfileLine.objects.dates('family_profile__date', 'year')][0]
+
+                data = {}
+                while start_year <= weights.year_now:
+
+                    count = FamilyProfileLine.objects.filter(family_profile__date__year=start_year, toilet_type=point).count()
+
+                    data[start_year] = count
+                    start_year = start_year + 1
+
+                return json.dumps(data)
+
+            field = consolidators.get_field(FamilyProfileLine, self.get_data_point.strip())
+            start_year = [d.year for d in FamilyProfileLine.objects.dates('family_profile__date', 'year')][0]
+
+            data = {}
+            while start_year <= weights.year_now:
+
+                count = 0
+                for f in FamilyProfileLine.objects.filter(family_profile__date__year=start_year):
+                    if getattr(f, field):
+                        count = count + 1
+
+                data[start_year] = count
+                start_year = start_year + 1
+
+            return json.dumps(data)
+
+        elif self.get_source.strip() == 'Maternal Care':
+
+            field = consolidators.get_field(MaternalCare, self.get_data_point.strip())
+            start_year = [d.year for d in MaternalCare.objects.all().dates('fhsis__date', 'year')][0]
+
+            data = {}
+            while start_year <= weights.year_now:
+                data[start_year] = float(MaternalCare.objects.filter(fhsis__date__year=start_year).aggregate(sum=Sum(field))['sum'])
+                start_year += 1
+
+            return json.dumps(data)
+
+        elif self.get_source.strip() == 'Child Care':
+
+            field = consolidators.get_field(ChildCare, self.get_data_point.strip())
+            start_year = [d.year for d in
+                           ChildCare.objects.all().dates('fhsis__date', 'year')][0]
+
+            data = {}
+            while start_year <= weights.year_now:
+                data[start_year] = float(ChildCare.objects.filter(fhsis__date__year=start_year).aggregate(
+                    sum=Sum(field))['sum'])
+                start_year += 1
+
+            return json.dumps(data)
+
+        elif self.get_source.strip() == 'Malaria':
+
+            field = consolidators.get_field(Malaria, self.get_data_point.strip())
+            start_year = [d.year for d in
+                           Malaria.objects.all().dates('fhsis__date', 'year')][0]
+
+            data = {}
+            while start_year <= weights.year_now:
+                data[start_year] = float(Malaria.objects.filter(fhsis__date__year=start_year).aggregate(
+                    sum=Sum(field))['sum'])
+                start_year += 1
+
+            return json.dumps(data)
+
+        elif self.get_source.strip() == 'Immunization':
+
+            field = consolidators.get_field(Immunization, self.get_data_point.strip())
+            start_year = [d.year for d in
+                           Immunization.objects.all().dates('fhsis__date', 'year')][0]
+
+            data = {}
+            while start_year <= weights.year_now:
+                data[start_year] = float(Immunization.objects.filter(fhsis__date__year=start_year).aggregate(
+                    sum=Sum(field))['sum'])
+                start_year += 1
+
+            return json.dumps(data)
+
+        elif self.get_source.strip() == 'Tuberculosis':
+
+            field = consolidators.get_field(Tuberculosis, self.get_data_point.strip())
+            start_year = [d.year for d in
+                           Tuberculosis.objects.all().dates('fhsis__date', 'year')][0]
+
+            data = {}
+            while start_year <= weights.year_now:
+                data[start_year] = float(Tuberculosis.objects.filter(fhsis__date__year=start_year).aggregate(
+                    sum=Sum(field))['sum'])
+                start_year += 1
+
+            return json.dumps(data)
 
     @staticmethod
     def check_if_set(name):
@@ -115,7 +443,6 @@ class Metric(models.Model):
 
                 return FamilyProfileLine.objects.filter(family_profile__date__year=year_now,
                                                         food_production_activity=point).count()
-
 
             if point in datapoints.educational_attainment_for_r:
 
@@ -615,7 +942,6 @@ class Metric(models.Model):
 
                     count = FamilyProfileLine.objects.filter(family_profile__date__year=start_year, water_sources=point).count()
 
-
                     data[start_year] = count
                     start_year = start_year + 1
 
@@ -710,7 +1036,7 @@ class Metric(models.Model):
                            Malaria.objects.all().dates('fhsis__date', 'year')][0]
 
             data = {}
-            while start_year <= weights.year_now:
+            while start_year < weights.year_now:
                 data[start_year] = float(Malaria.objects.filter(fhsis__date__year=start_year).aggregate(
                     sum=Sum(field))['sum'])
                 start_year += 1

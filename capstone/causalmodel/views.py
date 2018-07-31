@@ -6,7 +6,7 @@ from django.core import serializers
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
-from capstone.decorators import not_bns
+from capstone.decorators import not_bns, is_program_coordinator
 from core.context_processors import get_user_type, profile
 from core.models import Profile, Notification
 from friends.causalmodel import helper
@@ -204,6 +204,8 @@ def get_blocks(request):
     return JsonResponse(data)
 
 
+@login_required
+@not_bns
 def insert_comment(request):
 
     comment = request.POST['comment']
@@ -218,6 +220,8 @@ def insert_comment(request):
     return JsonResponse(CausalModelComment.objects.latest('id').to_dict())
 
 
+@login_required
+@is_program_coordinator
 def approve_model(request):
 
     id = request.POST['id']
@@ -229,6 +233,26 @@ def approve_model(request):
     return JsonResponse({
         'Success': 'Hello'
     })
+
+
+@login_required
+@not_bns
+def view_summary(request, metric):
+
+    profile = Profile.objects.get(user=request.user)
+
+    if profile.user_type == 'Nutritionist':
+        layout = 'core/nutritionist-layout.html'
+    else:
+        layout = 'core/pc_layout.html'
+
+    context = {
+        'template_values': layout,
+
+        'metric': Metric.objects.get(id=metric)
+    }
+
+    return render(request, 'causalmodel/view_summary.html', context)
 
 
 
