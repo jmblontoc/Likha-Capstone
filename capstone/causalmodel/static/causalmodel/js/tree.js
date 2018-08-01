@@ -209,7 +209,8 @@ $(function() {
             success: function(data) {
                 console.log(data);
                 alert("Causal model created successfully");
-                window.location.replace('/causal-models/');
+
+                window.location.replace('/causal-models/' + moment().year());
             },
             error: function(x) {
                 console.log(x.responseText);

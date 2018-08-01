@@ -98,7 +98,7 @@
                             <li class="nav-item">
                                 <a href="{% url 'datainput:latest_monthly_reweighing_index' %}" class="nav-link {% if active == 'mw' %}active{% endif %}">
                                     <i class="nav-icon fa fa-dashboard"></i>
-                                    <p>Montly Reweighing</p>
+                                    <p>Monthly Reweighing</p>
                                 </a>
                             </li>
                             <li class="nav-item has-treeview {% if active == 'fh' or active == 'mr' or active == 'ot' or active == 'fp' %}menu-open{% endif %}">
@@ -136,7 +136,12 @@
                               </li>
                             </ul>
                             </li>
-
+                            <li class="nav-item">
+                                <a href="{% url 'core:memos' %}" class="nav-link {% if active == 'uf' %}active{% endif %}">
+                                    <i class="nav-icon fa fa-upload"></i>
+                                    <p>Memos</p>
+                                </a>
+                            </li>
                         </ul>
                     </nav>
                 </div>
