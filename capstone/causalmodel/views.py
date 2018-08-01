@@ -30,7 +30,7 @@ def index(request, year):
     else:
         layout = 'core/pc_layout.html'
 
-    models = CausalModel.objects.filter(date__year=year).order_by('-date')
+    models = CausalModel.objects.filter(date__year=year, is_approved=True).order_by('-date')
     current_tree = CausalModel.objects.filter(date__year=year_now, is_approved=True)
 
     context = {
@@ -38,7 +38,8 @@ def index(request, year):
         'causals': models,
         'year_get': year,
         'current': current_tree,
-        'layout': layout
+        'layout': layout,
+        'models': CausalModel.objects.filter(date__year=year)
     }
 
     return render(request, 'causalmodel/index.html', context)

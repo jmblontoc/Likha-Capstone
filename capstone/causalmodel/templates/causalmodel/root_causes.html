@@ -90,27 +90,17 @@
                     </div>
                 {% endif %}
             </div>
-            <div class="card p-3 container-fluid">
-
-                <hr>
-                {% if not current_tree %}
-                    <div class="row">
-                        <div class="col-12 text-center">
-                            <p>No causal model approved yet for this year.</p>
-                            <a href="{% url 'causalmodel:create_causal_model' %}">
-                                <button class="btn btn-primary">+ Create Causal Model</button>
-                            </a>
-                        </div>
-                    </div>
-                {% else %}
+            {% if current_tree %}
+                <div class="card p-3 container-fluid">
+                    <hr>
                     <div align="center">
                         <h1>Causal Model for {{ year_now }}</h1>
                         <div id='tree' style='height: 600px; width: 1300px;' class='card' data-id="{{ current_tree.first.id }}">
 
                         </div>
                     </div>
-                {% endif %}
-            </div>
+                </div>
+            {% endif %}
 
         </div>
     </section>

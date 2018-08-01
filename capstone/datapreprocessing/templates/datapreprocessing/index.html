@@ -134,8 +134,10 @@
                 <div class="col-12">
                     <div class="card card-primary">
                         <div class="card-header d-flex p-0" style="cursor: move;">
-                            <h3 class="card-title p-3">Metrics and Thresholds as of {{ date }}</h3>
-                            <ul class="nav nav-pills ml-auto p-2"></ul>
+                            <h3 class="card-title p-3">Metrics and Thresholds as of {{ date }} </h3>
+                            <ul class="nav nav-pills ml-auto p-2">
+                                <a href="{% url 'causalmodel:add_root_cause' %}"><button class="btn m-2">Go to Root Causes</button></a>
+                            </ul>
                         </div>
                         <div class="card-body">
                             <table id="metricsthresholds" class="table table-bordered table-hover dataTable">
