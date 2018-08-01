@@ -7,7 +7,11 @@ $(function() {
         success: function(data) {
             console.log(data);
 
+
+
+
             Highcharts.chart('micro-dashboard', {
+                colors: ['#014b90','#4078ac','#80a5c8'],
                 chart: {
                     type: 'column'
                 },
@@ -84,6 +88,7 @@ $(function() {
 
 
             Highcharts.chart('childcare-dash', {
+                colors: ['#014b90'],
                 chart: {
                     type: 'bar'
                 },

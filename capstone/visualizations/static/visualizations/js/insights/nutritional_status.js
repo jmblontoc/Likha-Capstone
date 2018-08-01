@@ -6,7 +6,8 @@ $(function() {
         url: "/visualizations/ajax_highest",
         success: function(e) {
 
-            Highcharts.chart('totals', {
+        Highcharts.chart('totals', {
+        colors: ['#014b90','#4078ac','#80a5c8'],
         chart: {
             type: 'column'
         },
