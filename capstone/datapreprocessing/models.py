@@ -192,7 +192,62 @@ class Metric(models.Model):
     @property
     def get_distribution_per_barangay(self):
 
-        # todo for family profile
+        if self.get_source == 'Family Profile':
+            query = FamilyProfileLine.objects.filter(family_profile__date__year=year_now)
+
+            if self.get_data_point == 'Number of families using a Well as water source':
+
+                data = []
+                for barangay in Barangay.objects.all():
+                    total = query.filter(family_profile__barangay=barangay).filter(water_sources='Well').count()
+                    data.append([barangay.name, int(total)])
+
+                return data
+
+            if self.get_data_point == 'Number of families using an Open Pit toilet type':
+
+                data = []
+                for barangay in Barangay.objects.all():
+                    total = query.filter(family_profile__barangay=barangay).filter(toilet_type='Open Pit').count()
+                    data.append([barangay.name, int(total)])
+
+                return data
+
+            if self.get_data_point == 'Number of families who do not have toilets':
+
+                data = []
+                for barangay in Barangay.objects.all():
+                    total = query.filter(family_profile__barangay=barangay).filter(toilet_type='None').count()
+                    data.append([barangay.name, int(total)])
+
+                return data
+
+            if self.get_data_point == 'Number of Elementary Undergraduate Parents':
+
+                data = []
+                for barangay in Barangay.objects.all():
+                    total = query.filter(family_profile__barangay=barangay).filter(educational_attainment='Elementary Undergraduate').count()
+                    data.append([barangay.name, int(total)])
+
+                return data
+
+            if self.get_data_point == 'Number of families using iodized salt':
+
+                data = []
+                for barangay in Barangay.objects.all():
+                    total = query.filter(family_profile__barangay=barangay).filter(is_using_iodized_salt=True).count()
+                    data.append([barangay.name, int(total)])
+
+                return data
+
+            if self.get_data_point == 'Number of families practicing Family Planning':
+
+                data = []
+                for barangay in Barangay.objects.all():
+                    total = query.filter(family_profile__barangay=barangay).filter(is_family_planning=True).count()
+                    data.append([barangay.name, int(total)])
+
+                return data
 
         trimmed = self.get_source.replace(' ', '')
         model = apps.get_model('datainput', trimmed)
@@ -454,7 +509,6 @@ class Metric(models.Model):
                 return FamilyProfileLine.objects.filter(family_profile__date__year=year_now,
                                                              toilet_type=point).count()
 
-
             # for booleans
 
             field = consolidators.get_field(FamilyProfileLine, self.get_data_point.strip())
@@ -496,7 +550,6 @@ class Metric(models.Model):
             return float(
                     Tuberculosis.objects.filter(fhsis__date__year=weights.year_now).aggregate(
                         avg=Avg(field))['avg'])
-
 
     @property
     def get_source(self):

@@ -71,21 +71,28 @@ def get_value(metric):
 
         else:
 
-            if field == revised_datapoints.SOCIOECONOMIC[0]:
-                field = 'water_sources'
+            print('this is my field', field)
+
+            if field == 'water_sources':
                 choice = "Well"
 
-            elif field == revised_datapoints.SOCIOECONOMIC[1]:
-                field = 'toilet_type'
+                return get_choice_count(field, choice)
+
+            elif field == 'toilet_type':
                 choice = 'Open Pit'
 
-            elif field == revised_datapoints.SOCIOECONOMIC[2]:
+                return get_choice_count(field, choice)
+
+            elif field == 'toilet_type1':
                 field = 'toilet_type'
                 choice = 'None'
 
-            elif field == revised_datapoints.SOCIOECONOMIC[3]:
-                field = 'educational_attainment'
+                return get_choice_count(field, choice)
+
+            elif field == 'educational_attainment':
                 choice = 'Elementary Undergraduate'
+
+                return get_choice_count(field, choice)
 
             elif field == revised_datapoints.SOCIOECONOMIC[4]:
                 field = 'is_family_planning'
@@ -95,8 +102,6 @@ def get_value(metric):
             elif field == revised_datapoints.SOCIOECONOMIC[5]:
                 field = 'is_using_iodized_salt'
                 return get_boolean_totals(field)
-
-            return get_choice_count(field, choice)
 
     return 3212
 
@@ -165,8 +170,10 @@ def get_field(model, verbose):
 
             elif verbose == revised_datapoints.SOCIOECONOMIC[0]:
                 return 'water_sources'
-            elif verbose == revised_datapoints.SOCIOECONOMIC[1] or verbose == revised_datapoints[2]:
+            elif verbose == revised_datapoints.SOCIOECONOMIC[1]:
                 return 'toilet_type'
+            elif verbose == revised_datapoints.SOCIOECONOMIC[2]:
+                return 'toilet_type1'
             elif verbose == revised_datapoints.SOCIOECONOMIC[3]:
                 return 'educational_attainment'
 
