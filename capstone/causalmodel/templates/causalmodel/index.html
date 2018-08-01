@@ -52,14 +52,15 @@
                 </div>
                 <hr>
                 <div class="row">
-                    {% if not causals %}
-                        <div class="col-12 text-center">
+                    {% if not current %}
+                        <div class="col-12 text-center mb-4">
                             <p>There are no causal models for {{ year_get }} yet</p>
                             <a href="{% url 'causalmodel:create_causal_model' %}">
                                 <button class="btn btn-primary">+ Create Causal Model</button>
                             </a>
                         </div>
-                    {% else %}
+                    {% endif %}
+                    {% if models %}
                         <table class="table table-bordered">
                             <thead>
                             <tr>
@@ -70,7 +71,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {% for c in causals %}
+                            {% for c in models %}
 
                                 <tr>
                                     <td>
@@ -97,7 +98,7 @@
                 </div>
             </div>
 
-            {% if causals %}
+            {% if models %}
                 <div class="card p-3 container-fluid">
                     <div class="row">
                         <div class="col-8" style="height:573.953">
