@@ -14,118 +14,199 @@
     </style>
 
     <div class="content-wrapper" style="height: auto; margin-top: 57px;">
+        <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">City Micronutrient Supplementation</h1>
+                    </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">City Micronutrient Supplementation</a></li>
+                        <li class="breadcrumb-item">Dashboard</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+{% include 'core/helpers/messages.html' %}
+    </div>
         <div class="content">
             <div class="container-fluid">
-                <h1>City Micronutrient Supplementation </h1>
-                <div class="row">
-                    <div class="col-4 text-center contents" style="height: 150px;">
-                        <div class="card">
-                           <p style="font-size: 1.3rem;">Total # of Vitamin A Given</p>
-                            <h1 class="display-4">{{ totals.0 }}</h1>
-                        </div>
-                    </div>
-                    <div class="col-4 text-center contents" style="height: 150px;">
-                        <div class="card">
-                           <p style="font-size: 1.3rem;">Total # of Iron Given</p>
-                            <h1 class="display-4">{{ totals.1 }}</h1>
-                        </div>
-                    </div>
-                    <div class="col-4 text-center contents" style="height: 150px;">
-                        <div class="card">
-                           <p style="font-size: 1.3rem;">Total # of Micronutrient Powder Given</p>
-                            <h1 class="display-4">{{ totals.2 }}</h1>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-4">
-                    <div class="col-6 text-center contents">
-                        <div class="card">
-                            <p style="font-size: 1.3rem;">Where is the barangay given the <b class="text-success">highest </b> per supplementation?</p>
-                            <div class="row">
-                                <div class="col-4 contents">
-                                    <p style="font-size: 1rem;">Vitamin A</p>
-                                    <h4>{{ highest.0.0 }}</h4>
-                                    <h3 class="text-success">{{ highest.0.1 }}</h3>
-                                </div>
-                                <div class="col-4 contents">
-                                    <p style="font-size: 1rem;">Iron</p>
-                                    <h4>{{ highest.1.0 }}</h4>
-                                    <h3 class="text-success">{{ highest.1.1 }}</h3>
-                                </div>
-                                <div class="col-4 contents">
-                                    <p style="font-size: 1rem;">Micronutrient Powder</p>
-                                    <h4>{{ highest.2.0 }}</h4>
-                                    <h3 class="text-success">{{ highest.2.1 }}</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 text-center contents">
-                        <div class="card">
-                            <p style="font-size: 1.3rem;">Where is the barangay given the <b class="text-danger">lowest</b> per supplementation?</p>
-                            <div class="row">
-                                <div class="col-4 contents">
-                                    <p style="font-size: 1rem;">Vitamin A</p>
-                                    <h4>{{ lowest.0.0 }}</h4>
-                                    <h3 class="text-danger">{{ lowest.0.1 }}</h3>
-                                </div>
-                                <div class="col-4 contents">
-                                    <p style="font-size: 1rem;">Iron</p>
-                                    <h4>{{ lowest.1.0 }}</h4>
-                                    <h3 class="text-danger">{{ lowest.1.1 }}</h3>
-                                </div>
-                                <div class="col-4 contents">
-                                    <p style="font-size: 1rem;">Micronutrient Powder</p>
-                                    <h4>{{ lowest.2.0 }}</h4>
-                                    <h3 class="text-danger">{{ lowest.2.1 }}</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card p-4">
-                            <h4 class="text-center">Micronutrient Supplementation Per Barangay</h4>
-                            <table class="table table-bordered">
-                                <thead class="thead-dark">
-                                <tr>
-                                    <th>Barangay</th>
-                                    <th>Vitamin A</th>
-                                    <th>Iron</th>
-                                    <th>Micronutrient Powder</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for b in micro_per_barangay %}
-                                    <tr>
-                                        {% for a in b %}
-                                            <td>{{ a }}</td>
-                                        {% endfor %}
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <div class="card">
-                            <div id="totals">
+<div class="row">
+    <div class="col-4">
+        <div class="small-box bg-primary">
+            <div class="inner">
+                <h3>{{ totals.0 }}</h3>
+                <p>Total # of Vitamin A Given</p>
+            </div>
+            <div class="icon">
+                <h3 style="margin-bottom: 0;">Vitamin A</h3>
+                <h3 style="text-align: right;">Given</h3>
+            </div>
+            <div class="small-box-footer">
+            </div>
+        </div>
+    </div>
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="card">
-                            <div id="totals-lowest">
+    <div class="col-4">
+        <div class="small-box bg-primary">
+            <div class="inner">
+                <h3>{{ totals.1 }}</h3>
+                <p>Total # of Iron Given</p>
+            </div>
+            <div class="icon">
+                <h3 style="margin-bottom: 0; text-align: right;">Iron</h3>
+                <h3 style="text-align: right;">Given</h3>
+            </div>
+            <div class="small-box-footer">
+            </div>
+        </div>
+    </div>
 
-                            </div>
-                        </div>
+    <div class="col-4">
+        <div class="small-box bg-primary">
+            <div class="inner">
+                <h3>{{ totals.2 }}</h3>
+                <p>Total # of Micronutrient Powder Given</p>
+            </div>
+            <div class="icon">
+                <h3 style="margin-bottom: 0; text-align: right;">MNP</h3>
+                <h3 style="text-align: right;">Given</h3>
+            </div>
+            <div class="small-box-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+<div class="col-3">
+    <div class="card">
+        <div class="card-body p-0">
+            <p  style="text-align: center; font-size: 1.3rem;">Where is the barangay given the<br><b class="text-success">highest </b> per supplementation?</p>
+
+            <div class="col-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-success"><h2>{{ highest.0.1 }}</h2></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Vitamin A</span>
+                        <span class="info-box-number">{{ highest.0.0 }}</span>
                     </div>
                 </div>
+            </div>
+
+            <div class="col-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-success"><h2>{{ highest.1.1 }}</h2></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Iron</span>
+                        <span class="info-box-number">{{ highest.1.0 }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-success"><h2>{{ highest.2.1 }}</h2></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Micronutrient Powder</span>
+                        <span class="info-box-number">{{ highest.2.0 }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-3">
+    <div class="card">
+        <div class="card-body p-0">
+            <p style="text-align: center; font-size: 1.3rem;">Where is the barangay given the <br><b class="text-danger">lowest</b> per supplementation?</p>
+
+            <div class="col-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-danger"><h2>{{ lowest.0.1 }}</h2></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Vitamin A</span>
+                        <span class="info-box-number">{{ lowest.0.0 }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-danger"><h2>{{ lowest.1.1 }}</h2></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Iron</span>
+                        <span class="info-box-number">{{ lowest.1.0 }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-danger"><h2>{{ lowest.2.1 }}</h2></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Micronutrient Powder</span>
+                        <span class="info-box-number">{{ lowest.2.0 }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-6">
+    <div class="card">
+        <div class="card-header no-border">
+            <h3 class="card-title">Micronutrient Supplementation Per Barangay</h3>
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-striped table-valign-middle">
+                <thead>
+                    <tr>
+                        <th style="width: 46%;">Barangay</th>
+                        <th style="width: 18%;">Vitamin A</th>
+                        <th style="width: 18%;">Iron</th>
+                        <th style="width: 18%;">Micronutrient Powder</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for b in micro_per_barangay %}
+                    <tr>
+                    {% for a in b %}
+                    <td>{{ a }}</td>
+                    {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</div>
+
+
+<div class="row">
+    <div class="col-6">
+        <div style="height: 600px;" class="card">
+            <div class="col-12" id="totals">
+
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div style="height: 600px;" class="card">
+            <div class="col-12" id="totals-lowest">
+
+            </div>
+        </div>
+    </div>
+</div>
+
             </div>
         </div>
     </div>

@@ -14,83 +14,152 @@
     </style>
 
     <div class="content-wrapper" style="height: auto; margin-top: 57px;">
+        <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">City Nutritional Status</h1>
+                    </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">City Nutritional Status</a></li>
+                        <li class="breadcrumb-item">Dashboard</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+{% include 'core/helpers/messages.html' %}
+    </div>
         <div class="content">
             <div class="container-fluid">
-                <h1>City Nutritional Status </h1>
-                <div class="row">
-                    <div class="col-4 text-center contents" style="height: 150px;">
-                        <div class="card">
-                           <p style="font-size: 1.3rem;">Total # of Underweight and Severely Underweight Children</p>
-                            <h1 class="display-4">{{ total_per_category.0 }}</h1>
-                        </div>
-                    </div>
-                    <div class="col-4 text-center contents" style="height: 150px;">
-                        <div class="card">
-                           <p style="font-size: 1.3rem;">Total # of Stunted and Severely Stunted Children</p>
-                            <h1 class="display-4">{{ total_per_category.1 }}</h1>
-                        </div>
-                    </div>
-                    <div class="col-4 text-center contents" style="height: 150px;">
-                        <div class="card">
-                           <p style="font-size: 1.3rem;">Total # of Wasted and Severely Wasted Children</p>
-                            <h1 class="display-4">{{ total_per_category.2 }}</h1>
-                        </div>
+
+
+<div class="row">
+
+    <div class="col-4">
+        <div class="small-box bg-primary">
+            <div class="inner">
+                <h3>{{ total_per_category.0 }}</h3>
+                <p>Total # of Underweight and<br>Severely Underweight Children</p>
+            </div>
+            <div class="icon">
+                <h3 style="margin-bottom: 0; text-align: right;">Weight</h3>
+                <h3 style="text-align: right;">for Age</h3>
+            </div>
+            <div class="small-box-footer">
+            </div>
+        </div>
+    </div>
+
+    <div class="col-4">
+        <div class="small-box bg-primary">
+            <div class="inner">
+                <h3>{{ total_per_category.1 }}</h3>
+                <p>Total # of Stunted and<br>Severely Stunted Children</p>
+            </div>
+            <div class="icon">
+                <h3 style="margin-bottom: 0; text-align: right;">Height</h3>
+                <h3 style="text-align: right;">for Age</h3>
+            </div>
+            <div class="small-box-footer">
+            </div>
+        </div>
+    </div>
+
+    <div class="col-4">
+        <div class="small-box bg-primary">
+            <div class="inner">
+                <h3>{{ total_per_category.2 }}</h3>
+                <p>Total # of Wasted and<br>Severely Wasted Children</p>
+            </div>
+            <div class="icon">
+                <h3 style="margin-bottom: 0; text-align: right;">Weight</h3>
+                <h3 style="text-align: right;">for Height</h3>
+            </div>
+            <div class="small-box-footer">
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="row">
+<div class="col-4">
+    <div class="card">
+        <div class="card-body p-0">
+            <p  style="text-align: center; font-size: 1.3rem;">Where are the <b class="text-success">highest </b><br>cases of malnutrition?</p>
+
+            <div class="col-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-success"><h2>69</h2></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Underweight and Severely Underweight</span>
+                        <span class="info-box-number">{{ highest_per_category.0 }}</span>
                     </div>
                 </div>
-                <div class="row mt-4">
-                    <div class="col-4 text-center contents">
-                        <div class="card">
-                            <p style="font-size: 1.3rem;">Where are the highest cases of malnutrition?</p>
-                            <div class="row">
-                                <div class="col-4 contents">
-                                    <p style="font-size: 1rem;">Underweight and Severely Underweight</p>
-                                    <h4>{{ highest_per_category.0 }}</h4>
-                                </div>
-                                <div class="col-4 contents">
-                                    <p style="font-size: 1rem;">Stunted and Severely Stunted</p>
-                                    <h4>{{ highest_per_category.1 }}</h4>
-                                </div>
-                                <div class="col-4 contents">
-                                    <p style="font-size: 1rem;">Wasted and Severely Wasted</p>
-                                    <h4>{{ highest_per_category.2 }}</h4>
-                                </div>
-                            </div>
-                        </div>
+            </div>
+
+            <div class="col-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-success"><h2>69</h2></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Stunted and Severely Stunted</span>
+                        <span class="info-box-number">{{ highest_per_category.1 }}</span>
                     </div>
-                    <div class="col-8">
-                        <div class="card p-4">
-                            <h4 class="text-center">Nutritional Status Count Per Barangay Per Category</h4>
-                            <table class="table table-bordered">
-                                <thead class="thead-dark">
-                                <tr>
-                                    <th>Barangay</th>
-                                    <th>Underweight + Severely Underweight</th>
-                                    <th>Stunted + Severely Stunted</th>
-                                    <th>Wasted + Severely Wasted</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for val in count_per_barangay %}
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-success"><h2>69</h2></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Wasted and Severely Wasted</span>
+                        <span class="info-box-number">{{ highest_per_category.2 }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="height: 400px;" class="card">
+        <div style="height: 400px;" class="col-12" id="totals">
+
+        </div>
+    </div>
+</div>
+
+<div class="col-8">
+<div class="card">
+        <div class="card-header no-border">
+            <h3 class="card-title">Nutritional Status Count Per Barangay Per Category</h3>
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-striped table-valign-middle">
+                <thead>
+                    <tr>
+                        <th>Barangay</th>
+                        <th>Underweight + Severely Underweight</th>
+                        <th>Stunted + Severely Stunted</th>
+                        <th>Wasted + Severely Wasted</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for val in count_per_barangay %}
                                     <tr>
                                         {% for a in val %}
                                             <td>{{ a }}</td>
                                         {% endfor %}
                                     </tr>
                                 {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div id="totals">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+
+    </div>
+
             </div>
         </div>
     </div>
