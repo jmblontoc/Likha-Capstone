@@ -88,7 +88,7 @@ $(function() {
                     type: 'bar'
                 },
                 title: {
-                    text: 'City Children Care as of ' + date
+                    text: 'Illnesses of Children as of ' + date
                 },
 
                 xAxis: {
@@ -139,35 +139,35 @@ $(function() {
 
 
             // Build the chart
-            Highcharts.chart('socio-dash', {
-                chart: {
-                    plotBackgroundColor: null,
-                    plotBorderWidth: null,
-                    plotShadow: false,
-                    type: 'pie'
-                },
-                title: {
-                    text: 'Milk Feeding Practices in Families as of ' + date
-                },
-                tooltip: {
-                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-                },
-                plotOptions: {
-                    pie: {
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-                        dataLabels: {
-                            enabled: false
-                        },
-                        showInLegend: true
-                    }
-                },
-                series: [{
-                    name: 'Method',
-                    colorByPoint: true,
-                    data: data.socioeconomic.feeding
-                }]
-            });
+            // Highcharts.chart('socio-dash', {
+            //     chart: {
+            //         plotBackgroundColor: null,
+            //         plotBorderWidth: null,
+            //         plotShadow: false,
+            //         type: 'pie'
+            //     },
+            //     title: {
+            //         text: 'Milk Feeding Practices in Families as of ' + date
+            //     },
+            //     tooltip: {
+            //         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            //     },
+            //     plotOptions: {
+            //         pie: {
+            //             allowPointSelect: true,
+            //             cursor: 'pointer',
+            //             dataLabels: {
+            //                 enabled: false
+            //             },
+            //             showInLegend: true
+            //         }
+            //     },
+            //     series: [{
+            //         name: 'Method',
+            //         colorByPoint: true,
+            //         data: data.socioeconomic.feeding
+            //     }]
+            // });
         },
         error: function(e) {
             console.log(e.responseText);

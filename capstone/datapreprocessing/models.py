@@ -37,6 +37,20 @@ class Metric(models.Model):
     json_data = models.TextField(default='')
 
     @staticmethod
+    def categorized():
+
+        illnesses = [metric for metric in Metric.objects.filter(metric__contains='Child Care')]
+        maternal = [metric for metric in Metric.objects.filter(metric__contains='Maternal Care')]
+        socioeconomic = [metric for metric in Metric.objects.filter(metric__contains='Family Profile')]
+
+        return {
+            'illnesses': illnesses,
+            'maternal': maternal,
+            'socioeconomic': socioeconomic
+        }
+
+
+    @staticmethod
     def to_metric(data):
         try:
             metric = Metric.objects.get(metric=data)
@@ -640,7 +654,6 @@ class Metric(models.Model):
             'threshold': int(self.threshold),
             'value': int(self.get_total_value),
             'is_alarming': self.get_total_value >= self.threshold
-
         }
 
     @property
@@ -960,15 +973,15 @@ class Metric(models.Model):
     @staticmethod
     def get_child_care_dashboard():
 
-        cc_fields = datapoints.child_care
-        fields = [cc_fields[1], cc_fields[3], cc_fields[5], cc_fields[6]]
+        cc_fields = revised_datapoints.ILLNESSES
 
-        x = [metric.to_dict() for metric in Metric.objects.filter(is_default=True) if metric.get_data_point in fields]
+        x = [metric.to_dict() for metric in Metric.objects.all() if metric.get_data_point in cc_fields]
 
         values = [m['value'] for m in x]
+        print(x)
 
         return {
-            'fields': fields,
+            'fields': cc_fields,
             'values': values
         }
 
