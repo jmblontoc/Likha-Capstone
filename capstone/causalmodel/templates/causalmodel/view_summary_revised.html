@@ -128,6 +128,23 @@
 
             {% endfor %}
         </div>
+
+        <div class="row">
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label>Subject</label>
+                    <input class="form-control" name="subject">
+                </div>
+                <div class="form-group">
+                    <label>Comments / Notes</label>
+                    <textarea class="form-control" name="comments"></textarea>
+                    <input type="hidden" name="metric" value="{{ metric.id }}">
+                </div>
+                <input type="submit" value="Submit" class="btn btn-primary">
+            </form>
+        </div>
         </div>
     </section>
 </div>

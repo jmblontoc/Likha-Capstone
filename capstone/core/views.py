@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 
 from capstone.decorators import is_bns, is_nutritionist, is_program_coordinator
+from causalmodel.models import Memo
 from computations import weights, maternal, child_care, socioeconomic as sc
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
@@ -297,3 +298,34 @@ def dashboard(request):
     }
 
     return JsonResponse(data, safe=False)
+
+
+@login_required
+def memos(request):
+
+    records = Memo.objects.all()
+    profile = Profile.objects.get(user=request.user)
+
+    if profile.user_type == 'Nutritionist':
+        layout = 'core/nutritionist-layout.html'
+    else:
+        layout = 'core/pc_layout.html'
+
+    context = {
+        'memos': records,
+        'template_values': layout
+    }
+
+    return render(request, 'core/memos.html', context)
+
+
+@login_required
+def memo_detail(request, id):
+
+    memo = Memo.objects.get(id=id)
+
+    context = {
+        'memo': memo
+    }
+
+    return render(request, 'core/memo-detail.html', context)

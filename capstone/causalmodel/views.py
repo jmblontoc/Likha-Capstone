@@ -12,7 +12,7 @@ from core.models import Profile, Notification
 from friends.causalmodel import helper
 # Create your views here.
 from datapreprocessing.models import Metric
-from causalmodel.models import RootCause, DataMap, Block, Child, CausalModel, CausalModelComment
+from causalmodel.models import RootCause, DataMap, Block, Child, CausalModel, CausalModelComment, Memo
 from friends.datamining.correlations import create_session, year_now
 from friends.datapreprocessing import checkers
 from friends.datamining import correlations
@@ -241,18 +241,35 @@ def view_summary(request, metric):
 
     profile = Profile.objects.get(user=request.user)
 
-    if profile.user_type == 'Nutritionist':
-        layout = 'core/nutritionist-layout.html'
-    else:
-        layout = 'core/pc_layout.html'
+    if request.method == 'GET':
 
-    context = {
-        'template_values': layout,
+        if profile.user_type == 'Nutritionist':
+            layout = 'core/nutritionist-layout.html'
+        else:
+            layout = 'core/pc_layout.html'
 
-        'metric': Metric.objects.get(id=metric)
-    }
+        context = {
+            'template_values': layout,
 
-    return render(request, 'causalmodel/view_summary_revised.html', context)
+            'metric': Metric.objects.get(id=metric)
+        }
+
+        return render(request, 'causalmodel/view_summary_revised.html', context)
+
+    if request.method == 'POST':
+
+        m = request.POST['metric']
+        comments = request.POST['comments']
+        subject = request.POST['subject']
+
+        created = Memo.objects.create(
+            metric=Metric.objects.get(id=m),
+            uploaded_by=profile,
+            comments=comments,
+            subject=subject
+        )
+
+        return redirect('core:memo_detail', id=created.id)
 
 
 def ajax_get_metric(request):

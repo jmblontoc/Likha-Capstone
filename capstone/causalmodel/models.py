@@ -112,4 +112,15 @@ class CausalModelComment(models.Model):
         }
 
 
+class Memo(models.Model):
+
+    subject = models.CharField(max_length=128)
+    date = models.DateTimeField(default=datetime.now)
+    metric = models.ForeignKey(Metric, on_delete=models.CASCADE)
+    comments = models.TextField()
+    uploaded_by = models.ForeignKey('core.Profile', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.subject
+
 
