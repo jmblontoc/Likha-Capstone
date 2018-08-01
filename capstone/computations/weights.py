@@ -107,7 +107,7 @@ def get_computations_per_category(category):
         # # # # # #
 
         sub_data.append(foo)
-        sub_data.append(sub_total)
+        sub_data.append(int(sub_total))
         sub_data.append(str(prevalence_rate) + '%')
         data.append(sub_data)
 

@@ -188,8 +188,9 @@ def nutritionist(request):
         # 'maternal': maternal.maternal_dashboard(1),
 
         # alarming metrics
-        'supplement_metrics': Metric.get_critical_supplements(),
-        'non_supplement_metrics': Metric.get_critical_non_supplements()
+        'illnesses_metrics': Metric.categorized()['illnesses'],
+        'maternal_metrics': Metric.categorized()['maternal'],
+        'socioeconomic_metrics': Metric.categorized()['socioeconomic']
     }
 
     return render(request, 'core/nutritionist_index.html', context)
@@ -290,8 +291,8 @@ def dashboard(request):
 
     data = {
         'micro': Metric.get_micronutrient_dashboard(),
-        'maternal': maternal.maternal_dashboard(1),
-        'child_care': child_care.child_care_dashboard(),
+        # 'maternal': maternal.maternal_dashboard(1),
+        'child_care': Metric.get_child_care_dashboard(),
         'socioeconomic': socioeconomic
     }
 

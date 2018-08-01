@@ -25,7 +25,7 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-9">
+                <div class="col-7">
                     <div class="row">
                         <div class="col-12">
                             <a href="{% url 'visualizations:city_nutritional_status' %}">
@@ -128,7 +128,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-6">
                             <a href="{% url 'visualizations:city_micronutrient' %}">
                                 <div class="card">
                                     <div class="card-body">
@@ -156,16 +156,7 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="col-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div id="socio-dash">
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-4">
+                        <div class="col-6">
                             <a href="{% url 'visualizations:children_care' %}">
                                 <div class="card">
                                     <div class="card-body">
@@ -178,13 +169,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3">
+                <div class="col-5">
                     <div class="card">
                         <div class="card-header no-border" style="text-align: center;">
-                            <h3 class="card-title">Critical Metrics (Non Supplement)</h3>
+                            <h3 class="card-title">Critical Metrics (Illnesses)</h3>
                         </div>
                         <div class="card-body p-2">
-                        {% if not non_supplement_metrics %}
+                        {% if not illnesses_metrics %}
                             <p class="text-center text-info">There are no critical metrics as of now.</p>
                         {% else %}
                         <table class="table table-bordered">
@@ -194,7 +185,7 @@
                                 <th style="width: 25%;">Value</th>
                             </tr>
                             </thead>
-                            {% for m in non_supplement_metrics %}
+                            {% for m in illnesses_metrics %}
                                 <tr>
                                     <td>{{ m.get_data_point }}</td>
                                     <td>{% if m.get_type == 'is greater than' %}<i class="fa fa-arrow-up"></i>{% else %}<i class="fa fa-arrow-down"></i>{% endif %} {{ m.get_total_value|floatformat:"-2" }}</td>
@@ -206,29 +197,54 @@
                     </div>
 
                         <div class="card-header no-border" style="text-align: center;">
-                            <h3 class="card-title">Critical Metrics (Supplement)</h3>
+                            <h3 class="card-title">Critical Metrics (Maternal Care)</h3>
                         </div>
                         <div class="card-body p-2">
-                            {% if not supplement_metrics %}
-                                <p class="text-center text-info">There are no critical metrics as of now.</p>
-                            {% else %}
-                            <table class="table table-bordered">
-                                <thead>
+                        {% if not maternal_metrics %}
+                            <p class="text-center text-info">There are no critical metrics as of now.</p>
+                        {% else %}
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th style="width: 25%;">Value</th>
+                            </tr>
+                            </thead>
+                            {% for m in maternal_metrics %}
                                 <tr>
-                                    <th>Metric</th>
-                                    <th style="width: 25%;">Value</th>
+                                    <td>{{ m.get_data_point }}</td>
+                                    <td>{% if m.get_type == 'is greater than' %}<i class="fa fa-arrow-up"></i>{% else %}<i class="fa fa-arrow-down"></i>{% endif %} {{ m.get_total_value|floatformat:"-2" }}</td>
                                 </tr>
-                                </thead>
-                                {% for m in supplement_metrics %}
-                                    <tr>
-                                        <td>{{ m.get_data_point }}</td>
-                                        <td>{% if m.get_type == 'is greater than' %}<i class="fa fa-arrow-up"></i>{% else %}<i class="fa fa-arrow-down"></i>{% endif %} {{ m.get_total_value|floatformat:"-2" }}</td>
-                                    </tr>
-                                {% endfor %}
+                            {% endfor %}
 
-                            </table>
-                            {% endif %}
+                        </table>
+                        {% endif %}
+                    </div>
+
+                        <div class="card-header no-border" style="text-align: center;">
+                            <h3 class="card-title">Critical Metrics (Socioeconomic)</h3>
                         </div>
+                        <div class="card-body p-2">
+                        {% if not socioeconomic_metrics %}
+                            <p class="text-center text-info">There are no critical metrics as of now.</p>
+                        {% else %}
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th style="width: 25%;">Value</th>
+                            </tr>
+                            </thead>
+                            {% for m in socioeconomic_metrics %}
+                                <tr>
+                                    <td>{{ m.get_data_point }}</td>
+                                    <td>{% if m.get_type == 'is greater than' %}<i class="fa fa-arrow-up"></i>{% else %}<i class="fa fa-arrow-down"></i>{% endif %} {{ m.get_total_value|floatformat:"-2" }}</td>
+                                </tr>
+                            {% endfor %}
+
+                        </table>
+                        {% endif %}
+                    </div>
                         <div class="p-3 text-center">
                             <a href="{% url 'causalmodel:rc_index' %}">
                                 <button class="btn btn-primary">Go to Root Causes</button>
