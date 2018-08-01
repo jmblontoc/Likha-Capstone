@@ -1,14 +1,67 @@
 {% load static %}
-
+<html>
 <link rel="stylesheet" href="{% static 'core/plugins/bootstrap/css/bootstrap.min.css' %}">
 <script src="{% static 'core/plugins/jquery/jquery.min.js' %}"></script>
 <script src="{% static 'core/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
 <script src="{% static 'core/js/highcharts.js' %}"></script>
 <script src="{% static 'core/js/memo.js' %}"></script>
 
-<h1 id="metricMain" data-id="{{ memo.metric.id }}">{{ memo.metric.get_data_point }}</h1>
+<style type="text/css" media="print">
+    @page
+    {
+        size: auto;
+        margin: 0mm;
+    }
+	</style>
 
-<div class="container-fluid">
+<body style="margin: 1in;">
+<div class="row">
+    <div class="col-2">
+        <img src="{% static 'core/images/com.png' %}" class="brand-image img-circle col-12">
+    </div>
+    <div class="col-5">
+        <h3 style="padding-top: 30px;">Mandaluyong City</h3>
+        <h3 style="padding: 0px;">Nutrition Committee</h3>
+    </div>
+    <div class="col-5" style="text-align: right;">
+        <p style="padding-top: 30px; margin: 0px;">Report Generated on:</p>
+        <p style="margin: 0px;">Date: {{ memo.date|date:"F d, Y"}}</p>
+        <p style="margin: 0px;">Time: {{ memo.date|time}}</p>
+    </div>
+</div>
+<div class="row" style="padding-top: 30px;">
+    <div class="col-1">
+    </div>
+    <div class="col-1">
+        <p>To:</p>
+        <p>From:</p>
+        <p>Subject:</p>
+    </div>
+    <div class="col-5">
+        <p>All Barangay Nutrition Scholar, All Nutritionist</p>
+        <p>{{ memo.uploaded_by.get_name }}</p>
+        <p>{{ memo.subject }}</p>
+    </div>
+
+</div>
+<hr>
+
+<div class="row" style="padding-top: 30px;">
+    <div class="col-12">
+        <p style="text-indent: 1in;">{{ memo.comments }}.</p>
+    </div>
+</div>
+<div class="row" style="padding-top: 30px;">
+    <div class="col-12">
+        <p style="text-indent: 1in;"><i>Please see attached info graphics below for reference.</i></p>
+    </div>
+</div>
+
+<div style="page-break-after: always;"></div>
+
+
+<div style="margin-top: 1in;" class="container-fluid">
+    <h1 id="metricMain" data-id="{{ memo.metric.id }}">{{ memo.metric.get_data_point }}</h1>
     <div class="row">
         <div class="col-12">
             <h3>Subject: {{ memo.subject }}</h3>
@@ -18,33 +71,31 @@
         </div>
     </div>
     <hr>
-    <div class="row">
-        <div class="col-6">
-            <div id="distribution">
+    <div style="width: 900px;" class="row">
+        <div  style="width: 50%;" class="col-6">
+            <div style="width: 400px;" id="distribution">
 
             </div>
         </div>
 
-        <div class="col-6">
-            <div id="main-trend">
+        <div style="width: 50%;" class="col-6">
+            <div style="width: 400px;" id="main-trend">
 
             </div>
         </div>
     </div>
 
-    <div class="row">
+    <div style="width: 900px;" class="row">
         {% for insight in memo.metric.get_insights %}
 
-            <div class="col-4">
-
-                <div>
-                    <div align="center">
-                        <h5 class="text-danger">{{ insight.field }}</h5>
+            <div style="width: 1000px;"  class="col-4">
+                    <div style="width: 300px;" align="center">
+                        <h6 class="text-danger">{{ insight.field }}</h6>
                         <p class="font-italic">({{ insight.score }})</p>
                         <b>{{ insight.remark }}</b>
                     </div>
 
-                    <div id="{{ insight.id }}">
+                    <div class="col-12" id="{{ insight.id }}">
                         <script>
                             Highcharts.chart('{{ insight.id }}', {
 
@@ -94,21 +145,32 @@
                                         }
                                     }]
                                 }
-
                              });
                         </script>
                     </div>
-                </div>
-
             </div>
 
             {% if forloop.counter|divisibleby:"3"  %}
-
                 </div>
-                <div class="row">
+                    {% if forloop.counter == 3  %}
+                    <div style="page-break-after: always;"></div>
+                    <div style="margin-top: 1in;"></div>
+                    {% endif %}
+                    {% if forloop.counter == 9  %}
+                    <div style="page-break-before: always;"></div>
+                    <div style="margin-top: 1in;"></div>
+                    {% endif %}
+                    {% if forloop.counter == 15  %}
+                    <div style="page-break-after: always;"></div>
+                    <div style="margin-top: 1in;"></div>
+                    {% endif %}
+                <div style="width: 900px;" class="row">
             {% endif %}
 
         {% endfor %}
     </div>
     </div>
 </div>
+</div>
+    </body>
+</html>
