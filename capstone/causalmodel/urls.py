@@ -34,5 +34,10 @@ urlpatterns = [
     path('approve', views.approve_model, name='approve_causal_model'),
 
     # view summary
-    path('root_cause/view_summary/<int:metric>/', views.view_summary, name='view_summary')
+    path('root_cause/view_summary/<int:metric>/', views.view_summary, name='view_summary'),
+
+    # ajax
+    path('view_summary_ajax', views.ajax_get_metric, name='get_metric_ajax')
+
+
 ]

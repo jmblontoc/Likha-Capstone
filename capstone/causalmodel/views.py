@@ -252,7 +252,22 @@ def view_summary(request, metric):
         'metric': Metric.objects.get(id=metric)
     }
 
-    return render(request, 'causalmodel/view_summary.html', context)
+    return render(request, 'causalmodel/view_summary_revised.html', context)
 
 
+def ajax_get_metric(request):
+
+    id = request.POST['id']
+    metric = Metric.objects.get(id=id)
+    trend = eval(metric.get_value_until_present)
+
+    values = [v for k, v in trend.items()]
+    start = sorted(trend.keys())[0]
+
+    return JsonResponse({
+        'data': metric.to_high_charts_d(),
+        'field': metric.get_data_point,
+        'trend': values,
+        'start': start
+    })
 

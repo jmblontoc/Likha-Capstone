@@ -1,3 +1,4 @@
+
 import decimal
 import json
 import random
@@ -48,7 +49,6 @@ class Metric(models.Model):
             'maternal': maternal,
             'socioeconomic': socioeconomic
         }
-
 
     @staticmethod
     def to_metric(data):
@@ -194,11 +194,18 @@ class Metric(models.Model):
         for field in self.get_related_data_points():
             source = helper.get_source(field)
             my_dict = helper.get_value_until_present(source, field)
+
+            variables = correlations.make_variables(eval(self.get_value_until_present), eval(my_dict))
+            score = correlations.get_correlation_score(variables)
+
             data.append({
                 'distribution': helper.get_distribution_per_barangay(source, field),
                 'trend': helper.to_high_charts(my_dict),
                 'field': field,
-                'id': helper.id_generator(6)
+                'id': helper.id_generator(6),
+                'score': score,
+                'remark': correlations.get_correlation_remark(score),
+                'start': 2015
             })
 
         return data
@@ -275,6 +282,18 @@ class Metric(models.Model):
             data.append([barangay.name, int(total)])
 
         return data
+
+    def to_high_charts_d(self):
+
+        data = self.get_distribution_per_barangay
+
+        fields = [x[0] for x in data]
+        values = [x[1] for x in data]
+
+        return {
+            'fields': fields,
+            'values': values
+        }
 
     @property
     def get_value_until_present(self):
