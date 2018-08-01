@@ -6,6 +6,7 @@ $(function() {
             console.log(e);
 
             Highcharts.chart('totals', {
+                colors: ['#014b90','#4078ac','#80a5c8'],
                 chart: {
                     type: 'column'
                 },
@@ -65,6 +66,7 @@ $(function() {
             });
 
             Highcharts.chart('totals-lowest', {
+                colors: ['#014b90','#4078ac','#80a5c8'],
                 chart: {
                     type: 'column'
                 },
