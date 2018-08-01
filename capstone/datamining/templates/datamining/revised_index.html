@@ -109,12 +109,6 @@
                             <p class="text-danger"><i class="fa fa-exclamation"></i> {{ a.remark }}</p>
                             {% elif a.remark == 'Moderately Strong' %}
                             <p class="text-danger"><i class="fa fa-exclamation"></i> {{ a.remark }}</p>
-                            {% elif a.remark == 'Moderate' %}
-                            <p class="text-warning"><i class="fa fa-bell-o"></i> {{ a.remark }}</p>
-                            {% elif a.remark == 'Weak' %}
-                            <p class="text-success"><i class="fa fa-check"></i> {{ a.remark }}</p>
-                            {% elif a.remark == 'Very Weak' %}
-                            <p class="text-success"><i class="fa fa-check"></i> {{ a.remark }}</p>
                             {% else %}
                             <p>{{ a.remark }}</p>
                             {% endif %}

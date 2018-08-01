@@ -242,8 +242,9 @@ def program_coordinator(request):
         # 'maternal': maternal.maternal_dashboard(1),
 
         # alarming metrics
-        'supplement_metrics': Metric.get_critical_supplements(),
-        'non_supplement_metrics': Metric.get_critical_non_supplements()
+        'illnesses_metrics': Metric.categorized()['illnesses'],
+        'maternal_metrics': Metric.categorized()['maternal'],
+        'socioeconomic_metrics': Metric.categorized()['socioeconomic']
     }
 
     return render(request, 'core/pc_index.html', context=context)

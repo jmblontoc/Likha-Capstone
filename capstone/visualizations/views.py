@@ -39,8 +39,16 @@ def index(request):
 
 @login_required
 def city_nutritional_status(request):
+    profile = Profile.objects.get(user=request.user)
+
+    if profile.user_type == 'Nutritionist':
+        template_values = 'core/nutritionist-layout.html'
+    else:
+        template_values = 'core/pc_layout.html'
 
     context = {
+        'active': 'db',
+        'template_values': template_values,
         'total_per_category': weights.totals_per_category(),
         'highest_per_category': weights.highest_barangay_per_category(),
         'count_per_barangay': weights.count_per_barangay_per_category()
@@ -51,8 +59,16 @@ def city_nutritional_status(request):
 
 @login_required
 def city_micronutrient(request):
+    profile = Profile.objects.get(user=request.user)
+
+    if profile.user_type == 'Nutritionist':
+        template_values = 'core/nutritionist-layout.html'
+    else:
+        template_values = 'core/pc_layout.html'
 
     context = {
+        'active': 'db',
+        'template_values': template_values,
         'totals': cc.given_totals(),
         'highest': cc.highest(0),
         'lowest': cc.highest(123),
@@ -64,8 +80,16 @@ def city_micronutrient(request):
 
 @login_required
 def city_maternal(request):
+    profile = Profile.objects.get(user=request.user)
+
+    if profile.user_type == 'Nutritionist':
+        template_values = 'core/nutritionist-layout.html'
+    else:
+        template_values = 'core/pc_layout.html'
 
     context = {
+        'active': 'db',
+        'template_values': template_values,
 
     }
 
@@ -74,8 +98,16 @@ def city_maternal(request):
 
 @login_required
 def city_children_care(request):
+    profile = Profile.objects.get(user=request.user)
+
+    if profile.user_type == 'Nutritionist':
+        template_values = 'core/nutritionist-layout.html'
+    else:
+        template_values = 'core/pc_layout.html'
 
     context = {
+        'active': 'db',
+        'template_values': template_values,
 
     }
 

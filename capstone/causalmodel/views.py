@@ -250,7 +250,8 @@ def view_summary(request, metric):
 
         context = {
             'template_values': layout,
-
+            'active': 'rc',
+            'profile': profile,
             'metric': Metric.objects.get(id=metric)
         }
 
