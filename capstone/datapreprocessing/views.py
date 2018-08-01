@@ -68,7 +68,8 @@ def set_thresholds(request):
         # fields
         'illnesses': illnesses,
         'socioeconomic': socioeconomic,
-        'maternal': maternal
+        'maternal': maternal,
+        'active': 'st'
     }
 
     return render(request, 'datapreprocessing/set_thresholds.html', context)

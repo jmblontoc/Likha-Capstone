@@ -36,31 +36,33 @@
             <div class="card p-3">
                 <h4>Illnesses</h4>
                 <table class="table table-bordered table-hover">
-                    <thead class="thead-dark">
+                    <thead>
                     <tr>
                         <th>Metric</th>
-                        <th>Status</th>
-                        <th>Action</th>
+                        <th style="width: 10%;">Status</th>
+                        <th style="width: 10%;">Action</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for field in illnesses %}
                         <tr>
                             <td class="field-name">{{ field.0 }}</td>
-                            <td>
-                                {% if field.1 %}
-                                    Already set
+                            {% if field.1 %}
+                                    <td style="color: #00a65a; font-weight: bold;">
+                                        <i class="fa fa-check-circle"></i> Already set
+                                    </td>
                                 {% else %}
-                                    Not yet set
+                                    <td style="color: #f56954; font-weight: bold;">
+                                        <i class="fa fa-exclamation-circle"></i> Not yet set
+                                    </td>
                                 {% endif %}
-                            </td>
                             <td>
                                 {% if field.1 %}
                                     <a href="{% url 'datapreprocessing:index' %}">
-                                        <button class="btn btn-success">VIEW</button>
+                                        <button class="btn btn-success btn-sm col-12">VIEW</button>
                                     </a>
                                 {% else %}
-                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold" data-target="#thresholdModal" data-toggle="modal">SET!</button>
+                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold btn-sm col-12" data-target="#thresholdModal" data-toggle="modal">SET!</button>
                                 {% endif %}
                             </td>
                         </tr>
@@ -71,31 +73,34 @@
             <div class="card p-3">
                 <h4>Socioeconomic</h4>
                 <table class="table table-bordered table-hover">
-                    <thead class="thead-dark">
+                    <thead>
                     <tr>
                         <th>Metric</th>
-                        <th>Status</th>
-                        <th>Action</th>
+                        <th style="width: 10%;">Status</th>
+                        <th style="width: 10%;">Action</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for field in socioeconomic %}
                         <tr>
                             <td class="field-name">{{ field.0 }}</td>
-                            <td>
+
                                 {% if field.1 %}
-                                    Already Set
+                                    <td style="color: #00a65a; font-weight: bold;">
+                                        <i class="fa fa-check-circle"></i> Already set
+                                    </td>
                                 {% else %}
-                                    Not yet set
+                                    <td style="color: #f56954; font-weight: bold;">
+                                        <i class="fa fa-exclamation-circle"></i> Not yet set
+                                    </td>
                                 {% endif %}
-                            </td>
                             <td>
                                 {% if field.1 %}
                                     <a href="{% url 'datapreprocessing:index' %}">
-                                        <button class="btn btn-success">VIEW</button>
+                                        <button class="btn btn-success btn-sm col-12">VIEW</button>
                                     </a>
                                 {% else %}
-                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold" data-target="#thresholdModal" data-toggle="modal">SET!</button>
+                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold btn-sm col-12" data-target="#thresholdModal" data-toggle="modal">SET!</button>
                                 {% endif %}
                             </td>
                         </tr>
@@ -106,31 +111,33 @@
             <div class="card p-3">
                 <h4>Maternal</h4>
                 <table class="table table-bordered table-hover">
-                    <thead class="thead-dark">
+                    <thead>
                     <tr>
                         <th>Metric</th>
-                        <th>Status</th>
-                        <th>Action</th>
+                        <th style="width: 10%;">Status</th>
+                        <th style="width: 10%;">Action</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for field in maternal %}
                         <tr>
                             <td class="field-name">{{ field.0 }}</td>
-                            <td>
-                                {% if field.1 %}
-                                    Already Set
+                            {% if field.1 %}
+                                    <td style="color: #00a65a; font-weight: bold;">
+                                        <i class="fa fa-check-circle"></i> Already set
+                                    </td>
                                 {% else %}
-                                    Not yet set
+                                    <td style="color: #f56954; font-weight: bold;">
+                                        <i class="fa fa-exclamation-circle"></i> Not yet set
+                                    </td>
                                 {% endif %}
-                            </td>
                             <td>
                                 {% if field.1 %}
                                     <a href="{% url 'datapreprocessing:index' %}">
-                                        <button class="btn btn-success">VIEW</button>
+                                        <button class="btn btn-success btn-sm col-12">VIEW</button>
                                     </a>
                                 {% else %}
-                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold" data-target="#thresholdModal" data-toggle="modal">SET!</button>
+                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold btn-sm col-12" data-target="#thresholdModal" data-toggle="modal">SET!</button>
                                 {% endif %}
                             </td>
                         </tr>
