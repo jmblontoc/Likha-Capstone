@@ -43,6 +43,7 @@ def index(request, year):
     years = [x.year for x in CausalModel.objects.dates('date', 'year')]
     years = sorted(years, reverse=True)
     years.insert(0, "--")
+
     context = {
         'active': 'cm',
         'causals': models,
@@ -51,8 +52,7 @@ def index(request, year):
         'layout': layout,
         'models': CausalModel.objects.filter(date__year=year),
         'roots': roots,
-        'years': years,
-        'c_year': year
+        'years': years
     }
 
     return render(request, 'causalmodel/index.html', context)

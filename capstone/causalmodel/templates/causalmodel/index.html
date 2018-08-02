@@ -20,7 +20,7 @@
                         City Program Coordinator
                         {% endif %}
                         Causal Modeling Facility</h1>
-                        <h1 id='theYear' style="display: none;">{{ c_year }}</h1>
+                        <h1 id='theYear' style="display: none;">{{ year_get }}</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -40,6 +40,31 @@
     <section class="content">
         <div class="container-fluid">
 
+        <div class="card p-3 container-fluid">
+                <div class="row">
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label>Select year</label>
+                                <select id="theYear" class="form-control" name="cm-year" onchange="change(document.getElementById('theYear').value)">
+                                {% for x in years %}
+                                    <option value="{{ x }}">{{ x }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    {% if not current %}
+                        <div class="col-12 text-center mb-4">
+                            <p>There are no causal models for {{ year_get }} yet</p>
+                            <a href="{% url 'causalmodel:produce_causal_model' %}">
+                                <button class="btn btn-primary">+ Create Causal Model</button>
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
             <div class="card p-3 container-fluid">
 {#                    <a href="{% url 'causalmodel:add_root_cause' %}" style="float:right;"><button class="btn btn-primary">Add Root Cause</button></a>#}
                 <table class="table mt-3 table-bordered">
@@ -84,57 +109,6 @@
                     {% endfor %}
                     </tbody>
                 </table>
-            </div>
-
-            <div class="card p-3 container-fluid">
-                <div class="row">
-                    <div class="col-3">
-                        <div class="form-group">
-                            <label>Select year</label>
-                                <select id="theYear" class="form-control" name="cm-year" onchange="change(document.getElementById('theYear').value)">
-                                {% for x in years %}
-                                    <option value="{{ x }}">{{ x }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    {% if not current %}
-                        <div class="col-12 text-center mb-4">
-                            <p>There are no causal models for {{ year_get }} yet</p>
-                            <a href="{% url 'causalmodel:produce_causal_model' %}">
-                                <button class="btn btn-primary">+ Create Causal Model</button>
-                            </a>
-                        </div>
-                    {% endif %}
-                    {% if models %}
-                        <table class="table table-bordered">
-                            <thead>
-                            <tr>
-                                <th>Date Uploaded</th>
-                                <th>Uploaded By</th>
-                                <th>Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for c in models %}
-
-                                <tr>
-                                    <td>
-                                        {{ c.date|date:"F d, Y" }}
-                                    </td>
-                                    <td>{{ c.uploaded_by.get_name }}</td>
-                                    <td>
-                                        <button class="btn btn-primary btn-sm diagram_btn" data-id="{{ c.id }}">View</button>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    {% endif %}
-                </div>
             </div>
 
             {% if models %}

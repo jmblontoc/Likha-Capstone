@@ -12,7 +12,8 @@ $(function() {
         var cm = $(this).attr("data-id");
         console.log(cm);
 
-        const year = $("#theYear").html();
+        // const year = $("#theYear").html();
+        // console.log(year);
 
         submitComment.attr('data-id', cm);
         approveCM.attr('data-id', cm);
@@ -24,7 +25,7 @@ $(function() {
             url: "/causal-models/details2",
             type: "post",
             data: {
-              'year': year
+              'year': 2017
             },
             dataType: "json",
             success: function(data) {
