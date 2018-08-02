@@ -12,33 +12,35 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Memo</h1>
+                    <h1 class="m-0 text-dark">Barangay Nutrition Scholar Upload Facility</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">
-                            {% if profile.user_type == 'Nutritionist' %}
-                            Nutritionist
-                            {% else %}
-                            Program Coordinator
-                            {% endif %}
-                            Memos</li>
+                        <li class="breadcrumb-item active">BNS Upload Facility</li>
                     </ol>
                 </div>
             </div>
         </div>
+        {% include 'core/helpers/messages.html' %}
     </div>
-    {% include 'core/helpers/messages.html' %}
+
     <section class="content">
         <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-primary">
+                        <div class="card-header p-0">
+                            <h3 class="card-title p-3">Monthly Reports</h3>
+                        </div>
+                        <div class="card-body table-responsive p-2">
             <table class="table table-bordered">
-                <thead class="thead-dark">
+                <thead>
                 <tr>
                     <th>Subject</th>
                     <th>Metric</th>
                     <th>Date Uploaded</th>
                     <th>Uploaded by</th>
-                    <th>Action</th>
+                    <th style="width: 10%;">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -49,14 +51,17 @@
                         <td>{{ memo.date|date:"F d, Y" }}</td>
                         <td>{{ memo.uploaded_by.get_name }}</td>
                         <td>
-                            <a href="{% url 'core:memo_detail' memo.id %}">
-                                <button class="btn btn-primary">View Memo</button>
+                            <a href="{% url 'core:memo_detail' memo.id %}" class="btn btn-primary col-12">
+                                View Memo
                             </a>
                         </td>
                     </tr>
                 {% endfor %}
                 </tbody>
-            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 </div>
