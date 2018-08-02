@@ -3,7 +3,7 @@ from django.db.models import Sum, Avg, Max
 from computations.weights import year_now
 from friends import datapoints
 from computations import weights
-from datainput.models import FamilyProfileLine, Barangay
+from datainput.models import FamilyProfileLine, Barangay, FamilyProfile
 
 fields = [
     'Is Practicing Family Planning',
@@ -235,6 +235,56 @@ def report_table():
 
     return data
 
+def report_table_per_year(year):
+
+    data = []
+    barangays = Barangay.objects.all().order_by('name')
+
+    for b in barangays:
+
+        query = FamilyProfileLine.objects.filter(family_profile__date__year=year, family_profile__barangay=b)
+        sub_data = [b.name]
+
+        average_size = query.aggregate(avg=Avg('no_members'))['avg']
+        sub_data.append(round(average_size))
+
+        sub_data.append(
+            query.aggregate(max=Max('educational_attainment'))['max']
+        )
+
+        sub_data.append(
+            query.aggregate(max=Max('occupation'))['max']
+        )
+
+        sub_data.append(
+            query.aggregate(max=Max('water_sources'))['max']
+        )
+
+        sub_data.append(
+            query.aggregate(max=Max('food_production_activity'))['max']
+        )
+
+        sub_data.append(
+            query.aggregate(max=Max('toilet_type'))['max']
+        )
+
+        sub_data.append(
+            query.filter(toilet_type='Water Sealed').count() / query.count()
+        )
+
+        data.append(sub_data)
+
+    return data
+
+def report_table_sort_year():
+
+    data = []
+    query = FamilyProfile.objects.dates("date", "year")
+
+    for q in query:
+        data.append(q.year)
+
+    return data
 
 
 

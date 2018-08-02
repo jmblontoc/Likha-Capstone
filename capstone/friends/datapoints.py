@@ -75,12 +75,12 @@ maternal = [
 
 child_care = [
     'Given complimentary food',
-    'Sick children',
+    'Number of Sick children',
     'Children given deworming',
-    'Anemic children',
-    'Anemic children receiving full dose iron',
-    'Diarrhea cases',
-    'Pneumonia cases'
+    'Number of Anemic children',
+    'Number of Anemic children receiving full dose iron',
+    'Number of Diarrhea cases',
+    'Number of Pneumonia cases'
 ]
 
 immunizations = [
@@ -94,13 +94,13 @@ immunizations = [
 ]
 
 malaria = [
-    'Malaria Cases',
+    'Number of Malaria Cases',
     'Malaria Deaths',
     'Malaria Immunization Given'
 ]
 
 tuberculosis = [
-    'Tuberculosis Identified'
+    'Number of Tuberculosis Identified'
 ]
 
 socioeconomic = [

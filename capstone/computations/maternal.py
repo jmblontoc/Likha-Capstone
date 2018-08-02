@@ -132,3 +132,35 @@ def maternal_report():
         data.append(sub_data)
 
     return data
+
+def maternal_report_per_year(year):
+
+    barangays = Barangay.objects.all().order_by('name')
+
+    data = []
+    for b in barangays:
+
+        sub_data = [b.name]
+        for f in datapoints.maternal:
+            field = get_field(MaternalCare, f)
+
+            total = MaternalCare.objects.filter(fhsis__date__year=year, fhsis__barangay=b).aggregate(
+                sum=Sum(field)
+            )['sum']
+
+            sub_data.append(int(total))
+
+        data.append(sub_data)
+
+    return data
+
+def maternal_report_sort_year():
+
+    total = FHSIS.objects.dates("date", "year")
+
+    total2 = []
+
+    for t in total:
+        total2.append(t.year)
+
+    return total2
