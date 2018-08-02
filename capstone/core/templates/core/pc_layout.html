@@ -143,13 +143,15 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{% url 'causalmodel:rc_index' year_now %}" class="nav-link {% if active == 'rc' %}active{% endif %}">
+                                <a href="{% url 'causalmodel:rc_index' %}" class="nav-link {% if active == 'rc' %}active{% endif %}">
                                     <i class="nav-icon fa fa-circle-o"></i>
                                     <p>Root Causes</p>
                                 </a>
                             </li>
                             </ul>
                             </li>
+
+
 {#                            <li class="nav-item">#}
 {#                                <a class="nav-link" href="{% url 'datainput:barangay_archives' %}">#}
 {#                                    <i class="nav-icon fa fa-database"></i>#}
@@ -173,6 +175,24 @@
                                     <i class="nav-icon fa fa-upload"></i>
                                     <p>Memos</p>
                                 </a>
+                            </li>
+
+                            <li class="nav-item has-treeview {% if active == 'cm' or active == 'rc' %}menu-open{% endif %}">
+                            <a href="#" class="nav-link {% if active == 'cm' or active == 'rc' %}active{% endif %}">
+                              <i class="nav-icon fa fa-folder-open"></i>
+                              <p>
+                                Configurations
+                                <i class="right fa fa-angle-left"></i>
+                              </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{% url 'causalmodel:add_root_cause' %}" class="nav-link {% if active == 'rc' %}active{% endif %}">
+                                    <i class="nav-icon fa fa-circle-o"></i>
+                                    <p>Add Root Cause</p>
+                                </a>
+                            </li>
+                            </ul>
                             </li>
                         </ul>
                     </nav>

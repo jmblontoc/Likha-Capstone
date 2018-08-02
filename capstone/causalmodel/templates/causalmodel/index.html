@@ -40,12 +40,60 @@
         <div class="container-fluid">
 
             <div class="card p-3 container-fluid">
+{#                    <a href="{% url 'causalmodel:add_root_cause' %}" style="float:right;"><button class="btn btn-primary">Add Root Cause</button></a>#}
+                <table class="table mt-3 table-bordered">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Metric</th>
+                        <th class="text-right">Value</th>
+                        <th>Source</th>
+                        <th>Frequency</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for cause in roots %}
+                        {% for metric in cause.datamap_set.all %}
+                            <tr>
+                                {% if forloop.counter0 == 0 %}
+                                    <th class="text-center" rowspan="{{ cause.datamap_set.count }}" style="vertical-align: middle">{{ cause.name }}</th>
+                                {% endif %}
+                                <td>{{ metric.get_metric.get_data_point }}</td>
+                                <td class="text-right">{{ metric.get_metric.get_total_value|floatformat }}</td>
+                                <td>{{ metric.get_metric.get_document }}</td>
+                                {% if forloop.counter0 == 0 %}
+                                    <td rowspan="{{ cause.datamap_set.count }}" style="vertical-align: middle">
+                                    {% for x in cause.appeared_in %}
+                                        <div>
+                                            <a href="{% url 'causalmodel:index' x %}">
+                                                {{ x }}
+                                            </a>
+                                        </div>
+                                    {% endfor %}
+                                    </td>
+                                {% endif %}
+                                <td>
+                                    <a href="{% url 'causalmodel:view_summary' metric.get_metric.id  %}">
+                                        <button class="btn btn-sm btn-primary">View Summary</button>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card p-3 container-fluid">
                 <div class="row">
                     <div class="col-3">
                         <div class="form-group">
                             <label>Select year</label>
-                            <select class="form-control" name="cm-year">
-                                <option>2018</option>
+                                <select id="theYear" class="form-control" name="cm-year" onchange="change(document.getElementById('theYear').value)">
+                                {% for x in years %}
+                                    <option value="{{ x }}">{{ x }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                     </div>

@@ -30,6 +30,8 @@ urlpatterns = [
     # details ajax
     path('details', views.get_blocks, name='details_ajax'),
 
+    path('details2', views.get_blocks_2, name='details2'),
+
     # add comment
     path('insert_comment', views.insert_comment, name='insert_comment'),
 

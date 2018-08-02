@@ -32,6 +32,17 @@ class RootCause(models.Model):
                 return False
         return True
 
+    @property
+    def appeared_in(self):
+
+        years = []
+        name = self.name
+        for x in RootCause.objects.all():
+            if name == x.name:
+                years.append(x.date.year)
+
+        return years
+
 
 class DataMap(models.Model):
 

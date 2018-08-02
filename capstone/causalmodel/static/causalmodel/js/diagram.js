@@ -18,9 +18,8 @@ $(function() {
         $(".cm-commands").show();
 
         $.ajax({
-            url: "/causal-models/details",
+            url: "/causal-models/details2",
             type: "post",
-            data: { 'id': cm },
             dataType: "json",
             success: function(data) {
 
@@ -96,7 +95,8 @@ $(function() {
         return cm;
     }
 
-    button.click(getID);
+    // button.click(getID);
+    getID();
 
     submitComment.click(function() {
         const comment = $("#comment-main").val();
@@ -205,3 +205,10 @@ function getCookie(name) {
                 }
             }
         });
+
+
+function change(value) {
+
+    if (value > 0)
+        window.location.replace("/causal-models/" + value);
+}

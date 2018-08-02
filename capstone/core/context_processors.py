@@ -55,7 +55,7 @@ def today(request):
 def year_now(request):
 
     return {
-        'year_now': datetime.now().year
+        'year_present': datetime.now().year
     }
 
 

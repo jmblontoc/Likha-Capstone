@@ -33,13 +33,23 @@ def index(request, year):
     models = CausalModel.objects.filter(date__year=year).order_by('-date')
     current_tree = CausalModel.objects.filter(date__year=year)
 
+    if RootCause.objects.filter(date__year=year).count() == 0:
+        roots = RootCause.show_root_causes()
+    else:
+        roots = RootCause.objects.filter(date__year=year)
+
+    years = [x.year for x in CausalModel.objects.dates('date', 'year')]
+    years = sorted(years, reverse=True)
+    years.insert(0, "--")
     context = {
         'active': 'cm',
         'causals': models,
         'year_get': year,
         'current': current_tree,
         'layout': layout,
-        'models': CausalModel.objects.filter(date__year=year)
+        'models': CausalModel.objects.filter(date__year=year),
+        'roots': roots,
+        'years': years
     }
 
     return render(request, 'causalmodel/index.html', context)
@@ -325,9 +335,17 @@ def produce_causal_model(request):
     causal_model.save()
 
     for root in RootCause.show_root_causes():
-        RootCause.objects.create(
+        x = RootCause.objects.create(
             name=root.name
         )
+
+        for d in root.datamap_set.all():
+            DataMap.objects.create(
+                root_cause=x,
+                metric=d.metric,
+                value=d.value,
+                threshold=d.threshold
+            )
 
     current_causes = RootCause.show_root_causes()
 
@@ -365,9 +383,30 @@ def produce_causal_model(request):
                         )
                         break
 
-    return HttpResponse('please work')
+    return redirect('causalmodel:index', year=year_now)
 
 
-def get_current_box(father):
+def get_blocks_2(request):
 
-    return Box.objects.get(causal_model__date__year=2018, root_cause__name=father.root_cause.name)
+    causal = CausalModel.objects.get(date__year=year_now)
+
+    q1 = Son.objects.filter(box__causal_model__date__year=causal.date.year)
+
+    # get comments
+    comments = [c.to_dict() for c in CausalModelComment.objects.filter(causal_model=causal).order_by('-date')]
+
+    child_dict = [x.to_dict for x in q1]
+
+    # put weights
+    for x in child_dict:
+        if 'Undernutrition' in x['name']:
+            # put weights
+            pass
+
+    data = {
+        'data': child_dict,
+        'comments': comments
+    }
+    return JsonResponse(data)
+
+
