@@ -170,6 +170,45 @@ class Metric(models.Model):
                 'Number of mothers practicing exclusive breastfeeding'
             ]
 
+        if self.get_data_point == 'Number of Pregnant women with 4 or more prenatal visits':
+            return []
+        if self.get_data_point == 'Number of Pregnant women given 2 doses of Tetanus Toxoid':
+            return []
+        if self.get_data_point == 'Number of Postpartum women with at least 2 postpartum visits':
+            return []
+        if self.get_data_point == 'Number of Pregnant women given TT2 plus':
+            return []
+        if self.get_data_point == 'Number of Pregnant women given complete iron with folic acid supplementation':
+            return []
+        if self.get_data_point == 'Number of Postpartum women with given complete iron supplementation':
+            return []
+        if self.get_data_point == 'Number of Postpartum women given Vitamin A supplementation':
+            return []
+
+        # immunizations
+        if self.get_data_point == 'Number of Children Given BCG':
+            return []
+        if self.get_data_point == 'Number of Children Given HEPA':
+            return []
+        if self.get_data_point == 'Number of Children Given PENTA':
+            return []
+        if self.get_data_point == 'Number of Children Given OPV':
+            return []
+        if self.get_data_point == 'Number of Children Given MCV':
+            return []
+        if self.get_data_point == 'Number of Children Given ROTA':
+            return []
+        if self.get_data_point == 'Number of Children Given PCV':
+            return []
+
+        # micronutrient
+        if self.get_data_point == 'Number of children who received vitamin A':
+            return []
+        if self.get_data_point == 'Number of children who received iron':
+            return []
+        if self.get_data_point == 'Number of children who received MNP':
+            return []
+
     def get_correlations(self):
 
         data = []
