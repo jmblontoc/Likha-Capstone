@@ -665,8 +665,8 @@ class Metric(models.Model):
                 model = 'Family Profile'
             elif 'Health Care Waste Management' in first:
                 model = 'HealthCareWasteManagement'
-            elif 'Informal Settlers' in first:
-                model = 'InformalSettlers'
+            elif 'InformalSettlers' in first:
+                model = 'Informal Settlers'
             elif 'Nutritional Status' in first:
                 return 'OPTValues'
             elif 'Child Care' in first:

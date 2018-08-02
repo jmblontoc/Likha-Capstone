@@ -12,7 +12,7 @@ from core.models import Profile, Notification
 from friends.causalmodel import helper
 # Create your views here.
 from datapreprocessing.models import Metric
-from causalmodel.models import RootCause, DataMap, Block, Child, CausalModel, CausalModelComment, Memo
+from causalmodel.models import RootCause, DataMap, Block, Child, CausalModel, CausalModelComment, Memo, Son
 from friends.datamining.correlations import create_session, year_now
 from friends.datapreprocessing import checkers
 from friends.datamining import correlations
@@ -98,7 +98,7 @@ def add_root_cause(request):
         layout = 'core/pc_layout.html'
 
     context = {
-        'metrics': Metric.get_alarming(),
+        'metrics': Metric.objects.all(),
         'layout': layout,
         'root_causes': RootCause.objects.filter(date__year=year_now)
     }
@@ -192,12 +192,19 @@ def get_blocks(request):
     id = request.POST['id']
     causal = CausalModel.objects.get(id=id)
 
-    q1 = Child.objects.filter(block__causal_model=causal)
+    q1 = Son.objects.filter(box__causal_model=causal)
 
     # get comments
     comments = [c.to_dict() for c in CausalModelComment.objects.filter(causal_model=causal).order_by('-date')]
 
-    child_dict = [x.to_tree_dict() for x in q1]
+    child_dict = [x.to_dict for x in q1]
+
+    # put weights
+    for x in child_dict:
+        if 'Undernutrition' in x['name']:
+            # put weights
+            pass
+
     data = {
         'data': child_dict,
         'comments': comments
@@ -288,5 +295,21 @@ def ajax_get_metric(request):
         'field': metric.get_data_point,
         'trend': values,
         'start': start
+    })
+
+
+def dummy(request):
+
+    context = {
+
+    }
+
+    return render(request, 'causalmodel/dummy.html', context)
+
+
+def get_boxes(request):
+
+    return JsonResponse({
+        "data": [x.to_dict for x in Son.objects.all()]
     })
 

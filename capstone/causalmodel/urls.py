@@ -37,7 +37,11 @@ urlpatterns = [
     path('root_cause/view_summary/<int:metric>/', views.view_summary, name='view_summary'),
 
     # ajax
-    path('view_summary_ajax', views.ajax_get_metric, name='get_metric_ajax')
+    path('view_summary_ajax', views.ajax_get_metric, name='get_metric_ajax'),
+
+    path('dummy', views.dummy, name='dummy'),
+
+    path('p', views.get_boxes, name='p')
 
 
 ]
