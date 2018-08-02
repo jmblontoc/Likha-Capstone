@@ -24,6 +24,9 @@ urlpatterns = [
 
     path('create_tree', views.insert_blocks, name='create_tree'),
 
+    # produce causal model
+    path('produce_causal_model', views.produce_causal_model, name='produce_causal_model'),
+
     # details ajax
     path('details', views.get_blocks, name='details_ajax'),
 
@@ -37,7 +40,11 @@ urlpatterns = [
     path('root_cause/view_summary/<int:metric>/', views.view_summary, name='view_summary'),
 
     # ajax
-    path('view_summary_ajax', views.ajax_get_metric, name='get_metric_ajax')
+    path('view_summary_ajax', views.ajax_get_metric, name='get_metric_ajax'),
+
+    path('dummy', views.dummy, name='dummy'),
+
+    path('p', views.get_boxes, name='p')
 
 
 ]

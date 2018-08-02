@@ -12,7 +12,7 @@ from core.models import Profile, Notification
 from friends.causalmodel import helper
 # Create your views here.
 from datapreprocessing.models import Metric
-from causalmodel.models import RootCause, DataMap, Block, Child, CausalModel, CausalModelComment, Memo
+from causalmodel.models import RootCause, DataMap, Block, Child, CausalModel, CausalModelComment, Memo, Son, Box
 from friends.datamining.correlations import create_session, year_now
 from friends.datapreprocessing import checkers
 from friends.datamining import correlations
@@ -30,8 +30,8 @@ def index(request, year):
     else:
         layout = 'core/pc_layout.html'
 
-    models = CausalModel.objects.filter(date__year=year, is_approved=True).order_by('-date')
-    current_tree = CausalModel.objects.filter(date__year=year_now, is_approved=True)
+    models = CausalModel.objects.filter(date__year=year).order_by('-date')
+    current_tree = CausalModel.objects.filter(date__year=year)
 
     context = {
         'active': 'cm',
@@ -62,9 +62,14 @@ def details(request, id):
 @not_bns
 def root_causes(request):
 
+    year = year_now
+
     if validations.todo_list().__len__() == 0:
 
-        causes = RootCause.show_root_causes()
+        if year == year_now:
+            causes = RootCause.show_root_causes()
+        else:
+            causes = RootCause.objects.filter(date__year=year)
         current_tree = CausalModel.objects.filter(date__year=year_now, is_approved=True)
         profile = Profile.objects.get(user=request.user)
 
@@ -98,7 +103,7 @@ def add_root_cause(request):
         layout = 'core/pc_layout.html'
 
     context = {
-        'metrics': Metric.get_alarming(),
+        'metrics': Metric.objects.all(),
         'layout': layout,
         'root_causes': RootCause.objects.filter(date__year=year_now)
     }
@@ -192,12 +197,19 @@ def get_blocks(request):
     id = request.POST['id']
     causal = CausalModel.objects.get(id=id)
 
-    q1 = Child.objects.filter(block__causal_model=causal)
+    q1 = Son.objects.filter(box__causal_model__date__year=causal.date.year)
 
     # get comments
     comments = [c.to_dict() for c in CausalModelComment.objects.filter(causal_model=causal).order_by('-date')]
 
-    child_dict = [x.to_tree_dict() for x in q1]
+    child_dict = [x.to_dict for x in q1]
+
+    # put weights
+    for x in child_dict:
+        if 'Undernutrition' in x['name']:
+            # put weights
+            pass
+
     data = {
         'data': child_dict,
         'comments': comments
@@ -290,3 +302,72 @@ def ajax_get_metric(request):
         'start': start
     })
 
+
+def dummy(request):
+
+    context = {
+
+    }
+
+    return render(request, 'causalmodel/dummy.html', context)
+
+
+def get_boxes(request):
+
+    return JsonResponse({
+        "data": [x.to_dict for x in Son.objects.all()]
+    })
+
+
+def produce_causal_model(request):
+
+    causal_model = CausalModel(uploaded_by=Profile.objects.get(user=request.user), is_approved=True)
+    causal_model.save()
+
+    for root in RootCause.show_root_causes():
+        RootCause.objects.create(
+            name=root.name
+        )
+
+    current_causes = RootCause.show_root_causes()
+
+    boxes = Box.objects.filter(causal_model__date__year=2017)
+
+    for cause in current_causes:
+        for box in boxes:
+            if cause == box.root_cause:
+                x = Box.objects.create(
+                    root_cause=cause,
+                    causal_model=causal_model
+                )
+
+    no_maps = [x for x in boxes if x.root_cause.datamap_set.count() == 0]
+    for x in no_maps:
+        Box.objects.create(
+            root_cause=x.root_cause,
+            causal_model=causal_model
+        )
+
+    new_boxes = Box.objects.filter(causal_model__date__year=year_now)
+    print(len(new_boxes), 'this is the length')
+
+    sons = Son.objects.filter(box__causal_model__date__year=year_now - 1)
+    print(len(sons), 'this is the length of sons')
+
+    for i, bx in enumerate(new_boxes):
+        for j, s in enumerate(sons):
+            if bx.root_cause.name == s.box.root_cause.name:
+                for k, b1 in enumerate(new_boxes):
+                    if b1.root_cause.name == s.father.root_cause.name:
+                        Son.objects.create(
+                            box=bx,
+                            father=b1
+                        )
+                        break
+
+    return HttpResponse('please work')
+
+
+def get_current_box(father):
+
+    return Box.objects.get(causal_model__date__year=2018, root_cause__name=father.root_cause.name)
