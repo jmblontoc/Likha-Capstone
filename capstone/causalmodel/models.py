@@ -23,10 +23,13 @@ class RootCause(models.Model):
     @property
     def is_critical(self):
 
+        if len(self.datamap_set.all()) == 0:
+            return False
+
         for metric in self.datamap_set.all():
+
             if not DataMap.get_metric(metric).is_alarming:
                 return False
-
         return True
 
 
@@ -83,17 +86,6 @@ class Son(models.Model):
 
     def get_quantifiable_data(self):
 
-        # if self.box.root_cause is None:
-        #     data = []
-        #
-        #     for x in self.block.root_causes_content.all():
-        #         for y in x.datamap_set.all():
-        #             data.append(y.display)
-        #
-        #     return data
-        #
-        # return [x.display for x in self.block.root_cause.datamap_set.all()]
-
         return [x.display for x in self.box.root_cause.datamap_set.all()]
 
 
@@ -110,18 +102,18 @@ class Block(models.Model):
 
 class Child(models.Model):
 
-    block = models.ForeignKey(Block, on_delete=models.CASCADE)
-    parent = models.ForeignKey(Block, on_delete=models.CASCADE, related_name='Dad')
+    block = models.ForeignKey(Box, on_delete=models.CASCADE)
+    parent = models.ForeignKey(Box, on_delete=models.CASCADE, related_name='Dad')
 
     def __str__(self):
-        return 'I am %s .My parent is %s' % (self.block.name, self.parent.name)
+        return 'I am %s .My parent is %s' % (self.block.root_cause.name, self.parent.root_cause.name)
 
     # TODO
     def to_tree_dict(self):
 
         return {
             'key': self.block.id,
-            'name': self.block.name,
+            'name': self.block.root_cause.name,
             'parent': self.parent.id,
             'quantifiable_data': self.get_quantifiable_data()
         }

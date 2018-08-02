@@ -3,21 +3,7 @@ $(function() {
     $.ajax({
         url: "/causal-models/p",
         success: function(data) {
-            console.log(data, "woooh");
-
-            var x = [];
-
-            x.push({
-                "key": 1,
-                "name": "Hello",
-                "parent": 2
-            });
-
-            x.push({
-                "key": 2,
-                "name": "JM",
-                "parent": 4
-            });
+            console.log(data);
 
 
             var GO = go.GraphObject.make;

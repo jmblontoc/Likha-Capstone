@@ -210,6 +210,11 @@ class Metric(models.Model):
         if self.get_data_point == 'Number of children who received MNP':
             return []
 
+        if self.get_data_point == 'Number of Informal Families':
+            return []
+
+        return []
+
     def get_correlations(self):
 
         data = []

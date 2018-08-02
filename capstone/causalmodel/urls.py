@@ -24,6 +24,9 @@ urlpatterns = [
 
     path('create_tree', views.insert_blocks, name='create_tree'),
 
+    # produce causal model
+    path('produce_causal_model', views.produce_causal_model, name='produce_causal_model'),
+
     # details ajax
     path('details', views.get_blocks, name='details_ajax'),
 
