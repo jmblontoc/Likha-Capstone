@@ -309,11 +309,14 @@ def memos(request):
 
     if profile.user_type == 'Nutritionist':
         layout = 'core/nutritionist-layout.html'
-    else:
+    elif profile.user_type == 'Nutrition Program Coordinator':
         layout = 'core/pc_layout.html'
+    else:
+        layout = 'core/bns-layout.html'
 
     context = {
         'memos': records,
+        'active': 'mm',
         'template_values': layout
     }
 
@@ -325,8 +328,30 @@ def memo_detail(request, id):
 
     memo = Memo.objects.get(id=id)
 
+    profile = Profile.objects.get(user=request.user)
+
+    if profile.user_type == 'Nutritionist':
+        layout = 'core/nutritionist-layout.html'
+    elif profile.user_type == 'Nutrition Program Coordinator':
+        layout = 'core/pc_layout.html'
+    else:
+        layout = 'core/bns-layout.html'
+
     context = {
+        'active': 'mm',
+        'template_values': layout,
         'memo': memo
     }
 
     return render(request, 'core/memo-detail.html', context)
+
+@login_required
+def memo_print(request, id):
+
+    memo = Memo.objects.get(id=id)
+
+    context = {
+        'memo': memo
+    }
+
+    return render(request, 'core/memo-print.html', context)

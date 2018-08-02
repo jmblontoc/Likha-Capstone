@@ -32,5 +32,7 @@ urlpatterns = [
 
     path('memos/', views.memos, name='memos'),
 
-    path('memos/<int:id>', views.memo_detail, name='memo_detail')
+    path('memos/<int:id>', views.memo_detail, name='memo_detail'),
+
+    path('memos_print/<int:id>', views.memo_print, name='memo_print')
 ]

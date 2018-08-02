@@ -161,16 +161,15 @@
                                     <p>Root Causes</p>
                                 </a>
                             </li>
+                            </ul>
+                            </li>
+
                             <li class="nav-item">
-                                <a href="{% url 'core:memos' %}" class="nav-link {% if active == 'uf' %}active{% endif %}">
+                                <a href="{% url 'core:memos' %}" class="nav-link {% if active == 'mm' %}active{% endif %}">
                                     <i class="nav-icon fa fa-upload"></i>
                                     <p>Memos</p>
                                 </a>
                             </li>
-                            </ul>
-                            </li>
-
-
 
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'datainput:barangay_archives' %}">
