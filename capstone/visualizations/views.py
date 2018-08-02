@@ -629,7 +629,8 @@ def print1(request, year):  # nutritional status
         'active': 'rl',
         'wfa': weights.report_table_per_year(year)[0],
         'hfa': weights.report_table_per_year(year)[1],
-        'wfh': weights.report_table_per_year(year)[2]
+        'wfh': weights.report_table_per_year(year)[2],
+        'year': year
     }
 
     if request.method == 'GET':
@@ -643,7 +644,8 @@ def print2(request, year):
 
     context = {
         'active': 'rl',
-        'data': soc.report_table_per_year(year)
+        'data': soc.report_table_per_year(year),
+        'year': year
     }
 
     if request.method == 'GET':
@@ -659,7 +661,8 @@ def print3(request, year):
 
     context = {
         'active': 'rl',
-        'data': test
+        'data': test,
+        'year': year
     }
 
     if request.method == 'GET':
@@ -678,7 +681,8 @@ def print4(request, year):
         'cc_fields': datapoints.child_care,
         'imm_fields': datapoints.immunizations,
         'malaria_fields': datapoints.malaria,
-        'tb_fields': datapoints.tuberculosis
+        'tb_fields': datapoints.tuberculosis,
+        'year': year
     }
 
 
@@ -693,6 +697,7 @@ def print5(request, year):
         'fields': datapoints.maternal,
         'data': report,
         'active': 'rl',
+        'year': year
     }
 
     if request.method == 'GET':
