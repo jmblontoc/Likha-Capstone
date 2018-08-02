@@ -45,3 +45,7 @@ MATERNAL = [
     'Number of Postpartum women with given complete iron supplementation',
     'Number of Postpartum women given Vitamin A supplementation'
 ]
+
+INFORMAL = [
+    'Number of Families'
+]

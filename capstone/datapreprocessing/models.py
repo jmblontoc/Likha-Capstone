@@ -12,7 +12,8 @@ from django.db.models import Sum, Avg, Count
 from computations.weights import year_now
 from friends.datamining import forecast, correlations
 from computations import weights
-from datainput.models import ChildCare, FamilyProfileLine, MaternalCare, Malaria, Immunization, Tuberculosis, Barangay
+from datainput.models import ChildCare, FamilyProfileLine, MaternalCare, Malaria, Immunization, Tuberculosis, Barangay, \
+    InformalSettlers
 from friends import datapoints, general, revised_datapoints
 from friends.datapreprocessing import consolidators
 from django.db import models
@@ -1055,6 +1056,22 @@ class Metric(models.Model):
         elif point == revised_datapoints.SOCIOECONOMIC[3]: point = 'Elementary Undergraduate'
         elif point == revised_datapoints.SOCIOECONOMIC[4]: point = 'Number of families practicing family planning'
         elif point == revised_datapoints.SOCIOECONOMIC[5]: point = 'Number of families using iodized salt'
+
+        if self.get_source.strip() == 'InformalSettlers':
+
+            # compute informal settlers
+            a = InformalSettlers.objects.dates('date', 'year')
+            year_start = a[0].year
+
+            values = {}
+            while year_start < year_now:
+                total = InformalSettlers.objects.filter(date__year=year_start).aggregate(
+                    sum=Sum('families_count'))['sum']
+                values[year_start] = int(total)
+
+                year_start += 1
+
+            return json.dumps(values)
 
         if self.get_source.strip() == 'Family Profile':
 

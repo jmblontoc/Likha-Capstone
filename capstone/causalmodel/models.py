@@ -14,6 +14,21 @@ class RootCause(models.Model):
     def __str__(self):
         return self.name
 
+    @staticmethod
+    def show_root_causes():
+
+        # we will show a root cause if all of its metrics are critical
+        return [root_cause for root_cause in RootCause.objects.all() if root_cause.is_critical]
+
+    @property
+    def is_critical(self):
+
+        for metric in self.datamap_set.all():
+            if not DataMap.get_metric(metric).is_alarming:
+                return False
+
+        return True
+
 
 class DataMap(models.Model):
 

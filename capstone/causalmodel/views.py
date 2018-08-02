@@ -64,7 +64,7 @@ def root_causes(request):
 
     if validations.todo_list().__len__() == 0:
 
-        causes = RootCause.objects.all()
+        causes = RootCause.show_root_causes()
         current_tree = CausalModel.objects.filter(date__year=year_now, is_approved=True)
         profile = Profile.objects.get(user=request.user)
 

@@ -65,6 +65,7 @@ def set_thresholds(request):
     maternal = [(field, Metric.check_if_set(field)) for field in revised_datapoints.MATERNAL]
     micro = [(field, Metric.check_if_set(field)) for field in datapoints.micronutrient]
     immunizations = [(field, Metric.check_if_set(field)) for field in datapoints.immunizations]
+    informal = [(field, Metric.check_if_set(field))for field in revised_datapoints.INFORMAL]
 
     context = {
         # fields
@@ -73,6 +74,7 @@ def set_thresholds(request):
         'maternal': maternal,
         'micro': micro,
         'immunizations': immunizations,
+        'informal': informal,
         'active': 'st'
     }
 

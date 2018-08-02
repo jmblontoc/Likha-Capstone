@@ -122,7 +122,7 @@ def get_model(metric):
             model = 'FamilyProfileLine'
         elif 'Health Care Waste Management' in first:
             model = 'HealthCareWasteManagement'
-        elif 'Informal Settlers' in first:
+        elif 'InformalSettlers' in first:
             model = 'InformalSettlers'
         elif 'Nutritional Status' in first:
             return 'OPTValues'

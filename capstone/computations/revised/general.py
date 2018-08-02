@@ -5,7 +5,7 @@ from computations.weights import year_now
 from friends import revised_datapoints, datapoints
 from computations.child_care import get_fhsis
 from datainput.models import Tuberculosis, Malaria, ChildCare, MaternalCare, FamilyProfile, FamilyProfileLine, \
-    Immunization
+    Immunization, InformalSettlers
 
 # get total values per year over time with forecast
 # all are FHSIS
@@ -28,6 +28,25 @@ def get_value(field):
 
         elif field in datapoints.immunizations:
             model = Immunization
+
+        elif field in revised_datapoints.INFORMAL:
+            model = InformalSettlers
+
+            # compute informal settlers
+            a = InformalSettlers.objects.dates('date', 'year')
+            year_start = a[0].year
+
+            values = {}
+            while year_start < year_now:
+                total = InformalSettlers.objects.filter(date__year=year_start).aggregate(
+                    sum=Sum('families_count'))['sum']
+                values[year_start] = int(total)
+
+                year_start += 1
+
+            print(values)
+
+            return values, model.__name__
 
         else:
             model = ChildCare
