@@ -1,5 +1,7 @@
 import json
+from datetime import datetime
 
+from computations import weights
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
@@ -49,7 +51,8 @@ def index(request, year):
         'layout': layout,
         'models': CausalModel.objects.filter(date__year=year),
         'roots': roots,
-        'years': years
+        'years': years,
+        'c_year': year
     }
 
     return render(request, 'causalmodel/index.html', context)
@@ -388,7 +391,9 @@ def produce_causal_model(request):
 
 def get_blocks_2(request):
 
-    causal = CausalModel.objects.get(date__year=year_now)
+    year = request.POST['year']
+
+    causal = CausalModel.objects.get(date__year=year)
 
     q1 = Son.objects.filter(box__causal_model__date__year=causal.date.year)
 
@@ -401,7 +406,15 @@ def get_blocks_2(request):
     for x in child_dict:
         if 'Undernutrition' in x['name']:
             # put weights
-            pass
+            first = weights.totals_per_category()[0]
+            second = weights.totals_per_category()[1]
+            third = weights.totals_per_category()[2]
+
+            x['quantifiable_data'] = [
+                'Underweight and Severely Underweight - %i' % first,
+                'Stunted and Severely Stunted - %i' % second,
+                'Wasted and Severely Wasted - %i' % third,
+            ]
 
     data = {
         'data': child_dict,

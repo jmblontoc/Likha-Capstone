@@ -6,10 +6,13 @@ $(function() {
     const commentHolder = $(".comment-holder");
     const approveCM = $(".approve-cm");
 
+
     function getID() {
 
         var cm = $(this).attr("data-id");
         console.log(cm);
+
+        const year = $("#theYear").html();
 
         submitComment.attr('data-id', cm);
         approveCM.attr('data-id', cm);
@@ -20,6 +23,9 @@ $(function() {
         $.ajax({
             url: "/causal-models/details2",
             type: "post",
+            data: {
+              'year': year
+            },
             dataType: "json",
             success: function(data) {
 
