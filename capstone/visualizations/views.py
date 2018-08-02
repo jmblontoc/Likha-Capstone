@@ -346,10 +346,11 @@ def report1(request, year):  # nutritional status
         'count1271': total_opt.aggregate(sum=Sum('values'))['sum'] -
                     total_opt.filter(Q(age_group__code='05') | Q(age_group__code='611')).aggregate(sum=Sum('values'))[
                          'sum'],
-
+        'active': 'rl',
         'wfa': weights.report_table_per_year(year)[0],
         'hfa': weights.report_table_per_year(year)[1],
-        'wfh': weights.report_table_per_year(year)[2]
+        'wfh': weights.report_table_per_year(year)[2],
+        'year': year
     }
 
     if request.method == 'GET':
@@ -376,7 +377,9 @@ def report1(request, year):  # nutritional status
 def report2(request, year):
 
     context = {
-        'data': soc.report_table_per_year(year)
+        'active': 'rl',
+        'data': soc.report_table_per_year(year),
+        'year': year
     }
 
     if request.method == 'GET':
@@ -405,7 +408,9 @@ def report3(request, year):
     test = cc.report_table_micro_year(year)
 
     context = {
-        'data': test
+        'active': 'rl',
+        'data': test,
+        'year': year
     }
 
     if request.method == 'GET':
@@ -435,11 +440,12 @@ def report4(request, year):
         'immunization': cc.report_table_child_care_year(str(year))['immunizations'],
         'malaria': cc.report_table_child_care_year(str(year))['malaria'],
         'tuberculosis': cc.report_table_child_care_year(str(year))['tb'],
-
+        'active': 'rl',
         'cc_fields': datapoints.child_care,
         'imm_fields': datapoints.immunizations,
         'malaria_fields': datapoints.malaria,
-        'tb_fields': datapoints.tuberculosis
+        'tb_fields': datapoints.tuberculosis,
+        'year': year
     }
 
     if request.method == 'GET':
@@ -467,7 +473,9 @@ def report5(request, year):
 
     context = {
         'fields': datapoints.maternal,
-        'data': report
+        'data': report,
+        'active': 'rl',
+        'year': year
     }
 
     if request.method == 'GET':
@@ -604,3 +612,89 @@ def saved_report5(request, year):
     }
 
     return render(request, 'visualizations/saved/maternal.html', context)
+
+def print1(request, year):  # nutritional status
+
+    total_opt = OPTValues.objects.filter(opt__date__year=year_now)
+
+    context = {
+        'barangays': Barangay.objects.all().order_by('name'),
+        'families': FamilyProfileLine.objects.filter(family_profile__date__year=year_now).count(),
+        'total_weighted': total_opt.aggregate(sum=Sum('values'))['sum'],
+        'count011': total_opt.filter(Q(age_group__code='05') | Q(age_group__code='611')).aggregate(sum=Sum('values'))[
+            'sum'],
+        'count1271': total_opt.aggregate(sum=Sum('values'))['sum'] -
+                    total_opt.filter(Q(age_group__code='05') | Q(age_group__code='611')).aggregate(sum=Sum('values'))[
+                         'sum'],
+        'active': 'rl',
+        'wfa': weights.report_table_per_year(year)[0],
+        'hfa': weights.report_table_per_year(year)[1],
+        'wfh': weights.report_table_per_year(year)[2]
+    }
+
+    if request.method == 'GET':
+
+        return render(request, 'visualizations/print/nutritional_status.html', context)
+
+
+
+# socioeconomic
+def print2(request, year):
+
+    context = {
+        'active': 'rl',
+        'data': soc.report_table_per_year(year)
+    }
+
+    if request.method == 'GET':
+        return render(request, 'visualizations/print/socioeconomic.html', context)
+
+
+
+# micronutrient
+def print3(request, year):
+
+
+    test = cc.report_table_micro_year(year)
+
+    context = {
+        'active': 'rl',
+        'data': test
+    }
+
+    if request.method == 'GET':
+        return render(request, 'visualizations/print/micronutrient.html', context)
+
+
+# child care
+def print4(request, year):
+
+    context = {
+        'data': cc.report_table_child_care_year(str(year))['child_care'],
+        'immunization': cc.report_table_child_care_year(str(year))['immunizations'],
+        'malaria': cc.report_table_child_care_year(str(year))['malaria'],
+        'tuberculosis': cc.report_table_child_care_year(str(year))['tb'],
+        'active': 'rl',
+        'cc_fields': datapoints.child_care,
+        'imm_fields': datapoints.immunizations,
+        'malaria_fields': datapoints.malaria,
+        'tb_fields': datapoints.tuberculosis
+    }
+
+
+    return render(request, 'visualizations/print/child_care.html', context)
+
+
+# maternal
+def print5(request, year):
+    report = mt.maternal_report_per_year(year)
+
+    context = {
+        'fields': datapoints.maternal,
+        'data': report,
+        'active': 'rl',
+    }
+
+    if request.method == 'GET':
+        return render(request, 'visualizations/print/maternal.html', context)
+

@@ -1,0 +1,133 @@
+{% load static %}
+<html>
+<link rel="stylesheet" href="{% static 'core/plugins/bootstrap/css/bootstrap.min.css' %}">
+<script src="{% static 'core/plugins/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'core/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'core/js/highcharts.js' %}"></script>
+<script src="{% static 'core/js/memo.js' %}"></script>
+
+<style type="text/css" media="print">
+    @page
+    {
+        size: auto;
+        margin: 0mm;
+    }
+</style>
+
+<body style="padding: 1in;">
+
+<div class="row">
+
+    <div class="col-2">
+        <img src="{% static 'core/images/com.png' %}" style="width: 120%; padding-top: 21px" class="brand-image img-circle">
+    </div>
+    <div class="col-5">
+        <h3 style="padding-top: 30px;">Mandaluyong City</h3>
+        <h3 style="padding: 0px;">Nutrition Committee</h3>
+        <h4 style="padding: 0px;">Child Care Report</h4>
+    </div>
+    <div class="col-5" style="text-align: right;">
+        <p style="padding-top: 30px; margin: 0px;">Report Generated on:</p>
+        <p style="margin: 0px;">Date: {% now "F d, Y" %} </p>
+        <p style="margin: 0px;">Time: {% now "g: s A" %}</p>
+    </div>
+</div>
+<hr>
+
+<h4>Child Care</h4>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Barangay</th>
+            {% for field in cc_fields %}
+                <th style="width: 12.5%;">{{ field }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for d in data %}
+            <tr>
+                {% for a in d %}
+                    <td style="padding: 5px; font-size: 12px;">{{ a }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<h4>Immunizations</h4>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Barangay</th>
+            {% for field in imm_fields %}
+                <th style="width: 12.5%;">{{ field }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for d in immunization %}
+            <tr>
+                {% for a in d %}
+                    <td style="padding: 5px; font-size: 12px;">{{ a }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div style="page-break-after: always;"></div>
+<div style="padding-top: 1in;" class="row"></div>
+<h4>Malaria</h4>
+<table class="table table-bordered" style="width: 100%;">
+    <thead>
+        <tr>
+            <th>Barangay</th>
+            {% for field in malaria_fields %}
+                <th style="width: 25%;">{{ field }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for d in malaria %}
+            <tr>
+                {% for a in d %}
+                    <td style="padding: 5px; font-size: 12px;">{{ a }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<h4>Tuberculosis</h4>
+
+<table class="table table-bordered" style="width: 50%;">
+    <thead>
+        <tr>
+            <th>Barangay</th>
+            {% for field in tb_fields %}
+                <th style="width: 50%;">{{ field }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for d in tuberculosis %}
+            <tr>
+                {% for a in d %}
+                    <td style="padding: 5px; font-size: 12px;">{{ a }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+</body>
+<script type="text/javascript">
+$( document ).ready(function() {
+window.print();
+window.onfocus = function(){ window.close();}
+});
+</script>
+
+</html>

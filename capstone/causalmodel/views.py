@@ -116,6 +116,7 @@ def add_root_cause(request):
         layout = 'core/pc_layout.html'
 
     context = {
+        'active': 'arc',
         'metrics': Metric.objects.all(),
         'layout': layout,
         'root_causes': RootCause.objects.filter(date__year=year_now)
@@ -276,7 +277,7 @@ def view_summary(request, metric):
 
         context = {
             'template_values': layout,
-            'active': 'rc',
+            'active': 'cm',
             'profile': profile,
             'metric': Metric.objects.get(id=metric)
         }

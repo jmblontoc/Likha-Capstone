@@ -243,11 +243,13 @@ def monthly_reweighing_list(request):
 
     barangay = Profile.objects.get(user=request.user).barangay
     families = Patient.objects.values('date_created').annotate(dcount=Count('date_created'))
-    mr = MonthlyReweighing.objects.filter(patient__barangay=barangay).order_by('-date')
+    mr = Patient.objects.dates("date_created", "year")
+
+
 
     profile = Profile.objects.get(user=request.user)
 
-    print(families)
+    print(mr)
 
     active = 'mr'
 
@@ -271,11 +273,11 @@ def add_family_profile(request):
 
     if barangay.has_family_profile:
         messages.error(request, 'Family profile for this year has already been uploaded')
-        return redirect('datainput:family_profiles')
+        return redirect('datainput:view_current_fp')
 
     FamilyProfile.objects.create(uploaded_by=profile, barangay=barangay)
     messages.success(request, 'Family profile record created. You may add families now')
-    return redirect('datainput:family_profiles')
+    return redirect('datainput:view_current_fp')
 
 
 @login_required
@@ -398,7 +400,7 @@ def add_patient(request):
         patient.save()
 
         messages.success(request, 'Patient added successfully!')
-        return redirect('datainput:monthly_reweighing_index')
+        return redirect('datainput:patient_overview', patient.id)
 
     profile = Profile.objects.get(user=request.user)
 

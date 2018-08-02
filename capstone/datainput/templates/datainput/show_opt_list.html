@@ -31,7 +31,6 @@
                                 <thead>
                                     <tr>
                                         <th>Date Uploaded</th>
-                                        <th>Uploaded By</th>
                                         <th style="width: 16%;">Action</th>
                                     </tr>
                                 </thead>
@@ -40,9 +39,8 @@
         {% for opt in opt_records %}
             <tr>
                 <td style="vertical-align: middle;">
-                    {{ opt.date.date }}
+                    {{ opt.date.year }}
                 </td>
-                <td>{{ opt.uploaded_by.get_name }}</td>
                 <td>
                     <a href="{% url 'datainput:display_opt' opt.id %}" class="btn btn-primary btn-sm col-12">View Report</a>
                 </td>
@@ -56,7 +54,12 @@
                                         "paging": true,
                                         "lengthChange": true,
                                         "ordering": true,
-                                        "autoWidth": false
+                                        "autoWidth": false,
+                                        "order": [[ 0, "desc" ]],
+                                        "columnDefs": [{
+                                            "targets": [1],
+                                            "orderable": false,
+                                        }],
                                     });
                                 });
                             </script>

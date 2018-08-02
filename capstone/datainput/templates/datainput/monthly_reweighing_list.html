@@ -32,7 +32,6 @@
                                         <thead>
                                         <tr>
                                             <th>Date Uploaded</th>
-                                            <th>Uploaded By</th>
                                             <th style="width: 16%;">Action</th>
                                         </tr>
                                         </thead>
@@ -40,11 +39,10 @@
                                         {% for m in mr %}
                                             <tr>
                                                 <td style="vertical-align: middle;">
-                                                     {{ m.date }}
+                                                     {{ m.year }}
                                                 </td>
-                                                <td>{{ m.uploaded_by.get_name }}</td>
                                                <td>
-                                                   <a class="btn btn-primary btn-sm col-12" href="{% url 'datainput:display_monthly' year_now %}">View</a>
+                                                   <a class="btn btn-primary btn-sm col-12" href="{% url 'datainput:display_monthly' m.year %}">View</a>
                                                </td>
                                             </tr>
                                         {% endfor %}
@@ -57,6 +55,7 @@
                                         "lengthChange": true,
                                         "ordering": true,
                                         "autoWidth": false,
+                                        "order": [[ 0, "desc" ]],
                                         "columnDefs": [{
                                             "targets": [1],
                                             "orderable": false,

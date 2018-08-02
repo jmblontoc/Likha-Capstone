@@ -1,0 +1,92 @@
+{% load static %}
+<html>
+<link rel="stylesheet" href="{% static 'core/plugins/bootstrap/css/bootstrap.min.css' %}">
+<script src="{% static 'core/plugins/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'core/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'core/js/highcharts.js' %}"></script>
+<script src="{% static 'core/js/memo.js' %}"></script>
+
+<style type="text/css" media="print">
+    @page
+    {
+        size: auto;
+        margin: 0mm;
+    }
+</style>
+
+<body style="padding: 1in;">
+
+<div class="row">
+
+    <div class="col-2">
+        <img src="{% static 'core/images/com.png' %}" style="width: 120%; padding-top: 21px" class="brand-image img-circle">
+    </div>
+    <div class="col-5">
+        <h3 style="padding-top: 30px;">Mandaluyong City</h3>
+        <h3 style="padding: 0px;">Nutrition Committee</h3>
+        <h4 style="padding: 0px;">Maternal Care Report</h4>
+    </div>
+    <div class="col-5" style="text-align: right;">
+        <p style="padding-top: 30px; margin: 0px;">Report Generated on:</p>
+        <p style="margin: 0px;">Date: {% now "F d, Y" %} </p>
+        <p style="margin: 0px;">Time: {% now "g: s A" %}</p>
+    </div>
+</div>
+<hr>
+
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th style="width: 20%;">Barangay</th>
+        <th style="width: 20%;">{{ fields.0 }}</th>
+        <th style="width: 20%;">{{ fields.1 }}</th>
+        <th style="width: 20%;">{{ fields.2 }}</th>
+        <th style="width: 20%;">{{ fields.3 }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for a in data %}
+        <tr>
+            <td>{{ a.0 }}</td>
+
+            <td align="right">{{ a.1 }}</td>
+            <td align="right">{{ a.2 }}</td>
+            <td align="right">{{ a.3 }}</td>
+            <td align="right">{{ a.4 }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th style="width: 20%;"Barangay</th>
+
+        <th style="width: 26.6%;">{{ fields.4 }}</th>
+        <th style="width: 26.6%;">{{ fields.5 }}</th>
+        <th style="width: 26.6%;">{{ fields.6 }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for a in data %}
+        <tr>
+            <td>{{ a.0 }}</td>
+
+            <td align="right">{{ a.5 }}</td>
+            <td align="right">{{ a.6 }}</td>
+            <td align="right">{{ a.7 }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+</body>
+<script type="text/javascript">
+$( document ).ready(function() {
+window.print();
+window.onfocus = function(){ window.close();}
+});
+</script>
+
+</html>

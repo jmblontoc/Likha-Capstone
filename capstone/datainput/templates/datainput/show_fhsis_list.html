@@ -31,7 +31,6 @@
                                 <thead>
                                     <tr>
                                         <th>Date Uploaded</th>
-                                        <th>Uploaded By</th>
                                         <th style="width: 16%;">Action</th>
                                     </tr>
                                 </thead>
@@ -41,7 +40,6 @@
                 <td style="vertical-align: middle;">
                     {{ fhsis.date.date }}
                 </td>
-                <td>{{ fhsis.uploaded_by.get_name }}</td>
                 <td>
                     <a style="text-align: center;" class="btn btn-primary btn-sm col-12" href="{% url 'datainput:display_fhsis' fhsis.id %}">View Report</a>
                 </td>
@@ -56,7 +54,11 @@
                                         "paging": true,
                                         "lengthChange": true,
                                         "ordering": true,
-                                        "autoWidth": false
+                                        "autoWidth": false,
+                                        "columnDefs": [{
+                                            "targets": [1],
+                                            "orderable": false,
+                                        }],
                                     });
                                 });
                             </script>

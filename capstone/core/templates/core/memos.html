@@ -33,7 +33,7 @@
                             <h3 class="card-title p-3">Monthly Reports</h3>
                         </div>
                         <div class="card-body table-responsive p-2">
-            <table class="table table-bordered">
+            <table class="table table-bordered datatables" id="memo_list">
                 <thead>
                 <tr>
                     <th>Subject</th>
@@ -58,6 +58,22 @@
                     </tr>
                 {% endfor %}
                 </tbody>
+            </table>
+
+                <script>
+                                $(document).ready(function(){
+                                    $('#memo_list').DataTable({
+                                        "paging": true,
+                                        "lengthChange": true,
+                                        "ordering": true,
+                                        "autoWidth": false,
+                                        "columnDefs": [{
+                                            "targets": [4],
+                                            "orderable": false,
+                                        }],
+                                    });
+                                });
+                            </script>
                         </div>
                     </div>
                 </div>

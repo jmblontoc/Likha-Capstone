@@ -27,6 +27,12 @@ urlpatterns = [
     path('reports/child_care/<int:year>', views.report4, name='report4'),
     path('reports/maternal/<int:year>', views.report5, name='report5'),
 
+    path('print/nutritional_status/<int:year>', views.print1, name='print1'),
+    path('print/socioeconomic/<int:year>', views.print2, name='print2'),
+    path('print/micronutrient/<int:year>', views.print3, name='print3'),
+    path('print/child_care/<int:year>', views.print4, name='print4'),
+    path('print/maternal/<int:year>', views.print5, name='print5'),
+
     # REPORTS FACILITY
     path('reports_facility', views.reports_facility, name='reports_facility'),
 

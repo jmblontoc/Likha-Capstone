@@ -26,8 +26,18 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card card-primary">
-                        <div class="card-header p-0">
-                            <h3 class="card-title p-3">Child Care Report</h3>
+                        <div class="card-header d-flex p-0">
+                            <h3 class="card-title p-3">Socioeconomic Report</h3>
+                            <ul class="nav nav-pills ml-auto p-2">
+                                <li class="nav-item">
+                                    <a class="btn btn-default" style="text-align: center; color: #004876; cursor: pointer;" id="test">PRINT</a>
+                                    <script>
+                                        $("#test").click(function() {
+                                            var printWindow = window.open('http://{{ request.get_host }}/visualizations/print/child_care/' + {{ year }}, 'print','left=170, top=60, width=850, height=600, toolbar=0, resizable=0');
+                                        });
+                                    </script>
+                                </li>
+                            </ul>
                         </div>
                         <div class="card-body">
 

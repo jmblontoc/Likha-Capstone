@@ -1,0 +1,196 @@
+{% load static %}
+<html>
+<link rel="stylesheet" href="{% static 'core/plugins/bootstrap/css/bootstrap.min.css' %}">
+<script src="{% static 'core/plugins/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'core/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'core/js/highcharts.js' %}"></script>
+<script src="{% static 'core/js/memo.js' %}"></script>
+
+<style type="text/css" media="print">
+    @page
+    {
+        size: auto;
+        margin: 0mm;
+    }
+</style>
+
+<body style="padding: 1in;">
+
+<div class="row">
+
+    <div class="col-2">
+        <img src="{% static 'core/images/com.png' %}" style="width: 120%; padding-top: 21px" class="brand-image img-circle">
+    </div>
+    <div class="col-5">
+        <h3 style="padding-top: 30px;">Mandaluyong City</h3>
+        <h3 style="padding: 0px;">Nutrition Committee</h3>
+        <h4 style="padding: 0px;">Maternal Care Report</h4>
+    </div>
+    <div class="col-5" style="text-align: right;">
+        <p style="padding-top: 30px; margin: 0px;">Report Generated on:</p>
+        <p style="margin: 0px;">Date: {% now "F d, Y" %} </p>
+        <p style="margin: 0px;">Time: {% now "g: s A" %}</p>
+    </div>
+</div>
+<hr>
+
+<h3>Region: <b>National Captial Region</b></h3>
+<h3>City/Municipality: <b>Mandaluyong City</b></h3>
+<h4>Total Number of Barangays: <b>{{ barangays.count }}</b></h4>
+<h4>Total Number of Households: <b>{{ families }}</b></h4>
+<h4>Total Weighed: <b>{{ total_weighted }}</b></h4>
+<h4>Total Number of 0 - 11 months old weighed: <b>{{ count011 }}</b></h4>
+<h4>Total Number of 12 - 71 months old weighed: <b>{{ count1271 }}</b></h4>
+<hr>
+
+<div>
+    <h4>Weight for Age</h4>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th style="width: 18%;padding: 5px" rowspan="2">Barangay</th>
+            <th style="padding: 5px" colspan="3">Normal</th>
+            <th style="padding: 5px" colspan="3">Underweight</th>
+            <th style="padding: 5px" colspan="3">Severely Underweight</th>
+            <th style="padding: 5px" colspan="3">Overweight</th>
+            <th style="width: 15%;padding: 5px" colspan="2">Underweight and Severely Underweight</th>
+        </tr>
+        <tr>
+            <th style="width: 5%; padding: 5px">Boys</th>
+            <th style="width: 5%; padding: 5px">Girls</th>
+            <th style="width: 5%; padding: 5px">Total</th>
+            <th style="width: 5%; padding: 5px">Boys</th>
+            <th style="width: 5%; padding: 5px">Girls</th>
+            <th style="width: 5%; padding: 5px">Total</th>
+            <th style="width: 5%; padding: 5px">Boys</th>
+            <th style="width: 5%; padding: 5px">Girls</th>
+            <th style="width: 5%; padding: 5px">Total</th>
+            <th style="width: 5%; padding: 5px">Boys</th>
+            <th style="width: 5%; padding: 5px">Girls</th>
+            <th style="width: 5%; padding: 5px">Total</th>
+            <th style="width: 7.5%; padding: 5px">#</th>
+            <th style="width: 7.5%; padding: 5px">%</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for w in wfa %}
+            <tr>
+                {% for foo in w %}
+                    {% if forloop.counter0 == 13 %}
+                    {% elif forloop.counter0 == 0 %}
+                        <td style="padding: 5px">{{ foo }}</td>
+                    {% else %}
+                        <td style="padding: 5px" align="right">{{ foo }}</td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h4>Height for Age</h4>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th style="width: 18%; padding: 5px" rowspan="2">Barangay</th>
+            <th style="padding: 5px" colspan="3">Normal</th>
+            <th style="padding: 5px" colspan="3">Stunted</th>
+            <th style="padding: 5px" colspan="3">Severely Stunted</th>
+            <th style="padding: 5px" colspan="3">Tall</th>
+            <th style="width: 15%; padding: 5px" colspan="2">Stunted and Severely Stunted</th>
+        </tr>
+        <tr>
+            <th style="width: 5%; padding: 5px">Boys</th>
+            <th style="width: 5%; padding: 5px">Girls</th>
+            <th style="width: 5%; padding: 5px">Total</th>
+            <th style="width: 5%; padding: 5px">Boys</th>
+            <th style="width: 5%; padding: 5px">Girls</th>
+            <th style="width: 5%; padding: 5px">Total</th>
+            <th style="width: 5%; padding: 5px">Boys</th>
+            <th style="width: 5%; padding: 5px">Girls</th>
+            <th style="width: 5%; padding: 5px">Total</th>
+            <th style="width: 5%; padding: 5px">Boys</th>
+            <th style="width: 5%; padding: 5px">Girls</th>
+            <th style="width: 5%; padding: 5px">Total</th>
+            <th style="width: 7.5%; padding: 5px">#</th>
+            <th style="width: 7.5%; padding: 5px">%</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for w in hfa %}
+            <tr>
+                {% for foo in w %}
+                    {% if forloop.counter0 == 13 %}
+                    {% elif forloop.counter0 == 0 %}
+                        <td style="padding: 5px">{{ foo }}</td>
+                    {% else %}
+                        <td style="padding: 5px" align="right">{{ foo }}</td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+<div style="page-break-after: always;"></div>
+<div style="padding-top: 1in;" class="row"></div>
+    <h4>Weight for Height/Length</h4>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th style="width: 18%; padding: 5px;" rowspan="2">Barangay</th>
+            <th style="padding: 5px;" colspan="3">Normal</th>
+            <th style="padding: 5px;" colspan="3">Wasted</th>
+            <th style="padding: 5px;" colspan="3">Severely Wasted</th>
+            <th style="padding: 5px;" colspan="3">Overweight</th>
+            <th style="padding: 5px;" colspan="3">Obese</th>
+            <th style="width: 15%; padding: 5px;" colspan="2">Wasted and Severely Wasted</th>
+        </tr>
+        <tr>
+            <th style="width: 4.1%; padding: 5px">Boys</th>
+            <th style="width: 4.1%; padding: 5px">Girls</th>
+            <th style="width: 4.1%; padding: 5px">Total</th>
+            <th style="width: 4.1%; padding: 5px">Boys</th>
+            <th style="width: 4.1%; padding: 5px">Girls</th>
+            <th style="width: 4.1%; padding: 5px">Total</th>
+            <th style="width: 4.1%; padding: 5px">Boys</th>
+            <th style="width: 4.1%; padding: 5px">Girls</th>
+            <th style="width: 4.1%; padding: 5px">Total</th>
+            <th style="width: 4.1%; padding: 5px">Boys</th>
+            <th style="width: 4.1%; padding: 5px">Girls</th>
+            <th style="width: 4.1%; padding: 5px">Total</th>
+            <th style="width: 4.1%; padding: 5px">Boys</th>
+            <th style="width: 4.1%; padding: 5px">Girls</th>
+            <th style="width: 4.1%; padding: 5px">Total</th>
+            <th style="width: 7.5%; padding: 5px">#</th>
+            <th style="width: 7.5%; padding: 5px">%</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for w in wfh %}
+            <tr>
+                {% for foo in w %}
+                    {% if forloop.counter0 == 16 %}
+                    {% elif forloop.counter0 == 0 %}
+                        <td style="padding: 5px;">{{ foo }}</td>
+                    {% else %}
+                        <td style="padding: 5px;" align="right">{{ foo }}</td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+<script type="text/javascript">
+$( document ).ready(function() {
+window.print();
+window.onfocus = function(){ window.close();}
+});
+</script>
+
+</html>
+
+
+

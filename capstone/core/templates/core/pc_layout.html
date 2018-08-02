@@ -127,29 +127,19 @@
 {#                                    <p>Reports and Visualizations</p>#}
 {#                                </a>#}
 {#                            </li>#}
-                            <li class="nav-item has-treeview {% if active == 'cm' or active == 'rc' %}menu-open{% endif %}">
-                            <a href="#" class="nav-link {% if active == 'cm' or active == 'rc' %}active{% endif %}">
-                              <i class="nav-icon fa fa-folder-open"></i>
-                              <p>
-                                Problem Tree
-                                <i class="right fa fa-angle-left"></i>
-                              </p>
-                            </a>
-                            <ul class="nav nav-treeview">
+
                               <li class="nav-item">
                                 <a href="{% url 'causalmodel:index' 2018 %}" class="nav-link {% if active == 'cm' %}active{% endif %}">
                                     <i class="nav-icon fa fa-circle-o"></i>
                                     <p>Causal Models</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="{% url 'causalmodel:rc_index' %}" class="nav-link {% if active == 'rc' %}active{% endif %}">
-                                    <i class="nav-icon fa fa-circle-o"></i>
-                                    <p>Root Causes</p>
-                                </a>
-                            </li>
-                            </ul>
-                            </li>
+                            <!--<li class="nav-item">-->
+                                <!--<a href="{% url 'causalmodel:rc_index' %}" class="nav-link {% if active == 'rc' %}active{% endif %}">-->
+                                    <!--<i class="nav-icon fa fa-circle-o"></i>-->
+                                    <!--<p>Root Causes</p>-->
+                                <!--</a>-->
+                            <!--</li>-->
 
 
 {#                            <li class="nav-item">#}
@@ -158,12 +148,12 @@
 {#                                    <p>Barangay Reports Archive</p>#}
 {#                                </a>#}
 {#                            </li>#}
-                            <li class="nav-item">
-                                <a href="{% url 'visualizations:reports_facility' %}" class="nav-link {% if active == 'rf' %}active{% endif %}">
-                                    <i class="nav-icon fa fa-database"></i>
-                                    <p>Reports Facility</p>
-                                </a>
-                            </li>
+                            <!--<li class="nav-item">-->
+                                <!--<a href="{% url 'visualizations:reports_facility' %}" class="nav-link {% if active == 'rf' %}active{% endif %}">-->
+                                    <!--<i class="nav-icon fa fa-database"></i>-->
+                                    <!--<p>Reports Facility</p>-->
+                                <!--</a>-->
+                            <!--</li>-->
                             <li class="nav-item">
                                     <a href="{% url 'visualizations:reports_library' %}" class="nav-link {% if active == 'rl' %}active{% endif %}">
                                     <i class="nav-icon fa fa-database"></i>
@@ -172,14 +162,14 @@
                             </li>
                             <li class="nav-item">
                                 <a href="{% url 'core:memos' %}" class="nav-link {% if active == 'mm' %}active{% endif %}">
-                                    <i class="nav-icon fa fa-upload"></i>
+                                    <i class="nav-icon fa fa-file"></i>
                                     <p>Memos</p>
                                 </a>
                             </li>
 
-                            <li class="nav-item has-treeview {% if active == 'cm' or active == 'rc' %}menu-open{% endif %}">
-                            <a href="#" class="nav-link {% if active == 'cm' or active == 'rc' %}active{% endif %}">
-                              <i class="nav-icon fa fa-folder-open"></i>
+                            <li class="nav-item has-treeview {% if active == 'arc' %}menu-open{% endif %}">
+                            <a href="#" class="nav-link {% if active == 'arc' %}active{% endif %}">
+                              <i class="nav-icon fa fa-cog"></i>
                               <p>
                                 Configurations
                                 <i class="right fa fa-angle-left"></i>
@@ -187,7 +177,7 @@
                             </a>
                             <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{% url 'causalmodel:add_root_cause' %}" class="nav-link {% if active == 'rc' %}active{% endif %}">
+                                <a href="{% url 'causalmodel:add_root_cause' %}" class="nav-link {% if active == 'arc' %}active{% endif %}">
                                     <i class="nav-icon fa fa-circle-o"></i>
                                     <p>Add Root Cause</p>
                                 </a>

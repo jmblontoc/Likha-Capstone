@@ -32,7 +32,6 @@
                                         <thead>
                                         <tr>
                                             <th>Date Uploaded</th>
-                                            <th>Uploaded by</th>
                                             <th style="width: 16%;">Action</th>
                                         </tr>
                                         </thead>
@@ -42,7 +41,6 @@
                                                 <td style="vertical-align: middle;">
                                                     {{ family.date.year }}
                                                 </td>
-                                                <td>{{ family.uploaded_by.get_name }}</td>
                                                <td>
                                                    <a class="btn btn-primary btn-sm col-12" href="{% url 'datainput:show_profiles' family.id %}">View</a>
                                                </td>
@@ -56,7 +54,12 @@
                                         "paging": true,
                                         "lengthChange": true,
                                         "ordering": true,
-                                        "autoWidth": false
+                                        "autoWidth": false,
+                                        "order": [[ 0, "desc" ]],
+                                        "columnDefs": [{
+                                            "targets": [1],
+                                            "orderable": false,
+                                        }],
                                     });
                                 });
                             </script>

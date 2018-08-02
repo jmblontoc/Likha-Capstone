@@ -252,46 +252,9 @@
                             </a>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-header no-border" style="text-align: center;">
-                            <h3 class="card-title">Incomplete Reports</h3>
-                        </div>
-                        <div class="card-body p-2">
-                            <table id="familyprofile_overview" class="table table-bordered dataTable">
-                                <thead>
-                                <tr>
-                                    <th>Barangay</th>
-                                    <th>Report </th>
-                                    <th>Due Date</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for x in todo_list %}
-                                <tr>
-                                    <td>{{ x.barangay }}</td>
-                                    <td>{{ x.report_name }}</td>
-                                    <td>{{ x.due_date }}</td>
-                                    <td><a href="{% url 'datainput:notify_bns' x.barangay x.report_name %}" class="btn btn-danger" style="color: white">Notify</a></td>
-                                </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+
                 </div>
-                <script>
-    $(document).ready(function() {
-        $('#familyprofile_overview').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "lengthMenu": [10],
-            "ordering": false,
-            "autoWidth": false,
-            "searching": false
-        });
-    });
-</script>
+
             </div>
         </div>
     </section>

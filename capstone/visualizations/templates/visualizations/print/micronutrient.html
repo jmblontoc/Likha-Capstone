@@ -1,0 +1,74 @@
+{% load static %}
+<html>
+<link rel="stylesheet" href="{% static 'core/plugins/bootstrap/css/bootstrap.min.css' %}">
+<script src="{% static 'core/plugins/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'core/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'core/js/highcharts.js' %}"></script>
+<script src="{% static 'core/js/memo.js' %}"></script>
+
+<style type="text/css" media="print">
+    @page
+    {
+        size: auto;
+        margin: 0mm;
+    }
+</style>
+
+<body style="padding: 1in;">
+
+<div class="row">
+
+    <div class="col-2">
+        <img src="{% static 'core/images/com.png' %}" style="width: 120%; padding-top: 21px" class="brand-image img-circle">
+    </div>
+    <div class="col-5">
+        <h3 style="padding-top: 30px;">Mandaluyong City</h3>
+        <h3 style="padding: 0px;">Nutrition Committee</h3>
+        <h4 style="padding: 0px;">Maternal Care Report</h4>
+    </div>
+    <div class="col-5" style="text-align: right;">
+        <p style="padding-top: 30px; margin: 0px;">Report Generated on:</p>
+        <p style="margin: 0px;">Date: {% now "F d, Y" %} </p>
+        <p style="margin: 0px;">Time: {% now "g: s A" %}</p>
+    </div>
+</div>
+<hr>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Barangay</th>
+            <th style="width: 15%;">Vitamin A</th>
+            <th style="width: 15%;">Iron</th>
+            <th style="width: 15%;">Micronutrient Powder</th>
+            <th style="width: 15%;">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for d in data %}
+            <tr>
+                {% for a in d %}
+                    {% if forloop.counter0 == 0 %}
+                        <td>{{ a }}</td>
+                    {% else %}
+                        <td align="right">{{ a }}</td>
+                    {% endif %}
+                {% endfor %}
+        
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+</body>
+<script type="text/javascript">
+$( document ).ready(function() {
+window.print();
+window.onfocus = function(){ window.close();}
+});
+</script>
+
+</html>
+
