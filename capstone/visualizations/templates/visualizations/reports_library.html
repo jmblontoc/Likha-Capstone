@@ -36,7 +36,7 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12">
+            <div class="col-8">
                 <div class="card card-primary">
                     <div class="card-header p-0">
                         <h3 class="card-title p-3">Reports Facility</h3>
@@ -49,7 +49,7 @@
                                 <thead>
                                 <tr>
                                     <th>Date Generated</th>
-                                    <th>Action</th>
+                                    <th style="width: 16%;">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -57,8 +57,8 @@
                                     <tr>
                                         <td>{{ report }}</td>
                                         <td>
-                                            <a href="{% url 'visualizations:report1' report %}">
-                                                <button class="btn btn-primary">View</button>
+                                            <a class="btn btn-primary col-12" href="{% url 'visualizations:report1' report %}">
+                                                View
                                             </a>
                                         </td>
                                     </tr>
@@ -72,7 +72,7 @@
                                 <thead>
                                 <tr>
                                     <th>Date Generated</th>
-                                    <th>Action</th>
+                                    <th style="width: 16%;">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -80,8 +80,8 @@
                                     <tr>
                                         <td>{{ report }}</td>
                                         <td>
-                                            <a href="{% url 'visualizations:report3' report %}">
-                                                <button class="btn btn-primary">View</button>
+                                            <a class="btn btn-primary col-12" href="{% url 'visualizations:report3' report %}">
+                                                View
                                             </a>
                                         </td>
                                     </tr>
@@ -95,7 +95,7 @@
                                 <thead>
                                 <tr>
                                     <th>Date Generated</th>
-                                    <th>Action</th>
+                                    <th style="width: 16%;">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -103,8 +103,8 @@
                                     <tr>
                                         <td>{{ report }}</td>
                                         <td>
-                                            <a href="{% url 'visualizations:report2' report %}">
-                                                <button class="btn btn-primary">View</button>
+                                            <a class="btn btn-primary col-12" href="{% url 'visualizations:report2' report %}">
+                                                View
                                             </a>
                                         </td>
                                     </tr>
@@ -118,7 +118,7 @@
                                 <thead>
                                 <tr>
                                     <th>Date Generated</th>
-                                    <th>Action</th>
+                                    <th style="width: 16%;">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -126,8 +126,8 @@
                                     <tr>
                                         <td>{{ report }}</td>
                                         <td>
-                                            <a href="{% url 'visualizations:report4' report %}">
-                                                <button class="btn btn-primary">View</button>
+                                            <a class="btn btn-primary col-12" href="{% url 'visualizations:report4' report %}">
+                                                View
                                             </a>
                                         </td>
                                     </tr>
@@ -141,7 +141,7 @@
                                 <thead>
                                 <tr>
                                     <th>Date Generated</th>
-                                    <th>Action</th>
+                                    <th style="width: 16%;">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -149,7 +149,7 @@
                                     <tr>
                                         <td>{{ report }}</td>
                                         <td>
-                                            <a class="btn btn-primary btn-sm" href="{% url 'visualizations:report5' report %}">
+                                            <a class="btn btn-primary col-12" href="{% url 'visualizations:report5' report %}">
                                                 View
                                             </a>
                                         </td>
@@ -164,4 +164,5 @@
     </section>
 </div>
 {% endblock %}
+
 
