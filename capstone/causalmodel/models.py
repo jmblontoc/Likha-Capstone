@@ -41,7 +41,7 @@ class RootCause(models.Model):
             if name == x.name:
                 years.append(x.date.year)
 
-        return years
+        return sorted(years, reverse=True)
 
 
 class DataMap(models.Model):
