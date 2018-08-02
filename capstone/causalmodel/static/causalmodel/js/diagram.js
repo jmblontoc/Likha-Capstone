@@ -1,5 +1,9 @@
 $(function() {
 
+    $("#theYear").change(function() {
+        console.log("asdsa");
+    });
+
     const button = $("button.diagram_btn");
     const submitComment = $("#submit_comment");
     const treeHolder = $("#tree-holder");
@@ -12,8 +16,8 @@ $(function() {
         var cm = $(this).attr("data-id");
         console.log(cm);
 
-        // const year = $("#theYear").html();
-        // console.log(year);
+        const year = $("#theYear").html();
+        console.log(year);
 
         submitComment.attr('data-id', cm);
         approveCM.attr('data-id', cm);
@@ -25,7 +29,7 @@ $(function() {
             url: "/causal-models/details2",
             type: "post",
             data: {
-              'year': 2017
+              'year': year
             },
             dataType: "json",
             success: function(data) {
@@ -212,10 +216,3 @@ function getCookie(name) {
                 }
             }
         });
-
-
-function change(value) {
-
-    if (value > 0)
-        window.location.replace("/causal-models/" + value);
-}
