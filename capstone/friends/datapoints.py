@@ -64,13 +64,13 @@ micronutrient = [
 ]
 
 maternal = [
-    'Pregnant women with 4 or more prenatal visits',
-    'Pregnant women given 2 doses of Tetanus Toxoid',
-    'Postpartum women with at least 2 postpartum visits',
-    'Pregnant women given TT2 plus',
-    'Pregnant women given complete iron with folic acid supplementation',
-    'Postpartum women with given complete iron supplementation',
-    'Postpartum women given Vitamin A supplementation'
+    'Number of Pregnant women with 4 or more prenatal visits',
+    'Number of Pregnant women given 2 doses of Tetanus Toxoid',
+    'Number of Postpartum women with at least 2 postpartum visits',
+    'Number of Pregnant women given TT2 plus',
+    'Number of Pregnant women given complete iron with folic acid supplementation',
+    'Number of Postpartum women with given complete iron supplementation',
+    'Number of Postpartum women given Vitamin A supplementation'
 ]
 
 child_care = [

@@ -28,7 +28,20 @@ SOCIOECONOMIC = [
     'Number of families using iodized salt'
 ]
 
+MICRONUTRIENT = [
+    'Number of children who received vitamin A',
+    'Number of children who received iron',
+    'Number of children who received MNP'
+]
+
 MATERNAL = [
     'Number of mothers practicing exclusive breastfeeding',
-    'Number of mothers who have children with low birth weight'
+    'Number of mothers who have children with low birth weight',
+    'Number of Pregnant women with 4 or more prenatal visits',
+    'Number of Pregnant women given 2 doses of Tetanus Toxoid',
+    'Number of Postpartum women with at least 2 postpartum visits',
+    'Number of Pregnant women given TT2 plus',
+    'Number of Pregnant women given complete iron with folic acid supplementation',
+    'Number of Postpartum women with given complete iron supplementation',
+    'Number of Postpartum women given Vitamin A supplementation'
 ]

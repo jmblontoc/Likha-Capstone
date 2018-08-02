@@ -63,12 +63,16 @@ def set_thresholds(request):
     illnesses = [(field, Metric.check_if_set(field)) for field in revised_datapoints.ILLNESSES]
     socioeconomic = [(field, Metric.check_if_set(field)) for field in revised_datapoints.SOCIOECONOMIC]
     maternal = [(field, Metric.check_if_set(field)) for field in revised_datapoints.MATERNAL]
+    micro = [(field, Metric.check_if_set(field)) for field in datapoints.micronutrient]
+    immunizations = [(field, Metric.check_if_set(field)) for field in datapoints.immunizations]
 
     context = {
         # fields
         'illnesses': illnesses,
         'socioeconomic': socioeconomic,
         'maternal': maternal,
+        'micro': micro,
+        'immunizations': immunizations,
         'active': 'st'
     }
 
@@ -370,10 +374,16 @@ def insert_metric_ajax(request):
     threshold = request.POST['threshold']
     json_data = request.POST['jsonData']
 
+    threshold_type = True
+
+    checker = metric.upper()
+    if "GIVEN" in checker or "VISITS" in checker or "RECEIVED" in checker or "BREASTFEEDING" in checker:
+        threshold_type = False
+
     Metric.objects.create(
         metric=metric,
         threshold=threshold,
-        threshold_bad=True,
+        threshold_bad=threshold_type,
         is_default=False,
         unit='Total',
         json_data=json_data

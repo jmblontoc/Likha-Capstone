@@ -23,7 +23,7 @@
                                 {% else %}
                                 Program Coordinator
                                 {% endif %}
-                                Causal Model</li>
+                                Threshold Setting</li>
                         </ol>
                     </div>
                 </div>
@@ -49,6 +49,90 @@
                     </thead>
                     <tbody>
                     {% for field in illnesses %}
+                        <tr>
+                            <td class="field-name">{{ field.0 }}</td>
+                            {% if field.1 %}
+                                    <td style="color: #00a65a; font-weight: bold;">
+                                        <i class="fa fa-check-circle"></i> Already set
+                                    </td>
+                                {% else %}
+                                    <td style="color: #f56954; font-weight: bold;">
+                                        <i class="fa fa-exclamation-circle"></i> Not yet set
+                                    </td>
+                                {% endif %}
+                            <td>
+                                {% if field.1 %}
+                                    <a href="{% url 'datapreprocessing:index' %}">
+                                        <button class="btn btn-success btn-sm col-12">VIEW</button>
+                                    </a>
+                                {% else %}
+                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold btn-sm col-12" data-target="#thresholdModal" data-toggle="modal">SET!</button>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+                </div>
+            <div class="card card-primary">
+                <div class="card-header p-0">
+                    <h3 class="card-title p-3">Immunizations</h3>
+                </div>
+                <div class="card-body p-2">
+
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th style="width: 10%;">Status</th>
+                        <th style="width: 10%;">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for field in immunizations %}
+                        <tr>
+                            <td class="field-name">{{ field.0 }}</td>
+                            {% if field.1 %}
+                                    <td style="color: #00a65a; font-weight: bold;">
+                                        <i class="fa fa-check-circle"></i> Already set
+                                    </td>
+                                {% else %}
+                                    <td style="color: #f56954; font-weight: bold;">
+                                        <i class="fa fa-exclamation-circle"></i> Not yet set
+                                    </td>
+                                {% endif %}
+                            <td>
+                                {% if field.1 %}
+                                    <a href="{% url 'datapreprocessing:index' %}">
+                                        <button class="btn btn-success btn-sm col-12">VIEW</button>
+                                    </a>
+                                {% else %}
+                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold btn-sm col-12" data-target="#thresholdModal" data-toggle="modal">SET!</button>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+                </div>
+            <div class="card card-primary">
+                <div class="card-header p-0">
+                    <h3 class="card-title p-3">Micronutrient</h3>
+                </div>
+                <div class="card-body p-2">
+
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th style="width: 10%;">Status</th>
+                        <th style="width: 10%;">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for field in micro %}
                         <tr>
                             <td class="field-name">{{ field.0 }}</td>
                             {% if field.1 %}
@@ -156,7 +240,8 @@
                     </tbody>
                 </table>
             </div>
-        </div></div>
+        </div>
+        </div>
     </section>
 </div>
 
@@ -176,7 +261,9 @@
 
         <div class="text-center">
             <p><b id="field"></b>
-                is greater than
+                <span id="threshold-type">
+                    is greater than
+                </span>
                 <input type="number" id="threshold">
 
                 set to <b class="text-danger">CRITICAL</b>

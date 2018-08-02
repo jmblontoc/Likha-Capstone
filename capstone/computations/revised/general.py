@@ -2,9 +2,10 @@ from django.db.models import Sum
 from django.http import JsonResponse
 
 from computations.weights import year_now
-from friends import revised_datapoints
+from friends import revised_datapoints, datapoints
 from computations.child_care import get_fhsis
-from datainput.models import Tuberculosis, Malaria, ChildCare, MaternalCare, FamilyProfile, FamilyProfileLine
+from datainput.models import Tuberculosis, Malaria, ChildCare, MaternalCare, FamilyProfile, FamilyProfileLine, \
+    Immunization
 
 # get total values per year over time with forecast
 # all are FHSIS
@@ -24,6 +25,9 @@ def get_value(field):
 
         elif field in revised_datapoints.MATERNAL:
             model = MaternalCare
+
+        elif field in datapoints.immunizations:
+            model = Immunization
 
         else:
             model = ChildCare

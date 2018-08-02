@@ -7,6 +7,13 @@ $(function() {
         const button = $(e.relatedTarget);
         const field = button.attr("data-field");
 
+        if (field.toUpperCase().includes("GIVEN") || field.toUpperCase().includes("RECEIVED") ||
+            field.toUpperCase().includes("VISITS") || field.toUpperCase().includes("BREASTFEEDING")) {
+
+            $("#threshold-type").html("is less than");
+        }
+
+
         $("b#field").html(field);
 
         $.ajax({
