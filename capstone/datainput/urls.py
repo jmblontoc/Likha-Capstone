@@ -35,6 +35,7 @@ urlpatterns = [
     path('bns/fhsis/display/latest', views.latest_fhsis, name='latest_fhsis'),
 
     path('bns/family_profile/file', views.handle_family_profile_file, name='handle_family_profile_file'),
+
     path('bns/family_profile/list', views.family_profiles, name='family_profiles'),
 
     # view current family profile

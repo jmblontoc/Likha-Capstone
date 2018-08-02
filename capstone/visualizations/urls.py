@@ -21,11 +21,11 @@ urlpatterns = [
     path('city_children', views.city_children_care, name='children_care'),
 
     # # # # # # # REPORTS # # # # # # #
-    path('reports/nutritional_status', views.report1, name='report1'),
-    path('reports/socioeconomic', views.report2, name='report2'),   
-    path('reports/micronutrient', views.report3, name='report3'),
-    path('reports/child_care', views.report4, name='report4'),
-    path('reports/maternal', views.report5, name='report5'),
+    path('reports/nutritional_status/<int:year>', views.report1, name='report1'),
+    path('reports/socioeconomic/<int:year>', views.report2, name='report2'),
+    path('reports/micronutrient/<int:year>', views.report3, name='report3'),
+    path('reports/child_care/<int:year>', views.report4, name='report4'),
+    path('reports/maternal/<int:year>', views.report5, name='report5'),
 
     # REPORTS FACILITY
     path('reports_facility', views.reports_facility, name='reports_facility'),
@@ -44,6 +44,8 @@ urlpatterns = [
 
     path('ajax_highest', views.get_highest_barangay, name='get_highest_barangay'),
     path('ajax_top3_mns', views.top3_barangay_mns, name='top3_mns'),
+
+
 
 
 

@@ -224,6 +224,23 @@ def top3_barangays(order):
     }
 
 
+def micro_per_barangay_year(year):
+
+    data = []
+
+    for b in Barangay.objects.all().order_by('name'):
+
+        sub_data = [b.name]
+
+        for vitamin in datapoints.micronutrient:
+            field = get_field(ChildCare, vitamin)
+            total = ChildCare.objects.filter(fhsis__date__year=year, fhsis__barangay=b).aggregate(sum=Sum(field))['sum']
+            sub_data.append(int(total))
+
+        data.append(sub_data)
+
+    return data
+
 # # # # # REPORT MICRO # # # # # 
 
 def report_table_micro():
@@ -235,6 +252,27 @@ def report_table_micro():
         data.append(total)
 
     return existing_table
+
+def report_table_micro_year(year):
+
+    existing_table = micro_per_barangay_year(year)
+
+    for data in existing_table:
+        total = sum(data[1:])
+        data.append(total)
+
+    return existing_table
+
+def report_table_micro_sort_year():
+
+    total = ChildCare.objects.dates("fhsis__date", "year")
+    total2 = []
+
+    for t in total:
+        total2.append(t.year)
+
+    return total2
+
 
 
 def report_table_child_care():
@@ -258,6 +296,31 @@ def get_data_child_care(fields, model):
         for f in fields:
             point = get_field(model, f)
             total = model.objects.filter(fhsis__date__year=year_now, fhsis__barangay=b).aggregate(sum=Sum(point))['sum']
+            sub_data.append(int(total))
+        data.append(sub_data)
+
+    return data
+
+
+def report_table_child_care_year(year):
+    return {
+        'child_care': get_data_child_care_year(datapoints.child_care, ChildCare, str(year)),
+        'immunizations': get_data_child_care_year(datapoints.immunizations, Immunization, str(year)),
+        'malaria': get_data_child_care_year(datapoints.malaria, Malaria, str(year)),
+        'tb': get_data_child_care_year(datapoints.tuberculosis, Tuberculosis, str(year))
+    }
+
+
+def get_data_child_care_year(fields, model, year):
+    barangays = Barangay.objects.all().order_by('name')
+    data = []
+
+    for b in barangays:
+        sub_data = [b.name]
+
+        for f in fields:
+            point = get_field(model, f)
+            total = model.objects.filter(fhsis__date__year=year, fhsis__barangay=b).aggregate(sum=Sum(point))['sum']
             sub_data.append(int(total))
         data.append(sub_data)
 
