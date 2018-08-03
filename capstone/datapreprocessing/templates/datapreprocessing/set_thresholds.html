@@ -29,8 +29,8 @@
                     </div>
                 </div>
             </div>
+        {% include 'core/helpers/messages.html' %}
         </div>
-    {% include 'core/helpers/messages.html' %}
 
     <section class="content">
         <div class="container-fluid">
@@ -109,7 +109,7 @@
                                         <button class="btn btn-success btn-sm col-12">VIEW</button>
                                     </a>
                                 {% else %}
-                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold btn-sm col-12" data-target="#thresholdModal" data-toggle="modal">SET!</button>
+                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold btn-sm col-12" data-target="#thresholdModal" data-toggle="modal">Set Threshold!</button>
                                 {% endif %}
                             </td>
                         </tr>
@@ -151,7 +151,7 @@
                                         <button class="btn btn-success btn-sm col-12">VIEW</button>
                                     </a>
                                 {% else %}
-                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold btn-sm col-12" data-target="#thresholdModal" data-toggle="modal">SET!</button>
+                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold btn-sm col-12" data-target="#thresholdModal" data-toggle="modal">Set Threshold</button>
                                 {% endif %}
                             </td>
                         </tr>
@@ -193,7 +193,7 @@
                                         <button class="btn btn-success btn-sm col-12">VIEW</button>
                                     </a>
                                 {% else %}
-                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold btn-sm col-12" data-target="#thresholdModal" data-toggle="modal">SET!</button>
+                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold btn-sm col-12" data-target="#thresholdModal" data-toggle="modal">Set Threshold</button>
                                 {% endif %}
                             </td>
                         </tr>
@@ -233,7 +233,7 @@
                                         <button class="btn btn-success btn-sm col-12">VIEW</button>
                                     </a>
                                 {% else %}
-                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold btn-sm col-12" data-target="#thresholdModal" data-toggle="modal">SET!</button>
+                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold btn-sm col-12" data-target="#thresholdModal" data-toggle="modal">Set Threshold</button>
                                 {% endif %}
                             </td>
                         </tr>
@@ -274,7 +274,7 @@
                                         <button class="btn btn-success btn-sm col-12">VIEW</button>
                                     </a>
                                 {% else %}
-                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold btn-sm col-12" data-target="#thresholdModal" data-toggle="modal">SET!</button>
+                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold btn-sm col-12" data-target="#thresholdModal" data-toggle="modal">Set Threshold</button>
                                 {% endif %}
                             </td>
                         </tr>
@@ -328,6 +328,6 @@
         "autoWidth": false,
         "searching": false,
         "order": [[1, "asc"]]
-    } );
+    });
 </script>
 {% endblock %}
