@@ -42,6 +42,11 @@ def handle_opt_file(request):
 
     # check if valid file type
 
+    if file.name != 'eOPT.xlsx':
+
+        messages.error(request, 'Please submit using the valid file name (eOPT.xlsx)')
+        return redirect('core:bns-index')
+
     file_extension = os.path.splitext(file.name)
 
     print(file_extension[1])
@@ -939,6 +944,7 @@ def handle_fhsis_file(request):
         return redirect('core:bns-index')
 
     file = request.FILES['fhsis']
+    print(file.name)
 
     # other error checking goes here TODO
 
@@ -950,6 +956,10 @@ def handle_fhsis_file(request):
 
     if not file_extension[1] == '.xlsx':
         messages.error(request, 'Please upload a valid excel file')
+        return redirect('core:bns-index')
+
+    if file.name != 'FHSIS_M1.xlsx':
+        messages.error(request, 'Please submit using the valid file name (FHSIS_M1.xlsx)')
         return redirect('core:bns-index')
 
     # upload file

@@ -40,7 +40,7 @@
                 </div>
                 <div class="card-body p-2">
 
-                <table class="table table-bordered table-hover">
+                <table class="table table-bordered table-hover cat">
                     <thead>
                     <tr>
                         <th>Metric</th>
@@ -82,7 +82,7 @@
                 </div>
                 <div class="card-body p-2">
 
-                <table class="table table-bordered table-hover">
+                <table class="table cat table-bordered table-hover">
                     <thead>
                     <tr>
                         <th>Metric</th>
@@ -96,11 +96,11 @@
                             <td class="field-name">{{ field.0 }}</td>
                             {% if field.1 %}
                                     <td style="color: #00a65a; font-weight: bold;">
-                                        <i class="fa fa-check-circle"></i> Already set
+                                        <i class="fa fa-check-circle"></i> Set
                                     </td>
                                 {% else %}
                                     <td style="color: #f56954; font-weight: bold;">
-                                        <i class="fa fa-exclamation-circle"></i> Not yet set
+                                        <i class="fa fa-exclamation-circle"></i> No threshold
                                     </td>
                                 {% endif %}
                             <td>
@@ -124,7 +124,7 @@
                 </div>
                 <div class="card-body p-2">
 
-                <table class="table table-bordered table-hover">
+                <table class="table cat table-bordered table-hover">
                     <thead>
                     <tr>
                         <th>Metric</th>
@@ -138,11 +138,11 @@
                             <td class="field-name">{{ field.0 }}</td>
                             {% if field.1 %}
                                     <td style="color: #00a65a; font-weight: bold;">
-                                        <i class="fa fa-check-circle"></i> Already set
+                                        <i class="fa fa-check-circle"></i> Set
                                     </td>
                                 {% else %}
                                     <td style="color: #f56954; font-weight: bold;">
-                                        <i class="fa fa-exclamation-circle"></i> Not yet set
+                                        <i class="fa fa-exclamation-circle"></i> No threshold
                                     </td>
                                 {% endif %}
                             <td>
@@ -165,7 +165,7 @@
                     <h3 class="card-title p-3">Socioeconomic</h3>
                 </div>
                 <div class="card-body p-2">
-                <table class="table table-bordered table-hover">
+                <table class="cat table table-bordered table-hover">
                     <thead>
                     <tr>
                         <th>Metric</th>
@@ -180,11 +180,11 @@
 
                                 {% if field.1 %}
                                     <td style="color: #00a65a; font-weight: bold;">
-                                        <i class="fa fa-check-circle"></i> Already set
+                                        <i class="fa fa-check-circle"></i> Set
                                     </td>
                                 {% else %}
                                     <td style="color: #f56954; font-weight: bold;">
-                                        <i class="fa fa-exclamation-circle"></i> Not yet set
+                                        <i class="fa fa-exclamation-circle"></i> No threshold
                                     </td>
                                 {% endif %}
                             <td>
@@ -203,10 +203,10 @@
             </div></div>
             <div class="card card-primary">
                 <div class="card-header p-0">
-                    <h3 class="card-title p-3">Informal Settlers</h3>
+                    <h3 class="card-title p-3">Maternal Care</h3>
                 </div>
                 <div class="card-body p-2">
-                <table class="table table-bordered table-hover">
+                <table class="cat table table-bordered table-hover">
                     <thead>
                     <tr>
                         <th>Metric</th>
@@ -220,11 +220,11 @@
                             <td class="field-name">{{ field.0 }}</td>
                             {% if field.1 %}
                                     <td style="color: #00a65a; font-weight: bold;">
-                                        <i class="fa fa-check-circle"></i> Already set
+                                        <i class="fa fa-check-circle"></i> Set
                                     </td>
                                 {% else %}
                                     <td style="color: #f56954; font-weight: bold;">
-                                        <i class="fa fa-exclamation-circle"></i> Not yet set
+                                        <i class="fa fa-exclamation-circle"></i> No threshold
                                     </td>
                                 {% endif %}
                             <td>
@@ -247,7 +247,7 @@
                     <h3 class="card-title p-3">Informal Settlers</h3>
                 </div>
                 <div class="card-body p-2">
-                <table class="table table-bordered table-hover">
+                <table class="cat table table-bordered table-hover">
                     <thead>
                     <tr>
                         <th>Metric</th>
@@ -261,11 +261,11 @@
                             <td class="field-name">{{ field.0 }}</td>
                             {% if field.1 %}
                                     <td style="color: #00a65a; font-weight: bold;">
-                                        <i class="fa fa-check-circle"></i> Already set
+                                        <i class="fa fa-check-circle"></i> Set
                                     </td>
                                 {% else %}
                                     <td style="color: #f56954; font-weight: bold;">
-                                        <i class="fa fa-exclamation-circle"></i> Not yet set
+                                        <i class="fa fa-exclamation-circle"></i> No threshold
                                     </td>
                                 {% endif %}
                             <td>
@@ -318,4 +318,16 @@
     </div>
   </div>
 </div>
+
+<script>
+    $('.cat').DataTable( {
+        "paging": false,
+        "lengthChange": false,
+        "lengthMenu": [100],
+        "ordering": true,
+        "autoWidth": false,
+        "searching": false,
+        "order": [[1, "asc"]]
+    } );
+</script>
 {% endblock %}
