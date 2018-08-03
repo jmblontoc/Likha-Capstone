@@ -46,13 +46,14 @@ def index(request, year):
     else:
         layout = 'core/pc_layout.html'
 
-    models = CausalModel.objects.filter(date__year=year).order_by('-date')
-    current_tree = CausalModel.objects.get(date__year=year)
+    models = CausalModel.objects.filter(date__year=year).order_by('-date')\
 
     if RootCause.objects.filter(date__year=year).count() == 0:
         roots = RootCause.show_root_causes()
     else:
         roots = RootCause.objects.filter(date__year=year)
+
+    current_tree = CausalModel.objects.filter(date__year=year)
 
     years = [x.year for x in CausalModel.objects.dates('date', 'year')]
 
