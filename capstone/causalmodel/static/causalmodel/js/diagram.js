@@ -1,15 +1,12 @@
 $(function() {
 
-    $("#theYear").change(function() {
-        console.log("asdsa");
-    });
-
     const button = $("button.diagram_btn");
     const submitComment = $("#submit_comment");
     const treeHolder = $("#tree-holder");
     const commentHolder = $(".comment-holder");
     const approveCM = $(".approve-cm");
 
+    const id_model = $("#current").html();
 
     function getID() {
 
@@ -118,7 +115,7 @@ $(function() {
             type: "POST",
             data: {
                 'comment': comment,
-                'id': id
+                'id': id_model
             },
             success: function(data) {
 
@@ -162,7 +159,12 @@ $(function() {
 });
 
 
+function change(value) {
 
+    if (value > 0) {
+        window.location.replace('/causal-models/' + value);
+    }
+}
 
 
 

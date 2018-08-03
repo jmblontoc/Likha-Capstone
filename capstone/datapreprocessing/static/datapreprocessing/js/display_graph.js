@@ -33,6 +33,15 @@ $(function() {
         withForecast.push({'y': wma, 'color': '#daffc4'});
         console.log(withForecast);
 
+        Highcharts.SVGRenderer.prototype.symbols.line = function(x, y, w, h) {
+          return ['M', x, y, 'L', x + w, y];
+        };
+
+        if (Highcharts.VMLRenderer) {
+            Highcharts.VMLRenderer.prototype.symbols.line = Highcharts.SVGRenderer.prototype.symbols.line;
+        }
+
+
         $("#graph").empty();
         Highcharts.chart('graph', {
 
@@ -77,8 +86,17 @@ $(function() {
             },
             series: [{
                 name: field,
-                data: withForecast
+                data: withForecast,
+                marker: {
+                    symbol: 'cross',
+                    lineColor: null,
+                    lineWidth: 2
+                }
 
+            }, {
+                name: 'Predicted Value',
+                data: [],
+                color: '#daffc4'
             }]
         });
 
