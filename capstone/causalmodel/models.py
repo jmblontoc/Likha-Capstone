@@ -177,6 +177,8 @@ class Memo(models.Model):
     subject = models.CharField(max_length=128)
     date = models.DateTimeField(default=datetime.now)
     metric = models.ForeignKey(Metric, on_delete=models.CASCADE)
+    barangays_addressed_to = models.TextField()
+    suggested_interventions = models.TextField()
     comments = models.TextField()
     uploaded_by = models.ForeignKey('core.Profile', on_delete=models.CASCADE)
 

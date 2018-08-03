@@ -287,12 +287,16 @@ def view_summary(request, metric):
     if request.method == 'POST':
 
         m = request.POST['metric']
+        barangays_addressed_to = request.POST['barangays_addressed_to']
+        suggested_interventions = request.POST['suggested_interventions']
         comments = request.POST['comments']
         subject = request.POST['subject']
 
         created = Memo.objects.create(
             metric=Metric.objects.get(id=m),
             uploaded_by=profile,
+            barangays_addressed_to=barangays_addressed_to,
+            suggested_interventions=suggested_interventions,
             comments=comments,
             subject=subject
         )
