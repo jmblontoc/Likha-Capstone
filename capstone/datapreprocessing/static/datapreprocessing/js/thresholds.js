@@ -86,6 +86,10 @@ $(function() {
                         name: field,
                         data: withForecast
 
+                    }, {
+                        name: 'Predicted Value',
+                        data: [],
+                        color: '#daffc4'
                     }]
                 });
             },
@@ -104,22 +108,34 @@ $(function() {
         const metric = source + "|" + field;
         const threshold = $("#threshold").val();
 
-        $.ajax({
-            url: "/data-pre_processing/ajax/insert_metric",
-            type: "POST",
-            data: {
-                'metric': metric,
-                'jsonData': json,
-                'threshold': threshold
-            },
-            success: function(x) {
-                alert("Threshold successfully set");
-                window.location.replace('/data-pre_processing/set_thresholds');
-            },
-            error: function(e) {
-                console.log(e.responseText);
-            }
-        });
+        if (threshold === '') {
+            alert("Please input a value");
+        }
+
+        if (threshold % 1 !== 0) {
+            alert("Invalid input (decimal)");
+        }
+
+        else {
+            $.ajax({
+                url: "/data-pre_processing/ajax/insert_metric",
+                type: "POST",
+                data: {
+                    'metric': metric,
+                    'jsonData': json,
+                    'threshold': threshold
+                },
+                success: function(x) {
+                    alert("Threshold successfully set");
+                    window.location.replace('/data-pre_processing/set_thresholds');
+                },
+                error: function(e) {
+                    console.log(e.responseText);
+                }
+            });
+        }
+
+
     });
 });
 

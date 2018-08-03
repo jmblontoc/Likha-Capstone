@@ -1,6 +1,8 @@
 import json
 from datetime import datetime
 
+from django.urls import reverse
+
 from computations import weights
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -27,13 +29,25 @@ def index(request, year):
 
     profile = Profile.objects.get(user=request.user)
 
+    if len(validations.todo_list()) > 0:
+        messages.error(request, 'Data is not yet up to date')
+
+        if profile.user_type == 'Nutritionist':
+            return redirect('core:nutritionist')
+        else:
+            return redirect('core:program_coordinator')
+
+    if Metric.objects.count() != 34:
+        messages.error(request, 'Please set thresholds for all metrics')
+        return redirect('datapreprocessing:set_thresholds')
+
     if profile.user_type == 'Nutritionist':
         layout = 'core/nutritionist-layout.html'
     else:
         layout = 'core/pc_layout.html'
 
     models = CausalModel.objects.filter(date__year=year).order_by('-date')
-    current_tree = CausalModel.objects.filter(date__year=year)
+    current_tree = CausalModel.objects.get(date__year=year)
 
     if RootCause.objects.filter(date__year=year).count() == 0:
         roots = RootCause.show_root_causes()
@@ -41,6 +55,9 @@ def index(request, year):
         roots = RootCause.objects.filter(date__year=year)
 
     years = [x.year for x in CausalModel.objects.dates('date', 'year')]
+
+    if year_now not in years:
+        years.append(year_now)
     years = sorted(years, reverse=True)
     years.insert(0, "--")
 
@@ -387,7 +404,8 @@ def produce_causal_model(request):
                         )
                         break
 
-    return redirect('causalmodel:index', year=year_now)
+    messages.success(request, 'Causal model successfully created')
+    return redirect(reverse('causalmodel:index', kwargs={'year': year_now}) + '#tree-holder')
 
 
 def get_blocks_2(request):

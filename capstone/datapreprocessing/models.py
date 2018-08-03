@@ -38,6 +38,7 @@ class Metric(models.Model):
     threshold_bad = models.BooleanField(default=True, verbose_name='Is Value Reaching Threshold Bad')
     json_data = models.TextField(default='')
 
+
     @staticmethod
     def categorized():
 

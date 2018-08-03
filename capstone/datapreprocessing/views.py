@@ -75,7 +75,9 @@ def set_thresholds(request):
         'micro': micro,
         'immunizations': immunizations,
         'informal': informal,
-        'active': 'st'
+        'active': 'st',
+        'year_now': year_now,
+        'count_set': Metric.objects.count()
     }
 
     return render(request, 'datapreprocessing/set_thresholds.html', context)
