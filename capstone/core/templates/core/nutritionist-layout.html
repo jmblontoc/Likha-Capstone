@@ -153,7 +153,23 @@
                                     <p>Memos</p>
                                 </a>
                             </li>
-
+                             <li class="nav-item has-treeview {% if active == 'arc' %}menu-open{% endif %}">
+                            <a href="#" class="nav-link {% if active == 'arc' %}active{% endif %}">
+                              <i class="nav-icon fa fa-cog"></i>
+                              <p>
+                                Configurations
+                                <i class="right fa fa-angle-left"></i>
+                              </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{% url 'causalmodel:add_root_cause' %}" class="nav-link {% if active == 'arc' %}active{% endif %}">
+                                    <i class="nav-icon fa fa-circle-o"></i>
+                                    <p>Add Root Cause</p>
+                                </a>
+                            </li>
+                            </ul>
+                            </li>
                             <!--<li class="nav-item">-->
                                 <!--<a class="nav-link" href="{% url 'datainput:barangay_archives' %}">-->
                                     <!--<i class="nav-icon fa fa-database"></i>-->
