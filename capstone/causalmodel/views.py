@@ -407,6 +407,13 @@ def produce_causal_model(request):
                         )
                         break
 
+    # notify program coordinator
+    Notification.objects.create(
+        profile_to=Profile.objects.filter(user_type__contains='Program Coordinator')[0],
+        profile_from=Profile.objects.get(user=request.user),
+        message='Causal model has been created'
+    )
+
     messages.success(request, 'Causal model successfully created')
     return redirect(reverse('causalmodel:index', kwargs={'year': year_now}) + '#tree-holder')
 

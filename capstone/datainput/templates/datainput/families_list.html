@@ -194,6 +194,7 @@
             </button>
           </div>
           <div class="modal-body">
+            <p class="text-info">All fields are required</p>
             <form method="POST">
                 {% csrf_token %}
                 {% include 'core/helpers/form_template.html' %}

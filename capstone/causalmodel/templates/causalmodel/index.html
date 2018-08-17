@@ -57,6 +57,49 @@
                 <hr>
 
             </div>
+
+            <div class="card p-3 container-fluid">
+                {% if not current %}
+                    <div class="row">
+                        <div class="col-12 text-center mb-4">
+                            <p>There are no causal models for {{ year_get }} yet</p>
+                            <a href="{% url 'causalmodel:produce_causal_model' %}">
+                                <button class="btn btn-primary">+ Create Causal Model</button>
+                            </a>
+                        </div>
+
+                    </div>
+                {% else %}
+                    <div class="row">
+                        <div class="col-12" style="height:573.953px">
+                            <div id="tree-holder">
+                                <div>
+                                    <div style='height: 558px;' class='card'><p style="text-align: center; margin-top: 22%;"></p></div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card p-2" style="height: 40%">
+                                <h5 class="m-3">Comments</h5>
+                                <div class="comment-holder" style="overflow-y: scroll;">
+                                </div>
+                            </div>
+                            <div class="submit-comment-holder card p-3" style="height: 135px;">
+                                {% if models %}
+                                <div class="form-group cm-commands" style="display: none;">
+                                    <input class="form-control" id="comment-main" placeholder="Enter comment here">
+                                    <button class="btn btn-primary mt-3" id="submit_comment">Submit</button>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+            </div>
             <div class="card p-3 container-fluid">
 {#                    <a href="{% url 'causalmodel:add_root_cause' %}" style="float:right;"><button class="btn btn-primary">Add Root Cause</button></a>#}
                 <table class="table mt-3 table-bordered">
@@ -66,7 +109,7 @@
                         <th>Metric</th>
                         <th class="text-right">Value</th>
                         <th>Source</th>
-                        <th>Frequency</th>
+                        <th>Year Occurences</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -101,43 +144,6 @@
                     {% endfor %}
                     </tbody>
                 </table>
-            </div>
-
-                <div class="card p-3 container-fluid">
-                    <div class="row">
-                    {% if not current %}
-                        <div class="col-12 text-center mb-4">
-                            <p>There are no causal models for {{ year_get }} yet</p>
-                            <a href="{% url 'causalmodel:produce_causal_model' %}">
-                                <button class="btn btn-primary">+ Create Causal Model</button>
-                            </a>
-                        </div>
-                    {% endif %}
-                </div>
-                <div class="row">
-                    <div class="col-8" style="height:573.953">
-                        <div id="tree-holder">
-                            <div>
-                                <div style='height: 558px;' class='card'><p style="text-align: center; margin-top: 22%;"></p></div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="card" style="height: 40%">
-                            <div class="comment-holder" style="overflow-y: scroll;">
-                            </div>
-                        </div>
-                        <div class="submit-comment-holder card p-3" style="height: 135px;">
-                            {% if models %}
-                            <div class="form-group cm-commands" style="display: none;">
-                                <input class="form-control" id="comment-main" placeholder="Enter comment here">
-                                <button class="btn btn-primary mt-3" id="submit_comment">Submit</button>
-                            </div>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>

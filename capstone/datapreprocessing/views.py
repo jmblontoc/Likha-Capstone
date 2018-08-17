@@ -77,7 +77,7 @@ def set_thresholds(request):
         'informal': informal,
         'active': 'st',
         'year_now': year_now,
-        'count_set': Metric.objects.count()
+        'count_set': 34 - Metric.objects.count()
     }
 
     return render(request, 'datapreprocessing/set_thresholds.html', context)
