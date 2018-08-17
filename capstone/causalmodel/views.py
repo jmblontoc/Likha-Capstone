@@ -393,10 +393,8 @@ def produce_causal_model(request):
         )
 
     new_boxes = Box.objects.filter(causal_model__date__year=year_now)
-    print(len(new_boxes), 'this is the length')
 
     sons = Son.objects.filter(box__causal_model__date__year=year_now - 1)
-    print(len(sons), 'this is the length of sons')
 
     for i, bx in enumerate(new_boxes):
         for j, s in enumerate(sons):

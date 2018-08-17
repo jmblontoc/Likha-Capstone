@@ -226,8 +226,6 @@ def set_micronutrient(request):
 
         my_dict = dict(request.POST)
 
-        print(my_dict)
-
         for k, v in my_dict.items():
 
             counter = 0
@@ -368,7 +366,6 @@ def view_threshold(request):
     elif report == 'micro':
 
         data = [metric.to_dict() for metric in metrics if metric.get_data_point in datapoints.micronutrient]
-        print(datapoints.micronutrient)
         return JsonResponse(data, safe=False)
 
 

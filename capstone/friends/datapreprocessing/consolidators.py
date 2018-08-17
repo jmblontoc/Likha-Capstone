@@ -71,8 +71,6 @@ def get_value(metric):
 
         else:
 
-            print('this is my field', field)
-
             if field == 'water_sources':
                 choice = "Well"
 
@@ -237,7 +235,7 @@ def get_total_with_sex(model, field, sex):
         try:
             count = count + getattr(record, field)
         except TypeError:
-            print('aha')
+            pass
 
     return count
 
@@ -252,7 +250,7 @@ def get_total_without_sex(model, field):
         try:
             count = count + getattr(record, field)
         except TypeError:
-            print('aha')
+            pass
 
     return count
 
@@ -354,7 +352,6 @@ def get_choice_count(field, choice):
     count = 0
     records = FamilyProfileLine.objects.filter(family_profile__date__year=datetime.now().year)
 
-    print(field, choice)
     for record in records:
         if getattr(record, field) == choice:
             count = count + 1

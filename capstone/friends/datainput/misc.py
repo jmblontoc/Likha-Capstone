@@ -29,3 +29,10 @@ def get_due_date(time):
         day = 30
 
         return datetime.date(year, month, day)
+
+    else:
+
+        month = 3
+        year = dt.now().year
+
+        return datetime.date(year, month, 30)

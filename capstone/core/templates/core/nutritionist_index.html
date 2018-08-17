@@ -164,16 +164,14 @@
                                     <th>Barangay</th>
                                     <th>Report </th>
                                     <th>Due Date</th>
-                                    <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {% for x in todo_list %}
                                 <tr>
-                                    <td>{{ x.barangay }}</td>
+                                    <td>{{ x.barangay.name }}</td>
                                     <td>{{ x.report_name }}</td>
-                                    <td>{{ x.due_date }}</td>
-                                    <td><a href="{% url 'datainput:notify_bns' x.barangay x.report_name %}" class="btn btn-danger" style="color: white">Notify</a></td>
+                                    <td>{{ x.due_date|date:"F d, Y" }}</td>
                                 </tr>
                                 {% endfor %}
                                 </tbody>

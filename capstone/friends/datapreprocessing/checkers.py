@@ -13,8 +13,6 @@ def has_nutritional():
         if metric.get_sex == 'N/A':
             if metric.get_data_point in statuses:
                 count = count + 1
-
-    print(count)
     return count == NutritionalStatus.objects.all().count()
 
 

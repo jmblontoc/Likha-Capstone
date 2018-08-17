@@ -44,8 +44,6 @@ def get_value(field):
 
                 year_start += 1
 
-            print(values)
-
             return values, model.__name__
 
         else:
