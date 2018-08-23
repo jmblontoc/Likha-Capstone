@@ -1216,4 +1216,54 @@ class Metric(models.Model):
 
             return json.dumps(data)
 
+    @staticmethod
+    def critical_dashboard():
+
+        metrics = [metric for metric in Metric.objects.filter(date__year=year_now) if metric.is_alarming]
+
+        illnesses = []
+        socioeconomic = []
+        micronutrient = []
+        informal = []
+        maternal = []
+        immunizations = []
+
+        for metric in metrics:
+
+            # illnesses
+            if metric.get_data_point in revised_datapoints.ILLNESSES:
+                illnesses.append(metric)
+
+            # socioeconomic
+            if metric.get_data_point in revised_datapoints.SOCIOECONOMIC:
+                socioeconomic.append(metric)
+
+            # micro
+            if metric.get_data_point in revised_datapoints.MICRONUTRIENT:
+                micronutrient.append(metric)
+
+            # maternal
+            if metric.get_data_point in revised_datapoints.MATERNAL:
+                maternal.append(metric)
+
+            # immunization
+            if metric.get_data_point in datapoints.immunizations:
+                immunizations.append(metric)
+
+            # informal
+            if metric.get_data_point in revised_datapoints.INFORMAL:
+                informal.append(metric)
+
+        dashboard = {
+            'illnesses': illnesses,
+            'micronutrient': micronutrient,
+            'socioeconomic': socioeconomic,
+            'maternal': maternal,
+            'immunizations': immunizations,
+            'informal': informal
+        }
+
+        return dashboard
+
+
 

@@ -46,7 +46,7 @@ def index(request, year):
     else:
         layout = 'core/pc_layout.html'
 
-    models = CausalModel.objects.filter(date__year=year).order_by('-date')\
+    models = CausalModel.objects.filter(date__year=year).order_by('-date')
 
     if RootCause.objects.filter(date__year=year).count() == 0:
         roots = RootCause.show_root_causes()
@@ -450,5 +450,18 @@ def get_blocks_2(request):
         'comments': comments
     }
     return JsonResponse(data)
+
+
+@login_required
+@not_bns
+def causal_model_report(request, year):
+
+    causal_model = CausalModel.objects.get(date__year=year)
+
+    context = {
+        'causal_model': causal_model
+    }
+
+    return render(request, 'causalmodel/causal_model_report.html', context)
 
 

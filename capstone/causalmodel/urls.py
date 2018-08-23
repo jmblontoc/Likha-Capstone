@@ -46,7 +46,10 @@ urlpatterns = [
 
     path('dummy', views.dummy, name='dummy'),
 
-    path('p', views.get_boxes, name='p')
+    path('p', views.get_boxes, name='p'),
+
+    # causal model report
+    path('causal_model/<int:year>/', views.causal_model_report, name='causal_model_report')
 
 
 ]

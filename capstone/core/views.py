@@ -151,7 +151,11 @@ def bns_index(request):
 @login_required
 @is_nutritionist
 def nutritionist(request):
+
     profile = Profile.objects.get(user=request.user)
+
+    # critical metrics dashboard by category
+    criticals = Metric.critical_dashboard()
 
     # # Nutritional Status
     wfa = weights.get_computations_per_category('Weight for Age')
@@ -195,7 +199,9 @@ def nutritionist(request):
         # alarming metrics
         'illnesses_metrics': Metric.categorized()['illnesses'],
         'maternal_metrics': Metric.categorized()['maternal'],
-        'socioeconomic_metrics': Metric.categorized()['socioeconomic']
+        'socioeconomic_metrics': Metric.categorized()['socioeconomic'],
+
+        'criticals': criticals
     }
 
     return render(request, 'core/nutritionist_index.html', context)
@@ -248,7 +254,9 @@ def program_coordinator(request):
         # alarming metrics
         'illnesses_metrics': Metric.categorized()['illnesses'],
         'maternal_metrics': Metric.categorized()['maternal'],
-        'socioeconomic_metrics': Metric.categorized()['socioeconomic']
+        'socioeconomic_metrics': Metric.categorized()['socioeconomic'],
+
+        'criticals': Metric.critical_dashboard()
     }
 
     return render(request, 'core/pc_index.html', context=context)

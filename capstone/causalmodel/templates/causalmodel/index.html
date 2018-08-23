@@ -72,6 +72,13 @@
                 {% else %}
                     <div class="row">
                         <div class="col-12" style="height:573.953px">
+                            <h3 class="m-2">Causal Model for {{ year_get }}
+                                <span>
+                                    <a href="{% url 'causalmodel:causal_model_report' year_get %}">
+                                        <button class="mb-2 btn btn-primary">Print</button>
+                                    </a>
+                                </span>
+                            </h3>
                             <div id="tree-holder">
                                 <div>
                                     <div style='height: 558px;' class='card'><p style="text-align: center; margin-top: 22%;"></p></div>
