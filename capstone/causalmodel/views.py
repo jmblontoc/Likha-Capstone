@@ -1,6 +1,8 @@
 import json
 from datetime import datetime
 
+from django.urls import reverse
+
 from computations import weights
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -27,20 +29,36 @@ def index(request, year):
 
     profile = Profile.objects.get(user=request.user)
 
+    if len(validations.todo_list()) > 0:
+        messages.error(request, 'Data is not yet up to date')
+
+        if profile.user_type == 'Nutritionist':
+            return redirect('core:nutritionist')
+        else:
+            return redirect('core:program_coordinator')
+
+    if Metric.objects.count() != 34:
+        messages.error(request, 'Please set thresholds for all metrics')
+        return redirect('datapreprocessing:set_thresholds')
+
     if profile.user_type == 'Nutritionist':
         layout = 'core/nutritionist-layout.html'
     else:
         layout = 'core/pc_layout.html'
 
-    models = CausalModel.objects.filter(date__year=year).order_by('-date')
-    current_tree = CausalModel.objects.filter(date__year=year)
+    models = CausalModel.objects.filter(date__year=year).order_by('-date')\
 
     if RootCause.objects.filter(date__year=year).count() == 0:
         roots = RootCause.show_root_causes()
     else:
         roots = RootCause.objects.filter(date__year=year)
 
+    current_tree = CausalModel.objects.filter(date__year=year)
+
     years = [x.year for x in CausalModel.objects.dates('date', 'year')]
+
+    if year_now not in years:
+        years.append(year_now)
     years = sorted(years, reverse=True)
     years.insert(0, "--")
 
@@ -287,12 +305,16 @@ def view_summary(request, metric):
     if request.method == 'POST':
 
         m = request.POST['metric']
+        barangays_addressed_to = request.POST['barangays_addressed_to']
+        suggested_interventions = request.POST['suggested_interventions']
         comments = request.POST['comments']
         subject = request.POST['subject']
 
         created = Memo.objects.create(
             metric=Metric.objects.get(id=m),
             uploaded_by=profile,
+            barangays_addressed_to=barangays_addressed_to,
+            suggested_interventions=suggested_interventions,
             comments=comments,
             subject=subject
         )
@@ -371,10 +393,8 @@ def produce_causal_model(request):
         )
 
     new_boxes = Box.objects.filter(causal_model__date__year=year_now)
-    print(len(new_boxes), 'this is the length')
 
     sons = Son.objects.filter(box__causal_model__date__year=year_now - 1)
-    print(len(sons), 'this is the length of sons')
 
     for i, bx in enumerate(new_boxes):
         for j, s in enumerate(sons):
@@ -387,7 +407,15 @@ def produce_causal_model(request):
                         )
                         break
 
-    return redirect('causalmodel:index', year=year_now)
+    # notify program coordinator
+    Notification.objects.create(
+        profile_to=Profile.objects.filter(user_type__contains='Program Coordinator')[0],
+        profile_from=Profile.objects.get(user=request.user),
+        message='Causal model has been created'
+    )
+
+    messages.success(request, 'Causal model successfully created')
+    return redirect(reverse('causalmodel:index', kwargs={'year': year_now}) + '#tree-holder')
 
 
 def get_blocks_2(request):

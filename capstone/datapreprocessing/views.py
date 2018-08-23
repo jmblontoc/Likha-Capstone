@@ -75,7 +75,9 @@ def set_thresholds(request):
         'micro': micro,
         'immunizations': immunizations,
         'informal': informal,
-        'active': 'st'
+        'active': 'st',
+        'year_now': year_now,
+        'count_set': 34 - Metric.objects.count()
     }
 
     return render(request, 'datapreprocessing/set_thresholds.html', context)
@@ -224,8 +226,6 @@ def set_micronutrient(request):
 
         my_dict = dict(request.POST)
 
-        print(my_dict)
-
         for k, v in my_dict.items():
 
             counter = 0
@@ -366,7 +366,6 @@ def view_threshold(request):
     elif report == 'micro':
 
         data = [metric.to_dict() for metric in metrics if metric.get_data_point in datapoints.micronutrient]
-        print(datapoints.micronutrient)
         return JsonResponse(data, safe=False)
 
 

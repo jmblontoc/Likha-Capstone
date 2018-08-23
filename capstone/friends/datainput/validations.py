@@ -1,5 +1,6 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
+from core.models import Notification, Profile
 from datainput.models import Patient, MonthlyReweighing, HealthCareWasteManagement, InformalSettlers, UnemploymentRate, \
     FHSIS, OperationTimbang, FamilyProfile, Barangay
 from friends.datainput import misc
@@ -16,7 +17,6 @@ def has_monthly_reweighing(barangay, month, year):
 
         try:
             mr = MonthlyReweighing.objects.get(patient=patient, date__month=month, date__year=year)
-            print(mr)
         except MonthlyReweighing.DoesNotExist:
             return False
 
@@ -70,30 +70,54 @@ def todo_list():
         if not b.has_opt:
             todo.append({
                 'report_name': 'Operation Timbang',
-                'barangay': b.name,
-                'due_date': 'March 30, %i' % datetime.now().year
+                'barangay': b,
+                'due_date': misc.get_due_date('yearly')
             })
 
         if not b.has_family_profile:
             todo.append({
                 'report_name': 'Family Profile',
-                'barangay': b.name,
-                'due_date': 'December 30, %i' % datetime.now().year
+                'barangay': b,
+                'due_date': misc.get_due_date('yearly')
             })
 
         if not b.has_reweighed:
             todo.append({
                 'report_name': 'Monthly Reweighing',
-                'barangay': b.name,
+                'barangay': b,
                 'due_date': misc.get_due_date('monthly')
             })
 
         if not b.has_fhsis:
             todo.append({
                 'report_name': 'FHSIS',
-                'barangay': b.name,
+                'barangay': b,
                 'due_date': misc.get_due_date('monthly')
             })
 
     return todo
+
+
+def notify_barangay(barangay):
+
+    due_list = todo_list()
+    nutritionist = Profile.objects.filter(user_type__contains='Nutritionist')[0]
+
+    for data in due_list:
+
+        if data['barangay'] == barangay:
+
+            # check if needs to be notified
+            now = datetime.now().date()
+
+            if now + timedelta(days=5) >= data['due_date'] or data['due_date'] <= now:
+
+                for bns in barangay.profile_set.all():
+
+                    Notification.objects.create(
+                        profile_to=bns,
+                        profile_from=nutritionist,
+                        message='Please upload your %s as soon as possible' % data['report_name']
+                    )
+
 

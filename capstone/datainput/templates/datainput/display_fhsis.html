@@ -18,10 +18,10 @@
                     <ol class="breadcrumb float-sm-right">
                         {% if active == 'uf' %}
                         <li class="breadcrumb-item"><a href="{% url 'core:bns-index' %}">BNS Upload Facility</a></li>
-                        <li class="breadcrumb-item active">FHSIS Record - {{ fhsis.date.date }}</li>
+                        <li class="breadcrumb-item active">FHSIS Record for the month of {{ fhsis.date|date:"F, Y" }}</li>
                         {% else %}
                         <li class="breadcrumb-item"><a href="{% url 'datainput:show_fhsis_list' %}">BNS FHSIS Records</a></li>
-                        <li class="breadcrumb-item active">FHSIS Record - {{ fhsis.date.date }}</li>
+                        <li class="breadcrumb-item active">FHSIS Record for the month of {{ fhsis.date|date:"F, Y" }}</li>
                         {% endif %}
                     </ol>
                 </div>
@@ -35,7 +35,7 @@
                 <div class="col-12">
                     <div class="card card-primary">
                         <div class="card-header d-flex p-0">
-                            <h3 class="card-title p-3">Field Health Service Information System Report of {{ profile.barangay }} for {{ fhsis.date.date }}</h3>
+                            <h3 class="card-title p-3">Field Health Service Information System Report of {{ profile.barangay }} for the month of {{ fhsis.date|date:"F, Y" }}</h3>
                         </div>
                         <div class="card-body p-2">
                             <div class="row">

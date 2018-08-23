@@ -11,7 +11,7 @@
         <div class="dropdown-item" style="padding: 10px;">
             <span class="float-right" ><a class="btn btn-primary btn-sm" style="font-size: 9px;" href="{% url 'core:mark_as_read' n.id %}">Mark as read</a></span>
             <p style="font-size: 13px">{{ n.message }}</p>
-            <p style="font-size: 9px">By: {{ n.profile_from.user.first_name }} {{ n.profile_from.user.last_name }} at {{ n.date }}</p>
+            <p style="font-size: 9px"> {{ n.date }}</p>
         </div>
         <div class="dropdown-divider"></div>
     {% endif %}

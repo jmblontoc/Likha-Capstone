@@ -38,6 +38,7 @@ class Metric(models.Model):
     threshold_bad = models.BooleanField(default=True, verbose_name='Is Value Reaching Threshold Bad')
     json_data = models.TextField(default='')
 
+
     @staticmethod
     def categorized():
 
@@ -727,7 +728,6 @@ class Metric(models.Model):
         data = [round(value, 2) for key, value in dict.items()]
 
         weighted_average = forecast.get_weighted_moving_average(data)
-        print(weighted_average)
 
         if self.threshold_bad:
             return float(weighted_average) > float(self.threshold)
@@ -1042,7 +1042,6 @@ class Metric(models.Model):
         x = [metric.to_dict() for metric in Metric.objects.all() if metric.get_data_point in cc_fields]
 
         values = [m['value'] for m in x]
-        print(x)
 
         return {
             'fields': cc_fields,

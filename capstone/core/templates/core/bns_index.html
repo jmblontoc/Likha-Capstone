@@ -39,7 +39,7 @@
                             <tbody>
                                     <tr>
                                         <td style="vertical-align: middle;">Field Health Service Information System M1</td>
-                                        <td style="vertical-align: middle;">{{ month_due }}</td>
+                                        <td style="vertical-align: middle;">{{ month_due|date:"F d, Y" }}</td>
                                         <td style="vertical-align: middle;">{{ fhsis_uploaded }}</td>
                                         {% if fhsis_status == 'Completed' %}
                                             <td style="vertical-align: middle;" class="text-success">
@@ -89,7 +89,7 @@
                                     </tr>
                                     <tr>
                                         <td style="vertical-align: middle;">Operation Timbang</td>
-                                        <td style="vertical-align: middle;">January 30, {{ year }}</td>
+                                        <td style="vertical-align: middle;">{{ due_date_yearly|date:"F d, Y" }}</td>
                                         <td style="vertical-align: middle;">{{ opt_date }}</td>
                                         {% if opt_status == 'Completed' %}
                                             <td style="vertical-align: middle;" class="text-success">
@@ -114,11 +114,11 @@
                                     </tr>
                                    <tr>
                                        <td style="vertical-align: middle;">Family Profile</td>
-                                       <td style="vertical-align: middle;">December 30, {{ year }}</td>
+                                       <td style="vertical-align: middle;">{{ due_date_yearly|date:"F d, Y" }}</td>
                                        <td style="vertical-align: middle;">{{ fp_date }}</td>
                                        {% if fp_status == 'Incomplete' %}
                                            <td style="vertical-align: middle;" class="text-danger">
-                                            <i class="fa fa-exclamation-circle"></i> {{ fp_status }}
+                                            <i class="fa fa-exclamation-circle"></i> Not yet uploaded
                                            </td>
                                            <td style="text-align: center;">
                                             <a class="btn btn-primary btn-sm" href="{% url 'datainput:add_family' %}">Update Report</a>

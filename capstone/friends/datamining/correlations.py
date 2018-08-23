@@ -419,7 +419,6 @@ def display_child_care(scores):
         point = str(f).strip().split(".")[2]
         weights = get_weight_values()
         data_point = get_fhsis(ChildCare, point, None)
-        print(data_point)
         score = get_correlation_score(make_variables(weights, data_point))
 
         scores.append(

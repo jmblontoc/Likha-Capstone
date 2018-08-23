@@ -56,6 +56,9 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
+                    <li class="nav-item mt-2">
+                        {{ today }}
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="true" style="padding-top: 12px;">
                             <i class="fa fa-cog"></i>
@@ -165,24 +168,6 @@
                                     <i class="nav-icon fa fa-file"></i>
                                     <p>Memos</p>
                                 </a>
-                            </li>
-
-                            <li class="nav-item has-treeview {% if active == 'arc' %}menu-open{% endif %}">
-                            <a href="#" class="nav-link {% if active == 'arc' %}active{% endif %}">
-                              <i class="nav-icon fa fa-cog"></i>
-                              <p>
-                                Configurations
-                                <i class="right fa fa-angle-left"></i>
-                              </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="{% url 'causalmodel:add_root_cause' %}" class="nav-link {% if active == 'arc' %}active{% endif %}">
-                                    <i class="nav-icon fa fa-circle-o"></i>
-                                    <p>Add Root Cause</p>
-                                </a>
-                            </li>
-                            </ul>
                             </li>
                         </ul>
                     </nav>

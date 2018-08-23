@@ -9,7 +9,6 @@ def redirect_to(user):
     profile = Profile.objects.get(user=user)
 
     if profile.user_type == 'Barangay Nutrition Scholar':
-        print(profile.user_type)
         return redirect('core:bns-index')
     elif profile.user_type == 'Nutritionist':
         return redirect('core:nutritionist')

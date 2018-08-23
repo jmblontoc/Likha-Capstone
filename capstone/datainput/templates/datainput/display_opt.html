@@ -18,10 +18,10 @@
                     <ol class="breadcrumb float-sm-right">
                         {% if active == 'uf' %}
                         <li class="breadcrumb-item"><a href="{% url 'core:bns-index' %}">BNS Upload Facility</a></li>
-                        <li class="breadcrumb-item active">OPT Record - {{ opt.date.date }}</li>
+                        <li class="breadcrumb-item active">OPT Record for the year {{ opt.date.year }}</li>
                         {% else %}
                         <li class="breadcrumb-item"><a href="{% url 'datainput:show_opt_list' %}">BNS eOPT Records</a></li>
-                        <li class="breadcrumb-item active">OPT Record - {{ opt.date.date }}</li>
+                        <li class="breadcrumb-item active">OPT Record for the year {{ opt.date.year }}</li>
                         {% endif %}
                     </ol>
                 </div>
@@ -35,7 +35,7 @@
                 <div class="col-12">
                     <div class="card card-primary">
                         <div class="card-header p-0">
-                            <h3 class="card-title p-3">Operation Timbang Record - {{ opt.date.date }}</h3>
+                            <h3 class="card-title p-3">Operation Timbang Record for the year {{ opt.date.year }}</h3>
                         </div>
                         <div class="card-body table-responsive p-2">
 

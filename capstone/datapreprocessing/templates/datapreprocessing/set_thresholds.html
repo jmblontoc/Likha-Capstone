@@ -13,7 +13,8 @@
                 <div class="row mb-2">
                     <div class="col-sm-6">
                         <h1 class="m-0 text-dark">
-                            Threshold Setting</h1>
+                            Threshold Setting for {{ year_now }}</h1>
+                        <p class="mt-2 ml-2">Remaining Thresholds to Set: <b>{{ count_set }}</b> </p>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -28,8 +29,8 @@
                     </div>
                 </div>
             </div>
+        {% include 'core/helpers/messages.html' %}
         </div>
-    {% include 'core/helpers/messages.html' %}
 
     <section class="content">
         <div class="container-fluid">
@@ -39,7 +40,7 @@
                 </div>
                 <div class="card-body p-2">
 
-                <table class="table table-bordered table-hover">
+                <table class="table table-bordered table-hover cat">
                     <thead>
                     <tr>
                         <th>Metric</th>
@@ -81,7 +82,7 @@
                 </div>
                 <div class="card-body p-2">
 
-                <table class="table table-bordered table-hover">
+                <table class="table cat table-bordered table-hover">
                     <thead>
                     <tr>
                         <th>Metric</th>
@@ -95,11 +96,11 @@
                             <td class="field-name">{{ field.0 }}</td>
                             {% if field.1 %}
                                     <td style="color: #00a65a; font-weight: bold;">
-                                        <i class="fa fa-check-circle"></i> Already set
+                                        <i class="fa fa-check-circle"></i> Set
                                     </td>
                                 {% else %}
                                     <td style="color: #f56954; font-weight: bold;">
-                                        <i class="fa fa-exclamation-circle"></i> Not yet set
+                                        <i class="fa fa-exclamation-circle"></i> No threshold
                                     </td>
                                 {% endif %}
                             <td>
@@ -108,7 +109,7 @@
                                         <button class="btn btn-success btn-sm col-12">VIEW</button>
                                     </a>
                                 {% else %}
-                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold btn-sm col-12" data-target="#thresholdModal" data-toggle="modal">SET!</button>
+                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold btn-sm col-12" data-target="#thresholdModal" data-toggle="modal">Set Threshold!</button>
                                 {% endif %}
                             </td>
                         </tr>
@@ -123,7 +124,7 @@
                 </div>
                 <div class="card-body p-2">
 
-                <table class="table table-bordered table-hover">
+                <table class="table cat table-bordered table-hover">
                     <thead>
                     <tr>
                         <th>Metric</th>
@@ -137,11 +138,11 @@
                             <td class="field-name">{{ field.0 }}</td>
                             {% if field.1 %}
                                     <td style="color: #00a65a; font-weight: bold;">
-                                        <i class="fa fa-check-circle"></i> Already set
+                                        <i class="fa fa-check-circle"></i> Set
                                     </td>
                                 {% else %}
                                     <td style="color: #f56954; font-weight: bold;">
-                                        <i class="fa fa-exclamation-circle"></i> Not yet set
+                                        <i class="fa fa-exclamation-circle"></i> No threshold
                                     </td>
                                 {% endif %}
                             <td>
@@ -150,7 +151,7 @@
                                         <button class="btn btn-success btn-sm col-12">VIEW</button>
                                     </a>
                                 {% else %}
-                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold btn-sm col-12" data-target="#thresholdModal" data-toggle="modal">SET!</button>
+                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold btn-sm col-12" data-target="#thresholdModal" data-toggle="modal">Set Threshold</button>
                                 {% endif %}
                             </td>
                         </tr>
@@ -164,7 +165,7 @@
                     <h3 class="card-title p-3">Socioeconomic</h3>
                 </div>
                 <div class="card-body p-2">
-                <table class="table table-bordered table-hover">
+                <table class="cat table table-bordered table-hover">
                     <thead>
                     <tr>
                         <th>Metric</th>
@@ -179,11 +180,11 @@
 
                                 {% if field.1 %}
                                     <td style="color: #00a65a; font-weight: bold;">
-                                        <i class="fa fa-check-circle"></i> Already set
+                                        <i class="fa fa-check-circle"></i> Set
                                     </td>
                                 {% else %}
                                     <td style="color: #f56954; font-weight: bold;">
-                                        <i class="fa fa-exclamation-circle"></i> Not yet set
+                                        <i class="fa fa-exclamation-circle"></i> No threshold
                                     </td>
                                 {% endif %}
                             <td>
@@ -192,7 +193,7 @@
                                         <button class="btn btn-success btn-sm col-12">VIEW</button>
                                     </a>
                                 {% else %}
-                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold btn-sm col-12" data-target="#thresholdModal" data-toggle="modal">SET!</button>
+                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold btn-sm col-12" data-target="#thresholdModal" data-toggle="modal">Set Threshold</button>
                                 {% endif %}
                             </td>
                         </tr>
@@ -202,10 +203,10 @@
             </div></div>
             <div class="card card-primary">
                 <div class="card-header p-0">
-                    <h3 class="card-title p-3">Informal Settlers</h3>
+                    <h3 class="card-title p-3">Maternal Care</h3>
                 </div>
                 <div class="card-body p-2">
-                <table class="table table-bordered table-hover">
+                <table class="cat table table-bordered table-hover">
                     <thead>
                     <tr>
                         <th>Metric</th>
@@ -219,11 +220,11 @@
                             <td class="field-name">{{ field.0 }}</td>
                             {% if field.1 %}
                                     <td style="color: #00a65a; font-weight: bold;">
-                                        <i class="fa fa-check-circle"></i> Already set
+                                        <i class="fa fa-check-circle"></i> Set
                                     </td>
                                 {% else %}
                                     <td style="color: #f56954; font-weight: bold;">
-                                        <i class="fa fa-exclamation-circle"></i> Not yet set
+                                        <i class="fa fa-exclamation-circle"></i> No threshold
                                     </td>
                                 {% endif %}
                             <td>
@@ -232,7 +233,7 @@
                                         <button class="btn btn-success btn-sm col-12">VIEW</button>
                                     </a>
                                 {% else %}
-                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold btn-sm col-12" data-target="#thresholdModal" data-toggle="modal">SET!</button>
+                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold btn-sm col-12" data-target="#thresholdModal" data-toggle="modal">Set Threshold</button>
                                 {% endif %}
                             </td>
                         </tr>
@@ -246,7 +247,7 @@
                     <h3 class="card-title p-3">Informal Settlers</h3>
                 </div>
                 <div class="card-body p-2">
-                <table class="table table-bordered table-hover">
+                <table class="cat table table-bordered table-hover">
                     <thead>
                     <tr>
                         <th>Metric</th>
@@ -260,11 +261,11 @@
                             <td class="field-name">{{ field.0 }}</td>
                             {% if field.1 %}
                                     <td style="color: #00a65a; font-weight: bold;">
-                                        <i class="fa fa-check-circle"></i> Already set
+                                        <i class="fa fa-check-circle"></i> Set
                                     </td>
                                 {% else %}
                                     <td style="color: #f56954; font-weight: bold;">
-                                        <i class="fa fa-exclamation-circle"></i> Not yet set
+                                        <i class="fa fa-exclamation-circle"></i> No threshold
                                     </td>
                                 {% endif %}
                             <td>
@@ -273,7 +274,7 @@
                                         <button class="btn btn-success btn-sm col-12">VIEW</button>
                                     </a>
                                 {% else %}
-                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold btn-sm col-12" data-target="#thresholdModal" data-toggle="modal">SET!</button>
+                                    <button data-field="{{ field.0 }}" class="btn btn-danger set-threshold btn-sm col-12" data-target="#thresholdModal" data-toggle="modal">Set Threshold</button>
                                 {% endif %}
                             </td>
                         </tr>
@@ -317,4 +318,16 @@
     </div>
   </div>
 </div>
+
+<script>
+    $('.cat').DataTable( {
+        "paging": false,
+        "lengthChange": false,
+        "lengthMenu": [100],
+        "ordering": true,
+        "autoWidth": false,
+        "searching": false,
+        "order": [[1, "asc"]]
+    });
+</script>
 {% endblock %}

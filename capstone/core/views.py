@@ -67,6 +67,9 @@ def bns_index(request):
 
     profile = Profile.objects.get(user=request.user)
 
+    # automatic notifications
+    validations.notify_barangay(profile.barangay)
+
     fhsis_current = FHSIS.objects.filter(barangay=profile.barangay, date__month=datetime.now().month,
                                                date__year=datetime.now().year)
 
@@ -118,6 +121,7 @@ def bns_index(request):
     request.session["active"] = 'uf';
 
     context2 = {
+        'due_date_yearly': misc.get_due_date('yearly'),
         'month_due': misc.get_due_date('monthly'),
         'profile': profile,
         'year': datetime.now().year,

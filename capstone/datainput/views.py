@@ -42,9 +42,12 @@ def handle_opt_file(request):
 
     # check if valid file type
 
-    file_extension = os.path.splitext(file.name)
+    if file.name != 'eOPT.xlsx':
 
-    print(file_extension[1])
+        messages.error(request, 'Please submit using the valid file name (eOPT.xlsx)')
+        return redirect('core:bns-index')
+
+    file_extension = os.path.splitext(file.name)
 
     if not file_extension[1] == '.xlsx':
         messages.error(request, 'Please upload a valid excel file')
@@ -131,8 +134,6 @@ def show_opt_list(request):
 
     profile = Profile.objects.get(user=request.user)
 
-    print(request.META.get('HTTP_REFERER'))
-
     context = {
         'active': 'ot',
         'profile': profile,
@@ -203,7 +204,6 @@ def handle_family_profile_file(request):
 
     file_extension = os.path.splitext(file.name)
 
-    print(file_extension[1])
 
     if not file_extension[1] == '.xlsx':
         messages.error(request, 'Please upload a valid excel file')
@@ -222,7 +222,6 @@ def family_profiles(request):
     families = FamilyProfile.objects.filter(barangay=barangay).order_by('-date')
     profile = Profile.objects.get(user=request.user)
 
-    print(families)
 
     active = 'fp'
 
@@ -248,8 +247,6 @@ def monthly_reweighing_list(request):
 
 
     profile = Profile.objects.get(user=request.user)
-
-    print(mr)
 
     active = 'mr'
 
@@ -369,8 +366,6 @@ def latest_monthly_reweighing_index(request):
     patients = Patient.objects.filter(barangay=barangay)
     patients_now = patients.filter(date_created__year=datetime.now().year)
     request.session['active'] = 'mw'
-    print(request.session['active'])
-    print(patients_now)
 
     if patients_now.count == 0:
         patients_now = patients
@@ -425,8 +420,6 @@ def patient_overview(request, id):
         template_values = 'core/bns-layout.html'
     else:
         template_values = 'core/nutritionist-layout.html'
-
-    print(request.META.get('HTTP_REFERER'))
 
     context = {
         'patient': patient,
@@ -946,10 +939,12 @@ def handle_fhsis_file(request):
 
     file_extension = os.path.splitext(file.name)
 
-    print(file_extension[1])
-
     if not file_extension[1] == '.xlsx':
         messages.error(request, 'Please upload a valid excel file')
+        return redirect('core:bns-index')
+
+    if file.name != 'FHSIS_M1.xlsx':
+        messages.error(request, 'Please submit using the valid file name (FHSIS_M1.xlsx)')
         return redirect('core:bns-index')
 
     # upload file
@@ -997,7 +992,6 @@ def handle_fhsis_file(request):
                     try:
                         value = int(row['value'])
                     except:
-                        print(row['value'])
                         messages.error(request, 'FHSIS file contains strings. Upload again')
                         fhsis.delete()
                         os.remove(renamed)
@@ -1189,12 +1183,8 @@ def select_report(request):
 def complete_fields(request):
 
     my_dict = dict(request.POST)
-    print(my_dict)
-    print('asdasfwrg')
     workbook = xlrd.open_workbook(my_dict.get('path')[0])
-    print(workbook)
     sheet = workbook.sheet_by_index(0)
-    print(sheet)
 
     profile = Profile.objects.get(user=request.user)
     fhsis = FHSIS(barangay=profile.barangay, uploaded_by=profile)
@@ -1647,7 +1637,6 @@ def display_opt(request, id):
                     dict_name["Male - 60 to 71 months old"] = value
                 elif age_group.sex.name == "Female":
                     dict_name["Female - 60 to 71 months old"] = value
-                    print(value.age_group, value.values)
 
     # Weight for Age -- Normal
     opt_values_wfa_normal = opt_values.filter(nutritional_status=NutritionalStatus.objects.get(name="Weight for Age - Normal"))
@@ -2021,7 +2010,7 @@ def notify(request, barangay_name, report):
     barangay = Barangay.objects.get(name=barangay_name)
 
     sender = Profile.objects.get(user=request.user)
-    message = 'Please upload your %s report as soon as possible. Flagged by %s' % (report, sender.user.username)
+    message = 'Please upload your %s report as soon as possible. Flagged by %s' % (report, sender.get_name)
 
     for p in Profile.objects.filter(barangay=barangay):
         Notification.objects.create(

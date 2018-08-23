@@ -47,5 +47,5 @@ MATERNAL = [
 ]
 
 INFORMAL = [
-    'Number of Families'
+    'Number of Informal Families'
 ]

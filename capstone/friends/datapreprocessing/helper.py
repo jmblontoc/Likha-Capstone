@@ -15,8 +15,6 @@ from friends.datapreprocessing.consolidators import get_field
 
 def get_source(field):
 
-    print(field)
-
     if field in revised_datapoints.ILLNESSES[0:6]:
         return "Child Care"
     if field in revised_datapoints.ILLNESSES[6:7]:
@@ -266,8 +264,6 @@ def get_distribution_per_barangay(source, data_point):
 
 
 def to_high_charts(my_dict):
-
-    print(my_dict, type(my_dict))
 
     values = eval(my_dict)
     years = sorted([key for key, value in values.items()])

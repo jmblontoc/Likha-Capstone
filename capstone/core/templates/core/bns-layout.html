@@ -49,6 +49,9 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
+                    <li class="nav-item mt-2">
+                        {{ today }}
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="true" style="padding-top: 12px;">
                             <i class="fa fa-cog"></i>
@@ -99,6 +102,9 @@
                                 <a href="{% url 'datainput:latest_monthly_reweighing_index' %}" class="nav-link {% if active == 'mw' %}active{% endif %}">
                                     <i class="nav-icon fa fa-dashboard"></i>
                                     <p>Monthly Reweighing</p>
+                                    {% if not profile.barangay.has_reweighed %}
+                                        <i class="text-danger nav-icon fa fa-exclamation-circle"></i>
+                                    {% endif %}
                                 </a>
                             </li>
                             <li class="nav-item has-treeview {% if active == 'fh' or active == 'mr' or active == 'ot' or active == 'fp' %}menu-open{% endif %}">

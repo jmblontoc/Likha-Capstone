@@ -1094,8 +1094,6 @@ def restrict_correlations(approved, scores):
 
     scores = put_marks(scores)
     approved = json.loads(approved)
-
-    print(approved)
     for q in approved:
 
         data = str(q)

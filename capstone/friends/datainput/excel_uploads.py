@@ -16,7 +16,6 @@ def upload_patient_data(sheet, book, barangay):
             name = sheet.cell_value(x, 3)
             sex = sheet.cell_value(x, 5)
             birth = sheet.cell_value(x, 6)
-            print(name, sex, birth)
 
             dt = datetime.datetime(*xlrd.xldate_as_tuple(birth, book.datemode))
 
@@ -118,7 +117,6 @@ def return_incomplete_fhsis(sheet):
     rows = []
 
     for a in range(4, 13):
-        print(sheet.cell_value(a, 1))
         if sheet.cell_value(a, 1) == '':
             field = sheet.cell_value(a, 0)
 

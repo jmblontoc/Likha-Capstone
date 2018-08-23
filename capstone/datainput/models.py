@@ -57,7 +57,6 @@ class Barangay(models.Model):
 
             try:
                 mr = MonthlyReweighing.objects.get(patient=patient, date__month=datetime.now().month)
-                print(mr)
             except MonthlyReweighing.DoesNotExist:
                 return False
 
@@ -201,7 +200,6 @@ class Patient(models.Model):
     @property
     def get_age(self):
         months = dt.datetime.now().date() - self.date_of_birth
-        print('days', months.days, self.name)
         age_months = months.days * 0.0328767
         return int(age_months)
 

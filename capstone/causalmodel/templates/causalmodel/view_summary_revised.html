@@ -161,6 +161,16 @@
                     <input class="form-control" name="subject">
                 </div>
                 <div class="form-group">
+                    <label>Recipients</label>
+                    <textarea style="height: 50px;" class="form-control" name="barangays_addressed_to"></textarea>
+                    <input type="hidden" name="metric" value="{{ metric.id }}">
+                </div>
+                <div class="form-group">
+                    <label>Suggested Interventions</label>
+                    <textarea style="height: 300px;" class="form-control" name="suggested_interventions"></textarea>
+                    <input type="hidden" name="metric" value="{{ metric.id }}">
+                </div>
+                <div class="form-group">
                     <label>Comments / Notes</label>
                     <textarea style="height: 300px;" class="form-control" name="comments"></textarea>
                     <input type="hidden" name="metric" value="{{ metric.id }}">

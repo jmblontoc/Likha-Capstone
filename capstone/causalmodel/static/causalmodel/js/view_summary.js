@@ -67,7 +67,7 @@ $(function() {
                     type: 'column'
                 },
                 title: {
-                    text: data.field + ' per barangay'
+                    text: data.field + ' per barangay for the year'
                 },
                 xAxis: {
                     categories: data.data.fields,
