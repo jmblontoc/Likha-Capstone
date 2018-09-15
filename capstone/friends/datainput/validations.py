@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 
+from configurations.models import NotifyBNS
 from core.models import Notification, Profile
 from datainput.models import Patient, MonthlyReweighing, HealthCareWasteManagement, InformalSettlers, UnemploymentRate, \
     FHSIS, OperationTimbang, FamilyProfile, Barangay
@@ -110,7 +111,9 @@ def notify_barangay(barangay):
             # check if needs to be notified
             now = datetime.now().date()
 
-            if now + timedelta(days=5) >= data['due_date'] or data['due_date'] <= now:
+            current_notification_setting = int(NotifyBNS.objects.first().days_before)
+
+            if now + timedelta(days=current_notification_setting) >= data['due_date'] or data['due_date'] <= now:
 
                 for bns in barangay.profile_set.all():
 

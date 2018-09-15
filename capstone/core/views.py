@@ -9,6 +9,8 @@ from computations import weights, maternal, child_care, socioeconomic as sc
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.views import View
+
+from configurations.models import NotifyBNS
 from friends.visualizations import getters
 from datapreprocessing.models import Metric
 from friends.datainput import validations
@@ -201,7 +203,10 @@ def nutritionist(request):
         'maternal_metrics': Metric.categorized()['maternal'],
         'socioeconomic_metrics': Metric.categorized()['socioeconomic'],
 
-        'criticals': criticals
+        'criticals': criticals,
+
+        # current notification setting
+        'current_notification_setting': int(NotifyBNS.objects.first().days_before)
     }
 
     return render(request, 'core/nutritionist_index.html', context)

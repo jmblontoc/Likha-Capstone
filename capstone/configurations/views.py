@@ -6,8 +6,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from capstone.decorators import is_program_coordinator
-from configurations.models import CorrelationConf
+from capstone.decorators import is_program_coordinator, is_nutritionist
+from configurations.models import CorrelationConf, NotifyBNS
 from friends.datamining.clean_correlations import put_marks, get_micronutrient_revised, get_maternal_revised, \
     get_socioeconomic_revised, get_child_care_revised, trim_correlations
 
@@ -76,3 +76,16 @@ def set_correlations(request):
         messages.success(request, 'Correlations configured')
         return redirect('conf:index')
 
+
+@login_required
+@is_nutritionist
+def set_notification_time(request):
+
+    days_before = request.POST['days-before']
+
+    current_setting = NotifyBNS.objects.first()
+    current_setting.days_before = days_before
+    current_setting.save()
+
+    messages.success(request, 'All BNS will be notified %i days before the due date' % int(current_setting.days_before))
+    return redirect('core:nutritionist')

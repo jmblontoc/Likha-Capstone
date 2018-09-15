@@ -7,5 +7,8 @@ urlpatterns = [
 
     path('', views.index, name='index'),
 
-    path('set_correlations', views.set_correlations, name='set_correlations')
+    path('set_correlations', views.set_correlations, name='set_correlations'),
+
+    # notification to BNS
+    path('notify_bns', views.set_notification_time, name='notify_bns')
 ]

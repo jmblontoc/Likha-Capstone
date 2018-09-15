@@ -496,7 +496,7 @@ class Metric(models.Model):
     @staticmethod
     def check_if_set(name):
 
-        for metric in Metric.objects.all():
+        for metric in Metric.objects.filter(date__year=year_now):
             if metric.get_data_point == name:
                 return True
 

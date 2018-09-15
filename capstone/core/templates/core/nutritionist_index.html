@@ -155,7 +155,9 @@
                 <div class="col-5">
                     <div class="card">
                         <div class="card-header no-border" style="text-align: center;">
-                            <h3 class="card-title">Incomplete Reports</h3>
+                            <h3 class="card-title">Incomplete Reports
+                                <i data-toggle="modal" data-target="#set-deadline" class="nav-icon fa fa-cog" style="cursor: pointer;"></i>
+                            </h3>
                         </div>
                         <div class="card-body p-2">
                             <table id="familyprofile_overview" class="table table-bordered dataTable">
@@ -228,5 +230,32 @@
             </div>
         </div>
     </section>
+</div>
+
+<div class="modal fade" id="set-deadline" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Notification Settings</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="{% url 'conf:notify_bns' %}">
+            {% csrf_token %}
+            <div class="text-center">
+                Send notifications
+                <input type="number" min="0" max="28" value={{ current_notification_setting }} name="days-before">
+                days before the due date
+            </div>
+            <hr>
+            <div class="text-right">
+               <input type="submit" class="btn btn-primary">
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

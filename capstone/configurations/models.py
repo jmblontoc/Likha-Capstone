@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 
+
 class CorrelationConf(models.Model):
 
     script = models.TextField()
@@ -9,3 +10,11 @@ class CorrelationConf(models.Model):
 
     def __str__(self):
         return self.report
+
+
+class NotifyBNS(models.Model):
+
+    days_before = models.PositiveIntegerField()
+
+    def __str__(self):
+        return "%i days" % self.days_before
