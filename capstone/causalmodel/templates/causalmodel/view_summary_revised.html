@@ -8,6 +8,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
 <script src="{% static 'core/js/highcharts.js' %}"></script>
 <script src="{% static 'causalmodel/js/view_summary.js' %}"></script>
+<script src="{% static 'causalmodel/js/bootstrap-tagsinput.js' %}"></script>
+<script src="{% static 'causalmodel/js/typeahead.bundle.js' %}"></script>
+<script src="{% static 'causalmodel/js/my-typeahead.js' %}"></script>
+
+<link rel="stylesheet" href="{% static 'causalmodel/css/bootstrap-tagsinput.css' %}">
 
 <div class="content-wrapper" style="height: auto; margin-top: 57px;">
     <div class="content-header">
@@ -152,7 +157,7 @@
             <div class="card-header p-0">
                 <h3 class="card-title p-3">Create Memo</h3>
             </div>
-            <div class="card-body">
+            <div class="card-body" id="hidden-barangays" data-barangays="{{ barangays }}">
             <form method="POST">
                 {% csrf_token %}
 
@@ -162,7 +167,7 @@
                 </div>
                 <div class="form-group">
                     <label>Recipients</label>
-                    <textarea style="height: 50px;" class="form-control" name="barangays_addressed_to"></textarea>
+                    <input type="text" class="form-control" name="recipients" id="recipients-input">
                     <input type="hidden" name="metric" value="{{ metric.id }}">
                 </div>
                 <div class="form-group">

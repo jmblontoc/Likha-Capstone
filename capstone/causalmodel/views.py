@@ -13,6 +13,7 @@ from django.shortcuts import render, redirect
 from capstone.decorators import not_bns, is_program_coordinator
 from core.context_processors import get_user_type, profile
 from core.models import Profile, Notification
+from datainput.models import Barangay
 from friends.causalmodel import helper
 # Create your views here.
 from datapreprocessing.models import Metric
@@ -297,7 +298,8 @@ def view_summary(request, metric):
             'template_values': layout,
             'active': 'cm',
             'profile': profile,
-            'metric': Metric.objects.get(id=metric)
+            'metric': Metric.objects.get(id=metric),
+            'barangays': json.dumps([b.name for b in Barangay.objects.all()])
         }
 
         return render(request, 'causalmodel/view_summary_revised.html', context)
@@ -305,19 +307,27 @@ def view_summary(request, metric):
     if request.method == 'POST':
 
         m = request.POST['metric']
-        barangays_addressed_to = request.POST['barangays_addressed_to']
         suggested_interventions = request.POST['suggested_interventions']
         comments = request.POST['comments']
         subject = request.POST['subject']
 
+        recipients = request.POST['recipients']
+
         created = Memo.objects.create(
             metric=Metric.objects.get(id=m),
             uploaded_by=profile,
-            barangays_addressed_to=barangays_addressed_to,
             suggested_interventions=suggested_interventions,
             comments=comments,
             subject=subject
         )
+
+        # get barangays from post
+        barangay_strs = recipients.split(",")
+
+        for item in barangay_strs:
+
+            barangay = Barangay.objects.get(name=item)
+            created.barangays_addressed_to.add(barangay)
 
         return redirect('core:memo_detail', id=created.id)
 

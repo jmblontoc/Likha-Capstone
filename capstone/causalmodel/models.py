@@ -3,6 +3,7 @@ from datetime import datetime
 from django.db import models
 
 # Create your models here.
+from datainput.models import Barangay
 from datapreprocessing.models import Metric
 
 
@@ -177,7 +178,7 @@ class Memo(models.Model):
     subject = models.CharField(max_length=128)
     date = models.DateTimeField(default=datetime.now)
     metric = models.ForeignKey(Metric, on_delete=models.CASCADE)
-    barangays_addressed_to = models.TextField()
+    barangays_addressed_to = models.ManyToManyField(Barangay)
     suggested_interventions = models.TextField()
     comments = models.TextField()
     uploaded_by = models.ForeignKey('core.Profile', on_delete=models.CASCADE)
