@@ -570,6 +570,10 @@ class Metric(models.Model):
         return consolidators.get_value(self.metric)
 
     @property
+    def get_total_value_bns(self):
+        return consolidators.get_value_bns(self.metric)
+
+    @property
     def get_total_average(self):
 
         point = self.get_data_point.strip()
@@ -727,6 +731,14 @@ class Metric(models.Model):
             'field': self.get_data_point,
             'threshold': int(self.threshold),
             'value': int(self.get_total_value),
+            'is_alarming': self.get_total_value >= self.threshold
+        }
+
+    def to_dict_bns(self, barangay):
+        return {
+            'field': self.get_data_point,
+            'threshold': int(self.threshold),
+            'value': int(self.get_total_value_bns(barangay)),
             'is_alarming': self.get_total_value >= self.threshold
         }
 
@@ -989,6 +1001,46 @@ class Metric(models.Model):
         }
 
     @staticmethod
+    def get_micronutrient_dashboard_bns(barangay):
+
+        months = [x.month for x in ChildCare.objects.dates('fhsis__date', 'month')]
+        year = datetime.now().year
+        latest_months = months[-3:]
+
+        data = []
+        another_list = []
+
+        fields = datapoints.micronutrient
+
+        mn_fields = [str(f).split(".")[2] for f in ChildCare._meta.get_fields()
+                     if f.verbose_name in fields]
+
+        for i, f in enumerate(mn_fields):
+
+            another_list.append({
+                'name': fields[i],
+                'data': []
+            })
+
+            for m in latest_months:
+                value = ChildCare.objects.filter(fhsis__date__month=m,
+                                                 fhsis__date__year=year, fhsis__barangay=barangay).aggregate(sum=Sum(f))['sum'] or 0
+                data.append({
+                    'month': m,
+                    'field': fields[i],
+                    'value': int(value)
+                })
+
+                another_list[i]['data'].append(int(value))
+
+        final_dict = {
+            'months': [general.month_converter(n) for n in latest_months],
+            'values': another_list
+        }
+
+        return final_dict
+
+    @staticmethod
     def get_micronutrient_dashboard():
 
         months = [x.month for x in ChildCare.objects.dates('fhsis__date', 'month')]
@@ -1040,6 +1092,20 @@ class Metric(models.Model):
 
         return {
             'fields': fields,
+            'values': values
+        }
+
+    @staticmethod
+    def get_child_care_dashboard_bns(barangay):
+
+        cc_fields = revised_datapoints.ILLNESSES
+
+        x = [metric.to_dict_bns(barangay) for metric in Metric.objects.all() if metric.get_data_point in cc_fields]
+
+        values = [m['value'] for m in x]
+
+        return {
+            'fields': cc_fields,
             'values': values
         }
 

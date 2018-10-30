@@ -51,6 +51,8 @@ urlpatterns = [
 
     path('p', views.get_boxes, name='p'),
 
+    path('add_customized', views.append_to_causal_model, name='append_to_causal_model'),
+
     # causal model report
     path('causal_model/<int:year>/', views.causal_model_report, name='causal_model_report')
 

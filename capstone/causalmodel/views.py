@@ -75,7 +75,9 @@ def index(request, year):
         'models': CausalModel.objects.filter(date__year=year),
         'roots': roots,
         'years': years,
-        'has_root_cause': has_root_cause
+        'has_root_cause': has_root_cause,
+        'manual_causes': serializers.serialize('json', RootCause.show_manual_root_causes())
+
     }
 
     return render(request, 'causalmodel/index.html', context)
@@ -333,6 +335,14 @@ def view_summary(request, metric):
             barangay = Barangay.objects.get(name=item)
             created.barangays_addressed_to.add(barangay)
 
+            # notify
+            for profile in Profile.objects.filter(barangay=barangay):
+                Notification.objects.create(
+                    profile_to=profile,
+                    profile_from=Profile.objects.get(user=request.user),
+                    message="Memo has been released by the program coordinator (%s)" % Profile.objects.get(user=request.user).get_name
+                )
+
         return redirect('core:memo_detail', id=created.id)
 
 
@@ -487,3 +497,22 @@ def delete_root_cause(request, id):
     messages.success(request, 'Root cause successfully deleted')
 
     return redirect("/causal-models/root_cause/add")
+
+
+@login_required
+def append_to_causal_model(request):
+
+    append_to = request.POST['to']
+    append_item = request.POST['item']
+
+    main_box = Box.objects.create(
+        root_cause=RootCause.objects.get(id=append_item),
+        causal_model=CausalModel.objects.filter(date__year=year_now)[0]
+    )
+
+    Son.objects.create(
+        box=main_box,
+        father=Box.objects.filter(root_cause__name__contains=append_to, causal_model__date__year=year_now).first()
+    )
+
+    return JsonResponse([], safe=False)

@@ -11,6 +11,7 @@ urlpatterns = [
 
     # BNS index
     path('bns/', views.bns_index, name='bns-index'),
+    path('bns/dashboard', views.bns_dashboard, name='bns_dashboard'),
 
     # Nutritionist index
     path('nutritionist/', views.nutritionist, name='nutritionist'),
@@ -27,6 +28,7 @@ urlpatterns = [
     # # # # # # # # # # # # # # # # DASHBOARD # # # # # # # # # # # # # # #
 
     path('ajax/dashboard/', views.dashboard, name='dashboard'),
+    path('ajax/dashboard_bns', views.bns_dashboard, name='bns_dashboard'),
 
     # memos
 

@@ -1,5 +1,4 @@
 $(function() {
-    console.log("qwe");
 
     $.ajax({
         url: "/ajax/dashboard",

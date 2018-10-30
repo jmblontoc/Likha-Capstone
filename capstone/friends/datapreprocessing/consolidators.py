@@ -9,6 +9,101 @@ from datainput.models import HealthCareWasteManagement, OPTValues, UnemploymentR
     NutritionalStatus, MonthlyReweighing, FamilyProfileLine
 
 
+# illnesses
+def get_value_bns(metric, barangay):
+
+    phrase = metric.split("|")
+
+    # get model
+    str_model = get_model(metric)
+    model = apps.get_model('datainput', str_model)
+
+    # get field
+    # not applicable for NutritionalStatuses
+
+    if str_model == 'OPTValues':
+
+        status = NutritionalStatus.objects.get(name=phrase[1].strip())
+
+        if len(phrase) == 2:
+            opt = get_total_opt_no_sex(status)
+            reweighing = get_reweighing_no_sex(str(status))
+
+            return opt  # + reweighing
+
+        sex = Sex.objects.get(name=phrase[2].strip())
+        opt = get_total_opt(status, sex)
+        reweighing = get_reweighing_counts(phrase[1].strip(), sex)
+        # print(reweighing)
+
+        return opt + reweighing
+
+    elif str_model == 'HealthCareWasteManagement':
+        field = get_field(model, phrase[1])
+        return get_total_hcwm(field)
+
+    elif str_model == 'InformalSettlers':
+        return get_informal_settlers()
+
+    elif str_model == 'UnemploymentRate':
+        return UnemploymentRate.objects.filter(date__year=datetime.now().year)[0].rate
+
+    elif str_model == 'MaternalCare' or str_model == 'STISurveillance':
+        field = get_field(model, phrase[1])
+        return get_maternal_or_sti(model, field)
+
+    elif str_model == 'Immunization' or str_model == 'Malaria' or str_model == 'Tuberculosis' or str_model == 'Schistosomiasis' \
+            or str_model == 'Flariasis' or str_model == 'Leprosy' or str_model == 'ChildCare':
+
+        field = get_field(model, phrase[1])
+        if len(phrase) == 2:
+            return get_total_without_sex_bns(model, field, barangay)
+
+        return get_total_with_sex(model, field, sex=Sex.objects.get(name=phrase[2].strip()))
+
+    elif str_model == 'FamilyProfileLine':
+        field = get_field(model, phrase[1])
+        if field in datapoints.main_family_profile:
+            return get_population(field)
+
+        elif field in datapoints.boolean_fields_fp:
+            return get_boolean_totals(field)
+
+        else:
+
+            if field == 'water_sources':
+                choice = "Well"
+
+                return get_choice_count(field, choice)
+
+            elif field == 'toilet_type':
+                choice = 'Open Pit'
+
+                return get_choice_count(field, choice)
+
+            elif field == 'toilet_type1':
+                field = 'toilet_type'
+                choice = 'None'
+
+                return get_choice_count(field, choice)
+
+            elif field == 'educational_attainment':
+                choice = 'Elementary Undergraduate'
+
+                return get_choice_count(field, choice)
+
+            elif field == revised_datapoints.SOCIOECONOMIC[4]:
+                field = 'is_family_planning'
+
+                return get_boolean_totals(field)
+
+            elif field == revised_datapoints.SOCIOECONOMIC[5]:
+                field = 'is_using_iodized_salt'
+                return get_boolean_totals(field)
+
+    return 3212
+
+
 def get_value(metric):
 
     phrase = metric.split("|")
@@ -243,6 +338,21 @@ def get_total_with_sex(model, field, sex):
 def get_total_without_sex(model, field):
 
     records = model.objects.all().filter(fhsis__date__year=datetime.now().year)
+    count = 0
+
+    for record in records:
+
+        try:
+            count = count + getattr(record, field)
+        except TypeError:
+            pass
+
+    return count
+
+
+def get_total_without_sex_bns(model, field, barangay):
+
+    records = model.objects.all().filter(fhsis__date__year=datetime.now().year, fhsis__barangay=barangay)
     count = 0
 
     for record in records:

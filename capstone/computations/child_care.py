@@ -14,6 +14,7 @@ from friends import  datapoints
 from friends.datapreprocessing.consolidators import get_field
 
 
+
 def get_fhsis(model, field, sex):
 
     start_year = correlations.get_starting_year(FHSIS)

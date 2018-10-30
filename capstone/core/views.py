@@ -318,6 +318,18 @@ def dashboard(request):
     return JsonResponse(data, safe=False)
 
 
+def dashboard_bns(request):
+
+    barangay = Profile.objects.get(user=request.user).barangay
+
+    data = {
+        'micro': Metric.get_micronutrient_dashboard_bns(barangay),
+        'child_care': Metric.get_child_care_dashboard_bns(barangay)
+    }
+
+    return JsonResponse(data, safe=False)
+
+
 @login_required
 def memos(request):
 
@@ -329,6 +341,7 @@ def memos(request):
     elif profile.user_type == 'Nutrition Program Coordinator':
         layout = 'core/pc_layout.html'
     else:
+        records = Memo.objects.filter(barangays_addressed_to=profile.barangay)
         layout = 'core/bns-layout.html'
 
     context = {
@@ -362,6 +375,7 @@ def memo_detail(request, id):
 
     return render(request, 'core/memo-detail.html', context)
 
+
 @login_required
 def memo_print(request, id):
 
@@ -372,3 +386,26 @@ def memo_print(request, id):
     }
 
     return render(request, 'core/memo-print.html', context)
+
+
+@login_required
+@is_bns
+def bns_dashboard(request):
+
+    barangay = Profile.objects.get(user=request.user).barangay
+
+    wfa = weights.get_computations_per_category_bns('Weight for Age', barangay)
+    hfa = weights.get_computations_per_category_bns('Height for Age', barangay)
+    wfhl = weights.get_computations_per_category_bns('Weight for Height/Length', barangay)
+
+    context = {
+
+        'wfa': wfa['data'],
+        'hfa': hfa['data'],
+        'wfhl': wfhl['data'],
+        'wfa_total': wfa['total'],
+        'hfa_total': hfa['total'],
+        'wfhl_total': wfhl['total'],
+    }
+
+    return render(request, 'core/bns_dashboard.html', context)

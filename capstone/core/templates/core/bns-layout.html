@@ -93,6 +93,12 @@
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                             <li class="nav-header">BARANGAY NUTRITION SCHOLAR</li>
                             <li class="nav-item">
+                                <a class="nav-link" href="{% url 'core:bns_dashboard' %}">
+                                    <i class="nav-icon fa fa-th"></i>
+                                    <p>Dashboard</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{% url 'core:bns-index' %}" class="nav-link {% if active == 'uf' %}active{% endif %}">
                                     <i class="nav-icon fa fa-upload"></i>
                                     <p>Upload Facility</p>

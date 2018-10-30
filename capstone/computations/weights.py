@@ -40,6 +40,15 @@ def get_weights_per_year_per_status(status, year):
     return float(total or 0)
 
 
+def get_weights_per_year_per_status_bns(status, year, barangay):
+
+    total = OPTValues.objects.filter(opt__date__year=year, nutritional_status=status, opt__barangay=barangay).aggregate(
+        sum=Sum('values')
+    )['sum']
+
+    return float(total or 0)
+
+
 def weights_per_year_to_dict():
 
     years = [x.year for x in OperationTimbang.objects.dates('date', 'year')][:-1]
@@ -116,6 +125,37 @@ def get_computations_per_category(category):
         'total': total
     }
 
+
+# # # for bns # # # #
+def get_computations_per_category_bns(category, barangay):
+
+    fields = [status for status in NutritionalStatus.objects.all() if category == status.name.split("-")[0].strip()]
+    total = sum([get_weights_per_year_per_status_bns(status, year_now, barangay) for status in fields]) or 1
+
+    data = []
+    for f in fields:
+        sub_data = []
+        sub_total = get_weights_per_year_per_status_bns(f, year_now, barangay)
+        prevalence_rate = round(sub_total / total, 4) * 100
+        prevalence_rate = format(prevalence_rate, '.2f')
+
+        # tinanggal na yung mga weight for age ek ek
+        normalize = f.name.strip().split(" ")[4:]
+
+        foo = ''
+        for a in normalize:
+            foo += ' %s' % a
+        # # # # # #
+
+        sub_data.append(foo)
+        sub_data.append(int(sub_total))
+        sub_data.append(str(prevalence_rate) + '%')
+        data.append(sub_data)
+
+    return {
+        'data': data,
+        'total': total
+    }
 
 # # # # # # # # for insights # # # # # # # # # #
 

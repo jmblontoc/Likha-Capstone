@@ -100,16 +100,51 @@ $(function() {
 
                     var part = e.subject.part;
 
+                    var content = JSON.parse($("#manual-root-causes-hidden").html());
                     var modal = $("#append-RC");
                     modal.modal("show");
 
                     var body = modal.find(".modal-body");
+                    body.empty();
 
-                    console.log(data);
+                    var style = "";
+
+                    style = "<style>.manual-rc:hover { background-color: #014b90; color: white  }</style>";
+                    body.append(style);
+
+                    for (var i in content) {
+
+                        var html = "<div data-id='"+ content[i].pk +"' class='p-3 manual-rc' style='cursor: pointer'>" + content[i].fields.name + "</div>";
+                        body.append(html);
+
+                    }
+
+                    $('body').on('click', '.manual-rc', function() {
+
+                        var id = $(this).data('id');
+                        var to = part.data.name;
+
+                        $.ajax({
+                            url: "/causal-models/add_customized",
+                            type: "POST",
+                            data: {
+                                'to': to,
+                                'item': id
+                            },
+                            success: function() {
+                                alert("Root cause successfully appended to causal model");
+                                window.location.reload();
+                            },
+                            error: function(e) {
+                                console.log(e.responseText);
+                            }
+                        });
+
+                    });
 
                 });
 
-                },
+            },
             error: function(data) {
                 console.log(data.responseText);
             }
@@ -170,6 +205,11 @@ $(function() {
             }
         });
     });
+
+    // custom root cause
+    function customRootCause() {
+
+    }
 
 });
 
