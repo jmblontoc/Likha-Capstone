@@ -1,7 +1,41 @@
 {% load static %}
 
+{% load static %}
+<html>
+<link rel="stylesheet" href="{% static 'core/plugins/bootstrap/css/bootstrap.min.css' %}">
 <script src="{% static 'core/plugins/jquery/jquery.min.js' %}"></script>
 <script src="{% static 'causalmodel/js/go-debug.js' %}"></script>
+
+<style type="text/css" media="print">
+    @page
+    {
+        size: auto;
+        margin: 0mm;
+    }
+</style>
+
+<body style="padding: .25in;">
+
+<div class="row">
+
+    <div class="col-2">
+        <img src="{% static 'core/images/com.png' %}" style="width: 85%; padding-top: 19px" class="brand-image img-circle">
+    </div>
+    <div class="col-5">
+        <h3 style="padding-top: 30px;">Mandaluyong City</h3>
+        <h3 style="padding: 0px;">Nutrition Committee</h3>
+        <h4 style="padding: 0px;">Causal Model for Year {{ year }}</h4>
+    </div>
+    <div class="col-5" style="text-align: right;">
+        <p style="padding-top: 30px; margin: 0px;">Report Generated on:</p>
+        <p style="margin: 0px;">Date: {% now "F d, Y" %} </p>
+        <p style="margin: 0px;">Time: {% now "g: s A" %}</p>
+    </div>
+</div>
+<hr>
+
+
+
 <script>
     $(function() {
 
@@ -20,7 +54,7 @@
 
                 var GO = go.GraphObject.make;
 
-                var diagram = GO(go.Diagram, "tree", { layout: GO(go.TreeLayout, { angle: 90, layerSpacing: 35 }) });
+                var diagram = GO(go.Diagram, "tree", { layout: GO(go.TreeLayout, { angle: 90, layerSpacing: 35 }), initialAutoScale: go.Diagram.Uniform });
                 var myModel = GO(go.TreeModel);
 
 
@@ -90,6 +124,18 @@
         });
 </script>
 
-<div id="tree" style="height: 1000px; width: 2220px; border: 1px solid black;">
+<div id="tree" style="height: 500px; width: 1010px; border: 1px solid black;">
 
 </div>
+
+</body>
+<script type="text/javascript">
+$( document ).ready(function() {
+setTimeout(function() {
+    window.print();
+}, 1000);
+window.onfocus = function(){ window.close();}
+});
+</script>
+
+</html>
