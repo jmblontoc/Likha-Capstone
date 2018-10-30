@@ -483,7 +483,8 @@ def causal_model_report(request, year):
     causal_model = CausalModel.objects.get(date__year=year)
 
     context = {
-        'causal_model': causal_model
+        'causal_model': causal_model,
+        'year': year
     }
 
     return render(request, 'causalmodel/causal_model_report.html', context)
