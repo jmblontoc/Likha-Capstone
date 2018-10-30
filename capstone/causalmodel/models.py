@@ -3,6 +3,7 @@ from datetime import datetime
 from django.db import models
 
 # Create your models here.
+from computations.weights import year_now
 from datainput.models import Barangay
 from datapreprocessing.models import Metric
 
@@ -14,6 +15,12 @@ class RootCause(models.Model):
 
     def __str__(self):
         return self.name
+
+    @staticmethod
+    def show_manual_root_causes():
+
+        return [root_cause for root_cause in RootCause.objects.filter(date__year=year_now)
+                if root_cause.in_causal_model == 0]
 
     @staticmethod
     def show_root_causes():
@@ -32,6 +39,11 @@ class RootCause(models.Model):
             if not DataMap.get_metric(metric).is_alarming:
                 return False
         return True
+
+    @property
+    def in_causal_model(self):
+
+        return Box.objects.filter(root_cause=self).count()
 
     @property
     def appeared_in(self):
@@ -62,10 +74,11 @@ class DataMap(models.Model):
         return Metric.objects.get(metric__contains=self.metric)
 
     @property
-    def display(self):
+    def to_metric(self):
+        return Metric.objects.get(metric__contains=self.metric)
 
-        if self.is_correlation():
-            return "Correlation(%s) | Score - (%s)" % (self.metric, self.value)
+    @property
+    def display(self):
 
         return '%s | %s - %s' % (self.get_metric().get_document, self.metric, int(self.value))
 

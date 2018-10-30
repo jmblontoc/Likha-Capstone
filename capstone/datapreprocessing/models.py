@@ -37,7 +37,16 @@ class Metric(models.Model):
     is_default = models.BooleanField(default=True)
     threshold_bad = models.BooleanField(default=True, verbose_name='Is Value Reaching Threshold Bad')
     json_data = models.TextField(default='')
+    suggested_interventions = models.TextField(default='')
 
+
+    @property
+    def parse_interventions(self):
+
+        if not self.suggested_interventions:
+            return ''
+
+        return json.loads(self.suggested_interventions)
 
     @staticmethod
     def categorized():

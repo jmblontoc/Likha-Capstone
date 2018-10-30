@@ -276,4 +276,3 @@ def populate_cc(fhsis):
 
 
 # call functions below
-populate_fhsis(2014)

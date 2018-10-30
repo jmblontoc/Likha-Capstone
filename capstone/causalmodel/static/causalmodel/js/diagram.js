@@ -1,5 +1,7 @@
 $(function() {
 
+    console.log("adsa ewq assd qe ");
+
     const button = $("button.diagram_btn");
     const submitComment = $("#submit_comment");
     const treeHolder = $("#tree-holder");
@@ -11,10 +13,8 @@ $(function() {
     function getID() {
 
         var cm = $(this).attr("data-id");
-        console.log(cm);
 
         const year = $("#theYear").html();
-        console.log(year);
 
         submitComment.attr('data-id', cm);
         approveCM.attr('data-id', cm);
@@ -34,7 +34,7 @@ $(function() {
                 treeHolder.empty();
                 commentHolder.empty();
 
-                var html = "<div id='tree' style='height: 558px;' class='card'></div>";
+                var html = "<div id='tree' style='height: 500px;' class='card'></div>";
                 treeHolder.append(html);
                 console.log(data);
 
@@ -93,6 +93,21 @@ $(function() {
                            )
                        )
                    );
+
+                // new
+
+                diagram.addDiagramListener("ObjectSingleClicked", function(e) {
+
+                    var part = e.subject.part;
+
+                    var modal = $("#append-RC");
+                    modal.modal("show");
+
+                    var body = modal.find(".modal-body");
+
+                    console.log(data);
+
+                });
 
                 },
             error: function(data) {

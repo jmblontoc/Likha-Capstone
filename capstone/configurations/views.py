@@ -2,12 +2,15 @@ import json
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from capstone.decorators import is_program_coordinator, is_nutritionist
+from capstone.decorators import is_program_coordinator, is_nutritionist, not_bns
+from computations.weights import year_now
 from configurations.models import CorrelationConf, NotifyBNS
+from core.models import Profile
+from datapreprocessing.models import Metric
 from friends.datamining.clean_correlations import put_marks, get_micronutrient_revised, get_maternal_revised, \
     get_socioeconomic_revised, get_child_care_revised, trim_correlations
 
@@ -89,3 +92,49 @@ def set_notification_time(request):
 
     messages.success(request, 'All BNS will be notified %i days before the due date' % int(current_setting.days_before))
     return redirect('core:nutritionist')
+
+
+@login_required
+@not_bns
+def set_suggested_interventions(request):
+
+    profile = Profile.objects.get(user=request.user)
+
+    if profile.user_type == 'Nutritionist':
+        layout = 'core/nutritionist-layout.html'
+    else:
+        layout = 'core/pc_layout.html'
+
+    # metrics
+    metrics = Metric.objects.filter(date__year=year_now)
+
+    context = {
+        'layout': layout,
+        'metrics': metrics
+    }
+
+    return render(request, 'configurations/intervention_settings.html', context)
+
+
+@login_required
+def ajax_get_intervetions(request):
+
+    metric = request.GET['metric']
+
+    interventions = Metric.objects.get(id=metric).suggested_interventions
+
+    return JsonResponse(interventions, safe=False)
+
+
+@login_required
+def ajax_set_interventions(request):
+
+    interventions = request.GET['interventions']
+    metric = request.GET['metric']
+
+    m = Metric.objects.get(id=metric)
+    m.suggested_interventions = interventions
+    m.save()
+
+    return JsonResponse("", safe=False)
+

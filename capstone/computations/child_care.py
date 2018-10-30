@@ -27,6 +27,7 @@ def get_fhsis(model, field, sex):
 
     }
 
+
     while start_year < year_now:
 
         count = 0
@@ -40,6 +41,7 @@ def get_fhsis(model, field, sex):
 
         values[start_year] = float(count)
         start_year = start_year + 1
+
 
     return values
 

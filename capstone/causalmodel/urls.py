@@ -16,6 +16,9 @@ urlpatterns = [
     # add root cause
     path('root_cause/add', views.add_root_cause, name='add_root_cause'),
 
+    # delete root cause
+    path('root_cause/delete/<int:id>', views.delete_root_cause, name='delete_root_cause'),
+
     # create root cause
     path('create_causal_model', views.create_causal_model, name='create_causal_model'),
 

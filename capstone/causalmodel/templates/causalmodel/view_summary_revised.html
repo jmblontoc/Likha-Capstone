@@ -9,7 +9,7 @@
 <script src="{% static 'core/js/highcharts.js' %}"></script>
 <script src="{% static 'causalmodel/js/view_summary.js' %}"></script>
 <script src="{% static 'causalmodel/js/bootstrap-tagsinput.js' %}"></script>
-<script src="{% static 'causalmodel/js/typeahead.bundle.js' %}"></script>
+<script src="{% static 'causalmodel/js/bootstrap3-typeahead.min.js' %}"></script>
 <script src="{% static 'causalmodel/js/my-typeahead.js' %}"></script>
 
 <link rel="stylesheet" href="{% static 'causalmodel/css/bootstrap-tagsinput.css' %}">
@@ -172,8 +172,9 @@
                 </div>
                 <div class="form-group">
                     <label>Suggested Interventions</label>
-                    <textarea style="height: 300px;" class="form-control" name="suggested_interventions"></textarea>
+                    <textarea style="height: 300px;" class="form-control" name="suggested_interventions">{% for i in metric.parse_interventions %} {{ forloop.counter }}. {{ i }} &#13;&#10;{% endfor %}</textarea>
                     <input type="hidden" name="metric" value="{{ metric.id }}">
+
                 </div>
                 <div class="form-group">
                     <label>Comments / Notes</label>

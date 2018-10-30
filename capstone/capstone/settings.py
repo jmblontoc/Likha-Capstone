@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'datamining',
     'visualizations',
     'causalmodel',
+
     'configurations'
 ]
 

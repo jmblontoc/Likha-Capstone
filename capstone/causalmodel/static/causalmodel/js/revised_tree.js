@@ -1,5 +1,6 @@
 $(function() {
 
+
     $.ajax({
         url: "/causal-models/p",
         success: function(data) {

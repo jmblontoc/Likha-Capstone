@@ -3,6 +3,7 @@ from datetime import datetime
 
 from django.urls import reverse
 
+
 from computations import weights
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -51,8 +52,10 @@ def index(request, year):
 
     if RootCause.objects.filter(date__year=year).count() == 0:
         roots = RootCause.show_root_causes()
+        has_root_cause = False
     else:
-        roots = RootCause.objects.filter(date__year=year)
+        roots = [root_cause for root_cause in RootCause.objects.filter(date__year=year)]
+        has_root_cause = True
 
     current_tree = CausalModel.objects.filter(date__year=year)
 
@@ -71,7 +74,8 @@ def index(request, year):
         'layout': layout,
         'models': CausalModel.objects.filter(date__year=year),
         'roots': roots,
-        'years': years
+        'years': years,
+        'has_root_cause': has_root_cause
     }
 
     return render(request, 'causalmodel/index.html', context)
@@ -379,7 +383,7 @@ def produce_causal_model(request):
             DataMap.objects.create(
                 root_cause=x,
                 metric=d.metric,
-                value=d.value,
+                value=d.to_metric.get_total_value,
                 threshold=d.threshold
             )
 
@@ -475,3 +479,11 @@ def causal_model_report(request, year):
     return render(request, 'causalmodel/causal_model_report.html', context)
 
 
+@login_required
+@not_bns
+def delete_root_cause(request, id):
+
+    RootCause.objects.get(id=id).delete()
+    messages.success(request, 'Root cause successfully deleted')
+
+    return redirect("/causal-models/root_cause/add")

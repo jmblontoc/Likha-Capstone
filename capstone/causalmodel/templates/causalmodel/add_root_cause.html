@@ -10,7 +10,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Add Root Causes</h1>
+                    <h1 class="m-0 text-dark">Root Causes</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -24,50 +24,90 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-6 card">
-                    <button id="add" data-toggle="modal" data-target="#rootCauseForm" class="btn btn-primary m-3">Add</button>
-                    <table class="table table-bordered table-hover mt-4">
-                <thead>
-                <tr>
-                    <th>Metric</th>
-                    <th>Value</th>
-                    <th>Threshold</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for metric in metrics %}
-                    <tr>
-                        <td class="metricName">{{ metric.get_data_point }}</td>
-                        <td class="metricValue text-right">{{ metric.get_total_value|floatformat }}</td>
-                        <td class="metricThreshold text-right">{{ metric.threshold|floatformat }}</td>
-                        <td><input type="checkbox" class="choice"></td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-                </div>
-                <div class="col-6">
-                    <div id="for-rc" class="card">
-                        {% for root in root_causes %}
-                            <div class="ml-3 mt-3">
-                                <h3>{{ root.name }}</h3>
-                                <ul>
-                                    {% for m in root.datamap_set.all %}
-                                        <li>{{ m.get_metric.get_data_point }}</li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        {% empty %}
-                            <p class="m-3">There are no root causes yet</p>
-                        {% endfor %}
+                <div class="col-12 card p-3">
+{#                    <div id="for-rc" class="card">#}
+{#                        {% for root in root_causes %}#}
+{#                            <div class="ml-3 mt-3">#}
+{#                                <h3>{{ root.name }}</h3>#}
+{#                                <ul>#}
+{#                                    {% for m in root.datamap_set.all %}#}
+{#                                        <li>{{ m.get_metric.get_data_point }}</li>#}
+{#                                    {% endfor %}#}
+{#                                </ul>#}
+{#                            </div>#}
+{#                        {% empty %}#}
+{#                            <p class="m-3">There are no root causes yet</p>#}
+{#                        {% endfor %}#}
+{##}
+{#                    {% if root_causes %}#}
+{#                        <a class="m-3" href="{% url 'causalmodel:create_causal_model' %}">#}
+{#                            <button class="btn btn-primary">Create Causal Model</button>#}
+{#                        </a>#}
+{#                    {% endif %}#}
+{#                    </div>#}
 
-                    {% if root_causes %}
-                        <a class="m-3" href="{% url 'causalmodel:create_causal_model' %}">
-                            <button class="btn btn-primary">Create Causal Model</button>
-                        </a>
-                    {% endif %}
+                    <table class="table table-bordered">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Root Cause</th>
+                                <th>Metrics</th>
+                                <th colspan="2">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for root in root_causes %}
+                            {% for metric in root.datamap_set.all %}
+                                <tr>
+                                    {% if forloop.counter0 == 0 %}
+                                        <td rowspan="{{ root.datamap_set.count }}">{{ root.name }}</td>
+                                    {% endif %}
+                                    <td>{{ metric.metric }}</td>
+                                    {% if forloop.counter0 == 0 %}
+                                        <td class="text-left" rowspan="{{ root.datamap_set.count }}">
+                                            <a>
+                                                <button class="btn-block btn btn-info">Edit</button>
+                                            </a>
+                                        </td>
+                                        <td class="text-left" rowspan="{{ root.datamap_set.count }}">
+                                            <a href="{% url 'causalmodel:delete_root_cause' root.id %}">
+                                                <button class="btn btn-danger btn-block" onclick="return confirm('Are you sure you want to delete this root cause?')">Delete</button>
+                                            </a>
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-12 mt-5" style="height:1px"></div>
+                <h2 class="ml-2">Add a root cause </h2>
+                <div class="col-12 card">
+                    <div class="text-right">
+                        <button style="width: 20%;" id="add" data-toggle="modal" data-target="#rootCauseForm" class="btn btn-primary m-3">Add</button>
                     </div>
+                    <table class="table table-bordered table-hover mt-1" id="addRCTable">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th>Metric</th>
+                            <th>Source</th>
+                            <th>Value</th>
+                            <th>Threshold</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for metric in metrics %}
+                            <tr>
+                                <td class="metricName">{{ metric.get_data_point }}</td>
+                                <td>{{ metric.get_source }}</td>
+                                <td class="metricValue text-right">{{ metric.get_total_value|floatformat }}</td>
+                                <td class="metricThreshold text-right">{{ metric.threshold|floatformat }}</td>
+                                <td><input type="checkbox" class="choice"></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -113,6 +153,8 @@
 
             <script>
                 $(document).ready(function() {
+
+                    $("#addRCTable").DataTable({});
 
                     var buttonAdd = $("button#add");
                     var modal = $("div#rootCauseForm");

@@ -72,7 +72,7 @@
                 {% else %}
                     <div class="row">
                         <div class="col-12" style="height:573.953px">
-                            <h3 class="m-2">Causal Model for {{ year_get }}
+                            <h3 class="m-2">Malnutrition Causal Model for {{ year_get }}
                                 <span>
                                     <a target="_blank" href="{% url 'causalmodel:causal_model_report' year_get %}">
                                         <button class="mb-2 btn btn-primary">Print</button>
@@ -84,23 +84,6 @@
                                     <div style='height: 558px;' class='card'><p style="text-align: center; margin-top: 22%;"></p></div>
 
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card p-2" style="height: 40%">
-                                <h5 class="m-3">Comments</h5>
-                                <div class="comment-holder" style="overflow-y: scroll;">
-                                </div>
-                            </div>
-                            <div class="submit-comment-holder card p-3" style="height: 135px;">
-                                {% if models %}
-                                <div class="form-group cm-commands" style="display: none;">
-                                    <input class="form-control" id="comment-main" placeholder="Enter comment here">
-                                    <button class="btn btn-primary mt-3" id="submit_comment">Submit</button>
-                                </div>
-                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -128,7 +111,11 @@
                                     <th class="text-center" rowspan="{{ cause.datamap_set.count }}" style="vertical-align: middle">{{ cause.name }}</th>
                                 {% endif %}
                                 <td>{{ metric.get_metric.get_data_point }}</td>
-                                <td class="text-right">{{ metric.get_metric.get_total_value|floatformat }}</td>
+                                {% if has_root_cause %}
+                                    <td class="text-right">{{ metric.value|floatformat:"0" }}</td>
+                                {% else %}
+                                    <td class="text-right">{{ metric.to_metric.get_total_value|floatformat:"0" }}</td>
+                                {% endif %}
                                 <td>{{ metric.get_metric.get_document }}</td>
                                 {% if forloop.counter0 == 0 %}
                                     <td rowspan="{{ cause.datamap_set.count }}" style="vertical-align: middle">
@@ -154,5 +141,21 @@
             </div>
         </div>
     </section>
+
+    <div class="modal" tabindex="-1" role="dialog" id="append-RC">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add to Causal Model</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+          </div>
+        </div>
+      </div>
+    </div>
 </div>
 {% endblock %}
