@@ -4,6 +4,7 @@
 
 {% load static %}
 
+
 <script src="{% static 'causalmodel/js/go-debug.js' %}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
 <script src="{% static 'core/js/highcharts.js' %}"></script>
@@ -11,8 +12,10 @@
 <script src="{% static 'causalmodel/js/bootstrap-tagsinput.js' %}"></script>
 <script src="{% static 'causalmodel/js/bootstrap3-typeahead.min.js' %}"></script>
 <script src="{% static 'causalmodel/js/my-typeahead.js' %}"></script>
+<script src="{% static 'causalmodel/js/bootstrap-datepicker.min.js' %}"></script>
 
 <link rel="stylesheet" href="{% static 'causalmodel/css/bootstrap-tagsinput.css' %}">
+<link rel="stylesheet" href="{% static 'causalmodel/css/bootstrap-datepicker3.min.css' %}">
 
 <div class="content-wrapper" style="height: auto; margin-top: 57px;">
     <div class="content-header">
@@ -163,7 +166,7 @@
 
                 <div class="form-group">
                     <label>Subject</label>
-                    <input class="form-control" name="subject">
+                    <input class="form-control" name="subject" id="subject-input">
                 </div>
                 <div class="form-group">
                     <label>Recipients</label>
@@ -172,8 +175,24 @@
                 </div>
                 <div class="form-group">
                     <label>Suggested Interventions</label>
-                    <textarea style="height: 300px;" class="form-control" name="suggested_interventions">{% for i in metric.parse_interventions %} {{ forloop.counter }}. {{ i }} &#13;&#10;{% endfor %}</textarea>
-                    <input type="hidden" name="metric" value="{{ metric.id }}">
+{#                    <textarea style="height: 300px;" class="form-control" name="suggested_interventions">{% for i in metric.parse_interventions %} {{ forloop.counter }}. {{ i }} &#13;&#10;{% endfor %}</textarea>#}
+{#                    <input type="hidden" name="metric" value="{{ metric.id }}">#}
+                    <p class="ml-1"><u>Main interventions:</u></p>
+                    {% for intervention in metric.suggestedintervention_set.all %}
+                        {% if intervention.is_priority %}
+                            <div class="intervention-select">
+                                <input type="checkbox" name="interventions" value="{{ intervention.name }}">
+                                <label class="form-check-label">
+                                    {{ intervention.name }}
+                                    <span class="font-italic">({{ intervention.last_proposed }})</span>
+                                </label>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="ml-3 font-italic text-info mt-3" style="cursor: pointer;">
+                        + Add Intervention
+                    </div>
+
 
                 </div>
                 <div class="form-group">
@@ -196,12 +215,17 @@
 
 <script>
 
-    function hello() {
-        console.log("hello");
-    }
-
     $(function() {
 
+        var subjectInput = $("#subject-input");
+
+        subjectInput.datepicker({
+            format: "MM dd, yyyy"
+        }).on('changeDate', function(e) {
+            $(this).val("Program Interventions for " + moment(e.date).format("MMMM D, YYYY"));
+        }).on('hide', function(e) {
+            $(this).val("Program Interventions for " + moment(e.date).format("MMMM D, YYYY"));
+        });
     });
 
 </script>

@@ -147,6 +147,8 @@ def add_root_cause(request):
         'root_causes': RootCause.objects.filter(date__year=year_now)
     }
 
+
+
     return render(request, 'causalmodel/add_root_cause.html', context)
 
 
@@ -313,16 +315,22 @@ def view_summary(request, metric):
     if request.method == 'POST':
 
         m = request.POST['metric']
-        suggested_interventions = request.POST['suggested_interventions']
         comments = request.POST['comments']
         subject = request.POST['subject']
 
         recipients = request.POST['recipients']
 
+        interventions = request.POST.getlist('interventions')
+        for_interventions = "The following interventions are suggested to address the concern for such metric: "
+
+        for index, intervention in enumerate(interventions):
+            for_interventions += '(%i) %s \n' % (index + 1, intervention)
+
+
         created = Memo.objects.create(
             metric=Metric.objects.get(id=m),
             uploaded_by=profile,
-            suggested_interventions=suggested_interventions,
+            suggested_interventions=for_interventions,
             comments=comments,
             subject=subject
         )

@@ -200,3 +200,23 @@ class Memo(models.Model):
         return self.subject
 
 
+class SuggestedIntervention(models.Model):
+
+    name = models.CharField(max_length=255)
+    date = models.DateTimeField(default=datetime.now)
+    metric = models.ForeignKey(Metric, on_delete=models.CASCADE)
+    reason = models.TextField()
+    is_priority = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
+
+    @property
+    def last_proposed(self):
+
+        memos_with_it = Memo.objects.filter(suggested_interventions__contains=self.name)
+
+        if memos_with_it.count() == 0:
+            return "Just proposed at this date of %s" % self.date.strftime('%B %d, %Y')
+
+        return "Last appended on a memo on %s " % memos_with_it.latest('id').date.strftime('%B %d, %Y')
