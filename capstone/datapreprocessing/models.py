@@ -569,9 +569,8 @@ class Metric(models.Model):
     def get_total_value(self):
         return consolidators.get_value(self.metric)
 
-    @property
-    def get_total_value_bns(self):
-        return consolidators.get_value_bns(self.metric)
+    def get_total_value_bns(self, barangay):
+        return consolidators.get_value_bns(self.metric, barangay)
 
     @property
     def get_total_average(self):
@@ -714,7 +713,7 @@ class Metric(models.Model):
     @staticmethod
     def get_alarming():
 
-        return [x for x in Metric.objects.all() if x.is_alarming]
+        return [x for x in Metric.objects.filter(date__year=year_now) if x.is_alarming]
 
     @staticmethod
     def get_critical_non_supplements():
@@ -954,7 +953,7 @@ class Metric(models.Model):
     @staticmethod
     def get_child_care():
 
-        return [metric.to_dict() for metric in Metric.objects.all()
+        return [metric.to_dict() for metric in Metric.objects.filter(date__year=year_now)
                 if metric.get_source == 'Child Care' and metric.get_data_point in datapoints.child_care
                 and metric.is_default]
 
@@ -1100,7 +1099,7 @@ class Metric(models.Model):
 
         cc_fields = revised_datapoints.ILLNESSES
 
-        x = [metric.to_dict_bns(barangay) for metric in Metric.objects.all() if metric.get_data_point in cc_fields]
+        x = [metric.to_dict_bns(barangay) for metric in Metric.objects.filter(date__year=year_now) if metric.get_data_point in cc_fields]
 
         values = [m['value'] for m in x]
 
@@ -1114,7 +1113,7 @@ class Metric(models.Model):
 
         cc_fields = revised_datapoints.ILLNESSES
 
-        x = [metric.to_dict() for metric in Metric.objects.all() if metric.get_data_point in cc_fields]
+        x = [metric.to_dict() for metric in Metric.objects.filter(date__year=year_now) if metric.get_data_point in cc_fields]
 
         values = [m['value'] for m in x]
 

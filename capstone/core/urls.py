@@ -28,7 +28,7 @@ urlpatterns = [
     # # # # # # # # # # # # # # # # DASHBOARD # # # # # # # # # # # # # # #
 
     path('ajax/dashboard/', views.dashboard, name='dashboard'),
-    path('ajax/dashboard_bns', views.bns_dashboard, name='bns_dashboard'),
+    path('ajax/dashboard_bns', views.dashboard_bns, name='bns_dashboard_ajax'),
 
     # memos
 

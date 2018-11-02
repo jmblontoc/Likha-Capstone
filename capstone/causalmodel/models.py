@@ -211,6 +211,14 @@ class SuggestedIntervention(models.Model):
     def __str__(self):
         return self.name
 
+    def to_data(self):
+
+        return {
+            'name': self.name,
+            'reason': self.reason,
+            'last_proposed': self.last_proposed
+        }
+
     @property
     def last_proposed(self):
 

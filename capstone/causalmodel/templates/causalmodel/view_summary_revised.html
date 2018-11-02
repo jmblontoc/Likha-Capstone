@@ -13,6 +13,9 @@
 <script src="{% static 'causalmodel/js/bootstrap3-typeahead.min.js' %}"></script>
 <script src="{% static 'causalmodel/js/my-typeahead.js' %}"></script>
 <script src="{% static 'causalmodel/js/bootstrap-datepicker.min.js' %}"></script>
+<script src="{% static 'causalmodel/js/popper.js' %}"></script>
+
+<script src="{% static 'causalmodel/js/add_intervention.js' %}"></script>
 
 <link rel="stylesheet" href="{% static 'causalmodel/css/bootstrap-tagsinput.css' %}">
 <link rel="stylesheet" href="{% static 'causalmodel/css/bootstrap-datepicker3.min.css' %}">
@@ -178,18 +181,20 @@
 {#                    <textarea style="height: 300px;" class="form-control" name="suggested_interventions">{% for i in metric.parse_interventions %} {{ forloop.counter }}. {{ i }} &#13;&#10;{% endfor %}</textarea>#}
 {#                    <input type="hidden" name="metric" value="{{ metric.id }}">#}
                     <p class="ml-1"><u>Main interventions:</u></p>
-                    {% for intervention in metric.suggestedintervention_set.all %}
-                        {% if intervention.is_priority %}
-                            <div class="intervention-select">
-                                <input type="checkbox" name="interventions" value="{{ intervention.name }}">
-                                <label class="form-check-label">
-                                    {{ intervention.name }}
-                                    <span class="font-italic">({{ intervention.last_proposed }})</span>
-                                </label>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                    <div class="ml-3 font-italic text-info mt-3" style="cursor: pointer;">
+                    <div class="intervention-container">
+                        {% for intervention in metric.suggestedintervention_set.all %}
+                            {% if intervention.is_priority %}
+                                <div class="intervention-select">
+                                    <input type="checkbox" name="interventions" value="{{ intervention.name }}">
+                                    <label class="form-check-label" data-toggle="tooltip" data-placement="top" title="{{ intervention.reason }}">
+                                        {{ intervention.name }}
+                                        <span class="font-italic">({{ intervention.last_proposed }})</span>
+                                    </label>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="ml-3 font-italic text-info mt-3" style="cursor: pointer;" data-toggle="modal" data-target="#add-intervention-modal">
                         + Add Intervention
                     </div>
 
@@ -211,11 +216,40 @@
 
         </div>
     </section>
+
+    <div class="modal fade" id="add-intervention-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add Intervention</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" data-metric="{{ metric.id }}">
+            <div class="form-group">
+                <label>Intervention Name</label>
+                <input type="text" class="form-control" id="intervention-name">
+            </div>
+            <div class="form-group">
+                <label>Reason</label>
+                <textarea class="form-control" id="intervention-reason"></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="add-intervention-btn">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
 </div>
 
 <script>
 
     $(function() {
+
+        $('[data-toggle="tooltip"]').tooltip()
 
         var subjectInput = $("#subject-input");
 

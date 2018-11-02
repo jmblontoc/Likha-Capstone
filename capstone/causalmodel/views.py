@@ -18,7 +18,8 @@ from datainput.models import Barangay
 from friends.causalmodel import helper
 # Create your views here.
 from datapreprocessing.models import Metric
-from causalmodel.models import RootCause, DataMap, Block, Child, CausalModel, CausalModelComment, Memo, Son, Box
+from causalmodel.models import RootCause, DataMap, Block, Child, CausalModel, CausalModelComment, Memo, Son, Box, \
+    SuggestedIntervention
 from friends.datamining.correlations import create_session, year_now
 from friends.datapreprocessing import checkers
 from friends.datamining import correlations
@@ -525,3 +526,19 @@ def append_to_causal_model(request):
     )
 
     return JsonResponse([], safe=False)
+
+
+@login_required
+def add_intervention_from_modal(request):
+
+    metric_id = request.POST['id']
+    name = request.POST['name']
+    reason = request.POST['reason']
+
+    intervention = SuggestedIntervention.objects.create(
+        name=name,
+        metric_id=metric_id,
+        reason=reason
+    )
+
+    return JsonResponse(intervention.to_data(), safe=False)

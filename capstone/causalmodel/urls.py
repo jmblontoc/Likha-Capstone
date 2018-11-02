@@ -53,6 +53,8 @@ urlpatterns = [
 
     path('add_customized', views.append_to_causal_model, name='append_to_causal_model'),
 
+    path('add_intervention_from_modal', views.add_intervention_from_modal, name='add_intervention_from_modal'),
+
     # causal model report
     path('causal_model/<int:year>/', views.causal_model_report, name='causal_model_report')
 

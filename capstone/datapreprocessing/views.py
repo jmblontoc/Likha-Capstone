@@ -60,6 +60,7 @@ def index(request):
 @is_nutritionist
 def set_thresholds(request):
 
+
     illnesses = [(field, Metric.check_if_set(field)) for field in revised_datapoints.ILLNESSES]
     socioeconomic = [(field, Metric.check_if_set(field)) for field in revised_datapoints.SOCIOECONOMIC]
     maternal = [(field, Metric.check_if_set(field)) for field in revised_datapoints.MATERNAL]
