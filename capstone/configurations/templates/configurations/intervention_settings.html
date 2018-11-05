@@ -20,7 +20,7 @@
                                 {% else %}
                                 Program Coordinator
                                 {% endif %}
-                                Set Suggested Interventions</li>
+                                Suggested Interventions</li>
                         </ol>
                     </div>
                 </div>
@@ -41,8 +41,13 @@
                         {% for metric in metrics %}
                             <tr>
                                 <td>{{ metric.get_data_point }}</td>
+{#                                <td>#}
+{#                                    <button data-id="{{ metric.id }}" class="btn btn-primary" data-target="#intervention-modal" data-toggle="modal">Set Interventions</button>#}
+{#                                </td>#}
                                 <td>
-                                    <button data-id="{{ metric.id }}" class="btn btn-primary" data-target="#intervention-modal" data-toggle="modal">Set Interventions</button>
+                                    <a href="{% url 'conf:view_interventions' metric.id %}">
+                                        <button class="btn btn-primary">View Interventions</button>
+                                    </a>
                                 </td>
                             </tr>
                         {% endfor %}

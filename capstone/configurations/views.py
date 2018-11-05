@@ -8,6 +8,7 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from capstone.decorators import is_program_coordinator, is_nutritionist, not_bns
 from computations.weights import year_now
+from configurations.forms import SuggestedInterventionForm
 from configurations.models import CorrelationConf, NotifyBNS
 from core.models import Profile
 from datapreprocessing.models import Metric
@@ -117,7 +118,7 @@ def set_suggested_interventions(request):
 
 
 @login_required
-def ajax_get_intervetions(request):
+def ajax_get_interventions(request):
 
     metric = request.GET['metric']
 
@@ -137,4 +138,41 @@ def ajax_set_interventions(request):
     m.save()
 
     return JsonResponse("", safe=False)
+
+
+@login_required
+@not_bns
+def view_interventions(request, metric_id):
+
+    profile = Profile.objects.get(user=request.user)
+
+    if profile.user_type == 'Nutritionist':
+        layout = 'core/nutritionist-layout.html'
+    else:
+        layout = 'core/pc_layout.html'
+
+    metric = Metric.objects.get(id=metric_id)
+
+    suggested_interventions = metric.suggestedintervention_set.all()
+
+    form = SuggestedInterventionForm(request.POST or None)
+
+    if form.is_valid():
+
+        intervention = form.save(commit=False)
+        intervention.is_priority = False
+        intervention.metric = metric
+        intervention.save()
+
+        messages.success(request, 'Intervention for %s successfully added' % metric.get_data_point)
+        return redirect('conf:view_interventions', metric.id)
+
+    context = {
+        'suggested_interventions': suggested_interventions,
+        'metric': metric,
+        'layout': layout,
+        'form': form
+    }
+
+    return render(request, 'configurations/view_interventions.html', context)
 

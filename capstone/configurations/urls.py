@@ -14,8 +14,9 @@ urlpatterns = [
 
     # suggested interventions
     path('set_interventions', views.set_suggested_interventions, name='set_interventions'),
+    path('view_interventions/<int:metric_id>', views.view_interventions, name='view_interventions'),
 
     # ajax
-    path('get_interventions', views.ajax_get_intervetions, name='get_interventions'),
+    path('get_interventions', views.ajax_get_interventions, name='get_interventions'),
     path('ajax_set_interventions', views.ajax_set_interventions, name='ajax_set_interventions')
 ]

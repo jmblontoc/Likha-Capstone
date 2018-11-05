@@ -1,0 +1,98 @@
+{% extends layout %}
+
+{% block content %}
+
+    {% load static %}
+
+    <div class="content-wrapper" style="height: auto; margin-top: 57px;">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Suggested Interventions for {{ metric.get_data_point }}</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item active">
+                                {% if profile.user_type == 'Nutritionist' %}
+                                Nutritionist
+                                {% else %}
+                                Program Coordinator
+                                {% endif %}
+                                View Suggested Interventions</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'core/helpers/messages.html' %}
+        <section class="content">
+            <div class="container-fluid">
+                <div class="text-right m-3">
+                    <a>
+                        <button class="btn btn-success" data-toggle="modal" data-target="#add-intervention-modal">Add Suggested Intervention</button>
+                    </a>
+                </div>
+                <div class="col-12">
+                    <table class="table table-bordered">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th>Name</th>
+                            <th>Reason Added</th>
+                            <th>Date Added</th>
+                            <th>Frequency</th>
+                            <th colspan="2">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for intervention in suggested_interventions %}
+                            <tr>
+                                <td>{{ intervention.name }}</td>
+                                <td>{{ intervention.reason }}</td>
+                                <td>{{ intervention.date }}</td>
+                                <td>{{ intervention.frequency }}</td>
+                                <td>
+                                    <a>
+                                        <button class="btn btn-info">Edit</button>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a>
+                                        <button class="btn btn-danger">Delete</button>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="add-intervention-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Intervention for {{ metric.get_data_point }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form method="POST">
+                    {% csrf_token %}
+                    {% include 'core/helpers/form_template.html' %}
+
+                    <div class="text-right">
+                        <input type="submit" class="btn btn-success" value="Submit">
+                    </div>
+                </form>
+
+            </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}

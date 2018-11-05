@@ -181,9 +181,23 @@
 {#                    <textarea style="height: 300px;" class="form-control" name="suggested_interventions">{% for i in metric.parse_interventions %} {{ forloop.counter }}. {{ i }} &#13;&#10;{% endfor %}</textarea>#}
 {#                    <input type="hidden" name="metric" value="{{ metric.id }}">#}
                     <p class="ml-1"><u>Main interventions:</u></p>
-                    <div class="intervention-container">
+                    <div class="intervention-container mb-4">
                         {% for intervention in metric.suggestedintervention_set.all %}
                             {% if intervention.is_priority %}
+                                <div class="intervention-select">
+                                    <input type="checkbox" name="interventions" value="{{ intervention.name }}">
+                                    <label class="form-check-label" data-toggle="tooltip" data-placement="top" title="{{ intervention.reason }}">
+                                        {{ intervention.name }}
+                                        <span class="font-italic">({{ intervention.last_proposed }})</span>
+                                    </label>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <p class="ml-1"><u>Other interventions:</u></p>
+                    <div class="intervention-container">
+                        {% for intervention in metric.suggestedintervention_set.all %}
+                            {% if not intervention.is_priority %}
                                 <div class="intervention-select">
                                     <input type="checkbox" name="interventions" value="{{ intervention.name }}">
                                     <label class="form-check-label" data-toggle="tooltip" data-placement="top" title="{{ intervention.reason }}">

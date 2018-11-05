@@ -169,6 +169,23 @@
                                     <p>Memos</p>
                                 </a>
                             </li>
+                            <li class="nav-item has-treeview {% if active == 'arc' %}menu-open{% endif %}">
+                                <a href="#" class="nav-link {% if active == 'arc' %}active{% endif %}">
+                                  <i class="nav-icon fa fa-cog"></i>
+                                      <p>
+                                        Configurations
+                                        <i class="right fa fa-angle-left"></i>
+                                      </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="{% url 'conf:set_interventions' %}" class="nav-link {% if active == 'arc' %}active{% endif %}">
+                                            <i class="nav-icon fa fa-circle-o"></i>
+                                            <p>Suggested Interventions</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
                     </nav>
                 </div>

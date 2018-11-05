@@ -244,8 +244,6 @@ def monthly_reweighing_list(request):
     families = Patient.objects.values('date_created').annotate(dcount=Count('date_created'))
     mr = Patient.objects.dates("date_created", "year")
 
-
-
     profile = Profile.objects.get(user=request.user)
 
     active = 'mr'

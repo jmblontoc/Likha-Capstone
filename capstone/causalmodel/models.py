@@ -220,11 +220,16 @@ class SuggestedIntervention(models.Model):
         }
 
     @property
+    def frequency(self):
+
+        return Memo.objects.filter(suggested_interventions__contains=self.name).count()
+
+    @property
     def last_proposed(self):
 
         memos_with_it = Memo.objects.filter(suggested_interventions__contains=self.name)
 
         if memos_with_it.count() == 0:
-            return "Just proposed at this date of %s" % self.date.strftime('%B %d, %Y')
+            return "Proposed on %s" % self.date.strftime('%B %d, %Y')
 
         return "Last appended on a memo on %s " % memos_with_it.latest('id').date.strftime('%B %d, %Y')
