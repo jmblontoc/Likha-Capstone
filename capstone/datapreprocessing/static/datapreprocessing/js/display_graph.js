@@ -104,7 +104,7 @@ $(function() {
         const div = $("#table");
         div.empty();
         div.append("<p class='text-center' style='padding-top: 180px;'>Prevalence Rate for " + moment().year() + "</p><h1 class='display-4 text-center'>" + prev + "%</h1>");
-        div.append("<h3 class='text-center mt-5' style='font-weight:normal'>" + prevLast +"% <span>in " + parseInt(moment().year() - 1) +"</span></h3>");
+        div.append("<h3 class='text-center mt-5' style='font-weight:normal'><span style='font-weight: 500;'>" + prevLast +"%</span> <span>in " + parseInt(moment().year() - 1) +"</span></h3>");
 
 
     });

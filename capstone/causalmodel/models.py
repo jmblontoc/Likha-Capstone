@@ -240,6 +240,6 @@ class SuggestedIntervention(models.Model):
         memos_with_it = Memo.objects.filter(suggested_interventions__contains=self.name)
 
         if memos_with_it.count() == 0:
-            return "Proposed on %s" % self.date.strftime('%B %d, %Y')
+            return "Manually added as an intervention on %s" % self.date.strftime('%B %d, %Y')
 
-        return "Last appended on a memo on %s " % memos_with_it.latest('id').date.strftime('%B %d, %Y')
+        return "Last proposed on a memo on %s " % memos_with_it.latest('id').date.strftime('%B %d, %Y')

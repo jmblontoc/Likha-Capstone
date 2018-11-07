@@ -554,4 +554,4 @@ def referencing_memo(request, date, intervention_id):
 
     memo = Memo.objects.filter(suggested_interventions__contains=intervention.name, date__date=legit_date).first()
 
-    return redirect('core:  memo_detail', memo.id)
+    return redirect('core:memo_detail', memo.id)
