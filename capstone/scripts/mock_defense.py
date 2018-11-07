@@ -17,3 +17,5 @@ OperationTimbang.objects.filter(date__year=2018, barangay__name__contains='Ibaba
 FamilyProfile.objects.filter(date__year=2018, barangay__name__contains='Ibaba').delete()
 MonthlyReweighing.objects.filter(date__year=2018, date__month=11, patient__barangay__name__contains='Ibaba').delete()
 Patient.objects.filter(barangay__name__contains='Ibaba').delete()
+
+Memo.objects.filter(subject__contains='November 29').delete()
