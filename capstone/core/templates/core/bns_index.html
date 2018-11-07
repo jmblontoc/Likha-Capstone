@@ -33,12 +33,12 @@
                                         <th style="width: 17%;">Due Date</th>
                                         <th style="width: 17%;">Date Uploaded</th>
                                         <th style="width: 12%;">Status</th>
-                                        <th style="width: 20%;">Action</th>
+                                        <th>Action</th>
                                     </tr>
                                     </thead>
                             <tbody>
                                     <tr>
-                                        <td style="vertical-align: middle;">Field Health Service Information System M1</td>
+                                        <td style="vertical-align: middle;">Field Health Service Information System M1 <span class="font-italic text-info   ">(Use the filename: FHSIS_M1.xlsx)</span></td>
                                         <td style="vertical-align: middle;">{{ month_due|date:"F d, Y" }}</td>
                                         <td style="vertical-align: middle;">{{ fhsis_uploaded }}</td>
                                         {% if fhsis_status == 'Completed' %}
@@ -88,7 +88,7 @@
                                         <th style="width: 20%;">Action</th>
                                     </tr>
                                     <tr>
-                                        <td style="vertical-align: middle;">Operation Timbang</td>
+                                        <td style="vertical-align: middle;">Operation Timbang <span class="text-info font-italic">(Use the filename: eOPT.xlsx)</span></td>
                                         <td style="vertical-align: middle;">{{ due_date_yearly|date:"F d, Y" }}</td>
                                         <td style="vertical-align: middle;">{{ opt_date }}</td>
                                         {% if opt_status == 'Completed' %}

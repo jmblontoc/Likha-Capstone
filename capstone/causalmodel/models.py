@@ -225,6 +225,16 @@ class SuggestedIntervention(models.Model):
         return Memo.objects.filter(suggested_interventions__contains=self.name).count()
 
     @property
+    def last_proposed_date(self):
+
+        memos_with_it = Memo.objects.filter(suggested_interventions__contains=self.name)
+
+        if memos_with_it.count() == 0:
+            return None
+
+        return memos_with_it.latest('id').date.strftime('%B %d, %Y')
+
+    @property
     def last_proposed(self):
 
         memos_with_it = Memo.objects.filter(suggested_interventions__contains=self.name)

@@ -169,7 +169,7 @@
 
                 <div class="form-group">
                     <label>Subject</label>
-                    <input class="form-control" name="subject" id="subject-input">
+                    <input class="form-control" name="subject" id="subject-input" value="Program Interventions for [Date]">
                 </div>
                 <div class="form-group">
                     <label>Recipients</label>
@@ -183,12 +183,18 @@
                     <p class="ml-1"><u>Main interventions:</u></p>
                     <div class="intervention-container mb-4">
                         {% for intervention in metric.suggestedintervention_set.all %}
-                            {% if intervention.is_priority %}
+                            {% if intervention.frequency > 0 %}
                                 <div class="intervention-select">
                                     <input type="checkbox" name="interventions" value="{{ intervention.name }}">
                                     <label class="form-check-label" data-toggle="tooltip" data-placement="top" title="{{ intervention.reason }}">
                                         {{ intervention.name }}
-                                        <span class="font-italic">({{ intervention.last_proposed }})</span>
+                                        <span class="font-italic">
+
+                                            <a href="{% url 'causalmodel:referencing_memo' intervention.last_proposed_date intervention.id %}">
+                                               ({{ intervention.last_proposed }})
+                                            </a>
+
+                                        </span>
                                     </label>
                                 </div>
                             {% endif %}
@@ -197,7 +203,7 @@
                     <p class="ml-1"><u>Other interventions:</u></p>
                     <div class="intervention-container">
                         {% for intervention in metric.suggestedintervention_set.all %}
-                            {% if not intervention.is_priority %}
+                            {% if intervention.frequency == 0 %}
                                 <div class="intervention-select">
                                     <input type="checkbox" name="interventions" value="{{ intervention.name }}">
                                     <label class="form-check-label" data-toggle="tooltip" data-placement="top" title="{{ intervention.reason }}">

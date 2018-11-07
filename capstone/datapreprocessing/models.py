@@ -39,6 +39,14 @@ class Metric(models.Model):
     json_data = models.TextField(default='')
     suggested_interventions = models.TextField(default='')
 
+    @property
+    def previous_prevalence_rate(self):
+
+        total_population = weights.get_total_population(year_now - 1)
+        value = consolidators.get_previous_value(self.metric)
+
+        print(value, total_population)
+        return round((value / total_population) * 100, 2)
 
     @property
     def parse_interventions(self):

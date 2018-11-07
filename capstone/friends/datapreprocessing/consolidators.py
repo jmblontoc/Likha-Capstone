@@ -9,6 +9,102 @@ from datainput.models import HealthCareWasteManagement, OPTValues, UnemploymentR
     NutritionalStatus, MonthlyReweighing, FamilyProfileLine
 
 
+def get_previous_value(metric):
+
+    phrase = metric.split("|")
+
+    # get model
+    str_model = get_model(metric)
+    model = apps.get_model('datainput', str_model)
+
+    # get field
+    # not applicable for NutritionalStatuses
+
+    if str_model == 'OPTValues':
+
+        status = NutritionalStatus.objects.get(name=phrase[1].strip())
+
+        if len(phrase) == 2:
+
+            opt = get_total_opt_no_sex(status)
+            reweighing = get_reweighing_no_sex(str(status))
+
+            return opt # + reweighing
+
+        sex = Sex.objects.get(name=phrase[2].strip())
+        opt = get_total_opt(status, sex)
+        reweighing = get_reweighing_counts(phrase[1].strip(), sex)
+        # print(reweighing)
+
+        return opt + reweighing
+
+    elif str_model == 'HealthCareWasteManagement':
+        field = get_field(model, phrase[1])
+        return get_total_hcwm(field)
+
+    elif str_model == 'InformalSettlers':
+        return get_informal_settlers_previous()
+
+    elif str_model == 'UnemploymentRate':
+        return UnemploymentRate.objects.filter(date__year=datetime.now().year)[0].rate
+
+    elif str_model == 'MaternalCare' or str_model == 'STISurveillance':
+        field = get_field(model, phrase[1])
+        return get_total_without_sex_previous(model, field)
+
+    elif str_model == 'Immunization' or str_model == 'Malaria' or str_model == 'Tuberculosis' or str_model == 'Schistosomiasis' \
+        or str_model == 'Flariasis' or str_model == 'Leprosy' or str_model == 'ChildCare':
+
+        field = get_field(model, phrase[1])
+        if len(phrase) == 2:
+            print('did it go here november 7')
+            return get_total_without_sex_previous(model, field)
+
+        return get_total_with_sex(model, field, sex=Sex.objects.get(name=phrase[2].strip()))
+
+    elif str_model == 'FamilyProfileLine':
+        field = get_field(model, phrase[1])
+        if field in datapoints.main_family_profile:
+            return get_population(field)
+
+        elif field in datapoints.boolean_fields_fp:
+            return get_boolean_totals_previous(field)
+
+        else:
+
+            if field == 'water_sources':
+                choice = "Well"
+
+                return get_choice_count_previous(field, choice)
+
+            elif field == 'toilet_type':
+                choice = 'Open Pit'
+
+                return get_choice_count_previous(field, choice)
+
+            elif field == 'toilet_type1':
+                field = 'toilet_type'
+                choice = 'None'
+
+                return get_choice_count_previous(field, choice)
+
+            elif field == 'educational_attainment':
+                choice = 'Elementary Undergraduate'
+
+                return get_choice_count_previous(field, choice)
+
+            elif field == revised_datapoints.SOCIOECONOMIC[4]:
+                field = 'is_family_planning'
+
+                return get_boolean_totals_previous(field)
+
+            elif field == revised_datapoints.SOCIOECONOMIC[5]:
+                field = 'is_using_iodized_salt'
+                return get_boolean_totals_previous(field)
+
+    return 3212
+
+
 # illnesses
 def get_value_bns(metric, barangay):
 
@@ -308,6 +404,15 @@ def get_informal_settlers():
     return count
 
 
+def get_informal_settlers_previous():
+
+    count = 0
+    for record in InformalSettlers.objects.filter(date__year=datetime.now().year - 1):
+        count = count + getattr(record, 'families_count')
+
+    return count
+
+
 # fhsis
 def get_maternal_or_sti(model, field):
 
@@ -347,6 +452,22 @@ def get_total_without_sex(model, field):
         except TypeError:
             pass
 
+    return count
+
+
+def get_total_without_sex_previous(model, field):
+
+    records = model.objects.all().filter(fhsis__date__year=datetime.now().year - 1)
+    count = 0
+
+    for record in records:
+
+        try:
+            count = count + getattr(record, field)
+        except TypeError:
+            pass
+
+    print(count, "counts")
     return count
 
 
@@ -469,6 +590,18 @@ def get_choice_count(field, choice):
     return count
 
 
+def get_choice_count_previous(field, choice):
+
+    count = 0
+    records = FamilyProfileLine.objects.filter(family_profile__date__year=datetime.now().year - 1)
+
+    for record in records:
+        if getattr(record, field) == choice:
+            count = count + 1
+
+    return count
+
+
 # population
 def get_population(field):
 
@@ -486,6 +619,18 @@ def get_population(field):
 def get_boolean_totals(field):
 
     records = FamilyProfileLine.objects.filter(family_profile__date__year=datetime.now().year)
+
+    total = 0
+    for record in records:
+        if getattr(record, field):
+            total = total + 1
+
+    return total
+
+
+def get_boolean_totals_previous(field):
+
+    records = FamilyProfileLine.objects.filter(family_profile__date__year=datetime.now().year - 1)
 
     total = 0
     for record in records:

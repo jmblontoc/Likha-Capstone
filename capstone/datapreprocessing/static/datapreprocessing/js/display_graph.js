@@ -12,6 +12,7 @@ $(function() {
         var json_data = $(this).attr("data-variables");
         const parsed = JSON.parse(data);
         const prev = $(this).attr("data-prevalence");
+        const prevLast = $(this).data("prevalenceLast");
 
         const field = $(this).children(".point").html();
         const source = $(this).children(".source").html();
@@ -103,6 +104,7 @@ $(function() {
         const div = $("#table");
         div.empty();
         div.append("<p class='text-center' style='padding-top: 180px;'>Prevalence Rate for " + moment().year() + "</p><h1 class='display-4 text-center'>" + prev + "%</h1>");
+        div.append("<h3 class='text-center mt-5' style='font-weight:normal'>" + prevLast +"% <span>in " + parseInt(moment().year() - 1) +"</span></h3>");
 
 
     });

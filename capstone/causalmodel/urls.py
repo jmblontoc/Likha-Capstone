@@ -56,7 +56,10 @@ urlpatterns = [
     path('add_intervention_from_modal', views.add_intervention_from_modal, name='add_intervention_from_modal'),
 
     # causal model report
-    path('causal_model/<int:year>/', views.causal_model_report, name='causal_model_report')
+    path('causal_model/<int:year>/', views.causal_model_report, name='causal_model_report'),
+
+    # referencing memo
+    path('reference_memo/<str:date>/<int:intervention_id>', views.referencing_memo, name='referencing_memo')
 
 
 ]

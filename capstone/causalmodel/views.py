@@ -542,3 +542,16 @@ def add_intervention_from_modal(request):
     )
 
     return JsonResponse(intervention.to_data(), safe=False)
+
+
+@login_required
+@not_bns
+def referencing_memo(request, date, intervention_id):
+
+    intervention = SuggestedIntervention.objects.get(id=intervention_id)
+
+    legit_date = datetime.strptime(date, '%B %d, %Y')
+
+    memo = Memo.objects.filter(suggested_interventions__contains=intervention.name, date__date=legit_date).first()
+
+    return redirect('core:  memo_detail', memo.id)
