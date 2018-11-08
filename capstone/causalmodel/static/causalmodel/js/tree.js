@@ -28,7 +28,10 @@ $(function() {
         );
     });
 
+    var rootCauseSelect = $("#root-cause-select");
+
     modal.on('shown.bs.modal', function(){
+
 
         selected = [];
 

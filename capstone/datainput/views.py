@@ -299,6 +299,9 @@ def show_profiles(request, id):
 
         f = form.save(commit=False)
         f.family_profile = families
+        f.is_ebf = 0
+        f.is_bottle_feeding = 0
+        f.is_mixed_milk_feeding = 0
         f.save()
         messages.success(request, 'Family added')
         return redirect('datainput:show_profiles', families.id)

@@ -48,20 +48,32 @@
                         </thead>
                         <tbody>
                         {% for cause in root_causes %}
-                            {% for metric in cause.datamap_set.all %}
-                                <tr data-id="{{ cause.id }}">
-                                    {% if forloop.counter0 == 0 %}
-                                        <th class="text-center rc-name" rowspan="{{ cause.datamap_set.count }}" style="vertical-align: middle">{{ cause.name }}</th>
-                                    {% endif %}
-                                    <td>{{ metric.get_metric.get_data_point }}</td>
-                                    <td class="text-right">{{ metric.get_metric.get_total_value|floatformat }}</td>
-                                    <td>{{ metric.get_metric.get_document }}</td>
+                            {% if cause.datamap_set.count != 0 %}
+                                {% for metric in cause.datamap_set.all %}
+                                    <tr data-id="{{ cause.id }}">
+                                        {% if forloop.counter0 == 0 %}
+                                            <th class="text-center rc-name" rowspan="{{ cause.datamap_set.count }}" style="vertical-align: middle">{{ cause.name }}</th>
+                                        {% endif %}
+                                        <td>{{ metric.get_metric.get_data_point }}</td>
+                                        <td class="text-right">{{ metric.get_metric.get_total_value|floatformat }}</td>
+                                        <td>{{ metric.get_metric.get_document }}</td>
 
-                                    {% if forloop.counter0 == 0 %}
-                                        <td rowspan="{{ cause.datamap_set.count }}" style="vertical-align: middle"><input type="checkbox" class="blocks"></td>
-                                    {% endif %}
+                                        {% if forloop.counter0 == 0 %}
+                                            <td rowspan="{{ cause.datamap_set.count }}" style="vertical-align: middle"><input type="checkbox" class="blocks"></td>
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr data-id="{{ cause.id }}">
+                                    <th style="vertical-align: center;" class="text-center rc-name"> {{ cause.name }}</th>
+                                    <td>No Metric Available</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>
+                                        <input type="checkbox" class="blocks">
+                                    </td>
                                 </tr>
-                            {% endfor %}
+                            {% endif %}
                         {% endfor %}
                         </tbody>
                     </table>
@@ -117,6 +129,14 @@
                                   </tbody>
                               </table>
                           </div>
+
+{#                            <hr>#}
+{#                            <label>Or choose from existing root causes</label>#}
+{#                          <select class="form-control" id="root-cause-select">#}
+{#                              {% for rc in root_causes %}#}
+{#                                  <option value="{{ rc.id }}">{{ rc.name }}</option>#}
+{#                              {% endfor %}#}
+{#                          </select>#}
                       </div>
                   </div>
                   <div class="modal-footer">

@@ -1,4 +1,5 @@
 from causalmodel.models import  *
+from core.models import Notification
 from datapreprocessing.models import *
 from datainput.models import *
 
@@ -19,3 +20,6 @@ MonthlyReweighing.objects.filter(date__year=2018, date__month=11, patient__baran
 Patient.objects.filter(barangay__name__contains='Ibaba').delete()
 
 Memo.objects.filter(subject__contains='November 29').delete()
+
+Notification.objects.all().delete()
+

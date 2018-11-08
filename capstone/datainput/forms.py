@@ -9,7 +9,7 @@ class FamilyProfileForm(ModelForm):
     class Meta:
         model = FamilyProfileLine
         fields = '__all__'
-        exclude = ['family_profile']
+        exclude = ['family_profile', 'is_mixed_milk_feeding', 'is_bottle_feeding', 'is_ebf']
 
 
 class PatientForm(ModelForm):

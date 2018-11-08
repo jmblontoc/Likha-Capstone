@@ -40,6 +40,21 @@ class Metric(models.Model):
     suggested_interventions = models.TextField(default='')
 
     @property
+    def get_all_related_interventions(self):
+
+        intervention_list = []
+
+        for metric in self.get_related_data_points():
+
+            m = Metric.objects.filter(date__year=year_now, metric__contains=metric).first()
+
+            for intervention in m.suggestedintervention_set.all():
+                intervention_list.append(intervention)
+
+        return intervention_list
+
+
+    @property
     def previous_prevalence_rate(self):
 
         total_population = weights.get_total_population(year_now - 1)

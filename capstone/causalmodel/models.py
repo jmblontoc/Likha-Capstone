@@ -202,10 +202,16 @@ class Memo(models.Model):
 
 class SuggestedIntervention(models.Model):
 
+    reasons = (
+        ('From Strategic Planning', 'From Strategic Planning'),
+        ('National Initiative', 'National Initiative'),
+        ('Innovative Programs', 'Innovative Programs')
+    )
+
     name = models.CharField(max_length=255)
     date = models.DateTimeField(default=datetime.now)
     metric = models.ForeignKey(Metric, on_delete=models.CASCADE)
-    reason = models.TextField()
+    reason = models.CharField(max_length=200, choices=reasons, default='From Strategic Planning')
     is_priority = models.BooleanField(default=True)
 
     def __str__(self):
@@ -240,6 +246,6 @@ class SuggestedIntervention(models.Model):
         memos_with_it = Memo.objects.filter(suggested_interventions__contains=self.name)
 
         if memos_with_it.count() == 0:
-            return "Manually added as an intervention on %s" % self.date.strftime('%B %d, %Y')
+            return "%s" % self.date.strftime('%B %d, %Y')
 
-        return "Last proposed on a memo on %s " % memos_with_it.latest('id').date.strftime('%B %d, %Y')
+        return "%s" % memos_with_it.latest('id').date.strftime('%B %d, %Y')

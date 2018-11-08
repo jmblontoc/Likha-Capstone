@@ -141,11 +141,19 @@ def add_root_cause(request):
     else:
         layout = 'core/pc_layout.html'
 
+    causes = RootCause.objects.filter(date__year=year_now)
+
+    if causes.count() == 0:
+        root_causes = RootCause.show_root_causes()
+    else:
+        root_causes = causes
+
+
     context = {
         'active': 'arc',
         'metrics': Metric.objects.all(),
         'layout': layout,
-        'root_causes': RootCause.objects.filter(date__year=year_now)
+        'root_causes': root_causes
     }
 
 
@@ -157,7 +165,7 @@ def add_root_cause(request):
 @not_bns
 def create_causal_model(request):
 
-    root_causes = RootCause.objects.filter(date__year=year_now)
+    root_causes = RootCause.objects.filter(datamap__isnull=True) | RootCause.objects.filter(date__year=year_now)
 
     profile = Profile.objects.get(user=request.user)
 

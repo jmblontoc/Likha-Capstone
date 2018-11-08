@@ -17,6 +17,13 @@ $(function() {
         //    </label>
         // </div>
 
+        console.log(interventionReason == "Select Reason");
+
+        if (interventionReason == "Select Reason") {
+            alert("Please choose a reason");
+            return;
+        }
+
         $.ajax({
             url: "/causal-models/add_intervention_from_modal",
             type: "POST",
@@ -37,7 +44,7 @@ $(function() {
                     "</label>" +
                     "</div>";
 
-                $(".intervention-container").append(html);
+                $(".intervention-container-manual").append(html);
 
                 $("#add-intervention-modal").modal('hide');
             },
