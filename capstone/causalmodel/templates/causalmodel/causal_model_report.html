@@ -32,8 +32,9 @@
         <p style="margin: 0px;">Time: {% now "g: s A" %}</p>
     </div>
 </div>
-<hr>
 
+<hr>
+<div id="testdiv"></div>
 
 
 <script>
@@ -54,7 +55,7 @@
 
                 var GO = go.GraphObject.make;
 
-                var diagram = GO(go.Diagram, "tree", { layout: GO(go.TreeLayout, { angle: 90, layerSpacing: 35 }), initialAutoScale: go.Diagram.Uniform });
+                var diagram = GO(go.Diagram, "tree", { layout: GO(go.TreeLayout, { angle: 90,  layerSpacing: 70, nodeSpacing: 10 }), initialAutoScale: go.Diagram.Uniform });
                 var myModel = GO(go.TreeModel);
 
 
@@ -63,23 +64,34 @@
                 diagram.model = myModel;
 
                 diagram.nodeTemplate =
-                   GO(go.Node, "Vertical",
+                   GO(go.Node, "Vertical",{ maxSize: new go.Size(350,300),fromSpot: go.Spot.Bottom,  toSpot: go.Spot.Top },
                        GO(go.Panel, "Vertical", { background: "#f4f5f7", padding: 10 },
-                           GO(go.TextBlock, new go.Binding("text", "name"), { font: "bold 12pt Arial" }),
+                           GO(go.TextBlock, new go.Binding("text", "name"), { font: "bold 19pt Arial", maxSize: new go.Size(350, 300)}),
                            GO(go.Panel, "Vertical", new go.Binding("itemArray", "quantifiable_data"),
                                {
                                    itemTemplate:
                                        GO(go.Panel, "Auto",
                                         { margin: 2 },
                                        GO(go.TextBlock, new go.Binding("text", ""),
-                                        { margin: 2, font: "italic bold 10pt Arial", stroke: "red" })
+                                        { margin: 2, font: "italic bold 15pt Arial", stroke: "red", maxSize: new go.Size(320, 300) })
                                     )
-
                                }
                            )
                        )
                    );
 
+                    diagram.linkTemplate =
+                    GO(go.Link,
+                    { routing: go.Link.Orthogonal,  // Orthogonal routing
+                    corner: 10 },                 // with rounded corners
+                    GO(go.Shape),
+                    GO(go.Shape, { toArrow: "Standard" })
+                    );
+                   console.log("test");
+                img = diagram.makeImage();
+                $('#testdiv').append(img);
+                console.log(img);
+                $('#tree').remove();
                 },
             error: function(data) {
                 console.log(data.responseText);
