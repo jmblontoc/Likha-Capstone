@@ -39,7 +39,9 @@
         <p>Subject:</p>
     </div>
     <div class="col-10">
-        <p>All Barangay Nutrition Scholar, All Nutritionist</p>
+        {% for b in memo.barangays_addressed_to.all %}
+            <p>{{ b.name }}</p>
+        {% endfor %}
         <p>{{ memo.uploaded_by.get_name }}</p>
         <p>{{ memo.subject }}</p>
     </div>
@@ -50,7 +52,9 @@
 <div class="row" style="padding-top: 30px;">
     <div class="col-12">
         <p><b>Barangay addressed to:</b></p>
-        <p style="text-indent: 1in;">{{ memo.barangays_addressed_to }}.</p>
+        {% for b in memo.barangays_addressed_to.all %}
+            <p style="text-indent: 1in;">{{ b.name }}.</p>
+        {% endfor %}
     </div>
 </div>
 
@@ -77,7 +81,8 @@
 
 
 <div style="margin-top: 1in;" class="container-fluid">
-    <h1 style="text-align: center;" id="metricMain" data-id="{{ memo.metric.id }}">{{ memo.metric.get_data_point }}</h1>
+    <h1 style="text-align: center;" id="metricMain" data-id="{{ memo.metric.id }}">{{ memo.metric.get_data_point|title }}</h1>
+    <h3 class="text-center">For the year of {{ memo.date.year }}</h3>
     <hr>
     <div style="width: 8in; margin: auto;" class="row">
         <div  style="width: 50%;" class="col-6">
