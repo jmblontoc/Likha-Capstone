@@ -39,9 +39,11 @@
         <p>Subject:</p>
     </div>
     <div class="col-10">
+        <p>
         {% for b in memo.barangays_addressed_to.all %}
-            <p>{{ b.name }}</p>
+            {{ b.name }},
         {% endfor %}
+        All nutritionists</p>
         <p>{{ memo.uploaded_by.get_name }} ({{ memo.uploaded_by.user_type }})</p>
         <p>{{ memo.subject }}</p>
     </div>
