@@ -68,7 +68,7 @@ $(function() {
 
                 var GO = go.GraphObject.make;
 
-                var diagram = GO(go.Diagram, "tree", { layout: GO(go.TreeLayout, { angle: 90, layerSpacing: 35 }) });
+                var diagram = GO(go.Diagram, "tree", { layout: GO(go.TreeLayout, { angle: 90,  layerSpacing: 60, nodeSpacing: 5 }) });
                 var myModel = GO(go.TreeModel);
 
 
@@ -77,23 +77,29 @@ $(function() {
                 diagram.model = myModel;
 
                 diagram.nodeTemplate =
-                   GO(go.Node, "Vertical",
+                   GO(go.Node, "Vertical",{ fromSpot: go.Spot.Bottom,  toSpot: go.Spot.Top },
                        GO(go.Panel, "Vertical", { background: "#f4f5f7", padding: 10 },
-                           GO(go.TextBlock, new go.Binding("text", "name"), { font: "bold 12pt Arial" }),
+                           GO(go.TextBlock, new go.Binding("text", "name"), { font: "bold 12pt Arial"}),
                            GO(go.Panel, "Vertical", new go.Binding("itemArray", "quantifiable_data"),
                                {
                                    itemTemplate:
                                        GO(go.Panel, "Auto",
                                         { margin: 2 },
                                        GO(go.TextBlock, new go.Binding("text", ""),
-                                        { margin: 2, font: "italic bold 10pt Arial", stroke: "red" })
+                                        { margin: 2, font: "italic bold 10pt Arial", stroke: "red"})
                                     )
-
                                }
                            )
                        )
                    );
 
+                    diagram.linkTemplate =
+                    GO(go.Link,
+                    { routing: go.Link.Orthogonal,  // Orthogonal routing
+                    corner: 10 },                 // with rounded corners
+                    GO(go.Shape),
+                    GO(go.Shape, { toArrow: "Standard" })
+                    );
                 // new
 
                 diagram.addDiagramListener("ObjectSingleClicked", function(e) {
