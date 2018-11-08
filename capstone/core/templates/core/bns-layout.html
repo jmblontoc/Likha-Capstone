@@ -93,7 +93,7 @@
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                             <li class="nav-header">BARANGAY NUTRITION SCHOLAR</li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'core:bns_dashboard' %}">
+                                <a class="nav-link {% if active == 'db' %}active{% endif %}" href="{% url 'core:bns_dashboard' %}">
                                     <i class="nav-icon fa fa-th"></i>
                                     <p>Dashboard</p>
                                 </a>

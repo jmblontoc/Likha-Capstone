@@ -59,7 +59,7 @@
     <div class="col-12">
 
         <h3>Subject: {{ memo.subject }}</h3>
-        <h4>From: {{ memo.uploaded_by.get_name }}</h4>
+        <h4>From: {{ memo.uploaded_by.get_name }} ({{ memo.uploaded_by.user_type }})</h4>
         <h4>Date: {{ memo.date|date:"F d, Y"}}</h4>
         <h4>Time: {{ memo.date|time}}</h4>
     </div>

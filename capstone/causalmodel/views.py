@@ -3,7 +3,7 @@ from datetime import datetime
 
 from django.urls import reverse
 
-
+from causalmodel.forms import RootCauseForm
 from computations import weights
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -148,12 +148,14 @@ def add_root_cause(request):
     else:
         root_causes = causes
 
+    form = RootCauseForm(request.POST or None   )
 
     context = {
         'active': 'arc',
         'metrics': Metric.objects.all(),
         'layout': layout,
-        'root_causes': root_causes
+        'root_causes': root_causes,
+        'form': form
     }
 
 

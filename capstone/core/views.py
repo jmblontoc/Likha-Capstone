@@ -399,7 +399,7 @@ def bns_dashboard(request):
     wfhl = weights.get_computations_per_category_bns('Weight for Height/Length', barangay)
 
     context = {
-
+        'active': 'db',
         'wfa': wfa['data'],
         'hfa': hfa['data'],
         'wfhl': wfhl['data'],
