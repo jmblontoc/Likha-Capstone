@@ -42,7 +42,7 @@
         {% for b in memo.barangays_addressed_to.all %}
             <p>{{ b.name }}</p>
         {% endfor %}
-        <p>{{ memo.uploaded_by.get_name }}</p>
+        <p>{{ memo.uploaded_by.get_name }} ({{ memo.uploaded_by.user_type }})</p>
         <p>{{ memo.subject }}</p>
     </div>
 
