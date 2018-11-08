@@ -20,6 +20,8 @@ MonthlyReweighing.objects.filter(date__year=2018, date__month=11, patient__baran
 Patient.objects.filter(barangay__name__contains='Ibaba').delete()
 
 Memo.objects.filter(subject__contains='November 29').delete()
+Memo.objects.filter(subject__contains='November 16').delete()
+Memo.objects.filter(subject__contains='December').delete()
 
 Notification.objects.all().delete()
 
