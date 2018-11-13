@@ -76,7 +76,7 @@
                     </div>
                 {% else %}
                     <div class="row">
-                        <div class="col-12" style="height:573.953px">
+                        <div class="col-12" style="height: 700px">
                             <h3 class="m-2">Malnutrition Causal Model for {{ year_get }}
                                 <span>
                                     <a target="_blank" href="{% url 'causalmodel:causal_model_report' year_get %}">
@@ -84,6 +84,13 @@
                                     </a>
                                 </span>
                             </h3>
+                            <div class="alert alert-secondary" role="alert">
+                                <p>To add additional root causes to the causal model:</p>
+                                <ol>
+                                    <li>Click on the block you want the root cause to be under</li>
+                                    <li>Select the root cause you want to be added shown in the modal</li>
+                                </ol>
+                            </div>
                             <div id="tree-holder">
                                 <div>
                                     <div style='height: 558px;' class='card'><p style="text-align: center; margin-top: 22%;"></p></div>
@@ -110,7 +117,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for cause in roots %}
+                    {% for cause in all_roots %}
                         {% for metric in cause.datamap_set.all %}
                             <tr>
                                 {% if forloop.counter0 == 0 %}

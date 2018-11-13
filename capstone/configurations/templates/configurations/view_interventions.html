@@ -42,7 +42,6 @@
                             <th>Reason Added</th>
                             <th>Date Added</th>
                             <th>Frequency</th>
-                            <th colspan="2">Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -52,16 +51,6 @@
                                 <td>{{ intervention.reason }}</td>
                                 <td>{{ intervention.date }}</td>
                                 <td>{{ intervention.frequency }}</td>
-                                <td>
-                                    <a>
-                                        <button class="btn btn-info">Edit</button>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a>
-                                        <button class="btn btn-danger">Delete</button>
-                                    </a>
-                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>

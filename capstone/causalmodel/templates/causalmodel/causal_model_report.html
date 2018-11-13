@@ -14,7 +14,7 @@
     }
 </style>
 
-<body style="padding: .25in;">
+<body style="padding: 1in;">
 
 <div class="row">
 
@@ -37,6 +37,56 @@
 <hr>
 <div id="testdiv"></div>
 
+<div class="row p-5">
+    <table class="table mt-3 table-bordered">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Metric</th>
+                        <th class="text-right">Value</th>
+                        <th>Threshold</th>
+                        <th>Source</th>
+                        <th>Year Occurences</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for cause in all_roots %}
+                        {% for metric in cause.datamap_set.all %}
+                            <tr>
+                                {% if forloop.counter0 == 0 %}
+                                    <th class="text-center" rowspan="{{ cause.datamap_set.count }}" style="vertical-align: middle">{{ cause.name }}</th>
+                                {% endif %}
+                                <td>{{ metric.get_metric.get_data_point }}</td>
+                                {% if has_root_cause %}
+                                    <td class="text-right">{{ metric.value|floatformat:"0" }}</td>
+                                {% else %}
+                                    <td class="text-right">{{ metric.to_metric.get_total_value|floatformat:"0" }}</td>
+                                {% endif %}
+                                <td class="text-right">{{ metric.threshold|floatformat:"0" }}</td>
+                                <td>{{ metric.get_metric.get_document }}</td>
+                                {% if forloop.counter0 == 0 %}
+                                    <td rowspan="{{ cause.datamap_set.count }}" style="vertical-align: middle">
+                                    {% for x in cause.appeared_in %}
+                                        <div>
+                                            <a href="{% url 'causalmodel:index' x %}">
+                                                {{ x }}
+                                            </a>
+                                        </div>
+                                    {% endfor %}
+                                    </td>
+                                {% endif %}
+                                <td>
+                                    <a href="{% url 'causalmodel:view_summary' metric.get_metric.id  %}">
+                                        <button class="btn btn-sm btn-primary">View Summary</button>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+</div>
 
 <script>
     $(function() {

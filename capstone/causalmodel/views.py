@@ -77,7 +77,8 @@ def index(request, year):
         'roots': roots,
         'years': years,
         'has_root_cause': has_root_cause,
-        'manual_causes': serializers.serialize('json', RootCause.show_manual_root_causes())
+        'manual_causes': serializers.serialize('json', RootCause.show_manual_root_causes()),
+        'all_roots': RootCause.show_all()
 
     }
 
@@ -503,7 +504,8 @@ def causal_model_report(request, year):
 
     context = {
         'causal_model': causal_model,
-        'year': year
+        'year': year,
+        'all_roots': RootCause.show_all()
     }
 
     return render(request, 'causalmodel/causal_model_report.html', context)

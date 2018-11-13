@@ -103,6 +103,7 @@ def notify_barangay(barangay):
 
     due_list = todo_list()
     nutritionist = Profile.objects.filter(user_type__contains='Nutritionist')[0]
+    notifications = Notification.objects.filter(profile_to__barangay=barangay, message__contains='Please upload')
 
     for data in due_list:
 
@@ -113,14 +114,26 @@ def notify_barangay(barangay):
 
             current_notification_setting = int(NotifyBNS.objects.first().days_before)
 
-            if now + timedelta(days=current_notification_setting) >= data['due_date'] or data['due_date'] <= now:
+            print(already_notified(notifications))
+            if not already_notified(notifications):
 
-                for bns in barangay.profile_set.all():
+                if now + timedelta(days=current_notification_setting) >= data['due_date'] or data['due_date'] <= now:
 
-                    Notification.objects.create(
-                        profile_to=bns,
-                        profile_from=nutritionist,
-                        message='Please upload your %s as soon as possible' % data['report_name']
-                    )
+                    for bns in barangay.profile_set.all():
+
+                        Notification.objects.create(
+                            action_link='/bns',
+                            profile_to=bns,
+                            profile_from=nutritionist,
+                            message='Please upload your %s as soon as possible' % data['report_name']
+                        )
 
 
+def already_notified(notifications):
+
+    for notification in notifications:
+        if notification.date.date() == datetime.now().date():
+            print(notification.date.date(), datetime.now().date(), 'it goes here')
+            return True
+
+    return False

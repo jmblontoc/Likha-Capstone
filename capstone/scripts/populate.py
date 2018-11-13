@@ -4,6 +4,7 @@ from datainput.models import *
 from friends import revised_datapoints
 from friends import datapoints
 
+
 def populate_opt(year):
 
     # create an OPT for every barangay
@@ -276,3 +277,14 @@ def populate_cc(fhsis):
 
 
 # call functions below
+
+populate_fhsis(2013)
+populate_opt(2013)
+populate_family_profile(2013)
+
+inf_date = datetime(2013, 5, 5)
+
+InformalSettlers.objects.create(
+    families_count=25,
+    date=inf_date
+)

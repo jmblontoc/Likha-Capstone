@@ -69,8 +69,6 @@ def bns_index(request):
 
     profile = Profile.objects.get(user=request.user)
 
-    # automatic notifications
-    validations.notify_barangay(profile.barangay)
 
     fhsis_current = FHSIS.objects.filter(barangay=profile.barangay, date__month=datetime.now().month,
                                                date__year=datetime.now().year)
@@ -391,6 +389,11 @@ def memo_print(request, id):
 @login_required
 @is_bns
 def bns_dashboard(request):
+
+    profile = Profile.objects.get(user=request.user)
+
+    # automatic notifications
+    validations.notify_barangay(profile.barangay)
 
     barangay = Profile.objects.get(user=request.user).barangay
 

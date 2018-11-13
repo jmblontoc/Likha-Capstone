@@ -17,6 +17,21 @@ class RootCause(models.Model):
         return self.name
 
     @staticmethod
+    def show_all():
+
+        unique_roots = []
+        unique_root_names = []
+
+        roots = RootCause.objects.all()
+        for root in roots:
+            if root.name not in unique_root_names:
+                unique_root_names.append(root.name)
+                unique_roots.append(root)
+
+        return unique_roots
+
+
+    @staticmethod
     def show_manual_root_causes():
 
         return [root_cause for root_cause in RootCause.objects.filter(date__year=year_now)
