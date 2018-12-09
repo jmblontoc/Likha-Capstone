@@ -11,10 +11,27 @@
     {
         size: auto;
         margin: 0mm;
+        counter-increment: page;
     }
+
+    #page-footer {
+        position: absolute;
+        bottom: 10%;
+        right: 10%;
+    }
+
+    #page-footer:after {
+        counter-increment: page;
+        content: "Page " counter(page) " of 4"
+    }
+
 	</style>
 
 <body style="padding: 1in;">
+
+<div id="page-footer">
+
+</div>
 <div class="row">
 
     <div class="col-2">
